@@ -1,0 +1,71 @@
+<ion-header class="tab-header-cls">
+    <ion-col>
+        <div class="divImg">
+            <img src="assets/icon/termometro-header.png">
+        </div>
+    </ion-col>
+</ion-header>
+
+<ion-content padding>
+    <ion-row class="title">
+        <span>{{ "FilterPage.helpUsToKnowYouBetterText" | translate }}</span>
+    </ion-row>
+    <ion-row align-items-center justify-content-center  class="middle-container">
+        <ion-row align-items-center justify-content-center class="arrows" (tap)="goPrevBlock()">
+            <img src="assets/icon/bt-siguente-left.png">
+        </ion-row>
+        <ion-row align-items-end justify-content-center class="radio-wrapp">
+            <ion-row align-items-end justify-content-center class="histogram-center">
+                <ion-row align-items-end justify-content-center>
+                    <span>{{ "FilterPage.whatYourCreditTermText" | translate }}</span>
+                </ion-row>
+                <ion-row align-items-end justify-content-center>
+                    <span>{{ "FilterPage.mortgageText" | translate }}</span>
+                </ion-row>
+            </ion-row>
+            <ion-row align-items-end justify-content-center >
+                <ion-row align-items-center justify-content-center class="radio-container">
+                    <ion-row align-items-end justify-content-center class="circle-wrapper">
+                        <ion-row class="circle-icon" [ngClass]="{active: blockNumber == '1'}"></ion-row>
+                    </ion-row>
+                    <ion-row align-items-start justify-content-center>
+                        <span>{{ "FilterPage.5yearsText" | translate }}</span>
+                    </ion-row>
+                </ion-row>
+                <ion-row align-items-center justify-content-center class="radio-container">
+                    <ion-row align-items-end justify-content-center class="circle-wrapper">
+                        <ion-row class="circle-icon" [ngClass]="{active: blockNumber == '2'}"></ion-row>
+                    </ion-row>
+                    <ion-row align-items-start justify-content-center>
+                        <span>{{ "FilterPage.10yearsText" | translate }}</span>
+                    </ion-row>
+                </ion-row>
+                <ion-row align-items-center justify-content-center class="radio-container">
+                    <ion-row align-items-end justify-content-center class="circle-wrapper">
+                        <ion-row class="circle-icon" [ngClass]="{active: blockNumber == '3'}"></ion-row>
+                    </ion-row>
+                    <ion-row align-items-start justify-content-center>
+                        <span>{{ "FilterPage.15yearsText" | translate }}</span>
+                    </ion-row>
+                </ion-row>
+                <ion-row align-items-center justify-content-center class="radio-container">
+                    <ion-row align-items-end justify-content-center class="circle-wrapper">
+                        <ion-row class="circle-icon" [ngClass]="{active: blockNumber == '4'}"></ion-row>
+                    </ion-row>
+                    <ion-row align-items-start justify-content-center>
+                        <span>{{ "FilterPage.20yearsText" | translate }}</span>
+                    </ion-row>
+                </ion-row>
+            </ion-row>
+        </ion-row>
+        <ion-row align-items-center justify-content-center class="arrows" (tap)="goNextBlock()">
+            <img src="assets/icon/bt-siguiente.png">
+        </ion-row>
+    </ion-row>
+    <ion-row align-items-end justify-content-center class="bot-text">
+        <span>{{ "FilterPage.thisYourFinancialStatusText" | translate }}</span>
+    </ion-row>
+    <ion-row align-items-end justify-content-center class="histogram-wrapper">
+        <img src="assets/img/histogram.png" >
+    </ion-row>
+</ion-content>

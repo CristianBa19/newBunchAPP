@@ -1,0 +1,272 @@
+{
+  "IntroductionPage":{
+    "firstSlide":{
+      "titleText": "Alcanza tus metas financieras",
+      "bodyText": "Bunch es una opción Flexible que ayuda a sus afiliados a alcanzar su metas financieras de una forma sencilla.",
+      "buttonText": "Saltar"
+    },
+    "secondSlide":{
+      "titleText": "Gana con tus amigos y familiares.",
+      "bodyText": "Con Bunch puedes estar en una reunión familiar o una cena con amigos y aprovechar para generar un ingreso extra.",
+      "buttonText": "Saltar"
+    },
+    "thirdSlide":{
+      "titleText": "Que mejor que ser tu propio jefe.",
+      "bodyText": "Bunch es una forma nueva de ganar dinero extra. Tu decide cuando quieres vender y cuanto quieres ganar. La desición es tuya.",
+      "buttonText": "Continuar"
+    }
+  },
+  "LoginPage":{
+    "titleText":"¡Bienvenido a Bunch!",
+    "subTitle":"Generando mejores oportunidades para todos",
+    "loginTitle":"Inicia sesión",
+    "userInputPlaceholderText":"Usuario",
+    "passwordInputPlaceholderText":"Contraseña",
+    "forgotPassText":"¿Olvidaste tu usuario o contraseña?",
+    "createAccaunText":"Crear cuenta",
+    "buttonText":"Iniciar Sesión",
+    "footerWarnText":"Al iniciar sesión o crear una cuenta, acepto los términos y condiciones, aviso de privacidad, políticas de uso y políticas de pago de Bunch"
+  },
+  "ProductsPage":{
+    "titleText":"Selecciona la vertical de tu anuncio",
+    "firstProductText":"Tarjetas de crédito",
+    "secondProductText":"Seguros de auto",
+    "thirdProductText":"Créditos personales",
+    "fourthProductText":"Seguros de vida",
+    "fifthProductText":"Inversiones",
+    "sixsthProductText":"Inmuebles"
+  },
+  "RecoveryPage":{
+    "titleText":"¿Olvidaste la contraseña?",
+    "bodyText":"Ingresa tu correo electrónico y te enviaremos un enlace para reestablecer tu contraseña.",
+    "emailInputPlaceholder":"Correo electronico",
+    "buttonText":"Recuperar contraseña",
+    "confirRecoveryText":"Te hemos enviado un correo electrónico con instrucciones para que puedas reestablecer tu contraseña",
+    "confirmButtonText":"Entendido"
+  },
+  "RegisterPage":{
+    "titleText": "Crear una cuenta",
+    "continueButtonText": "Continuar",
+    "bottomPageCounter":{
+      "the": "Paso ",
+      "from": " de "
+    },
+    "firstSlide":{
+      "emailLableText":"¿Cuál es tu correo electrónico?",
+      "emailInputPlaceholderText": "Correo electrónico",
+      "emailConfirmationInputPlaceholderText": "Confirma correo electrónico"
+    },
+    "secondSlide":{
+      "whatYourNameLableText": "¿Cual es tu nombre?",
+      "namePlaceholderText": "Nombre",
+      "lastNamePlaceholderText": "Apellido paterno",
+      "motherLastNamePlaceeholderText": "Apellido materno"
+    },
+    "thirdSlide":{
+      "genderLableText": "¿Cual es tu género?",
+      "woman":"Mujer",
+      "man":"Hombre"
+    },
+    "fourthSlide":{
+      "birthDateLableText": "¿Cual es tu fecha de nacimiento?",
+      "periodText": "Periodo"
+    },
+    "fifthSlide":{
+      "congratulationText": "¡Felicidades!",
+      "bodyText": "Ya eres un miembro de la comunidad Bunch, no olvides llenar todos tus datos en tu perfil para poder empezar a ganar más.",
+      "startButton": "Comenzar"
+    }
+  },
+  "AdvertisementPage":{
+    "titleText": "Anuncios",
+    "publishedText": "Publicados",
+    "creditOfText": "Crédito de ",
+    "draftsText": "Borradores",
+    "postButtonText": "Publicar otro anuncio"
+  },
+  "NotificationPage":{
+    "titleText": "Alertas",
+    "continueButtonText": "Continuar"
+  },
+  "MessagePage":{
+    "titleText": "Mensajes",
+    "titleEntrenceChatTitle": "Bandeja de entrada"
+  },
+  "ChatPage":{
+    "titleText": "Mensajes",
+    "binnacleText": "Bitácora",
+    "opportunitiesText": "Oportunidades",
+    "continueButtonText": "Continuar",
+    "updationText": "Actualizado",
+    "coveringText": "Coberturas",
+    "redistributeButtonText": "Volver a cotizar",
+    "messgePlaceholderText" : "Mensaje..."
+  },
+  "StatisticsPage":{
+    "titleText": "Estadisticas",
+    "totalPayment": "Pago total del ",
+    "fromTo": " al ",
+    "ofMonth": " de abril ",
+    "from": "De: ",
+    "to": "A: ",
+    "month": "Abril ",
+    "productHistory": "Historia de productos",
+    "customerHistory": "Historial de clientes",
+    "promotion": "Promociones",
+    "StatisticProductsPage":{
+      "titleText": "Productos"
+    },
+    "StatisticPricesPage":{
+      "titleText": "Cotizaciones"
+    },
+    "StatisticEarningsPage":{
+      "titleText": "Ganancias"
+    },
+    "StatisticDetailProductsPage":{
+      "titleText": "Productos",
+      "insurenceText": "Seguro",
+      "individulaCardsText": "Automoviles individuales",
+      "vallidText": "Vigente",
+      "incurenceCarierText": "Aseguradora",
+      "policyText": "Póliza",
+      "descriptionText": "Descripción",
+      "validityText": "Vigencia",
+      "totalPremiumText": "Prima total",
+      "paymentFrequency": "Periodicidad de pago",
+      "countedText": "Contado",
+      "wayToPayText": "Forma de pago",
+      "sendDownloadReminderText": "Reenviar Póliza"
+    }
+  },
+  "ProfilePage":{
+    "titleText": "Perfil",
+    "notifications":"Notificaciones",
+    "smartTracking":"Seguimiento Inteligente",
+    "geolocation":"Geolocalización",
+    "language": "Idioma",
+    "useTheApplicationClient":"Utilizar la aplicación como cliente",
+    "helpCenter":"Centro de ayuda",
+    "editProfile":"Editar perfil",
+    "bunch":"Manojo",
+    "signOff":"Cerrar sesión"
+  },
+  "HelpPage":{
+    "titleText": "Centro de ayuda",
+    "paymentIssues":"Problemas de pago",
+    "problemsWithApplication":"Problemas con la aplicación",
+    "problemsWithProduct":"Problemas con un producto"
+  },
+  "AdDetailPage":{
+    "titleText": "Detalle del producto",
+    "adText":"Anuncio",
+    "productText":"Producto",
+    "sentText":"Expedido",
+    "viewAdText":"Ver anuncio",
+    "acquireText":"Adquirir",
+    "subscriptionText":"Suscripción",
+    "requirementsText":"Requisitos",
+    "benefitsText":"Beneficios",
+    "submitText":"Enviar"
+  },
+  "newAdvertismentPage":{
+    "myProducts":"Mis Productos",
+    "recommended":"Recomendado",
+    "selectProduct":"Seleccionar producto",
+    "forYourAd":"Para su anuncio"
+  },
+  "FilterPage":{
+    "helpUsToKnowYouBetterText":"Ayúdanos a conocerte mejor",
+    "whatYourCreditTermText":"¿Cuál es su plazo de crédito?",
+    "mortgageText":"Hipoteca",
+    "5yearsText":"5 años",
+    "10yearsText":"10 años",
+    "15yearsText":"15 años",
+    "20yearsText":"20 años",
+    "thisYourFinancialStatusText":"Esta es su situación financiera"
+  },
+  "AcquireProductPage":{
+    "titleText": "Adquirir producto",
+    "clientTabText":"Datos",
+    "productTabText":"Producto",
+    "compareTabText":"Comparar",
+    "paymentTabText":"Pago",
+    "searchCustomer":"Buscar cliente",
+    "searchCustomerPlaceholder":"Revisa si tu amigo esta registrado",
+    "firstName":"Nombre",
+    "paterno":"Apellido paterno",
+    "materno":"Apellido materno",
+    "age":"Fecha de nacimiento",
+    "gender":"Género",
+    "email":"Email",
+    "cellPhone":"Teléfono móvil",
+    "RFC":"RFC",
+    "nationality":"Nacionalidad",
+    "placeOfBirth":"Lugar de nacimiento",
+    "postalCode":"código postal",
+    "street":"Calle",
+    "outdoorNumber":"Número exterior",
+    "interiorNumber":"Número interior",
+    "colony":"Colonia",
+    "state":"Estado",
+    "delegation":"Delegación",
+    "saveAndContinue":"Guardar y continuar",
+    "brand":"Marca",
+    "model":"Modelo",
+    "description":"Submarca",
+    "serialNumber":"número de serie",
+    "plates":"Platos",
+    "following":"Siguiente",
+    "compareTopText":"Jetta 2014",
+    "compareMiddleText":"Descripción 4 ptas, ATM,",
+    "compareEndText":"Etc.",
+    "improveDescriptionText":"Mejorar la descripción",
+    "annualCostText":"",
+    "uploadDocumentText":"Cargar un documento",
+    "sendDetailedQuoteToUserText":"Enviar cotización detallada al usuario",
+    "carInsuranceText":"Seguro de Auto",
+    "wideText":"Amplia",
+    "coverText":"Cobertura",
+    "annualText":"Anual",
+    "coveringsText":"Coberturas",
+    "submitCollectionRequestText":"Finalizar compra"
+  },
+  "ClienteProductDetailPage":{
+    "titleText": "Detalle del producto",
+    "available":"Disponible",
+    "carInsurance":"Seguro de Auto",
+    "requirements":"Requirements",
+    "benefits":"Benefits",
+    "toBuy":"Comprar",
+    "requestAdvisor":"Solicitar asesor"
+  },
+  "PaymentSubmitedPage":{
+    "congratulation":"Felicitaciones",
+    "bodyText":"Haz concluido la compra de la póliza de tu amigo, le ha llegado un correo electrónico con las indicaciones para descargar su póliza. ",
+    "bodyText2":"Recuerda que cuando lo requieras puedes revisarla y  enviarla nuevamente desde la historia de productos en la sección de estadísticas.",
+    "goHomeButtonText":"Ir a productos"
+  },
+  "DocumentDetailPage":{
+    "guard": "Documentos guardados",
+    "typeOfCardText":"Tipo de tarjeta",
+    "nameOfTheCardText":"Nombre de la tarjeta",
+    "noOfTheCardText":"No de la tarjeta",
+    "dueDateText":"Fecha de vencimiento",
+    "checkDigitText":"Dígito de control"
+  },
+  "PayPolicyPage":{
+    "titleText": "Producto adquirido",
+    "congratulationsText":"¡Felicitaciones!",
+    "youHaveAcquiredText":"Has adquirido:",
+    "qualitasJettaAutoInsuranceText":"Qualitas Jetta Auto Insurance",
+    "dischargeText":"Descarga",
+    "myPolicyText":"Mi política",
+    "badMoodText":"mal humor",
+    "productsText":"Productos",
+    "insuranceCarrierText":"Aseguradora",
+    "policyText":"Política",
+    "descriptionText":"Descripción",
+    "validityText":"Validez",
+    "totalPremiumText":"Prima total",
+    "frequencyOfPaymentMethodText":"Frecuencia del método de pago"
+  }
+}

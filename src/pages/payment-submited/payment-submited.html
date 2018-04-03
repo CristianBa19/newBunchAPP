@@ -1,0 +1,22 @@
+<ion-content padding>
+    <ion-row justify-content-center align-items-center class="logo-icon">
+        <ion-row justify-content-center align-items-center>
+            <img src="assets/icon/bunch-logo.png">
+        </ion-row>
+        <ion-row justify-content-center align-items-center class="bunch-text">
+            <span>BUNCH</span>
+        </ion-row>
+    </ion-row>
+    <ion-row justify-content-center align-items-center class="main-text">
+        <span class="negras">¡{{ "PaymentSubmitedPage.congratulation" | translate }}!</span>
+        <ion-row justify-content-center align-items-center>
+            <span>{{ "PaymentSubmitedPage.bodyText" | translate }}</span>
+        </ion-row>
+        <ion-row justify-content-center align-items-center>
+            <span>{{ "PaymentSubmitedPage.bodyText2" | translate }}</span>
+        </ion-row>        
+    </ion-row>
+    <ion-row class="button-wrap" justify-content-center align-items-center (tap)='goToProducts()' >
+        <span>{{ "PaymentSubmitedPage.goHomeButtonText" | translate }}</span>
+    </ion-row>
+</ion-content>

@@ -1,0 +1,267 @@
+{
+  "IntroductionPage":{
+    "firstSlide":{
+      "titleText": "Reach your financial goals",
+      "bodyText": "Bunch is a flexible option that helps members achieve their financial goals in a simple way.",
+      "buttonText": "Skip"
+    },
+    "secondSlide":{
+      "titleText": "Earn money with your friends and family",
+      "bodyText": "Bunch will help you to earn extra income during a family meeting or at dinner with friends",
+      "buttonText": "Skip"
+    },
+    "thirdSlide":{
+      "titleText": "Be your own boss",
+      "bodyText": "Bunch will help you earn additional income. It depends on you when you want to sell and how much you want to earn. The choice is yours",
+      "buttonText": "Continue"
+    }
+  },
+  "LoginPage":{
+    "titleText":"Welcome to Bunch!",
+    "subTitle":"Creating better opportunities for all",
+    "loginTitle":"Log in",
+    "userInputPlaceholderText":"User",
+    "passwordInputPlaceholderText":"Password",
+    "forgotPassText":"Forgot your username or password?",
+    "createAccaunText":"Create Account",
+    "buttonText":"Log in",
+    "footerWarnText":"By logging in or creating an account, I accept the terms and conditions, privacy notice, usage policies and payment policies of Bunch.com"
+  },
+  "ProductsPage":{
+    "titleText":"Select the vertical of your ad",
+    "firstProductText":"Credit cards",
+    "secondProductText":"Car insurance",
+    "thirdProductText":"Personal loans",
+    "fourthProductText":"Life insurances",
+    "fifthProductText":"Investments",
+    "sixsthProductText":"Estate"
+  },
+  "RecoveryPage":{
+    "titleText":"Forgot your password?",
+    "bodyText":"Enter your email and we will send you a link to reset your password.",
+    "emailInputPlaceholder":"Email",
+    "buttonText":"Recover password",
+    "confirRecoveryText":"We've sent you an email with instructions so you can reset your password",
+    "confirmButtonText":"Understood"
+  },
+  "RegisterPage":{
+    "titleText": "Create an account",
+    "continueButtonText": "Continue",
+    "bottomPageCounter":{
+      "the": "The ",
+      "from": " from "
+    },
+    "firstSlide":{
+      "emailLableText":"What is your email?",
+      "emailInputPlaceholderText": "Email",
+      "emailConfirmationInputPlaceholderText": "Confirm email"
+    },
+    "secondSlide":{
+      "whatYourNameLableText": "What's your name?",
+      "namePlaceholderText": "First name",
+      "lastNamePlaceholderText": "Last name",
+      "motherLastNamePlaceeholderText": "Mother's last name"
+    },
+    "thirdSlide":{
+      "genderLableText": "What is your gender?",
+      "woman":"Woman",
+      "man":"Man"
+    },
+    "fourthSlide":{
+      "birthDateLableText": "What is your birth date?",
+      "periodText": "Period"
+    },
+    "fifthSlide":{
+      "congratulationText": "Congratulations!",
+      "bodyText": "Already a member of the Bunch community, do not forget to fill all your data in your profile so you can start earning more.",
+      "startButton": "Start"
+    }
+  },
+  "AdvertisementPage":{
+    "titleText": "Advertisements",
+    "publishedText": "Published",
+    "creditOfText": "Credit of ",
+    "draftsText": "Drafts",
+    "postButtonText": "Post another ad"
+  },
+  "NotificationPage":{
+    "titleText": "Notifications",
+    "continueButtonText": "Continue"
+  },
+  "MessagePage":{
+    "titleText": "Messages",
+    "titleEntrenceChatTitle": "Inbox"
+  },
+  "ChatPage":{
+    "titleText": "Messages",
+    "binnacleText": "Binnacle",
+    "opportunitiesText": "Opportunities",
+    "continueButtonText": "Continue",
+    "updationText": "Updated",
+    "coveringText": "COVERINGS",
+    "redistributeButtonText": "Redistribute",
+    "messgePlaceholderText" : "Message..."
+  },
+  "StatisticsPage": {
+    "titleText": "Stats",
+    "totalPayment": "Total payment of ",
+    "fromTo": " to the ",
+    "ofMonth": " of April ",
+    "from": "From: ",
+    "to": "To: ",
+    "month": "April ",
+    "productHistory": "Product history",
+    "customerHistory": "Customer history",
+    "promotion": "Promotions",
+    "StatisticProductsPage": {
+      "titleText": "Products"
+    },
+    "StatisticDetailProductsPage": {
+      "titleText": "Product details",
+      "insurenceText": "Snsurance",
+      "individulaCardsText": "Individual Cars",
+      "vallidText": "Valid",
+      "incurenceCarierText": "Insurance carrier",
+      "policyText": "Policy",
+      "descriptionText": "Description",
+      "validityText": "Validity",
+      "totalPremiumText": "Total premium",
+      "paymentFrequency": "Frequency of payment",
+      "countedText": "Counted",
+      "wayToPayText": "Way to pay",
+      "sendDownloadReminderText": "Send download reminder"
+    }
+  },
+  "ProfilePage":{
+    "titleText": "Profile",
+    "notifications":"Notifications",
+    "smartTracking":"Smart Tracking",
+    "geolocation":"Geolocation",
+    "language": "Language",
+    "useTheApplicationClient":"Use the application as a client",
+    "helpCenter":"Help Center",
+    "editProfile":"Edit profile",
+    "bunch":"Bunch",
+    "signOff":"Sign off"
+  },
+  "HelpPage":{
+    "titleText": "Help center",
+    "paymentIssues":"Payment Issues",
+    "problemsWithApplication":"Problems with the application",
+    "problemsWithProduct":"Problems with a product"
+  },
+  "AdDetailPage":{
+    "titleText": "Product details",
+    "adText":"Ad",
+    "productText":"Product",
+    "sentText":"Sent",
+    "viewAdText":"View ad",
+    "acquireText":"Acquire",
+    "subscriptionText":"Subscription",
+    "requirementsText":"Requirements",
+    "benefitsText":"Benefits",
+    "submitText":"Submit"
+  },
+  "newAdvertismentPage":{
+    "myProducts":"My Products",
+    "recommended":"Recommended",
+    "selectProduct":"Select product",
+    "forYourAd":"For your ad"
+  },
+  "FilterPage":{
+    "helpUsToKnowYouBetterText":"Help us to know you better",
+    "whatYourCreditTermText":"What is your credit term?",
+    "mortgageText":"Mortgage",
+    "5yearsText":"5 years",
+    "10yearsText":"10 years",
+    "15yearsText":"15 years",
+    "20yearsText":"20 years",
+    "thisYourFinancialStatusText":"This is your financial status"
+  },
+  "AcquireProductPage":{
+    "titleText": "Acquire product",
+    "clientTabText":"Info",
+    "productTabText":"Product",
+    "compareTabText":"Compare",
+    "paymentTabText":"Payment",
+    "searchCustomer":"Search Customer",
+    "searchCustomerPlaceholder":"Check if your friend is registered",
+    "firstName":"First name",
+    "paterno":"Father's last name",
+    "materno":"Mother's last name",
+    "age":"Years",
+    "gender":"Gender",
+    "email":"E-mail",
+    "cellPhone":"Mobile phone",
+    "address":"Address",
+    "RFC":"RFC",
+    "nationality":"Nationality",
+    "placeOfBirth":"CDMX",
+    "postalCode":"Postal Code",
+    "street":"Street",
+    "outdoorNumber":"Outdoor number",
+    "interiorNumber":"Interior number",
+    "colony":"Colony",
+    "state":"State",
+    "delegation":"Delegation",
+    "saveAndContinue":"Save and continue",
+    "brand":"Brand",
+    "model":"Model",
+    "description":"Description",
+    "serialNumber":"serial number",
+    "plates":"Dishes",
+    "following":"Following",
+    "compareTopText":"Jetta 2014",
+    "compareMiddleText":"Description 4 ptas, ATM,",
+    "compareEndText":"Etc.",
+    "improveDescriptionText":"Improve description",
+    "annualCostText":"Annual cost",
+    "uploadDocumentText":"Upload a document",
+    "sendDetailedQuoteToUserText":"Send detailed quote to user",
+    "carInsuranceText":"Car insurance",
+    "wideText":"Wide",
+    "coverText":"Cover",
+    "annualText":"Annual",
+    "coveringsText":"COVERINGS",
+    "submitCollectionRequestText":"Submit Collection Request"
+  },
+  "ClienteProductDetailPage":{
+    "titleText": "Product setails",
+    "available":"Available",
+    "carInsurance":"Car insurance",
+    "requirements":"requirements",
+    "benefits":"Benefits",
+    "toBuy":"To buy",
+    "requestAdvisor":"Request advisor"
+  },
+  "PaymentSubmitedPage":{
+    "congratulation":"Congratulations",
+    "bodyText":"Sent the request for payment to his friend awaits confirmation of the transaction in his window of alerts.",
+    "bodyText2":"Sent the request for payment to his friend awaits confirmation of the transaction in his window of alerts.",
+    "goHomeButtonText":"Go to products"
+  },
+  "DocumentDetailPage":{
+    "guard": "Saved Documents",
+    "typeOfCardText":"Type of card",
+    "nameOfTheCardText":"Name of the card",
+    "noOfTheCardText":"No of the card",
+    "dueDateText":"Due date",
+    "checkDigitText":"Check digit"
+  },
+  "PayPolicyPage":{
+    "titleText": "Product purchased",
+    "congratulationsText":"Congratulations!",
+    "youHaveAcquiredText":"You have acquired:",
+    "qualitasJettaAutoInsuranceText":"Qualitas Jetta Auto Insurance",
+    "dischargeText":"Discharge",
+    "myPolicyText":"My policy",
+    "badMoodText":"Bad mood",
+    "productsText":"Products",
+    "insuranceCarrierText":"Insurance carrier",
+    "policyText":"Policy",
+    "descriptionText":"Description",
+    "validityText":"Validity",
+    "totalPremiumText":"Total premium",
+    "frequencyOfPaymentMethodText":"Frequency of payment method"
+  }
+}

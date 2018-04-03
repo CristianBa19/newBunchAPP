@@ -1,0 +1,709 @@
+<ion-header class="header-cls">
+        
+            <ion-toolbar>
+                <ion-buttons left>
+                    <button icon-only ion-button class="backButton" (click)="goBack()">
+                        <img src="assets/icon/flecha-regresar.svg" class="image-left">
+                    </button>
+                </ion-buttons>
+        
+                <ion-title class="titleStyle">{{ "AcquireProductPage.titleText" | translate }}</ion-title>
+            </ion-toolbar>
+        
+        </ion-header>
+        
+        <ion-content padding>
+            <ion-row>
+                <ion-row class="tabs-swap-wrap" >
+                    <ion-row align-items-center justify-content-center [ngClass]="{active:topTab == 'Producto'}" (tap)="changeTab('Producto')" >
+                        <span>{{ "AcquireProductPage.productTabText" | translate }}</span>
+                    </ion-row>
+                    <ion-row  align-items-center justify-content-center [ngClass]="{activeX:topTab == 'Compara'}" (tap)="changeTab('Compara')">
+                        <span>{{ "AcquireProductPage.compareTabText" | translate }}</span>
+                    </ion-row>
+                    <ion-row align-items-center justify-content-center [ngClass]="{activeY:topTab == 'Cliente'}" (tap)="changeTab('Cliente')">
+                            <span>{{ "AcquireProductPage.clientTabText" | translate }}</span>
+                    </ion-row>  
+                    <ion-row  align-items-center justify-content-center [ngClass]="{activeM:topTab == 'Pago'}" (tap)="changeTab('Pago')">
+                        <span>{{ "AcquireProductPage.paymentTabText" | translate }}</span>
+                    </ion-row>                    
+                    <ion-row  align-items-center justify-content-center [ngClass]="{activeZ:topTab == 'Tarjeta'}" (tap)="changeTab('Tarjeta')">
+                        <span>Tarjeta</span>
+                    </ion-row>                                      
+                </ion-row>
+
+                <ion-row  class="steps" id="steps">
+                    <span>Paso 1 de 5</span>
+                </ion-row>                
+                             
+                <!-- SECCION DE PRODUCTO -->
+                <!-- Paso 1 de 5 -->
+                <ion-row class="cliente-tab" [hidden]="topTab != 'Producto'" id="step1">
+                    <ion-row [hidden] = "productoContinuarShown">
+                        <ion-row class="item-wrapper input" id="inputCP" (tap)="showAlertCP1()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>Código Postal</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{codigoPostal1}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                         
+                        </ion-row> 
+                        <ion-row class="item-wrapper input required" id="inputEdad" (tap)="showAlertEdad()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>Edad</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{edad}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>
+                        </ion-row>                        
+                        
+                        <ion-row class="item-wrapper input required" id="inputMarca" (tap)="showAlertMarca()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>{{ "AcquireProductPage.brand" | translate }}</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{marca}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>
+                        </ion-row>
+                        <ion-row class="item-wrapper input required disabled" id="inputModelo" (tap)="showAlertModelo()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>{{ "AcquireProductPage.model" | translate }}</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{modelo}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>
+                        </ion-row>
+                        <ion-row class="item-wrapper input required disabled" id="inputSubMarca" (tap)="showAlertSubMarca()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>{{ "AcquireProductPage.description" | translate }}</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{subMarca}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>
+                        </ion-row>
+
+                        <ion-row class="item-wrapper input required disabled" id="inputDescripcion" (tap)="showAlertDescripcion()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>Descripción</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{descripcion}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>
+                        </ion-row>
+
+                        <ion-row class="item-wrapper input required disabled" id="inputSubDescripcion" (tap)="showAlertSubDescripcion()">
+                                <ion-row>
+                                    <ion-row align-items-end class="main-text">
+                                        <span>Sub Descripción</span>
+                                    </ion-row>
+                                    <ion-row align-items-start class="sub-text">{{subDescripcion}}</ion-row>
+                                </ion-row>
+                                <ion-row align-items-center class="arrow-button">
+                                    <img src="assets/icon/bt-siguiente.png">
+                                </ion-row>
+                        </ion-row> 
+
+                                                                                            
+                        <!--<ion-row class="item-wrapper"(tap)="showAlert('textInput', userSerialNumber, [], isEnglish?'Input serial number':'Número de serie de entrada')">-->                   
+                        <!--
+                        <ion-row class="item-wrapper" (tap)="showAlert('textInput', userPlates, [], isEnglish?'Input plates':'Placas de entrada')">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>{{ "AcquireProductPage.plates" | translate }}</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">
+                                    <span>{{userPlates.name}}</span>
+                                </ion-row>
+                            </ion-row>
+                        </ion-row>
+                        
+                        <div [ngStyle]="{'color': color, 'font-size': size + 'px'}">
+                            style using ngStyle
+                          </div>
+                          <input [(ngModel)]="color" />
+                          <button (click)="size = size + 1">+</button>
+                          <button (click)="size = size - 1">-</button>-->
+
+                        <!--<ion-row align-items-center justify-content-center class="bot-button" (tap)="fillStep1()" >
+                            <span>TEST</span>
+                        </ion-row>-->
+
+                        <ion-row align-items-center justify-content-center class="bot-button" (tap)="changeTab('Compara')" >
+                            <span>{{ "AcquireProductPage.following" | translate }}</span>
+                        </ion-row>
+                    </ion-row>
+                </ion-row>
+
+                <!-- Paso 3 de 5 -->
+                <ion-row class="cliente-tab" id="step3" [hidden]="topTab != 'Cliente'">
+                    <ion-row [hidden] = "productoContinuarShown">
+                        <ion-row class="main-text">
+                            <span>{{ "AcquireProductPage.searchCustomer" | translate }}</span>
+                        </ion-row>
+                        <ion-row class="input-container">
+                            <ion-row class="input-wrapper">
+                                <ion-input [placeholder]='"AcquireProductPage.searchCustomerPlaceholder" | translate'></ion-input>
+                                <ion-icon class="search-icon" name="search" item-right></ion-icon>
+                            </ion-row>
+                        </ion-row>
+                        <ion-row class="item-wrapper input required" id="inputEmail" (tap)="showAlertEmail()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>{{ "AcquireProductPage.email" | translate }}</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{email}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>
+                        <ion-row class="item-wrapper input required" id="inputNombre" [ngStyle]="{ 'opacity': (isEnabled ? '1' : '.5') }" (tap)="showAlertNombre()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>{{ "AcquireProductPage.firstName" | translate }}</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{nombre}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>
+                        <ion-row class="item-wrapper input required" id="inputPaterno" [ngStyle]="{ 'opacity': (isEnabled ? '1' : '.5') }" (tap)="showAlertApellidoP()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>{{ "AcquireProductPage.paterno" | translate }}</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{paterno}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>
+                        <ion-row class="item-wrapper input required" id="inputMaterno" [ngStyle]="{ 'opacity': (isEnabled ? '1' : '.5') }" (tap)="showAlertApellidoM()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>{{ "AcquireProductPage.materno" | translate }}</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{materno}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>                                                
+                        <ion-row class="item-wrapper input" id="inputAge" [ngStyle]="{ 'opacity': (isEnabled ? '1' : '.5') }" >
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>{{ "AcquireProductPage.age" | translate }}</span>
+                                </ion-row>                               
+                                <ion-item align-items-start class="sub-text" id="firstname">
+                                    <ion-datetime pickerFormat="YYYY MMMM DD" displayFormat="YYYY MMMM DD"  [monthNames]="datePickerNames.month" [(ngModel)]="fechaNacimiento"></ion-datetime>
+                                </ion-item>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>
+                        </ion-row>
+                        <ion-row class="item-wrapper input required" id="inputGenero" [ngStyle]="{ 'opacity': (isEnabled ? '1' : '.5') }"  (tap)="showAlertGenero()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>{{ "AcquireProductPage.gender" | translate }}</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{genero}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>
+                        </ion-row>
+                        <ion-row class="item-wrapper input required" id="inputTelefonoCasaModal" [ngStyle]="{ 'opacity': (isEnabledTipo3 ? '1' : '.5') }" (tap)="showAlertTelefonoCasa()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>Teléfono de casa</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{telCasa}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>                        
+                        <ion-row class="item-wrapper input required" id="inputCellPhone" [ngStyle]="{ 'opacity': (isEnabledTipo3 ? '1' : '.5') }" (tap)="showAlertTelefonoMovil()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>{{ "AcquireProductPage.cellPhone" | translate }}</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{telMovil}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>
+                        <ion-row class="item-wrapper input required" id="inputRfc" [ngStyle]="{ 'opacity': (isEnabledTipo3 ? '1' : '.5') }" (tap)="showAlertRFC()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>{{ "AcquireProductPage.RFC" | translate }}</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{rfc}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>
+                        <ion-row class="item-wrapper input required" id="inputNacionalidad"  [ngStyle]="{ 'opacity': (isEnabledTipo3 ? '1' : '.5') }" (tap)="showAlertNacionalidad()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>{{ "AcquireProductPage.nationality" | translate }}</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{nacionalidad}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>
+                        <ion-row class="item-wrapper input required" id="inputLugarNac" [ngStyle]="{ 'opacity': (isEnabledTipo3 ? '1' : '.5') }" (tap)="showAlertLugarDeNacimiento()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>{{ "AcquireProductPage.placeOfBirth" | translate }}</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{lugarNacimiento}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>                                                  
+                        <ion-row class="item-wrapper input required" id="inputCodigoPostal" [ngStyle]="{ 'opacity': (isEnabledTipo3Dir ? '1' : '.5') }" (tap)="showAlertCodigoPostal()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>Código postal</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{codigoPostal2}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>
+                        <ion-row class="item-wrapper input required" id="inputColonia" [ngStyle]="{ 'opacity': (isEnabledTipo3Dir ? '1' : '.5') }" (tap)="showAlertColony()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>{{ "AcquireProductPage.colony" | translate }}</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{colonia}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>
+                        </ion-row>
+                        <ion-row class="item-wrapper input" id="inputState" [ngStyle]="{ 'opacity':'.5' }">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text" >
+                                    <span>{{ "AcquireProductPage.state" | translate }}</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{estado}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>                         
+                        <ion-row class="item-wrapper input" id="inputDelegacion" [ngStyle]="{ 'opacity':'.5' }">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>{{ "AcquireProductPage.delegation" | translate }}</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{delegacion}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>                                               
+                        <ion-row class="item-wrapper input required" id="inputCalle" [ngStyle]="{ 'opacity': (isEnabledTipo3Dir ? '1' : '.5') }" (tap)="showAlertCalle()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>{{ "AcquireProductPage.street" | translate }}</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{calle}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>
+                        <ion-row class="item-wrapper input required" id="inputNumExt" [ngStyle]="{ 'opacity': (isEnabledTipo3Dir ? '1' : '.5') }" (tap)="showAlertNoExt()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>{{ "AcquireProductPage.outdoorNumber" | translate }}</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{numExterior}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>
+                        <ion-row class="item-wrapper input" id="inputNumInt" [ngStyle]="{ 'opacity': (isEnabledTipo3Dir ? '1' : '.5') }" (tap)="showAlertNoInt()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>{{ "AcquireProductPage.interiorNumber" | translate }}</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{numInterior}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>
+                        
+                        <ion-row class="main-textSeparador">
+                            <span>Datos del vehículo</span>
+                        </ion-row> 
+                        <ion-row class="item-wrapper input required" id="inputNumMotor" (tap)="showAlertNumeroDeMotor()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>Número de motor</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{numMotor}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>     
+                        <ion-row class="item-wrapper input required" id="inputNumSerie" (tap)="showAlertNumeroDeSerie()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>Número de serie</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{numSerie}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>  
+                        <ion-row class="item-wrapper input required" id="inputNumPlacas" (tap)="showAlertNumeroDePlacas()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>Número de placas</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{numPlacas}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>                                                                   
+                        <ion-row align-items-center justify-content-center class="bot-button" (tap)="changeTab('Pago')">   
+                            <span>{{ "AcquireProductPage.saveAndContinue" | translate }}</span>
+                        </ion-row>
+                        
+                    </ion-row>
+        
+                </ion-row>
+
+                <!--SECCION DE COMPARAR-->
+                <ion-row class="compara-tab" [hidden]="topTab != 'Compara'">
+                    <ion-row class="main-text">
+                        <span>Descripción del auto</span>
+                    </ion-row>  
+                    <ion-row *ngIf="!comparaDetailShown">
+                        <ion-row align-items-center justify-content-center class="title">
+                            <ion-row align-items-center justify-content-center class="title-wrap">                              
+                                <ion-row align-items-center justify-content-center class="main-text">
+                                    <span id="nombreAuto"></span>
+                                </ion-row>
+                                <ion-row align-items-center justify-content-center class="main-text">
+                                    <span id="descrAuto"></span>
+                                </ion-row>
+                                <ion-row align-items-center justify-content-center class="main-text">
+                                    <span id="subDescrAuto"></span>
+                                </ion-row>
+                            </ion-row>
+                        </ion-row>
+                        <ion-row align-items-center justify-content-center >
+                            <ion-col class="top-tittlex">
+                                <span><strong>Aseguradora</strong></span>
+                            </ion-col>
+                            <ion-col class="top-tittlex">
+                                <span><strong>Prima Total</strong></span>
+                            </ion-col>
+                            
+                        </ion-row>
+                        <ion-list class="list-wrap">
+                            <!--<ion-item *ngFor="let listItem of comparaList" (tap)="isClient == 'false'? changeTab('Pago') : showComparaItemDetail()">-->
+                            <ion-grid>        
+                            <ion-item *ngFor="let listItem of comparaList" (tap)="showAlertPrima('radio', listItem, userEdad, comparaList, isEnglish?'Information':'Información adicional')">                                
+                                <ion-row align-items-center justify-content-center  class="img-wrap">
+                                    <img [src]="listItem.img">
+                                </ion-row>
+                                <ion-row align-items-center class="text-wrap">
+                                    <span class="value" id="valor">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{listItem.value}}</span>
+                                </ion-row>
+                                <ion-row align-items-center class="arrow-button">
+                                    <img src="assets/icon/bt-siguiente.png">
+                                </ion-row>
+                            </ion-item>
+                            </ion-grid>
+                        </ion-list>
+                        <!--
+                        <ion-row align-items-center justify-content-center class="bot-button" (tap)="changeTab('Pago')">
+                            <span>{{ "AcquireProductPage.sendDetailedQuoteToUserText" | translate }}</span>
+                        </ion-row>
+                        -->
+                    </ion-row>
+                
+                    <ion-row *ngIf="comparaDetailShown">
+                        <ion-row class="item-wrapper" style="margin-top:10px" (tap)="goToDocumentDetailPage()">
+                            <ion-row>
+                                <ion-row align-items-center class="sub-text">
+                                    <span>{{ "AcquireProductPage.uploadDocumentText" | translate }}</span>
+                                </ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>
+                        </ion-row>
+                        <!--
+                        <ion-row align-items-center justify-content-center class="bot-button" (tap)="goToPayPolicyPage()">
+                            <span>{{ "AcquireProductPage.sendDetailedQuoteToUserText" | translate }}</span>
+                        </ion-row>
+                        -->
+                    </ion-row>
+                <!--SECCION DE PAGO-->
+                </ion-row>
+                <ion-row class="pago-tab" [hidden]="topTab != 'Pago'">
+                    <ion-row class="main-textX">
+                        <span>Resumen de compra</span>
+                    </ion-row>      
+                    <ion-row class="citation-wrap">
+                        <ion-row class="padding-row">
+                            <ion-row class="top-text-wrap">
+                                <ion-row align-items-end class="main-text">
+                                    <span id="marcaF"></span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">
+                                    <span>{{ "AcquireProductPage.carInsuranceText" | translate }}</span>
+                                </ion-row>
+                            </ion-row>
+                            <ion-row class="company-wrap">
+                                <ion-row align-items-center justify-content-center class="img-wrap">
+                                    <img src="assets/icon/logo/logo-axa.png" id="imgF">
+                                </ion-row>
+                                <ion-row  class="center-text-wrap">
+                                    <ion-row align-items-end justify-content-center class="main-text">
+                                        <span>{{ "AcquireProductPage.wideText" | translate }}</span>
+                                    </ion-row>
+                                    <ion-row align-items-start justify-content-center class="sub-text">
+                                        <span>{{ "AcquireProductPage.coverText" | translate }}</span>
+                                    </ion-row>
+                                </ion-row>
+                                <ion-row class="end-text-wrap">
+                                    <ion-row align-items-end justify-content-center class="main-text">
+                                        <span id="primaF"></span>
+                                    </ion-row>
+                                    <ion-row align-items-start justify-content-center class="sub-text">
+                                        <span>{{ "AcquireProductPage.annualText" | translate }}</span>
+                                    </ion-row>
+                                </ion-row>
+                            </ion-row>
+                            <ion-row>
+                                <ion-row class="main-text-title">
+                                    <span>{{ "AcquireProductPage.coveringsText" | translate }}</span>
+                                </ion-row>
+                                <ion-row class="main-info-text-wrap">
+                                    <ion-row class="main-text" *ngFor="let listItem of pagoList">
+                                        <span>{{listItem.mainText}}</span>
+                                        <span class="sub-text">{{listItem.subText}}</span>
+                                    </ion-row>
+                                </ion-row>                                                             
+                            </ion-row>
+                            <ion-row>
+                                <ion-row class="main-text-title">
+                                    <span>Datos del vehículo</span>
+                                </ion-row>
+                                <ion-row class="main-info-text-wrap">
+                                    <ion-row class="main-text" >
+                                        <span>Marca:</span>
+                                        <span class="sub-text">{{marca}}</span>
+                                    </ion-row>
+                                    <ion-row class="main-text" >
+                                        <span>Modelo:</span>
+                                        <span class="sub-text">{{modelo}}</span>
+                                    </ion-row> 
+                                    <ion-row class="main-text" >
+                                        <span>Sub Marca:</span>
+                                        <span class="sub-text">{{subMarca}}</span>
+                                    </ion-row>                                       
+                                    <ion-row class="main-text" >
+                                        <span>Descripción:</span>
+                                        <span class="sub-text">{{descripcion}}</span>
+                                    </ion-row>
+                                </ion-row>                                                             
+                            </ion-row>                             
+                            <ion-row>
+                                <ion-row class="main-text-title">
+                                    <span>Datos del contratante</span>
+                                </ion-row>
+                                <ion-row class="main-info-text-wrap">
+                                    <ion-row class="main-text" >
+                                        <span>Nombre:</span>
+                                        <span class="sub-text">{{nombre}}</span>
+                                    </ion-row>
+                                    <ion-row class="main-text" >
+                                        <span>Apellido paterno:</span>
+                                        <span class="sub-text">{{paterno}}</span>
+                                    </ion-row>  
+                                    <ion-row class="main-text" >
+                                        <span>Apellido materno:</span>
+                                        <span class="sub-text">{{materno}}</span>
+                                    </ion-row>                                                                      
+                                    <ion-row class="main-text" >
+                                        <span>Email:</span>
+                                        <span class="sub-text">{{email}}</span>
+                                    </ion-row>   
+                                    <ion-row class="main-text" >
+                                        <span>Domicilio:</span>
+                                        <span class="sub-text">{{domicilio}}</span>
+                                    </ion-row> 
+                                    <ion-row class="main-text" >
+                                        <span>Teléfono casa:</span>
+                                        <span class="sub-text">{{telCasa}}</span>
+                                    </ion-row>
+                                    <ion-row class="main-text" >
+                                        <span>Teléfono móvil:</span>
+                                        <span class="sub-text">{{telMovil}}</span>
+                                    </ion-row>                                    
+                                    <ion-row class="main-text" >
+                                        <span>Género:</span>
+                                        <span class="sub-text">{{genero}}</span>
+                                    </ion-row>  
+                                    <ion-row class="main-text" >
+                                        <span>RFC:</span>
+                                        <span class="sub-text">{{rfc}}</span>
+                                    </ion-row>                                                                                                                                                                                      
+                                </ion-row>                                                            
+                            </ion-row>                                                                                         
+                        </ion-row>
+                    </ion-row>
+                    <ion-row align-items-center justify-content-center class="bot-button" (tap)="changeTab('Tarjeta')">
+                        <span>{{ "AcquireProductPage.submitCollectionRequestText" | translate }}</span>
+                    </ion-row>
+                </ion-row>
+                
+                <!-- SECCION DE TARJETA -->
+                <!-- Paso 5 de 5 -->
+                <ion-row class="cliente-tab" id="step5" [hidden]="topTab != 'Tarjeta'">
+                    <ion-row [hidden] = "productoContinuarShown">
+                        <ion-row class="item-wrapper input required" id="inputTarjeta" (tap)="showAlertTarjeta()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>Número de Tarjeta</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{numTarjeta}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>                        
+                        <ion-row class="item-wrapper input" id="inputTipoTarjeta">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>Tipo de tarjeta</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{tipoTarjeta}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>
+                        <ion-row class="item-wrapper input required" id="inputTitular" (tap)="showAlertTitular()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>Titular</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{titular}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>
+                        </ion-row>
+                        <ion-row class="item-wrapper input" id="inputBank">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>Banco</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{banco}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>                            
+                        </ion-row>
+                        <ion-row >
+                                <ion-row align-items-end class="main-text">
+                                        <span>&nbsp;&nbsp;Carrier</span>
+                                    </ion-row>
+                            <div class = "button-bar">
+                                <a class = "tarjetas" ><img src="assets/img/Amex.svg" id="amex" ></a>
+                                <a class = "tarjetas" ><img src="assets/img/MasterCard.svg" id="master"></a>
+                                <a class = "tarjetas" ><img src="assets/img/Visa.svg" id= "visa" ></a>
+                             </div> 
+                        </ion-row>
+                        <ion-row class="item-wrapper" id="tarjeta">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>Vigencia</span>
+                                </ion-row>
+                                <ion-item align-items-start class="sub-text" id="firstname">
+                                    <ion-datetime pickerFormat="MMM YY" displayFormat="MM/YY" min="2017" max="2030" [monthNames]="datePickerNames.month" [(ngModel)]="vigencia"></ion-datetime>
+                                </ion-item>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>
+                        </ion-row>
+                        <ion-row class="item-wrapper input required" id="tarjeta2" (tap)="showAlertCvv()">
+                            <ion-row>
+                                <ion-row align-items-end class="main-text">
+                                    <span>CVV</span>
+                                </ion-row>
+                                <ion-row align-items-start class="sub-text">{{cvv}}</ion-row>
+                            </ion-row>
+                            <ion-row align-items-center class="arrow-button">
+                                <img src="assets/icon/bt-siguiente.png">
+                            </ion-row>
+                        </ion-row>                          
+                        <ion-row >
+                            <ul class = "list">                                 
+                                <li class = "item item-checkbox  checkbox-positive">
+                                    <label class = "checkbox">
+                                        <input type = "checkbox" id="aceptoCobros"/>
+                                        Acepto expresamente que se realicen los cobros de mi póliza a la tarjeta bancaria registrada y que los pagos subsecuentes sean domiciliados a la misma.
+                                    </label>
+                                </li>
+                            </ul>
+                        </ion-row>                                             
+                        <!--
+                        <ion-row align-items-center justify-content-center class="bot-button" (tap)="changeTab('Producto','Cliente')">
+                                
+                            <span>{{ "AcquireProductPage.saveAndContinue" | translate }}</span>
+                        </ion-row>
+                        -->
+                        <ion-row align-items-center justify-content-center class="bot-button" (tap)="goPaymentSubmitedPage()">   
+                            <span>{{ "AcquireProductPage.saveAndContinue" | translate }}</span>
+                        </ion-row>
+                        
+                    </ion-row>
+        
+                </ion-row>
+                
+            </ion-row>
+        </ion-content>
+        

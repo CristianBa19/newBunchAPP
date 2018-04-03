@@ -1,0 +1,22 @@
+<!--
+  Generated template for the GetSubDescripcionPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>getSubDescripcion</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+      <button ion-item *ngFor="let item of data" (click)="itemSelected(item)">
+        {{item.SubDescripcion }}
+      </button>  
+    </ion-list>
+</ion-content>

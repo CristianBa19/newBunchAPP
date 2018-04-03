@@ -1,0 +1,80 @@
+filter-page {
+  .tab-header-cls {
+    //background: url(../assets/img/splash2.jpg);
+	background-color: #2492ff;
+    background-position-y: 140px;
+    color: white;
+    margin: 0 auto;
+    background-size: cover;
+    min-height: 100px;
+
+    div.divImg {
+      width: 15%;
+      margin: 5px auto;
+      img {
+        height: 40px !important;
+        margin-top: 15px;
+      }
+    }
+    .titleForm {
+      width: 90%;
+      margin: 5px auto;
+      text-align: center;
+    }
+  }
+  .circle-wrapper{
+    width: 100%;
+    padding: 15px 7px 7px 0;
+    .active{
+      background: #0099cc;
+      border-color: #0099cc ;
+    }
+  }
+  .scroll-content{
+    background-color: #eeeeee;
+  }
+  .middle-container{
+    margin-top: 30px;
+    height: 33%;
+    border-radius: 15px;
+    border: solid 1px #0099cc;
+    background-color: white;
+  }
+  .circle-icon{
+    width:15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #eeeeee;
+    border: solid 1px rgba(18, 18, 18, 0.72);
+  }
+  .title{
+    margin-top: 15px;
+    margin-bottom: -10px;
+    font-size: 18px;
+    font-weight: 500;
+  }
+  .radio-wrapp{
+    width: 75%;
+    height: 35%;
+  }
+  .histogram-center{
+    margin-top: -20px;
+    ion-row{
+      width:100%
+    }
+  }
+  .arrows{
+    width: 12%
+  }
+  .bot-text{
+    padding: 5% 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .radio-container{
+    width:25%;
+  }
+  .histogram-wrapper{
+
+  }
+}

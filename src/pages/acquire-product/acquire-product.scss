@@ -1,0 +1,415 @@
+acquire-product-page{
+    .input.disabled{background:lightgray;opacity:0.5;}
+    .mystyle{
+        color:red;
+        input:disabled{
+            background-color: black;
+        }
+    }
+    // para los pasos
+    .steps{
+        margin-left:77%;  
+        margin-top: -1%;
+        font-size:12px;  
+    }
+    //para la vigencia
+    #tarjeta{
+        width:30%;
+    }
+    //para el cvv
+    #tarjeta2{
+        position:absolute;
+        width:30%;
+        margin-left:57%;
+        margin-top:103%;
+    }    
+
+    //para que el fondo del campo de año se vea igual al background
+    #firstname{
+        background-color: #eeeeee !important;
+    }
+    //para el capo de datetime y del las aseguradoras
+    .item-md{
+        background-color:  white;
+    }
+    //para el campo de datetime  y del las aseguradoras
+    .item-ios{
+        background-color:  white;
+    }
+    .button-bar{
+        width: 100% !important;
+        top:10px;
+        bottom:10px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+    }
+    li{
+        margin-left: -11%;
+    }
+    .tarjetas{
+        width:20%;
+        height: 40%;
+        img{
+            margin-left:2% !important;
+            width:30%;
+            height:100%;
+        }
+    }
+    .one {
+        color: green;
+    }
+    .toolbar-title-ios,.toolbar-title-md{
+        color:white;
+    }
+
+    //para el color del header
+    .toolbar-background-md, .toolbar-background-ios{
+        background-color:#2492ff;
+    }
+    ion-header{
+        font-family: RaleTitle;
+
+    }
+    //clase para las casillas 
+    ion-row.item-wrapper.row{ 
+       background-color: transparent !important; 
+       border: none;
+       border-bottom-style: solid;
+       border-width: 1px;
+       border-bottom-color: #0099cc;
+       font-family: RaleTitle;
+    }
+    .text-input-md{
+        margin-top: 30px;
+        font-size: 15px;
+    }
+    //para el campo del CP en android
+    .label-md-primary, .item-input .label-md-primary, .item-select .label-md-primary, .item-datetime .label-md-primary{
+        color: black;
+        margin-top:-10px;
+        margin-left: 9px;
+        position: absolute;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: visible;
+    }
+    ion-row{
+        img{
+            margin-left:110px;
+        }
+    }
+    ion-header {
+        .header-cls {
+            min-height: 0 !important;
+        }
+        .backButton{
+            padding-left: 18px !important;
+            img{
+                max-width: none;
+            }
+        }
+        .titleStyle {
+            left: 0;
+            top: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+            pointer-events: none;
+            text-align: center;
+        }
+    }
+    ion-item{
+        padding: 0 !important;
+    }
+    .item-inner{
+        border-bottom: none !important;
+    }
+    ion-datetime{
+        padding: 0 !important;
+    }
+    .item-block{
+        min-height: 0 !important;
+    }
+    .item-cover {
+        left: -16px;
+        top: -22px;
+        width: 113%;
+        height: 180%;
+    }
+    button {
+        img {
+            height: auto !important;
+            max-height: 25px !important;
+            margin-top: 0 !important;
+            
+            .image-left{
+                padding-left: 10px !important;
+            }
+            .image-right{
+                padding-right: 10px !important;
+            }
+        }
+    }
+    .scroll-content{
+        background-color: #eeeeee;
+    }
+
+    .tabs-swap-wrap{
+        height: 30px;
+        width: 100%;
+        font-size: 14px;
+        //color: #9c9c9c;
+        color:white;
+        background-color: white;
+        border: solid 1px #09c;
+        border-radius: 75px;
+        margin-bottom: 6px;
+        margin-top: 6px;
+        overflow: hidden;
+        ion-row{
+            width:20%;
+            border: none;
+            border-radius:75px;
+        }
+        .active{
+            
+            border-right:40px;
+            background-color: #09c;
+            border: solid 1px #09c !important;
+            border-radius: 75px;
+            //color:white;
+            color: #09c;
+        }
+        .activeX{
+            margin-left: -20%;
+            width: 40%;
+            background-color: #09c;
+            border: solid 1px #09c !important;
+            border-radius: 75px;
+            //color:white;
+            color: #09c;
+        }         
+        .activeY{
+            margin-left: -40%;
+            width: 60%;
+            background-color: #09c;
+            border: solid 1px #09c !important;
+            border-radius: 75px;
+            //color:white;
+            color: #09c;
+        }     
+        .activeM{
+            margin-left: -60%;
+            width: 80%;
+            background-color: #09c;
+            border: solid 1px #09c !important;
+            border-radius: 75px;
+            //color:white;
+            color: #09c;
+        }    
+        .activeZ{
+            margin-left: -80%;
+            width: 100%;
+            background-color: #09c;
+            border: solid 1px #09c !important;
+            border-radius: 75px;
+            //color:white;
+            color: #09c;
+        }                           
+    }
+
+    .top-tittle{
+        width: 100%;
+        height: 40px;
+        margin: 5px 0;
+        background-color: #606164;
+        color: white;
+        border-radius: 15px;
+        font-family: RaleTitle;
+    }
+    .top-tittlex{
+        width: 40%;
+        height: 20px;
+        color: black;
+        margin-left:50px;
+        font-family: RaleTitle;
+    }
+    .main-text{
+        font-size: 16px;
+        font-weight: 500;
+        width: 100%;
+        font-family: RaleTitle;
+    } 
+    .main-textX{
+        font-size: 16px;
+        font-weight: 500;
+        width: 100%;
+        font-family: RaleNext;
+    }   
+    .main-textSeparador{
+        font-size: 16px;
+        font-weight: 500;
+        width: 100%;
+        font-family: RaleNext;
+        margin-left:3%;
+        margin-top:8%;
+    }        
+    .sub-text{
+        font-size: 12px;
+    }
+    .item-wrapper{
+        background-color: #9c9c9c;
+        width: 100%;
+        height: 50px;
+        border: solid 1px #9c9c9c;
+        border-radius: 8px;
+        margin: 5px 0;
+    }
+    .bot-button{
+        width: 100%;
+        height: 40px;
+        margin: 5px 0;
+        background-color: #09c;
+        color: white;
+        border-radius: 15px;
+        font-family: RaleTitle;
+    }
+
+    .item-wrapper>ion-row{
+        width: 94%;
+        padding-left: 10px;
+    }
+    .arrow-button{
+        width: 30% !important;
+        margin-left: -120px !important;
+    }
+    .cliente-tab{
+        .input-container {
+            width:100%;
+            .input-wrapper {
+                width: 90%;
+                height: 30px;
+                background-color: white;
+                border: solid 1px #9c9c9c;
+                border-radius: 8px;
+                margin-top: 6px;
+                margin-bottom: 7px;
+                input {
+                    margin: 0px;
+                    padding: 6px;
+                }
+            }
+            .search-icon{
+                color: #09c;
+                position: relative;
+                top: 7px;
+                left: -7px;
+            }
+        }
+    }
+    .compara-tab>ion-row{
+        width: 100%;
+        font-family: RaleNext;
+    }
+    .compara-tab{
+        width:100%;
+        .title{
+            border: solid 1px;
+            height: 80px;
+            width: 100%;
+            margin: 8px 0;
+            background-color: white;
+        }
+        .sub-text{
+            font-size: 14px;
+        }
+        .list{
+            width:100%;
+            .item{
+                width: 100%;
+                border: solid 1px;
+                margin: 10px 0;
+                .item-inner{
+                    padding: 0;
+                }
+                .label{
+                    height: 100%;
+                }
+                .img-wrap{
+                    height: 100%;
+                    width: 20%;
+                    float: left;                   
+                }
+                .text-wrap{
+                    height: 100%;
+                    width:76%;
+                    float: left;
+                    color: #09c;
+                    .a-text{
+                        padding-left: 37px;
+                    }
+                    .value{
+                        font-weight: 600;
+                        padding-left: 4px;
+                    }
+                }
+                .arrow-button{
+                    height: 100%;
+                }
+            }
+        }
+
+    }
+    .pago-tab{
+        .citation-wrap{
+            margin: 20px 0;
+            border: solid 1px;
+            border-radius: 12px;
+            background-color: white;
+            .padding-row{
+                padding: 10px;
+                .top-text-wrap{
+                    width:100%;
+                }
+                .company-wrap{
+                    width: 100%;
+                    margin: 5px 0;
+                    .main-text{
+                        margin-top: 2px;
+                    }
+                    .sub-text{
+                        margin-top: -4px;
+                        width:100%;
+                    }
+                    .img-wrap{
+                        width: 33%;
+
+                    }
+                    .center-text-wrap{
+                        width: 33%;
+                        float: left;
+                        border-left: solid 3px #09c ;
+                        border-right: solid 3px #09c ;
+                    }
+                    .end-text-wrap{
+                        width:33%;
+                    }
+                }
+                .main-text-title{
+                    margin: 5px 0 10px 0;
+                    font-weight: 800;
+                }
+                .main-info-text-wrap{
+                    .main-text{
+                        font-size: 12px;
+                    }
+                    .sub-text{
+                        font-weight: 400;
+                    }
+                }
+            }
+        }
+    }
+}

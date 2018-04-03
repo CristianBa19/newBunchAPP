@@ -1,0 +1,32 @@
+<ion-header class="tab-header-cls">
+    <ion-col>
+        <div class="divImg">
+            <img src="assets/icon/mensajes2.svg">
+        </div>        
+    </ion-col>
+    <ion-buttons end>
+        <button ion-button icon-only (click)="addbuddy()">
+            <ion-icon name="person-add"></ion-icon>
+        </button>
+    </ion-buttons>   
+</ion-header>
+
+
+<ion-content padding>    
+    <br><br><br><br>
+    <ion-list>
+        <ion-item *ngFor="let item of myfriends" (click)="buddychat(item)">
+            <!-- HABILITAR CUANDO SE TENGA LAS IMGS DEL PROFILE
+            <ion-avatar item-start>
+                <img src="{{item.img}}">
+            </ion-avatar>
+            -->
+            <h2>{{item.displayName}}</h2>
+            <h3 class="last-message-stl">Necesito ayuda</h3>
+            <p>Actualizado 23/01/18</p>
+            <ion-buttons item-end>
+                <button class="detail-btn-cls"><img src="assets/icon/bt-siguiente.png"></button>
+            </ion-buttons>
+        </ion-item>  
+    </ion-list>  
+</ion-content>

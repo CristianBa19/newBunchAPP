@@ -1,0 +1,48 @@
+<ion-header class="header-cls">
+
+  <ion-toolbar>
+    <ion-buttons left>
+      <button icon-only ion-button class="backButton" (click)="goBack()">
+        <img src="assets/icon/bt-regresar-menu.png" class="image-left">
+      </button>
+    </ion-buttons>
+
+    <ion-title class="titleStyle">{{pageTitle}}</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+<ion-list no-border>
+  <ion-row [hidden]="isClient == 'false'" (tap)="goToStatisticsProducts()">
+    <ion-item class="ionitem-cls">
+      <h2>{{ "newAdvertismentPage.myProducts" | translate }}</h2>
+      <p>{{ "newAdvertismentPage.recommended" | translate }}</p>
+      <ion-buttons item-end>
+        <button class="detail-btn-cls" ><img src="assets/icon/bt-siguiente.png"></button>
+      </ion-buttons>
+    </ion-item>
+  </ion-row>
+  <ion-row [hidden]="isClient == 'true'">
+    <ion-row align-items-center justify-content-around="" class="title-wrapper">
+      <ion-row justify-content-center class="main-text">
+        <span>{{ "newAdvertismentPage.selectProduct" | translate }}</span>
+      </ion-row>
+      <ion-row justify-content-center class="main-text">
+        <span>{{ "newAdvertismentPage.forYourAd" | translate }}</span>
+      </ion-row>
+    </ion-row>
+  </ion-row>
+  <ion-item no-lines *ngFor="let adv of advModels" class="ionitem-cls" (click)="pushToCreateDetail(adv)">
+    <ion-thumbnail item-start class="thumbnail-cls">
+      <img src="{{adv.img}}" >
+    </ion-thumbnail>
+    <h2>{{adv.paymentType}}</h2>
+    <p>{{adv.bank}} - {{adv.accountType}}</p>
+    <ion-buttons item-end>
+      <button class="detail-btn-cls" ><img src="assets/icon/bt-siguiente.png"></button>
+    </ion-buttons>
+  </ion-item>
+</ion-list>
+</ion-content>

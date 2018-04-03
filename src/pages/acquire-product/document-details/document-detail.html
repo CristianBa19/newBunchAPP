@@ -1,0 +1,100 @@
+<ion-header class="header-cls">
+
+    <ion-toolbar>
+        <ion-buttons left>
+            <button icon-only ion-button class="backButton" (tap)="goBack()">
+                <img src="assets/icon/bt-regresar-menu.png" class="image-left">
+            </button>
+        </ion-buttons>
+        <ion-title class="titleStyle">{{ "AcquireProductPage.titleText" | translate }}</ion-title>
+    </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-row class="page-wrapper">
+        <ion-row class="item-wrapper" (tap)="showAlert('radio', guard, guardList, isEnglish?'Choose safed document':'Elija el documento Safed')">
+            <ion-row>
+                <ion-row align-items-end class="main-text">
+                    <span>{{ "DocumentDetailPage.guard" | translate }}</span>
+                </ion-row>
+                <ion-row align-items-start class="sub-text">
+                    <span>{{guard.name}}</span>
+                </ion-row>
+            </ion-row>
+            <ion-row align-items-center class="arrow-button">
+                <img src="assets/icon/bt-siguiente.png">
+            </ion-row>
+        </ion-row>
+        <ion-row class="item-wrapper" (tap)="showAlert('radio', typeOfCard, typeOfCardList, isEnglish?'Choose card type':'Elija el tipo de tarjeta')">
+            <ion-row>
+                <ion-row align-items-end class="main-text">
+                    <span>{{ "DocumentDetailPage.typeOfCardText" | translate }}</span>
+                </ion-row>
+                <ion-row align-items-start class="sub-text">
+                    <span>{{typeOfCard.name}}</span>
+                </ion-row>
+            </ion-row>
+            <ion-row align-items-center class="arrow-button">
+                <img src="assets/icon/bt-siguiente.png">
+            </ion-row>
+        </ion-row>
+        <ion-row class="item-wrapper" (tap)="showAlert('textInput', nameOfTheCard, [], isEnglish?'Input card text':'Introducir texto de la tarjeta')">
+            <ion-row>
+                <ion-row align-items-end class="main-text">
+                    <span>{{ "DocumentDetailPage.nameOfTheCardText" | translate }}</span>
+                </ion-row>
+                <ion-row align-items-start class="sub-text">
+                    <span>{{nameOfTheCard.name}}</span>
+                </ion-row>
+            </ion-row>
+            <ion-row align-items-center class="arrow-button">
+                <img src="assets/icon/bt-siguiente.png">
+            </ion-row>
+        </ion-row>
+        <ion-row class="item-wrapper">
+            <ion-row>
+                <ion-row align-items-end class="main-text">
+                    <span>{{ "DocumentDetailPage.dueDateText" | translate }}</span>
+                </ion-row>
+                <ion-item align-items-start class="sub-text">
+                    <ion-datetime placeholder="16/08" pickerFormat="MMMM YYYY" displayFormat="MM/YY"  [monthNames]="datePickerNames.month" [(ngModel)]="datePicked"></ion-datetime>
+                </ion-item>
+            </ion-row>
+            <ion-row align-items-center class="arrow-button">
+                <img src="assets/icon/bt-siguiente.png">
+            </ion-row>
+        </ion-row>
+        <ion-row class="item-wrapper" (tap)="showAlert('numInput', noOfTheCard, isEnglish?'Input number of the card':'Número de entrada de la tarjeta')">
+            <ion-row>
+                <ion-row align-items-end class="main-text">
+                    <span>{{ "DocumentDetailPage.noOfTheCardText" | translate }}</span>
+                </ion-row>
+                <ion-row align-items-start class="sub-text">
+                    <span>{{noOfTheCard.name}}</span>
+                </ion-row>
+            </ion-row>
+            <ion-row align-items-center class="arrow-button">
+                <img src="assets/icon/bt-siguiente.png">
+            </ion-row>
+        </ion-row>
+        <ion-row class="item-wrapper" (tap)="showAlert('numInput', checkDigit, isEnglish?'Input digit check number':'Número de control de dígito de entrada')">
+            <ion-row>
+                <ion-row align-items-end class="main-text">
+                    <span>{{ "DocumentDetailPage.checkDigitText" | translate }}</span>
+                </ion-row>
+                <ion-row align-items-start class="sub-text">
+                    <span>{{checkDigit.name}}</span>
+                </ion-row>
+            </ion-row>
+            <ion-row align-items-center class="arrow-button">
+                <img src="assets/icon/bt-siguiente.png">
+            </ion-row>
+        </ion-row>
+    </ion-row>
+</ion-content>
+
+
+
+

@@ -1,0 +1,59 @@
+<ion-header class="tab-header-cls">
+  <ion-col>
+    <div class="divImg">
+      <img src="assets/icon/perfil2.svg">
+    </div>
+    <!--
+    <div class="titleForm">{{ "ProfilePage.titleText" | translate }}</div>-->
+  </ion-col>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item class="ionitem-cls" detail-push>
+      <ion-icon item-start><img  src="assets/icon/perfil-notificaciones.png"></ion-icon>
+      <ion-label>{{ "ProfilePage.notifications" | translate }}</ion-label>
+      <ion-toggle item-end [(ngModel)]="enableNotif"></ion-toggle>    
+    </ion-item>
+
+    <ion-item class="ionitem-cls" detail-push>
+      <ion-icon item-start><img  src="assets/icon/perfil-seguimiento.png"></ion-icon>
+      <ion-label>{{ "ProfilePage.smartTracking" | translate }}</ion-label>
+      <ion-toggle item-end [(ngModel)]="inteligenFollow"></ion-toggle>    
+    </ion-item>
+
+    <ion-item class="ionitem-cls" detail-push>
+      <ion-icon item-start><img  src="assets/icon/perfil-geolocalizacion.png"></ion-icon>
+      <ion-label>{{ "ProfilePage.geolocation" | translate }}</ion-label>
+      <ion-toggle item-end [(ngModel)]="geoLocalization"></ion-toggle>    
+    </ion-item>
+    <ion-item class="ionitem-cls" detail-push>
+      <ion-icon item-start><img  src="assets/icon/perfil-tipo-usuario.png"></ion-icon>
+      <ion-label>{{ "ProfilePage.useTheApplicationClient" | translate }}</ion-label>
+      <ion-toggle item-end [(ngModel)]="isClient"  (ionChange)="UIupdate(isClient)"></ion-toggle>
+    </ion-item>
+    <ion-item class="ionitem-cls" detail-push>
+      <ion-icon item-start><img  src="assets/icon/escribir-mensaje.png"></ion-icon>
+      <ion-label>{{ "ProfilePage.language" | translate }}</ion-label>
+      <ion-toggle item-end [(ngModel)]="isEnglish" (ionChange)="changeLanguage()"></ion-toggle>
+    </ion-item>
+
+    <button ion-item detail-push class="ionitem-cls" ion-content (tap)="openHelpCenterPage()">
+      <ion-icon item-start><img  src="assets/icon/perfil-centro-ayuda.png"></ion-icon>
+      <span>{{ "ProfilePage.helpCenter" | translate }}</span>
+      <button  class="chat-button" style="width: 100%;height: 100%;background: transparent;" ></button>
+    </button>
+
+    <button ion-item detail-push class="ionitem-cls" ion-content>
+      <ion-icon item-start><img  src="assets/icon/perfil-centro-ayuda.png"></ion-icon>
+      <span>{{ "ProfilePage.editProfile" | translate }}</span>
+      <button  class="chat-button" style="width: 100%;height: 100%;background: transparent;" ></button>
+    </button>
+
+    <button ion-item detail-push class="ionitem-cls" ion-content>
+      <ion-icon item-start><img  src="assets/icon/perfil-bunch.png"></ion-icon>
+      <span>{{ "ProfilePage.bunch" | translate }}</span>
+      <button  class="chat-button" style="width: 100%;height: 100%;background: transparent;" ></button>
+    </button>
+    <button ion-button full class="publish-adv-btn" (click)="logout()">{{ "ProfilePage.signOff" | translate }}</button>
+  </ion-list>

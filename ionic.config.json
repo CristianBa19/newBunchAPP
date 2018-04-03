@@ -1,0 +1,8 @@
+{
+  "name": "Bunch",
+  "app_id": "fe7e3931",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}

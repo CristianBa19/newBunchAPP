@@ -1,0 +1,92 @@
+<ion-header class="header-cls">
+
+    <ion-toolbar>
+        <ion-buttons left>
+            <button icon-only ion-button class="backButton" (tap)="goBack()">
+                <img src="assets/icon/bt-regresar-menu.png" class="image-left">
+            </button>
+        </ion-buttons>
+        <ion-title class="titleStyle">{{ "PayPolicyPage.titleText" | translate }}</ion-title>
+    </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-row justify-content-center align-items-center class="title-wrap">
+        <ion-row justify-content-center align-items-center class="main">
+            <span>{{ "PayPolicyPage.congratulationsText" | translate }}</span>
+        </ion-row>
+        <ion-row justify-content-center align-items-center class="sub">
+            <span>{{ "PayPolicyPage.youHaveAcquiredText" | translate }}</span>
+        </ion-row>
+    </ion-row>
+    <ion-row justify-content-center align-items-center class="top-button-title">
+        <span>{{ "PayPolicyPage.qualitasJettaAutoInsuranceText" | translate }}</span>
+    </ion-row>
+    <ion-row justify-content-center align-items-center class="middle-container">
+        <ion-row justify-content-center align-items-center class="container-wrap">
+            <ion-row justify-content-center align-items-center class="container">
+                <ion-row justify-content-center align-items-center class="img-wrap pdf-img">
+                    <img src="assets/icon/bt-pdf.png">
+                </ion-row>
+                <ion-row justify-content-center align-items-center class="sub-text">
+                    <ion-row justify-content-center align-items-center>
+                        <span>{{ "PayPolicyPage.dischargeText" | translate }}</span>
+                    </ion-row>
+                    <ion-row justify-content-center align-items-center>
+                        <span>{{ "PayPolicyPage.myPolicyText" | translate }}</span>
+                    </ion-row>
+                </ion-row>
+            </ion-row>
+        </ion-row>
+        <ion-row justify-content-center align-items-center class="container-wrap" (tap)="goToProductsPage()">
+            <ion-row justify-content-center align-items-center class="container">
+                <ion-row justify-content-center align-items-center class="img-wrap product-menu-img">
+                    <img src="assets/icon/bt-product.png">
+                </ion-row>
+                <ion-row justify-content-center align-items-center class="sub-text">
+                    <ion-row justify-content-center align-items-center>
+                        <span>{{ "PayPolicyPage.badMoodText" | translate }}</span>
+                    </ion-row>
+                    <ion-row justify-content-center align-items-center>
+                        <span>{{ "PayPolicyPage.productsText" | translate }}</span>
+                    </ion-row>
+                </ion-row>
+            </ion-row>
+        </ion-row>
+    </ion-row>    
+    <ion-row>
+        <ion-row  class="item-wrapper">
+            <ion-row align-items-center class="sub-text">
+                <span>{{ "PayPolicyPage.insuranceCarrierText" | translate }}</span>
+            </ion-row>
+        </ion-row>
+        <ion-row class="item-wrapper">
+            <ion-row align-items-center class="sub-text">
+                <span>{{ "PayPolicyPage.policyText" | translate }}</span>
+            </ion-row>
+        </ion-row>
+        <ion-row class="item-wrapper">
+            <ion-row align-items-center class="sub-text">
+                <span>{{ "PayPolicyPage.descriptionText" | translate }}</span>
+            </ion-row>
+        </ion-row>
+        <ion-row class="item-wrapper">
+            <ion-row align-items-center class="sub-text">
+                <span>{{ "PayPolicyPage.validityText" | translate }}</span>
+            </ion-row>
+        </ion-row>
+        <ion-row class="item-wrapper">
+            <ion-row align-items-center class="sub-text">
+                <span>{{ "PayPolicyPage.totalPremiumText" | translate }}</span>
+            </ion-row>
+        </ion-row>
+        <ion-row class="item-wrapper">
+            <ion-row align-items-center class="sub-text">
+                <span>{{ "PayPolicyPage.frequencyOfPaymentMethodText" | translate }}</span>
+            </ion-row>
+        </ion-row>
+    </ion-row>
+</ion-content>
+

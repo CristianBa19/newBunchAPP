@@ -1,0 +1,161 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Adquirir producto</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+
+<ion-content padding>
+  <ion-segment [(ngModel)]="type">
+      <ion-segment-button value="client" class="border-segment-cls" style="border-right: 0 !important; border-top-right-radius: 0 !important;border-bottom-right-radius: 0 !important;">
+        Cliente
+      </ion-segment-button>
+      <ion-segment-button  value="product" class="border-segment-cls" style="border-left: 0 !important;border-top-left-radius: 0 !important;border-bottom-left-radius: 0 !important;">
+        Producto
+      </ion-segment-button>
+      <ion-segment-button  value="compare" class="border-segment-cls" style="border-left: 0 !important;border-top-left-radius: 0 !important;border-bottom-left-radius: 0 !important;">
+        Compara
+      </ion-segment-button>
+      <ion-segment-button  value="payment" class="border-segment-cls" style="border-left: 0 !important;border-top-left-radius: 0 !important;border-bottom-left-radius: 0 !important;">
+        Paga
+      </ion-segment-button>
+  </ion-segment>
+<!-- 
+  <div style="width:100%; min-height:80px;" (ngModel)="typeOfProduct">
+    <div class="type-container-stl"><span>{{typeOfProduct}}</span></div>
+  </div> -->
+ <ion-item class="ionitem-cls header-title">
+   <ion-label>{{typeOfProduct}}</ion-label>
+ </ion-item>
+  
+
+  <div [ngSwitch]="type">
+     <div  *ngSwitchCase="'client'" class="full-wrapper"></div>
+
+     <div  *ngSwitchCase="'product'" class="full-wrapper">      
+      <h2 class="label-stl">Buscar cliente</h2>
+      <ion-list [hidden]="!firstForm">
+      <ion-item class="ionitem-cls">
+        <ion-input type="text" placeholder="Revisa si tu amigo esta registrado"></ion-input>
+        <ion-buttons item-end>
+          <button class="detail-btn-cls" ><img src="assets/icon/buscar.png"></button>
+        </ion-buttons>
+      </ion-item>
+      <ion-item class="ionitem-cls">
+        <ion-label stacked class="label-stl">Nombre</ion-label>
+        <ion-input type="text" placeholder="Indica el nombre"></ion-input>
+      </ion-item> 
+      <ion-item class="ionitem-cls" (click)="launchPicker()">
+        <h2 stacked>Edad</h2>
+        <div>{{age}}</div>
+      </ion-item>      
+      <ion-item class="ionitem-cls">
+        <ion-label class="label-stl">Género</ion-label>
+        <ion-select [(ngModel)]="gender">
+          <ion-option value="f">Femenino</ion-option>
+          <ion-option value="m">Masculino</ion-option>
+        </ion-select>
+      </ion-item>
+       <ion-item class="ionitem-cls">
+        <ion-label stacked class="label-stl">Correo electronico</ion-label>
+        <ion-input type="email" placeholder="Indica el email"></ion-input>
+      </ion-item> 
+      <ion-item class="ionitem-cls">
+        <ion-label stacked class="label-stl">Telefono móvil</ion-label>
+        <ion-input type="number" placeholder="Indica el numero de telefono"></ion-input>
+      </ion-item> 
+      <ion-item class="ionitem-cls">
+        <ion-label stacked class="label-stl">Dirección</ion-label>
+        <ion-input type="text" placeholder="Indica lugar de residencia"></ion-input>
+      </ion-item> 
+      <ion-item class="ionitem-cls">
+        <ion-label stacked class="label-stl">Código postal</ion-label>
+        <ion-input type="text" placeholder="Indica el código postal"></ion-input>
+      </ion-item>
+      <ion-item class="ionitem-cls">
+        <ion-label stacked class="label-stl">Número Exterior</ion-label>
+        <ion-input type="text" placeholder="Indica el numero exterior"></ion-input>
+      </ion-item>
+      <ion-item class="ionitem-cls">
+        <ion-label stacked class="label-stl">Número interior</ion-label>
+        <ion-input type="text" placeholder="Indica el Numero interior"></ion-input>
+      </ion-item>    
+      <ion-item class="ionitem-cls">
+        <ion-label stacked class="label-stl">Colonia</ion-label>
+        <ion-input type="text" placeholder="Indica la colonia"></ion-input>
+      </ion-item>  
+      <ion-item class="ionitem-cls">
+        <ion-label stacked class="label-stl">Estado</ion-label>
+        <ion-input type="text" placeholder="Indica tu estado de residencia"></ion-input>
+      </ion-item> 
+      <ion-item class="ionitem-cls">
+        <ion-label stacked class="label-stl">Delegación</ion-label>
+        <ion-input type="text" placeholder="Indica la delegación"></ion-input>
+      </ion-item>
+      <button ion-button full class="publish-adv-btn" (click)="nextForm()">Guardar y continuar</button> 
+      </ion-list>
+      
+      
+      <ion-list [hidden]="firstForm">
+      <ion-item class="ionitem-cls">
+        <ion-label class="label-stl">Marca</ion-label>
+        <ion-select [(ngModel)]="bond">
+          <ion-option value="r">Renault</ion-option>
+          <ion-option value="f">Ferrari</ion-option>
+          <ion-option value="o">Opel</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item class="ionitem-cls">
+        <ion-label class="label-stl">Modelo</ion-label>
+        <ion-select [(ngModel)]="model">
+          <ion-option value="0">2015</ion-option>
+          <ion-option value="1">2016</ion-option>
+          <ion-option value="2">2017</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item class="ionitem-cls">
+        <ion-label stacked class="label-stl">Descripción</ion-label>
+        <ion-input type="text" placeholder="Indica la descripción"></ion-input>
+      </ion-item>
+      <ion-item class="ionitem-cls">
+        <ion-label stacked class="label-stl">Num. de Bastidor</ion-label>
+        <ion-input type="text" placeholder="Indica el bastidor"></ion-input>
+      </ion-item>
+      <ion-item class="ionitem-cls">
+        <ion-label stacked class="label-stl">Matricula</ion-label>
+        <ion-input type="text" placeholder="Indica la matricula"></ion-input>
+      </ion-item>      
+      <button ion-button full class="publish-adv-btn" (click)="compareSegment()">Siguiente</button> 
+      </ion-list>
+      
+
+
+     </div>
+     <div  *ngSwitchCase="'compare'" class="full-wrapper">
+       <ion-list>
+         <ion-item>
+           <div>Jetta 2014 Descripción 4ptas, ATM, etc.</div>
+         </ion-item>
+
+        <ion-item class="ionitem-cls">
+          <ion-label class="label-stl">Mejorar la descripción</ion-label>
+          <ion-select [(ngModel)]="model">
+            <ion-option value="0">No data</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <button ion-item detail-push class="ionitem-cls" ion-content *ngFor="let comp of comparativas">
+          <ion-icon item-start><img width="40" height="30" src="{{comp.img}}"></ion-icon>
+          <span>{{comp.text}}</span>
+          <button  class="chat-button notification-btn" style="width: 100%;height: 100%;background: transparent;" ></button>
+        </button>
+
+        <button ion-button full class="publish-adv-btn" (click)="paymentSegment()">Enviar cotización detallada al usuario</button> 
+       </ion-list>
+     </div>
+     <div  *ngSwitchCase="'payment'" class="full-wrapper"></div>
+      
+   </div>
+
+</ion-content>

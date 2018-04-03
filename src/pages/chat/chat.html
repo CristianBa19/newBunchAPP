@@ -1,0 +1,160 @@
+<ion-header class="header-cls">
+    <ion-toolbar>
+        <ion-buttons left>
+            <button icon-only ion-button class="backButton" (tap)="goBack()">
+                <img src="assets/icon/bt-regresar-menu.png" class="image-left">
+            </button>
+        </ion-buttons>
+        <ion-title class="titleStyle">Estás chateando con {{ "ChatPage.titleText" | translate }}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content #content padding>
+    <ion-list-header class="title-entrance-chat">{{buddy.displayName}}</ion-list-header>
+    
+    <ion-segment [(ngModel)]="type" [hidden]="isClient == 'false'">
+        <ion-segment-button value="bitacora" class="border-segment-cls" (tap)="setType('bitacora')" style="border-right: 0 !important;">
+            {{ "ChatPage.binnacleText" | translate }}
+        </ion-segment-button>
+    </ion-segment>
+    
+    <ion-segment [(ngModel)]="type" [hidden]="isClient == 'true'">
+        <ion-segment-button value="bitacora" class="border-segment-cls" (tap)="setType('bitacora')" style="border-right: 0 !important; border-top-right-radius: 0 !important;border-bottom-right-radius: 0 !important;">
+            {{ "ChatPage.binnacleText" | translate }}
+        </ion-segment-button>
+        <ion-segment-button value="oportunidades" class="border-segment-cls" (tap)="setType('oportunidades')" style="border-left: 0 !important;border-top-left-radius: 0 !important;border-bottom-left-radius: 0 !important;">
+            {{ "ChatPage.opportunitiesText" | translate }}
+        </ion-segment-button>
+    </ion-segment>
+    
+    <div class="fondoChat" [hidden]="type != 'bitacora'">
+        
+        <ion-list no-lines>
+            <ion-item *ngFor = "let item of allmessages; let i = index" class="ionintem-cls" text-wrap>                
+                <div class="bubble me" *ngIf="item.sentby != buddy.uid">
+                    <ion-avatar item-start [hidden]="item.mine">
+                        <img src="assets/icon/usuario-chat-2.png">
+                    </ion-avatar>              
+                    <h3>{{item.message}}</h3>
+                    <p>{{item.timestamp | date:"MM/dd/yyyy 'at' h:mma"}}</p>
+                </div>
+                <div class="bubble you" *ngIf="item.sentby === buddy.uid">
+                    <ion-avatar  [hidden]="item.mine">
+                        <img src="assets/icon/usuario-chat-1.png">
+                    </ion-avatar>
+                    <h3>{{item.message}}</h3>
+                    <p>{{item.timestamp | date:"dd/MM/yyyy 'a las' h:mma"}}</p>
+                </div>
+            </ion-item>
+        </ion-list>
+
+        <ion-list no-lines>
+            <ion-item *ngFor = "let item of allmessages; let i = index" class="ionintem-cls" text-wrap></ion-item>
+        </ion-list>
+    </div>
+
+    <ion-row [hidden]="type != 'oportunidades' " >
+        <ion-row *ngFor="let item of optionList" class="pago-tab">
+            <ion-row class="citation-wrap" (tap)="setType('oportunidadesItem', item)">
+                <ion-row class="padding-row">
+                    <ion-row class="top-text-wrap">
+                        <ion-row class="main-text">
+                            <span>{{item.nameOfProduct}}</span>
+                        </ion-row>
+                        <ion-row class="sub-text">
+                            <span>{{item.subNameOfProduct}}</span>
+                        </ion-row>
+                    </ion-row>
+                    <ion-row class="company-wrap">
+                        <ion-row align-items-center justify-content-center class="img-wrap">
+                            <img [src]="item.companyLogo">
+                        </ion-row>
+                        <ion-row  class="center-text-wrap">
+                            <ion-row justify-content-center class="main-text">
+                                <span>{{item.companyName}}</span>
+                            </ion-row>
+                            <ion-row justify-content-center class="sub-text">
+                                <span>{{item.companySubName}}</span>
+                            </ion-row>
+                        </ion-row>
+                        <ion-row class="end-text-wrap">
+                            <ion-row justify-content-center class="main-text">
+                                <span>{{item.itemValue}}</span>
+                            </ion-row>
+                            <ion-row justify-content-center class="sub-text">
+                                <span>{{item.itemSubValue}}</span>
+                            </ion-row>
+                        </ion-row>
+                    </ion-row>
+                    <ion-row justify-content-center class="continuar-text">
+                        <ion-row>
+                            <span>{{ "ChatPage.continueButtonText" | translate }}</span>
+                        </ion-row>
+                    </ion-row>
+                </ion-row>
+            </ion-row>
+        </ion-row>
+    </ion-row>
+    
+    <ion-row class="pago-tab" [hidden]="type != 'oportunidadesItem'">
+        <ion-row class="citation-wrap">
+            <ion-row class="padding-row">
+                <ion-row class="top-text-wrap">
+                    <ion-row class="main-text">
+                        <span>{{optionItem.nameOfProduct}}</span>
+                    </ion-row>
+                    <ion-row class="sub-text">
+                        <span>{{optionItem.subNameOfProduct}}</span>
+                    </ion-row>
+                </ion-row>
+                <ion-row class="company-wrap">
+                    <ion-row align-items-center justify-content-center class="img-wrap">
+                        <img [src]="optionItem.companyLogo">
+                    </ion-row>
+                    <ion-row  class="center-text-wrap">
+                        <ion-row justify-content-center class="main-text">
+                            <span>{{optionItem.companyName}}</span>
+                        </ion-row>
+                        <ion-row justify-content-center class="sub-text">
+                            <span>{{optionItem.companySubName}}</span>
+                        </ion-row>
+                    </ion-row>
+                    
+                    <ion-row class="end-text-wrap">
+                        <ion-row justify-content-center class="main-text">
+                            <span>{{optionItem.itemValue}}</span>
+                        </ion-row>
+                        <ion-row justify-content-center class="sub-text">
+                            <span>{{optionItem.itemSubValue}}</span>
+                        </ion-row>
+                    </ion-row>
+                </ion-row>
+                <ion-row>
+                    <ion-row class="main-text-title">
+                        <span>{{ "ChatPage.coveringText" | translate }}</span>
+                    </ion-row>
+                    <ion-row class="main-info-text-wrap">
+                        <ion-row class="main-text" *ngFor="let item of  optionItem.containerTexts">
+                            <span>{{item.mainText}}</span>
+                            <span class="sub-text">{{item.subText}}</span>
+                        </ion-row>
+                    </ion-row>
+                </ion-row>
+            </ion-row>
+        </ion-row>
+        <ion-row align-items-center justify-content-center class="bot-button" (tap)="goToAcquireProduct()">
+            <span>{{ "ChatPage.redistributeButtonText" | translate }}</span>
+        </ion-row>
+    </ion-row>
+</ion-content>
+
+<ion-footer ion-fixed>    
+    <ion-toolbar class="no-border" color="white">        
+        <ion-input [(ngModel)]="newmessage" placeholder="Escribe tu mensaje ..."></ion-input>  
+        <ion-buttons end>
+            <button ion-button (click)="addmessage()">
+                <ion-icon name="send" color="primary"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>    
+</ion-footer>

@@ -1,0 +1,99 @@
+page-advertisement {
+    .toolbar-md{
+        top:-20px;
+        z-index: 10;
+    }
+    ion-segment.segment.segment-ios.segment-ios-primary{
+        background-color: #eeeeee;
+    }
+    div.toolbar-background.toolbar-background-md{
+        background-color: #eeeeee;
+    }
+    .segment-ios-primary div.toolbar-background.toolbar-background-md{
+        background-color: #eeeeee;
+    }
+    .segment-ios-primary .segment-button{
+        background-color: #eeeeee;
+        min-width:34%;
+        font-size: 10px;
+    }
+    .segment-md .segment-button{
+        background-color: #eeeeee;
+        font-size:10px;
+        min-width:37%;
+        text-transform: none;
+    }
+    .scroll-content{
+        background-color: #eeeeee;
+    }
+
+    .tab-header-cls {
+        //background: url(../assets/img/splash2.jpg);
+        background-color: #2492ff;
+        background-position-y: 140px;
+        color: white;
+        margin: 0 auto;
+        background-size: cover;
+        min-height:20px; 
+        max-height: 70px;
+
+        div.divImg {
+            
+            position:relative;
+            //top: -65px;
+            width: 25%;
+            max-height: 50px;
+            //margin: -25px auto;
+            img {
+                position: relative;
+                width: 100px !important;
+                height: 100px !important;
+                top:-50px;
+                background-color: transparent;
+                ///height: 140px !important;
+                //margin-top: 15px;
+            }
+        }
+
+        .titleForm {
+            width: 90%;
+            margin: 5px auto;
+            text-align: center;
+        }    
+    }
+     
+    ion-list-header.list-header-cls {
+        font-family: RaleTitle;
+        font-size: 16px;
+        margin-top: -6px;
+        margin-bottom: 5px;
+        border-top: 0px !important;
+        background-color: transparent;
+        padding: 0;
+    }
+
+    .ionitem-cls {
+        border: 2px solid rgb(220,220,220) !important;
+        border-radius: 10px !important;
+        margin: -10px auto 15px;
+        .thumbnail-cls {
+            min-height: initial;
+            min-width: initial;
+            img {
+                height: 40px;
+                width: auto;
+            }
+        }
+    }
+    .detail-btn-cls {
+        background: transparent;
+    }
+    .scroll-content {
+        overflow-y: auto;
+    }
+    .publish-adv-btn{
+        border: 1px solid transparent;
+        border-radius: 10px;
+        background: rgb(34,146,192);
+    }
+}

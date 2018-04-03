@@ -1,0 +1,118 @@
+<ion-header class="header-cls">
+
+    <ion-toolbar>
+        <ion-buttons left>
+            <button icon-only ion-button class="backButton" (click)="goBack()">
+                <img src="assets/icon/bt-regresar-menu.png" class="image-left">
+            </button>
+        </ion-buttons>
+
+        <ion-title class="titleStyle">{{ "AdDetailPage.titleText" | translate }}</ion-title>
+    </ion-toolbar>
+
+</ion-header>
+
+<ion-content padding>
+    <ion-row>
+        <ion-row class="tabs-swap-wrap">
+            <ion-row align-items-center="" justify-content-center [ngClass]="{active:isAdTab}" (tap)="changeTab()">
+                <span>{{ "AdDetailPage.adText" | translate }}</span>
+            </ion-row>
+            <ion-row align-items-center justify-content-center [ngClass]="{active:!isAdTab}" (tap)="changeTab()">
+                <span>{{ "AdDetailPage.productText" | translate }}</span>
+            </ion-row>
+        </ion-row>
+        <ion-row [hidden]="!isAdTab">
+            <ion-row class="card-wrap">
+                <ion-row justify-content-center class="card-img">
+                    <img src="assets/img/tarjeta 2.png">
+                </ion-row>
+                <ion-row justify-content-center class="near-card">
+                    <ion-row justify-content-center class="send-wrap">
+                        <ion-row class="send-text-wrap">
+                            <span>{{ "AdDetailPage.sentText" | translate }}</span>
+                        </ion-row>
+                        <ion-row class="send-icon">
+                            <img src="assets/icon/enviado-no.png">
+                        </ion-row>
+                    </ion-row>
+                    <ion-row justify-content-center class="view-ad">
+                        <span>{{ "AdDetailPage.viewAdText" | translate }}</span>
+                    </ion-row>
+                </ion-row>
+            </ion-row>
+            <ion-list class="list-wrap">
+                <ion-item *ngFor="let listItem of adListOfOptions">
+                    <ion-row align-items-center class="text-wrap">
+                        <ion-row class="main-text">
+                            <span>{{listItem.mainText}}</span>
+                        </ion-row>
+                        <ion-row class="sub-text">
+                            <span>{{listItem.subText}}</span>
+                        </ion-row>
+                    </ion-row>
+                    <ion-row *ngIf="listItem.haveMoreTo == true" align-items-center class="arrow-button">
+                        <img src="assets/icon/bt-siguiente.png">
+                    </ion-row>
+                </ion-item>
+            </ion-list>
+            <ion-row justify-content-center align-items-center class="acquire-wrap" (tap)="goToAcquireProduct()">
+                <span>{{ "AdDetailPage.acquireText" | translate }}</span>
+            </ion-row>
+        </ion-row>
+        <ion-row [hidden]="isAdTab">
+            <ion-list class="list-wrap">
+                <ion-item *ngFor="let listItem of productTopList">
+                    <ion-row align-items-center class="text-wrap">
+                        <ion-row class="main-text">
+                            <span>{{listItem.mainText}}</span>
+                        </ion-row>
+                        <ion-row class="sub-text">
+                            <span>{{listItem.subText}}</span>
+                        </ion-row>
+                    </ion-row>
+                </ion-item>
+            </ion-list>
+            <ion-row class="tittle-texts">
+                <span>{{ "AdDetailPage.subscriptionText" | translate }}</span>
+            </ion-row>
+            <ion-list class="list-wrap">
+                <ion-item *ngFor="let listItem of productSuscriptionList">
+                    <ion-row align-items-center class="text-wrap">
+                        <ion-row class="main-text">
+                            <span>{{listItem.mainText}}</span>
+                        </ion-row>
+                        <ion-row class="sub-text">
+                            <span>{{listItem.subText}}</span>
+                        </ion-row>
+                    </ion-row>
+                    <ion-row align-items-center class="arrow-button">
+                        <img src="assets/icon/bt-siguiente.png">
+                    </ion-row>
+                </ion-item>
+            </ion-list>
+            <ion-row class="lists-container">
+                <ion-row class="tittle-texts">
+                    <span>{{ "AdDetailPage.requirementsText" | translate }}</span>
+                </ion-row>
+
+                <div class="requirement-list-wrap" *ngFor="let listItem of productRequirementsList">
+                    <img src="assets/icon/dot.png">
+                    <span>{{listItem.text}}</span>
+                </div>
+            </ion-row>
+            <ion-row class="lists-container">
+                <ion-row class="tittle-texts">
+                    <span>{{ "AdDetailPage.benefitsText" | translate }}</span>
+                </ion-row>
+                <div class="benefits-list-wrap" *ngFor="let listItem of productsBenefitsList">
+                    <img src="assets/icon/dot.png">
+                    <span>{{listItem.text}}</span>
+                </div>
+            </ion-row>
+            <ion-row justify-content-center align-items-center class="post-wrap">
+                <span>{{ "AdDetailPage.submitText" | translate }}</span>
+            </ion-row>
+        </ion-row>
+    </ion-row>
+</ion-content>

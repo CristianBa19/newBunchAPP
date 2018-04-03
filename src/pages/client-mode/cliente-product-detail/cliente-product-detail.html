@@ -1,0 +1,89 @@
+<ion-header class="header-cls">
+
+    <ion-toolbar>
+        <ion-buttons left>
+            <button icon-only ion-button (click)="goBack()">
+                <img src="assets/icon/bt-regresar-menu.png" class="image-left">
+            </button>
+        </ion-buttons>
+
+        <ion-title class="titleStyle">{{ "ClienteProductDetailPage.titleText" | translate }}</ion-title>
+    </ion-toolbar>
+
+</ion-header>
+
+<ion-content padding>
+    <ion-row>
+        <ion-row>
+            <ion-row class="card-wrap">
+                <ion-row justify-content-center class="card-img">
+                    <img src="assets/img/tarjeta 2.png">
+                </ion-row>
+                <ion-row justify-content-center class="near-card">
+                    <ion-row justify-content-center class="send-wrap">
+                        <ion-row justify-content-center class="send-icon">
+                            <img src="assets/icon/disponible.png">
+                        </ion-row>
+                        <ion-row justify-content-center class="send-text-wrap">
+                            <span>{{ "ClienteProductDetailPage.available" | translate }}</span>
+                        </ion-row>
+                    </ion-row>
+                    <ion-row align-items-center="" justify-content-center class="view-ad">
+                        <span>$5,240</span>
+                    </ion-row>
+                </ion-row>
+            </ion-row>
+            <ion-row justify-content-center align-items-center class="sequre-auto">
+                <span>{{ "ClienteProductDetailPage.carInsurance" | translate }}</span>
+            </ion-row>
+            <ion-row justify-content-center align-items-center class="main-text">
+                <span>GNP</span>
+            </ion-row>
+            <ion-row class="list-wrapper">
+                <ion-row class="item-wrapper">
+                    <ion-row class="tittle-texts">
+                        <span>{{ "ClienteProductDetailPage.requirements" | translate }}</span>
+                    </ion-row>
+
+                    <div class="requirement-list-wrap" *ngFor="let listItem of productRequirementsList">
+                        <img src="assets/icon/dot.png">
+                        <span>{{listItem.text}}</span>
+                    </div>
+                </ion-row>
+                <ion-row class="item-wrapper">
+                    <ion-row class="tittle-texts">
+                        <span>{{ "ClienteProductDetailPage.benefits" | translate }}</span>
+                    </ion-row>
+                    <div class="benefits-list-wrap" *ngFor="let listItem of productsBenefitsList">
+                        <img src="assets/icon/dot.png">
+                        <span>{{listItem.text}}</span>
+                    </div>
+                </ion-row>
+            </ion-row>
+            <ion-row align-items-center justify-content-center class="bot-button" (tap)="goToAcquireProduct()">
+                <span>{{ "ClienteProductDetailPage.toBuy" | translate }}</span>
+            </ion-row>
+            <ion-row align-items-center justify-content-center class="bot-button" >
+                <span>{{ "ClienteProductDetailPage.requestAdvisor" | translate }}</span>
+            </ion-row>
+            <!--<ion-list class="list-wrap">-->
+                <!--<ion-item *ngFor="let listItem of adListOfOptions">-->
+                    <!--<ion-row align-items-center class="text-wrap">-->
+                        <!--<ion-row class="main-text">-->
+                            <!--<span>{{listItem.mainText}}</span>-->
+                        <!--</ion-row>-->
+                        <!--<ion-row class="sub-text">-->
+                            <!--<span>{{listItem.subText}}</span>-->
+                        <!--</ion-row>-->
+                    <!--</ion-row>-->
+                    <!--<ion-row *ngIf="listItem.haveMoreTo == true" align-items-center class="arrow-button">-->
+                        <!--<img src="assets/icon/bt-siguiente.png">-->
+                    <!--</ion-row>-->
+                <!--</ion-item>-->
+            <!--</ion-list>-->
+            <!--<ion-row justify-content-center align-items-center class="acquire-wrap" (tap)="goToAcquireProduct()">-->
+                <!--<span>Adquirir</span>-->
+            <!--</ion-row>-->
+        </ion-row>
+    </ion-row>
+</ion-content>

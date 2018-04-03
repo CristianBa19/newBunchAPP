@@ -1,0 +1,31 @@
+<ion-content class="login-content" padding>    
+    <div><img class="logo" src="assets/img/Bunch.svg"></div>
+
+    <div class="login-box">
+        <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm)">
+            <ion-row>
+                <ion-col>
+                    <ion-list inset>                        
+                        <div class="divRow">
+                            <ion-input formControlName="user" type="email" placeholder='Email' class="user" [(ngModel)]="credentials.email"></ion-input>
+                        </div>
+                        <div class="divRow">
+                            <ion-input formControlName="pass" type="text" [placeholder]='"LoginPage.passwordInputPlaceholderText" | translate' class="pass" [(ngModel)]="credentials.password"></ion-input>
+                        </div>
+                    </ion-list>                    
+                    <p style="color:red;">{{message}}</p>
+                    <button type="button" ion-button class="form-btn" (click)="createAccount()">{{ "LoginPage.createAccaunText" | translate }} <ion-icon name="ios-arrow-forward"></ion-icon></button>
+                </ion-col>
+            </ion-row>
+            <ion-row>                
+                <button ion-button type="submit" class="products-btn">Iniciar sesión</button>
+            </ion-row>
+        </form>
+
+        <button ion-button class="form-btnX" (click)="forgotPass()">¿Olvidaste tu contraseña?</button>        
+
+        <ion-row>
+            <div class="footer-warn">{{ "LoginPage.footerWarnText" | translate }}</div>
+        </ion-row>
+    </div>
+</ion-content>

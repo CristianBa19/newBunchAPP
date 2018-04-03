@@ -1,0 +1,2202 @@
+import { Storage } from '@ionic/storage';
+import { Component } from '@angular/core';
+import { NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
+import { PaymentSubmittedPage } from "../payment-submited/payment-submited";
+import { DocumentDetailPage } from '../acquire-product/document-details/document-detail';
+import { PayPolicyPage } from '../acquire-product/pay-policy/pay-policy';
+import { ProductsPage } from '../products/products';
+import { ClienteProductDetailPage } from '../client-mode/cliente-product-detail/cliente-product-detail';
+import { AlertService } from '../../_helpers/alert.service'
+import { LocalizationModel } from '../../_helpers/localizationModel'
+import { IonicPage, Events, LoadingController, ToastController } from 'ionic-angular';
+import { Http, Headers } from '@angular/http';
+
+import 'rxjs/add/operator/retry';
+import 'rxjs/add/operator/timeout';
+import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/map';
+
+@Component({
+    selector: 'acquire-product-page',
+    templateUrl: 'acquire-product.html',
+})
+export class AcquireProductPage {
+    color = 'pink';
+    size = 16;
+    url: string;
+    data: string;
+
+    //Step 1
+
+    //Values
+    private codigoPostal1:number;
+    private edad:number;
+    private marca:string;
+    private modelo:string;    
+    private subMarca:string;
+    private descripcion:string;
+    private subDescripcion:string;    
+    
+    //Inputs
+    private inputModelo:any;
+    private inputSubMarca:any;
+    private inputDescripcion:any;
+    private inputSubDescripcion:any;    
+
+    //Lists
+    private marcaList:any;
+    private modeloList:any;
+    private subMarcaList:any;
+    private descripcionList:any;
+    private subDescripcionList:any;
+
+    //Step 2
+
+    //Values
+    private email:string;
+    private nombre:string;
+    private paterno:string;
+    private materno:string;
+    private fechaNacimiento:string;
+    private genero:string;
+    private telCasa:string;
+    private telMovil:string;
+    private rfc:string;
+    private nacionalidad:string;
+    private lugarNacimiento:string;
+    private codigoPostal2:string;
+    private colonia:string;
+    private estado:string;
+    private delegacion:string;
+    private calle:string;
+    private numExterior:string;
+    private numInterior:string;
+    private numMotor:string;
+    private numSerie:string;
+    private numPlacas:string;
+
+    //Step 5
+    private numTarjeta:number;
+    private tipoTarjeta:string;
+    private titular:string;
+    private banco:string;
+    private vigencia:string;
+    private cvv:number;
+    private aceptoCobros:any;
+
+    private gender:string;
+
+    public userBrandList = [];
+    isEnabled: boolean;
+    isEnabledTipo3: boolean;
+    isEnabledTipo3Dir: boolean;
+
+    aseguradoraCot: string;
+    edadCot: string;
+    emailCot: string;
+    nombreCot: string;
+    apellidoPCot: string;
+    apellidoMCot: string;
+    generoCot: string;
+    movilCot: string;
+    rfcCot: string;
+    noDePlacasCot: string;
+    noDeSerieCot: string;
+    noDeMotorCot: string;
+    lugarDeNacimientoCot: string;
+    cpCot: string;
+    calleCot: string;
+    noExtCot: string;
+    noIntCot: string;
+    coloniaCot: string;
+    delegacionCot: string;
+    estadoCot: string;
+    telefonoCasaCot: string;
+    claveCot: string;
+    noTarjetaCot: string;
+    titularCot: string;
+    bancoCot: string;
+    tipoCot: string;
+    cvvCot: string;
+    mesCot: string;
+    anioCot: string;
+    carrierCot: string;
+    idCliCot: string;
+    idDirCot: string;
+    idContCot: string;
+
+    private idContVend:number;
+
+    private fillStep1() {
+        this.codigoPostal1 = 79050;
+        this.edad = 29;
+        this.marca = 'CHEVROLET';
+        this.modelo = '2014';
+        this.subMarca = 'AVEO';
+        this.descripcion = 'A';
+        this.subDescripcion = 'PAQ A';
+    }
+
+    master() {        
+        document.getElementById("master").style.opacity = "1";
+        document.getElementById("visa").style.opacity = ".5";
+        document.getElementById("amex").style.opacity = ".5";
+    }
+    amex() {        
+        document.getElementById("master").style.opacity = ".5";
+        document.getElementById("visa").style.opacity = ".5";
+        document.getElementById("amex").style.opacity = "1";
+    }
+    visa() {        
+        document.getElementById("master").style.opacity = ".5";
+        document.getElementById("visa").style.opacity = "1";
+        document.getElementById("amex").style.opacity = ".5";
+    }    
+
+    ionViewDidLoad() {
+
+        let loader = this.loadingCtrl.create();
+
+        loader.present(); 
+
+        this.storage.get('name').then((val) => {
+            this.idContVend = val;            
+
+            this.inputModelo = document.getElementById('inputModelo');
+            this.inputSubMarca = document.getElementById('inputSubMarca');
+            this.inputDescripcion = document.getElementById('inputDescripcion');
+            this.inputSubDescripcion = document.getElementById('inputSubDescripcion');        
+            this.isEnabled = true;
+            loader.dismiss();
+            this.loadInputData('inputMarca');
+        });        
+    }    
+
+    showAlert(title:string, options:any, callback) {
+
+        if (options != undefined) {
+            options = {
+                inputs: options                
+            };
+        }
+        
+        let _alert = this.alertCtrl.create(options);
+        _alert.setTitle(title);
+        _alert.setCssClass('definidaX');
+        _alert.addButton('Cancelar');
+        _alert.addButton({
+            text: 'OK',
+            handler: data => {
+                setTimeout(function() {
+                    callback(data);
+                }, 100);
+            }
+        });
+        _alert.present();
+    }
+
+    loadInputData(inputId:string) {
+
+        let url,            
+            loader = this.loadingCtrl.create();
+
+        loader.present();        
+        
+        switch(inputId) {
+            case 'inputMarca':
+                url = 'http://test.alimx.mx/WebService.asmx/GetMarcasJSON?usuario=AhorraSeguros&password=Ah0rraS3guros2017';
+                break;
+            case 'inputModelo':
+                url = `http://test.alimx.mx/WebService.asmx/GetModelosJSON?usuario=AhorraSeguros&password=Ah0rraS3guros2017&marca=${this.marca}`;
+                break;            
+            case 'inputSubMarca':
+                url = `http://test.alimx.mx/WebService.asmx/GetDescripcionJSON?usuario=AhorraSeguros&password=Ah0rraS3guros2017&marca=${this.marca}&modelo=${this.modelo}`;
+                break;
+            case 'inputDescripcion':
+                url = `http://test.alimx.mx/WebService.asmx/GetSubDescripcionJSON?usuario=AhorraSeguros&password=Ah0rraS3guros2017&marca=${this.marca}&modelo=${this.modelo}&descripcion=${this.subMarca}`;                
+                break;
+            case 'inputSubDescripcion':
+                url = `http://test.alimx.mx/WebService.asmx/GetDetalleJSON?usuario=AhorraSeguros&password=Ah0rraS3guros2017&marca=${this.marca}&modelo=${this.modelo}&descripcion=${this.subMarca}&subdescripcion=${this.descripcion}`;
+                break;
+        }
+        
+        this.http.get(url).map(res => res.json()).subscribe(data => {            
+
+            switch(inputId) {
+                case 'inputMarca':
+                    this.marcaList = [];
+                    for (let i = 0, len = data.ListadoMarcas.length; i < len; i++) {
+                        this.marcaList.push(data.ListadoMarcas[i].Marca);
+                    }
+                    break;
+                case 'inputModelo':
+                    this.modeloList = [];
+                    for (let i = 0, len = data.ListadoDescripciones.length; i < len; i++) {
+                        this.modeloList.push(data.ListadoDescripciones[i].Modelo);                
+                    }
+                    this.inputModelo.classList.remove('disabled');
+                    break;
+                case 'inputSubMarca':
+                    this.subMarcaList = [];
+                    for (let i = 0, len = data.ListadoDescripciones.length; i < len; i++) {
+                        this.subMarcaList.push(data.ListadoDescripciones[i].Descripcion);
+                    }
+                    this.inputSubMarca.classList.remove('disabled');
+                    break;
+                case 'inputDescripcion':
+                    this.descripcionList = [];
+                    for (let i = 0, len = data.ListadoSubDescripciones.length; i < len; i++) {
+                        this.descripcionList.push(data.ListadoSubDescripciones[i].SubDescripcion);
+                    }
+                    this.inputDescripcion.classList.remove('disabled');
+                    break;
+                case 'inputSubDescripcion':
+                    this.subDescripcionList = [];
+                    for (let i = 0, len = data.ListadoDetalles.length; i < len; i++) {
+                        this.subDescripcionList.push(data.ListadoDetalles[i].Detalle);
+                    }
+                    console.warn('subDescripcionList', this.subDescripcionList);
+                    this.inputSubDescripcion.classList.remove('disabled');
+                    break;                    
+            }
+
+            loader.dismiss();
+        }, err => {
+            console.error({err, url});
+            loader.dismiss();
+            alert('Error');
+        });
+    }
+
+    async validatePostalCode(postalCode) {
+
+        let  url = `http://services.bunch.guru/WebService.asmx/ConsultaCP?CPostal=${postalCode}`;
+        return await new Promise((resolve, reject) => {
+            this.http.get(url)
+            .map(res => res.json())
+            .subscribe(data => {                
+                resolve(data);
+            }, err => {                
+                reject(err);
+            });            
+        });        
+    }
+    
+    showAlertCP1() {
+
+        
+        let that = this,
+            title = this.isEnglish ? 'Input ZIP code' :  'Código Postal',
+            options = [{ type: 'number', name: 'codigoPostal1' }];
+        
+        this.showAlert(title, options, function(data) {
+
+            let cp = data.codigoPostal1,
+                loader = that.loadingCtrl.create({
+                    content: 'Validando código postal'
+                });
+            loader.present();
+
+            that.validatePostalCode(cp).then(data => {
+
+                loader.dismiss();
+
+                if (data['Colonias'].length == 0 && data['Estado'] == null && data['Municipio'] == null) {                        
+                    let toaster = that.toastCtrl.create({
+                        duration: 3000,
+                        position: 'bottom'
+                    });
+                    toaster.setMessage('Código postal inválido');
+                    toaster.present();
+                    that.showAlertCP1();
+                } else {
+                    that.codigoPostal1 = cp;                        
+                }
+            });
+        });
+    }
+    
+    showAlertEdad() {
+
+        let that = this,
+            title = this.isEnglish ? 'Choose your age' : 'Elija su edad',
+            options = [];
+        
+        for (let edad of this.edadList) {
+            options.push({
+                type: 'radio',
+                label: '' + edad,
+                value: '' + edad
+            });            
+        }
+
+        this.showAlert(title, options, function(data) {
+            that.edad = data;
+        });                    
+    }
+        
+    showAlertMarca() {
+
+        let that = this,
+            title = this.isEnglish ? 'Choose brand' : 'Elija la marca',
+            options = [];
+
+        for (let marca of this.marcaList) {
+            options.push({
+                type: 'radio',
+                label: marca,
+                value: marca
+            });
+        }
+        
+        this.showAlert(title, options, function(data) {
+            that.marca = data;
+            that.modelo = undefined;
+            that.subMarca = undefined;
+            that.descripcion = undefined;
+            that.subDescripcion = undefined;                
+
+            that.inputModelo.classList.add('disabled');
+            that.inputSubMarca.classList.add('disabled');
+            that.inputDescripcion.classList.add('disabled');
+            that.inputSubDescripcion.classList.add('disabled');                
+
+            that.loadInputData('inputModelo');                
+        });
+    }    
+
+    showAlertModelo() {
+        
+        if (this.hasClass(this.inputModelo, 'disabled')) {return;}
+
+        let that = this,
+            title = this.isEnglish ? 'Choose model ' : 'Elija el modelo',
+            options = [];
+
+        for (let modelo of this.modeloList) {
+            options.push({
+                type: 'radio',
+                label: modelo,
+                value: modelo
+            });
+        }
+        
+        this.showAlert(title, options, function(data) {
+            that.modelo = data;                
+            that.subMarca = undefined;
+            that.descripcion = undefined;
+            that.subDescripcion = undefined;                
+            
+            that.inputSubMarca.classList.add('disabled');
+            that.inputDescripcion.classList.add('disabled');
+            that.inputSubDescripcion.classList.add('disabled');
+
+            that.loadInputData('inputSubMarca');
+        });                
+    }
+
+    showAlertSubMarca() {
+
+        if (this.hasClass(this.inputSubMarca, 'disabled')) {return;}
+
+        let that = this,
+            title = this.isEnglish ? 'Choose sub brand' : 'Elija sub marca',
+            options = [];
+
+        for (let subMarca of this.subMarcaList) {
+            options.push({
+                type: 'radio',
+                label: subMarca,
+                value: subMarca
+            });
+        }
+                        
+        this.showAlert(title, options, function(data) {
+            that.subMarca = data;                
+            that.descripcion = undefined;
+            that.subDescripcion = undefined;                
+            
+            that.inputDescripcion.classList.add('disabled');
+            that.inputSubDescripcion.classList.add('disabled');                
+
+            that.loadInputData('inputDescripcion');
+        });                
+    }
+
+    showAlertDescripcion() {
+
+        if (this.hasClass(this.inputDescripcion, 'disabled')) {return;}
+
+        let that = this,
+            options = [];
+        for (let descripcion of this.descripcionList) {
+            options.push({
+                type: 'radio',
+                label: descripcion,
+                value: descripcion
+            });
+        }
+
+        this.showAlert('Elija descripción', options, function(data) {
+            that.descripcion = data;                
+            that.subDescripcion = undefined;
+            that.inputSubDescripcion.classList.add('disabled');
+            that.loadInputData('inputSubDescripcion');
+        });            
+    }    
+
+    showAlertSubDescripcion() {
+
+        if (this.hasClass(this.inputSubDescripcion, 'disabled')) {return;}
+
+        let options = [],
+            that = this;
+        for (let subDescripcion of this.subDescripcionList) {
+            options.push({
+                type: 'radio',
+                label: subDescripcion,
+                value: subDescripcion
+            });
+        }
+
+        this.showAlert('Elija sub descripción', options, function(data) {
+            that.subDescripcion = data;
+        });        
+    }
+        
+    showAlertColony() {
+        if (this.isEnabledTipo3Dir == true) {
+
+            let title = this.isEnglish?'Choose colony':'Elegir colonia',
+                options = [],
+                that = this;
+
+            for (let item of this.userColonyList) {
+                options.push({
+                    type: 'radio',
+                    label: item,
+                    value: item
+                });
+            }
+
+            this.showAlert(title, options, function(data) {
+                that.colonia = data;
+            });                    
+        }
+    }
+    hasClass(htmlElement:any, clase:string):boolean {
+
+        if (htmlElement['className'].indexOf(clase) === -1) {
+            return false;
+        } else {
+            return true;
+        }        
+    }
+
+    getBuscar() {
+        let url = "",            
+            aseguradora,
+            clave,
+            descripcion,
+            aseguradoras = [],
+            obj,
+            loader = this.loadingCtrl.create();
+
+        loader.present(); 
+
+        url = `http://test.alimx.mx/WebService.asmx/BuscarJSON?usuario=AhorraSeguros&password=Ah0rraS3guros2017&marca=${this.marca}&modelo=${this.modelo}&descripcion=${this.subMarca}&subdescripcion=${this.descripcion}&detalle=${this.subDescripcion}`;
+        this.http.get(url).map(res => res.json()).subscribe(data => {            
+            for (let i = 0, len = data.Catalogo.length; i < len; i++) {
+                obj = data.Catalogo[i];
+                aseguradora = obj.Aseguradora;                
+                if (aseguradora.toUpperCase() != 'ZURICH' && aseguradora.toUpperCase() != 'BANORTE') {
+                    clave = obj.CatDescripciones[0].clave;
+                    descripcion = obj.CatDescripciones[0].Descripcion;
+                    aseguradoras.push({aseguradora, clave, descripcion});                    
+                }                
+            }
+
+            loader.dismiss();            
+            this.cotizarAseguradoras(aseguradoras);
+        }, err => {            
+            loader.dismiss();            
+            console.error({err});
+            alert('Error');
+        });
+    }
+
+    cotizarAseguradoras(aseguradoras:any, index:number = 0, loader:any = null) {
+        let _this = this,
+            obj = aseguradoras[index];        
+
+        if (loader == null) {
+            loader = this.loadingCtrl.create();
+            loader.present();
+        }
+        
+        if (obj == undefined) {
+            loader.dismiss();
+        } else {
+            this.loadCotizacion(obj.aseguradora, obj.clave, obj.descripcion, function() {                                
+                _this.cotizarAseguradoras(aseguradoras, ++index, loader);
+            });
+        }
+    }
+
+    loadCotizacion(aseguradora, clave, descripcionAseguradora, callback) {
+
+        console.log('loadCotizacion', {aseguradora, clave, descripcionAseguradora});
+
+        var str = "";
+        var str2 = "";
+        var strJ = "";
+        var conta = 0;
+        var data2 = "";
+        var data3 = "";
+        var data4 = "";
+        var data5 = "";
+        var data6 = "";
+        var data7 = "";
+        var data8 = "";
+        
+        var displayPrimaTotal = "";
+        var displayPrimaTotalInt = 0;
+
+        var displayDanosMateriales = "";
+        var displayRoboTotal = "";
+        var displayRCPersonas = "";
+        var displayRC = "";
+        var displayDefensaJuridica = "";
+        var displayGastosMedicosOcupantes = "";
+
+        //Variables para los deducibles
+        var displayDanosMaterialesD = "";
+        var displayRoboTotalD = "";
+        var displayRCPersonasD = "";
+        var displayRCD = "";
+        var displayDefensaJuridicaD = "";
+        var displayGastosMedicosOcupantesD = "";
+        var fecha = new Date();
+        var ano = fecha.getFullYear();
+        var anioFechaNac = ano - this.edad;        
+        var myJSON = '{"Aseguradora":"' + aseguradora + '","Cliente":{"TipoPersona":null,"Nombre":null,"ApellidoPat":null,"ApellidoMat":null,"RFC":null,"FechaNacimiento":"01/01/' + anioFechaNac + '","Ocupacion":null,"CURP":null,"Direccion":{"Calle":null,"NoExt":null,"NoInt":null,"Colonia":null,"CodPostal":"' + this.codigoPostal1 + '","Poblacion":null,"Ciudad":null,"Pais":null},"Edad":' + this.edad + ',"Genero":"Masculino","Telefono":null,"Email":null},"Vehiculo":{"Uso":"PARTICULAR","Marca":"' + this.marca + '","Modelo":"' + this.modelo + '","NoMotor":"","NoSerie":"","NoPlacas":"","Descripcion":"' + descripcionAseguradora + '","CodMarca":"","CodDescripcion":"","CodUso":"","Clave":"' + clave + '","Servicio":"PARTICULAR"},"Coberturas":[],"Paquete":"AMPLIA","Descuento":null,"PeriodicidadDePago":0,"Cotizacion":{"PrimaTotal":null,"PrimaNeta":null,"Derechos":null,"Impuesto":null,"Recargos":null,"PrimerPago":null,"PagosSubsecuentes":null,"IDCotizacion":null,"CotID":null,"VerID":null,"CotIncID":null,"VerIncID":null,"Resultado":null},"Emision":{"PrimaTotal":null,"PrimaNeta":null,"Derechos":null,"Impuesto":null,"Recargos":null,"PrimerPago":null,"PagosSubsecuentes":null,"IDCotizacion":null,"Terminal":null,"Documento":null,"Poliza":null,"Resultado":null},"Pago":{"MedioPago":null,"NombreTarjeta":null,"Banco":null,"NoTarjeta":null,"MesExp":null,"AnioExp":null,"CodigoSeguridad":null,"NoClabe":null,"Carrier":0},"CodigoError":null,"urlRedireccion":null}';
+                
+        let enStr = btoa(`usuario=Bunch&Password=BunCH2O18&data=${myJSON}&movimiento=cotizacion&idContVend=${this.idContVend}`),
+            url = `http://services.bunch.guru/WebService.asmx/CotizacionEmisionJSON?param=${enStr}`; //'http://core.alimx.mx/webservice.asmx/CotizacionEmisionJSON?usuario=AhorraSeguros&password=Ah0rraS3guros2017&data=' + myJSON + '&movimiento=cotizacion';
+        
+        this.http.get(url).map(res2 => res2.json()).subscribe(data2 => {
+
+            console.log('success', aseguradora);
+
+            var data3 = '',
+                data4 = '',
+                data5 = '',
+                data6 = '',
+                data7 = '',
+                data8 = '',
+                coberturas = data2.Coberturas[0];
+
+            if (coberturas != undefined) {
+                data3 = coberturas.DanosMateriales;
+                data4 = coberturas.RoboTotal;
+                data5 = coberturas.RCPersonas;
+                data6 = coberturas.RC;
+                data7 = coberturas.DefensaJuridica;
+                data8 = coberturas.GastosMedicosOcupantes;
+            }
+
+            displayDanosMateriales = (JSON.stringify(data3)).replace(/"|-N|-S|DAÑOS|MATERIALES/g, '');
+            displayRoboTotal = (JSON.stringify(data4)).replace(/"|-N|-S|ROBO|TOTAL/g, '');
+            displayRCPersonas = (JSON.stringify(data5)).replace(/"|-N|-S|NRC|PERSONAS|RESPONSABILIDAD|CIVIL|PERSONAS|NO|APLICA|RC|-|D|-/g, '');
+            displayRC = (JSON.stringify(data6)).replace(/"|-N|-S|-D|RESPONSABILIDAD|CIVIL|NO|APLICA|No|aplica/g, '');
+            displayDefensaJuridica = (JSON.stringify(data7)).replace(/"|-N|-S|-D|GASTOS|ES|ASISTENCIA|LEGAL|PROVIAL|LEGALES/g, '');
+            displayGastosMedicosOcupantes = (JSON.stringify(data8)).replace(/"|-N|-S|-D|GASTOS|MÉDICOS|OCUPANTES/g, '');            
+
+            //seccion para la recepcion de la primaTotal y su conversion a int
+            displayPrimaTotal = '';
+            data2 = data2.Cotizacion.PrimaTotal;            
+            
+            if (data2 != null && isNaN(data2) == false) {
+                str = JSON.stringify(data2);
+                displayPrimaTotal = str.replace(/"|,|\$/g, '');
+                displayPrimaTotalInt = Math.ceil(parseInt(displayPrimaTotal));
+                displayPrimaTotal = displayPrimaTotalInt.toLocaleString();
+                displayPrimaTotal = '$' + displayPrimaTotal;
+            }            
+
+            //para los daños materiales
+            displayDanosMaterialesD = displayDanosMateriales.split('-D')[1];
+            displayDanosMateriales = parseInt(displayDanosMateriales.split('-D')[0]).toLocaleString();
+            displayDanosMateriales = '$' + displayDanosMateriales;
+            if (displayDanosMateriales === '$NaN') {
+                displayDanosMateriales = '-';
+            }            
+
+            //para el robo total
+            displayRoboTotalD = displayRoboTotal.split('-D')[1];
+            displayRoboTotal = parseInt(displayRoboTotal.split('-D')[0]).toLocaleString();
+            displayRoboTotal = '$' + displayRoboTotal;
+            if (displayRoboTotal === '$NaN') {
+                displayRoboTotal = '-';
+            }            
+
+            //Def juridica
+            //displayDefensaJuridicaD=displayDefensaJuridica.split('-D')[1];
+            displayDefensaJuridica = parseInt(displayDefensaJuridica.split('-D')[0]).toLocaleString();
+            displayDefensaJuridica = '$' + displayDefensaJuridica;
+            if (displayDefensaJuridica === '$NaN') {
+                displayDefensaJuridica = '-';
+            }            
+
+            //Gastos medicos ocupantes
+            displayGastosMedicosOcupantesD = displayGastosMedicosOcupantes.split('-D')[0];
+            if (displayGastosMedicosOcupantesD === '  Amparada')
+                displayGastosMedicosOcupantes = 'Amparada';
+            else {
+                displayGastosMedicosOcupantes = parseInt(displayGastosMedicosOcupantes.split('-D')[0]).toLocaleString();
+                displayGastosMedicosOcupantes = '$' + displayGastosMedicosOcupantes;
+            }
+            if (displayGastosMedicosOcupantes === '$NaN') {
+                displayGastosMedicosOcupantes = '-';
+            }            
+
+            //RC Personas         
+            if (displayRCPersonasD === '  Amparada -')
+                displayRCPersonasD = 'Amparada';
+            else
+                displayRCPersonasD = '$' + displayRCPersonasD;
+            if (displayRCPersonasD === '$')
+                displayRCPersonasD = '-';                
+
+            aseguradora = aseguradora.replace(/"/g, '');
+            document.getElementById("nombreAuto").innerHTML = this.marca + ' ' + this.modelo;
+            document.getElementById("descrAuto").innerHTML = this.descripcion;
+            document.getElementById("subDescrAuto").innerHTML = this.subDescripcion;            
+            
+            if (aseguradora === 'ABA' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
+
+                this.comparaList.push({
+                    clave: clave,
+                    asegur: aseguradora,
+                    img: "assets/icon/logo/asegurdoras-aba.svg",
+                    value: displayPrimaTotal,
+                    danosMateriales: displayDanosMateriales,
+                    danosMaterialesD: displayDanosMaterialesD,
+                    roboTotal: displayRoboTotal,
+                    roboTotalD: displayRoboTotalD,
+                    RCPersonas: displayRCPersonas,
+                    RCPersonasD: displayRCPersonasD,
+                    RC: displayRC,
+                    RCD: displayRCD,
+                    DefensaJuridica: displayDefensaJuridica,
+                    DefensaJuridicaD: displayDefensaJuridicaD,
+                    GastosMedicosOcupantes: displayGastosMedicosOcupantes,
+                    GastosMedicosOcupantesD: displayGastosMedicosOcupantesD
+
+                });
+                callback();
+            } else if (aseguradora === 'ANA') {
+                                                  
+                this.http.get(url).map(res3 => res3.json()).subscribe(data3 => {
+
+                    console.log('ANA data', {data3});
+
+                    let codigoError = data3.CodigoError;
+                    //if (codigoError != null) {
+                        console.error({codigoError});
+                    //} else {
+                        //para la primatotal
+                        displayPrimaTotal = '';
+                        let primaAna = data3.Cotizacion.PrimaTotal;
+                        if (primaAna != null && isNaN(primaAna) == false) {
+                            displayPrimaTotal = primaAna.replace(/"|,|\$/g, '');
+                            displayPrimaTotalInt = Math.ceil(parseInt(displayPrimaTotal));
+                            displayPrimaTotal = displayPrimaTotalInt.toLocaleString();
+                            displayPrimaTotal = '$' + displayPrimaTotal;
+                        }                        
+
+                        if (data3.Coberturas[0] != undefined) {
+                            displayDanosMateriales = (JSON.stringify(data3.Coberturas[0].DanosMateriales)).replace(/"|-N|-S|DAÑOS|MATERIALES/g, '');
+                            displayRoboTotal = (JSON.stringify(data3.Coberturas[0].RoboTotal)).replace(/"|-N|-S|ROBO|TOTAL/g, '');
+                            displayRCPersonas = (JSON.stringify(data3.Coberturas[0].RCPersonas)).replace(/"|-N|-S|NRC|PERSONAS|RESPONSABILIDAD|CIVIL|PERSONAS|NO|APLICA|RC|-|D|-/g, '');
+                            displayRC = (JSON.stringify(data3.Coberturas[0].RC)).replace(/"|-N|-S|-D|RESPONSABILIDAD|CIVIL|NO|APLICA|No|aplica/g, '');
+                            displayDefensaJuridica = (JSON.stringify(data3.Coberturas[0].DefensaJuridica)).replace(/"|-N|-S|-D|GASTOS|ES|ASISTENCIA|LEGAL|PROVIAL|LEGALES/g, '');
+                            displayGastosMedicosOcupantes = (JSON.stringify(data3.Coberturas[0].GastosMedicosOcupantes)).replace(/"|-N|-S|-D|GASTOS|MÉDICOS|OCUPANTES/g, '');
+
+                            displayDanosMaterialesD = displayDanosMateriales.split('-D')[1];
+                            displayDanosMateriales = parseInt(displayDanosMateriales.split('-D')[0]).toLocaleString();
+                            displayDanosMateriales = '$' + displayDanosMateriales;
+                            if (displayDanosMateriales === '$NaN') {
+                                displayDanosMateriales = '-';
+                            }
+
+                            //para el robo total
+                            displayRoboTotalD = displayRoboTotal.split('-D')[1];
+                            displayRoboTotal = parseInt(displayRoboTotal.split('-D')[0]).toLocaleString();
+                            displayRoboTotal = '$' + displayRoboTotal;
+                            if (displayRoboTotal === '$NaN') {
+                                displayRoboTotal = '-';
+                            }
+
+                            this.comparaList.push({
+                                clave: clave,
+                                asegur: aseguradora,
+                                img: "assets/icon/logo/asegurdoras-ana.svg",
+                                value: displayPrimaTotal,
+                                danosMateriales: displayDanosMateriales,
+                                danosMaterialesD: displayDanosMaterialesD,
+                                roboTotal: displayRoboTotal,
+                                roboTotalD: displayRoboTotalD,
+                                RCPersonas: displayRCPersonas,
+                                RCPersonasD: displayRCPersonasD,
+                                RC: displayRC,
+                                RCD: displayRCD,
+                                DefensaJuridica: displayDefensaJuridica,
+                                DefensaJuridicaD: displayDefensaJuridicaD,
+                                GastosMedicosOcupantes: displayGastosMedicosOcupantes,
+                                GastosMedicosOcupantesD: displayGastosMedicosOcupantesD
+                            });
+                        }                                                
+                    //}
+                    callback();
+                }, err => {                    
+                    console.error('error', aseguradora, {url, err});
+                    callback();
+                });
+            } else if (aseguradora === 'AXA' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
+                this.comparaList.push({
+                    clave: clave,
+                    asegur: aseguradora,
+                    img: "assets/icon/logo/asegurdoras-axa.svg",
+                    value: displayPrimaTotal,
+                    danosMateriales: displayDanosMateriales,
+                    danosMaterialesD: displayDanosMaterialesD,
+                    roboTotal: displayRoboTotal,
+                    roboTotalD: displayRoboTotalD,
+                    RCPersonas: displayRCPersonas,
+                    RCPersonasD: displayRCPersonasD,
+                    RC: displayRC,
+                    RCD: displayRCD,
+                    DefensaJuridica: displayDefensaJuridica,
+                    DefensaJuridicaD: displayDefensaJuridicaD,
+                    GastosMedicosOcupantes: displayGastosMedicosOcupantes,
+                    GastosMedicosOcupantesD: displayGastosMedicosOcupantesD
+                });
+                callback();
+            } else  if (aseguradora === 'BANORTE' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
+                this.comparaList.push({
+                    clave: clave,
+                    asegur: aseguradora,
+                    img: "assets/icon/logo/asegurdoras-banorte.svg",
+                    value: displayPrimaTotal,
+                    danosMateriales: displayDanosMateriales,
+                    danosMaterialesD: displayDanosMaterialesD,
+                    roboTotal: displayRoboTotal,
+                    roboTotalD: displayRoboTotalD,
+                    RCPersonas: displayRCPersonas,
+                    RCPersonasD: displayRCPersonasD,
+                    RC: displayRC,
+                    RCD: displayRCD,
+                    DefensaJuridica: displayDefensaJuridica,
+                    DefensaJuridicaD: displayDefensaJuridicaD,
+                    GastosMedicosOcupantes: displayGastosMedicosOcupantes,
+                    GastosMedicosOcupantesD: displayGastosMedicosOcupantesD
+                });
+                callback();
+            } else if (aseguradora === 'GMX' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
+                this.comparaList.push({
+                    clave: clave,
+                    asegur: aseguradora,
+                    img: "assets/icon/logo/asegurdoras-gmx.svg",
+                    value: displayPrimaTotal,
+                    danosMateriales: displayDanosMateriales,
+                    danosMaterialesD: displayDanosMaterialesD,
+                    roboTotal: displayRoboTotal,
+                    roboTotalD: displayRoboTotalD,
+                    RCPersonas: displayRCPersonas,
+                    RCPersonasD: displayRCPersonasD,
+                    RC: displayRC,
+                    RCD: displayRCD,
+                    DefensaJuridica: displayDefensaJuridica,
+                    DefensaJuridicaD: displayDefensaJuridicaD,
+                    GastosMedicosOcupantes: displayGastosMedicosOcupantes,
+                    GastosMedicosOcupantesD: displayGastosMedicosOcupantesD
+                });
+                callback();
+            } else if (aseguradora === 'GNP') {
+                
+                var primaGNP = '';
+                this.http.get(url).map(res3 => res3.json()).subscribe(data3 => {
+                    
+                    console.warn('GNP data', {data3});
+
+                    let codigoError = data3.CodigoError;
+                    //if (codigoError != null) {
+                        console.error({codigoError});
+                    //} else {
+                        //para la primatotal
+                        primaGNP = data3.Cotizacion.PrimaTotal;
+                        displayPrimaTotal = primaGNP.replace(/"|,|\$/g, '');
+                        displayPrimaTotalInt = Math.ceil(parseInt(displayPrimaTotal));
+                        displayPrimaTotal = displayPrimaTotalInt.toLocaleString();
+                        displayPrimaTotal = '$' + displayPrimaTotal;
+                        displayDanosMateriales = (JSON.stringify(data3.Coberturas[0].DanosMateriales)).replace(/"|-N|-S|DAÑOS|MATERIALES/g, '');
+                        displayRoboTotal = (JSON.stringify(data3.Coberturas[0].RoboTotal)).replace(/"|-N|-S|ROBO|TOTAL/g, '');
+                        displayRCPersonas = (JSON.stringify(data3.Coberturas[0].RCPersonas)).replace(/"|-N|-S|NRC|PERSONAS|RESPONSABILIDAD|CIVIL|PERSONAS|NO|APLICA|RC|-|D|-/g, '');
+                        displayRC = (JSON.stringify(data3.Coberturas[0].RC)).replace(/"|-N|-S|-D|RESPONSABILIDAD|CIVIL|NO|APLICA|No|aplica/g, '');
+                        displayDefensaJuridica = (JSON.stringify(data3.Coberturas[0].DefensaJuridica)).replace(/"|-N|-S|-D|GASTOS|ES|ASISTENCIA|LEGAL|PROVIAL|LEGALES/g, '');
+                        displayGastosMedicosOcupantes = (JSON.stringify(data3.Coberturas[0].GastosMedicosOcupantes)).replace(/"|-N|-S|-D|GASTOS|MÉDICOS|OCUPANTES/g, '');
+
+                        displayDanosMaterialesD = displayDanosMateriales.split('-D')[1];
+                        displayDanosMateriales = parseInt(displayDanosMateriales.split('-D')[0]).toLocaleString();
+                        displayDanosMateriales = '$' + displayDanosMateriales;
+                        if (displayDanosMateriales === '$NaN') {
+                            displayDanosMateriales = '-';
+                        }
+
+                        //para el robo total
+                        displayRoboTotalD = displayRoboTotal.split('-D')[1];
+                        displayRoboTotal = parseInt(displayRoboTotal.split('-D')[0]).toLocaleString();
+                        displayRoboTotal = '$' + displayRoboTotal;
+                        if (displayRoboTotal === '$NaN') {
+                            displayRoboTotal = '-';
+                        }
+
+                        this.comparaList.push({
+                            clave: clave,
+                            asegur: aseguradora,
+                            img: "assets/icon/logo/asegurdoras-gnp.svg",
+                            value: displayPrimaTotal,
+                            danosMateriales: displayDanosMateriales,
+                            danosMaterialesD: displayDanosMaterialesD,
+                            roboTotal: displayRoboTotal,
+                            roboTotalD: displayRoboTotalD,
+                            RCPersonas: displayRCPersonas,
+                            RCPersonasD: displayRCPersonasD,
+                            RC: displayRC,
+                            RCD: displayRCD,
+                            DefensaJuridica: displayDefensaJuridica,
+                            DefensaJuridicaD: displayDefensaJuridicaD,
+                            GastosMedicosOcupantes: displayGastosMedicosOcupantes,
+                            GastosMedicosOcupantesD: displayGastosMedicosOcupantesD
+                        });
+                    //}                        
+                    callback();
+                }, err => {                    
+                    console.error('error', aseguradora, {url, err});
+                    callback();
+                });
+            } else  if (aseguradora === 'GREAT' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
+                this.comparaList.push({
+                    clave: clave,
+                    asegur: aseguradora,
+                    img: "assets/icon/logo/asegurdoras-great.svg",
+                    value: displayPrimaTotal,
+                    danosMateriales: displayDanosMateriales,
+                    danosMaterialesD: displayDanosMaterialesD,
+                    roboTotal: displayRoboTotal,
+                    roboTotalD: displayRoboTotalD,
+                    RCPersonas: displayRCPersonas,
+                    RCPersonasD: displayRCPersonasD,
+                    RC: displayRC,
+                    RCD: displayRCD,
+                    DefensaJuridica: displayDefensaJuridica,
+                    DefensaJuridicaD: displayDefensaJuridicaD,
+                    GastosMedicosOcupantes: displayGastosMedicosOcupantes,
+                    GastosMedicosOcupantesD: displayGastosMedicosOcupantesD
+                });
+                callback();
+            } else if (aseguradora === 'HDI') {
+                                    
+                this.http.get(url).timeout(500000).map(res3 => res3.json()).subscribe(data3 => {
+                    
+                    console.log('HDI data', {data3});
+
+                    let codigoError = data3.CodigoError;
+                    //if (codigoError != null) {
+                        console.error({codigoError});
+                    //} else {
+
+                        //para la primatotal
+                        displayPrimaTotal = '';
+                        let primaHDI = data3.Cotizacion.PrimaTotal;
+                        
+                        if (primaHDI != null && isNaN(primaHDI) == false) {                            
+                            displayPrimaTotal = primaHDI.replace(/"|,|\$/g, '');
+                            displayPrimaTotalInt = Math.ceil(parseInt(displayPrimaTotal));
+                            displayPrimaTotal = displayPrimaTotalInt.toLocaleString();
+                            displayPrimaTotal = '$' + displayPrimaTotal;
+                        }                        
+
+                        var danosMateriales = '',
+                            roboTotal = '',
+                            rcPersonas = '',
+                            rc = '',
+                            defensaJuridica = '',
+                            gastosMedicosOcupantes = '';
+
+                        if (data3.Coberturas != undefined && data3.Coberturas.length) {
+                            var data3Coberturas = data3.Coberturas[0];
+                            danosMateriales = data3Coberturas.DanosMateriales;
+                            roboTotal = data3Coberturas.RoboTotal;
+                            rcPersonas = data3Coberturas.RCPersonas;
+                            rc = data3Coberturas.RC;
+                            defensaJuridica = data3Coberturas.DefensaJuridica;
+                            gastosMedicosOcupantes = data3Coberturas.GastosMedicosOcupantes;
+                        }
+
+                        displayDanosMateriales = (JSON.stringify(danosMateriales)).replace(/"|-N|-S|DAÑOS|MATERIALES/g, '');
+                        displayRoboTotal = (JSON.stringify(roboTotal)).replace(/"|-N|-S|ROBO|TOTAL/g, '');
+                        displayRCPersonas = (JSON.stringify(rcPersonas)).replace(/"|-N|-S|NRC|PERSONAS|RESPONSABILIDAD|CIVIL|PERSONAS|NO|APLICA|RC|-|D|-/g, '');
+                        displayRC = (JSON.stringify(rc)).replace(/"|-N|-S|-D|RESPONSABILIDAD|CIVIL|NO|APLICA|No|aplica/g, '');
+                        displayDefensaJuridica = (JSON.stringify(defensaJuridica)).replace(/"|-N|-S|-D|GASTOS|ES|ASISTENCIA|LEGAL|PROVIAL|LEGALES/g, '');
+                        displayGastosMedicosOcupantes = (JSON.stringify(gastosMedicosOcupantes)).replace(/"|-N|-S|-D|GASTOS|MÉDICOS|OCUPANTES/g, '');
+
+                        displayDanosMaterialesD = displayDanosMateriales.split('-D')[1];
+                        displayDanosMateriales = parseInt(displayDanosMateriales.split('-D')[0]).toLocaleString();
+                        displayDanosMateriales = '$' + displayDanosMateriales;
+                        if (displayDanosMateriales === '$NaN') {
+                            displayDanosMateriales = '-';
+                        }
+
+                        //para el robo total
+                        displayRoboTotalD = displayRoboTotal.split('-D')[1];
+                        displayRoboTotal = parseInt(displayRoboTotal.split('-D')[0]).toLocaleString();
+                        displayRoboTotal = '$' + displayRoboTotal;
+                        if (displayRoboTotal === '$NaN') {
+                            displayRoboTotal = '-';
+                        }
+
+                        this.comparaList.push({
+                            clave: clave,
+                            asegur: aseguradora,
+                            img: "assets/icon/logo/asegurdoras-hdi.svg",
+                            value: displayPrimaTotal,
+                            danosMateriales: displayDanosMateriales,
+                            danosMaterialesD: displayDanosMaterialesD,
+                            roboTotal: displayRoboTotal,
+                            roboTotalD: displayRoboTotalD,
+                            RCPersonas: displayRCPersonas,
+                            RCPersonasD: displayRCPersonasD,
+                            RC: displayRC,
+                            RCD: displayRCD,
+                            DefensaJuridica: displayDefensaJuridica,
+                            DefensaJuridicaD: displayDefensaJuridicaD,
+                            GastosMedicosOcupantes: displayGastosMedicosOcupantes,
+                            GastosMedicosOcupantesD: displayGastosMedicosOcupantesD
+                        });
+                    //}
+                    callback();
+                }, err => {                    
+                    console.error('error', aseguradora, {url, err});
+                    callback();
+                });
+            } else if (aseguradora === 'MAPFRE' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
+                this.comparaList.push({
+                    clave: clave,
+                    asegur: aseguradora,
+                    img: "assets/icon/logo/asegurdoras-mapfre.svg",
+                    value: displayPrimaTotal,
+                    danosMateriales: displayDanosMateriales,
+                    danosMaterialesD: displayDanosMaterialesD,
+                    roboTotal: displayRoboTotal,
+                    roboTotalD: displayRoboTotalD,
+                    RCPersonas: displayRCPersonas,
+                    RCPersonasD: displayRCPersonasD,
+                    RC: displayRC,
+                    RCD: displayRCD,
+                    DefensaJuridica: displayDefensaJuridica,
+                    DefensaJuridicaD: displayDefensaJuridicaD,
+                    GastosMedicosOcupantes: displayGastosMedicosOcupantes,
+                    GastosMedicosOcupantesD: displayGastosMedicosOcupantesD
+                });
+                callback();
+            } else if (aseguradora === 'QUALITAS' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
+                
+                this.comparaList.push({
+                    clave: clave,
+                    asegur: aseguradora,
+                    img: "assets/icon/logo/asegurdoras-qualitas.svg",
+                    value: displayPrimaTotal,
+                    danosMateriales: displayDanosMateriales,
+                    danosMaterialesD: displayDanosMaterialesD,
+                    roboTotal: displayRoboTotal,
+                    roboTotalD: displayRoboTotalD,
+                    RCPersonas: displayRCPersonas,
+                    RCPersonasD: displayRCPersonasD,
+                    RC: displayRC,
+                    RCD: displayRCD,
+                    DefensaJuridica: displayDefensaJuridica,
+                    DefensaJuridicaD: displayDefensaJuridicaD,
+                    GastosMedicosOcupantes: displayGastosMedicosOcupantes,
+                    GastosMedicosOcupantesD: displayGastosMedicosOcupantesD
+                });
+                
+                callback();
+            } else {
+                callback();
+            }
+        }, err => {
+            console.error('error', aseguradora, {url, err});
+            callback();
+        });
+    }
+
+    //Step 2
+
+    showAlertEmail() {
+
+        let that = this,
+            title = this.isEnglish ? 'Input your email' : 'Ingrese correo electrónico',
+            options = [{ name: 'email', id: 'email'}];
+        
+        this.showAlert(title, options, function(data) {
+            that.email = data.email;
+            let encodedString = btoa(that.email),
+                url = `http://services.bunch.guru/WebService.asmx/validarCliente?param=${encodedString}`;
+            
+            that.http.get(url).map(res => res.json()).subscribe(data => {
+                    
+                let status = +data.status,
+                    id = data.id;
+
+                switch(status) {
+                    case 1:
+                        that.isEnabled = true;
+                        that.isEnabledTipo3 = true;
+                        that.isEnabledTipo3Dir = true;
+                        break;
+                    case 2:
+                        that.isEnabled = false;
+                        that.isEnabledTipo3 = true;
+                        that.isEnabledTipo3Dir = true;
+                        that.retrieveData();
+                        break;
+                    case 3:
+                        that.isEnabled = false;
+                        that.isEnabledTipo3 = false;
+                                                    
+                        encodedString = btoa(`id=${id}`);
+                        url = `http://services.bunch.guru/WebService.asmx/ConsultarDirecciones?param=${encodedString}`;
+                        that.http.get(url).map(res => res.json()).subscribe(data => {
+                                
+                            data.direccion.forEach(function(e, i) {
+                                Object.keys(e).forEach(function(key) {
+                                    if (e[key] == 'undefined') {
+                                        data.direccion[i][key] = '';
+                                    }
+                                });
+                            });
+                            that.userStateList = data.direccion;
+                            that.userStateList.push({
+                                Calle: 'Añadir nueva dirección',
+                                NoExt: '',
+                                NoInt: '',
+                                Colonia: '',
+                                CodPostal: '',
+                                Poblacion: '',
+                                Ciudad: '',
+                                IdDir: ''
+                            });                                    
+
+                            that.tipoTres(that.userStateList);
+                        }, err => {
+                            console.error({err});
+                        });
+                        break;
+                }
+            }, err => {
+                console.error({err});
+            });
+        });        
+    }
+
+    showAlertNombre() {
+        
+        if (this.isEnabled == true) {
+
+            let that = this,
+                title = this.isEnglish ? 'Input name' : 'Ingrese nombre',
+                options = [{name: 'nombre', id: 'nombre'}];
+
+            this.showAlert(title, options, function(data) {
+                let nombre = data.nombre.trim();
+                that.nombre = (nombre.length == 0) ? undefined : nombre;
+            });
+        }
+    }
+
+    showAlertApellidoP() {
+        if (this.isEnabled == true) {
+
+            let that = this,
+                title = this.isEnglish ? 'Input lastname' : 'Ingrese apellido paterno',
+                options = [{name: 'paterno', id: 'paterno'}];
+
+            this.showAlert(title, options, function(data) {
+                let paterno = data.paterno.trim();
+                that.paterno = (paterno.length == 0) ? undefined : paterno;
+            });
+        }
+    }    
+    
+    showAlertApellidoM() {
+        if (this.isEnabled == true) {
+
+            let that = this,
+                title = this.isEnglish ? 'Input lastname' : 'Ingrese apellido materno',
+                options = [{name: 'materno', id: 'materno'}];
+
+            this.showAlert(title, options, function(data) {
+                let materno = data.materno.trim();
+                that.materno = (materno.length == 0) ? undefined : materno;
+            });            
+        }
+    }
+    
+    showAlertGenero() {
+        if (this.isEnabled == true) {
+
+            let that = this,
+                title = this.isEnglish ? 'Choose gender' : 'Elija género',
+                options = [];
+
+            for (let item of this.userGenderList) {
+                options.push({
+                    type: 'radio',
+                    label: item,
+                    value: item
+                });
+            }
+
+            this.showAlert(title, options, function(data) {
+                let genero = data.trim();
+                that.genero = (genero.length == 0) ? undefined : genero;
+            });
+        }
+    }            
+    
+    showAlertNacionalidad() {
+        if (this.isEnabledTipo3 == true) {
+            
+            let title = this.isEnglish?'Choose your nationality':'Elegir tu nacionalidad',
+                that = this,
+                options = [
+                    {                 
+                        name: 'nacionalidad',
+                        id: 'nacionalidad'
+                    }
+                ];
+            
+            this.showAlert(title, options, function(data) {
+                that.nacionalidad = data.nacionalidad;
+            });                    
+        }
+    }
+
+    /*showAlert(value, mode, modelList = [], massage = "") {
+        let alert = this.alertCtrl.create({
+            inputs: [
+                {
+                    //type: 'number',   
+                    name: 'username',
+                    id: 'nombre'
+                }
+            ]
+        });
+        alert.setTitle(massage);
+        alert.setCssClass('definidaX');
+        alert.addButton('Cancelar');
+        alert.addButton({
+            text: 'OK',
+            handler: data => {                
+                document.getElementById('nombre').innerHTML = data.username;
+            }
+        });
+        alert.present();
+
+    }*/
+
+    //'textInput', userGender, userGenderList,
+    showAlertTitular() {
+
+        let title = this.isEnglish?'Name of the owner':'Nombre del titular',
+            that = this,
+            options = [
+                {              
+                    name: 'titular',
+                    id: 'titular'
+                }
+            ];
+
+        this.showAlert(title, options, function(data) {
+            that.titular = data.titular;
+        });
+    }    
+    tipoTres(valor) {
+        var testRadioOpen = false;
+        var testRadioResult = "";
+        var cont = 0;
+        var contFinal = 1;        
+        let alert = this.alertCtrl.create();
+        alert.setTitle('Selecciona la dirección deseada');
+        alert.setCssClass('definidaY');
+        for (let key of valor) {
+            alert.addInput({
+                type: 'radio',
+                id: 'hola',
+                label: contFinal + ' CALLE:' + valor[cont].Calle + ' NO EXT:' + valor[cont].NoExt + ' NO INT:' + valor[cont].NoInt + ' COLONIA:' + valor[cont].Colonia + ' CÓDIGO POSTAL:' + valor[cont].CodPostal + ' POBLACIÓN:' + valor[cont].Poblacion + ' CIUDAD:' + valor[cont].Ciudad + ' ',
+                value: contFinal + ' CALLE:' + valor[cont].Calle + ' NO EXT:' + valor[cont].NoExt + ' NO INT:' + valor[cont].NoInt + ' COLONIA:' + valor[cont].Colonia + ' CÓDIGO POSTAL:' + valor[cont].CodPostal + ' POBLACIÓN:' + valor[cont].Poblacion + ' CIUDAD:' + valor[cont].Ciudad + ' ',
+                //contFinal+' CALLE:'+valor[cont].Calle+' NO EXT:'+valor[cont].NoExt+' NO INT:'+valor[cont].NoInt+' COLONIA:'+valor[cont].Colonia+' CÓDIGO POSTAL:'+valor[cont].CodPostal+' POBLACIÓN:'+valor[cont].Poblacion+' CIUDAD:'+valor[cont].Ciudad+' '
+                //contFinal+' \nCALLE:'+valor[cont].Calle+' NO EXT:'+valor[cont].NoExt+' NO INT:'+valor[cont].NoInt+' COLONIA:'+valor[cont].Colonia+' CÓDIGO POSTAL:'+valor[cont].CodPostal+' POBLACIÓN:'+valor[cont].Poblacion+' CIUDAD:'+valor[cont].Ciudad+' ', 
+                //contFinal+' <h1>CALLE:</h1>'+valor[cont].Calle+' <br>NO EXT:<br>'+valor[cont].NoExt+' <br>NO INT:<br>'+valor[cont].NoInt+' COLONIA:'+valor[cont].Colonia+' CÓDIGO POSTAL:'+valor[cont].CodPostal+' POBLACIÓN:'+valor[cont].Poblacion+' CIUDAD:'+valor[cont].Ciudad+' '
+                //bueno contFinal+' CALLE:'+valor[cont].Calle+' NO EXT:'+valor[cont].NoExt+' NO INT:'+valor[cont].NoInt+' COLONIA:'+valor[cont].Colonia+' CÓDIGO POSTAL:'+valor[cont].CodPostal+' POBLACIÓN:'+valor[cont].Poblacion+' CIUDAD:'+valor[cont].Ciudad+' ', 
+            });
+            cont++;
+            contFinal++;
+            if (cont === (valor.length - 1)) {
+                alert.addInput({
+                    type: 'radio',
+                    id: 'hola',
+                    label: 'Añadir nueva dirección',
+                    value: 'Añadir nueva dirección',
+                });
+                break;
+            }
+        }
+        alert.addButton('Cancelar');
+        alert.addButton({
+            text: 'OK',
+            handler: data => {
+                testRadioOpen = false;
+                testRadioResult = data;                
+                if (testRadioResult === 'Añadir nueva dirección') {
+                    //do something
+                    this.isEnabledTipo3Dir = true;
+                    this.isEnabled = false;
+                    this.isEnabledTipo3 = false;                    
+                    this.retrieveData3();
+                }
+                else {
+                    this.isEnabledTipo3Dir = false;
+                    this.isEnabledTipo3 = false;
+                    var splitStr = testRadioResult.split(/\s+/);
+                    var seleccion = splitStr[0];
+                    var seleccionNum = (parseInt(seleccion)) - 1;
+                    this.retrieveData3();                    
+                    document.getElementById("calle").innerHTML = valor[seleccionNum].Calle;
+                    document.getElementById("noExt").innerHTML = valor[seleccionNum].NoExt;
+                    document.getElementById("noInt").innerHTML = valor[seleccionNum].NoInt;
+                    document.getElementById("colonia").innerHTML = valor[seleccionNum].Colonia;
+                    document.getElementById("codigoPostal").innerHTML = valor[seleccionNum].CodPostal;
+                    document.getElementById("nacionalidad").innerHTML = 'Mexicana';
+                    document.getElementById("delegacion").innerHTML = valor[seleccionNum].Poblacion;
+                    document.getElementById("codigoPostal").innerHTML = valor[seleccionNum].CodPostal;
+                    document.getElementById("estado").innerHTML = valor[seleccionNum].Ciudad;
+
+
+                }
+            }
+        });
+        alert.present();
+    }
+        
+    showAlertTelefonoCasa() {
+
+        if (this.isEnabledTipo3 == true) {
+            let that = this,
+                title = this.isEnglish ? 'Input home number' : 'Ingrese número de teléfono de casa',
+                options = [{
+                    type: 'tel',
+                    name: 'telCasa',
+                    id: 'telCasa'
+                }];
+
+            this.showAlert(title, options, function(data) {
+                that.telCasa = data.telCasa;
+            });
+        }
+    }
+    showAlertTelefonoMovil() {
+
+        if (this.isEnabledTipo3 == true) {
+            let that = this,
+                title = this.isEnglish ? 'Input cellphone number' : 'Ingrese número de teléfono movil',
+                options = [{
+                    type: 'tel',
+                    name: 'telMovil',
+                    id: 'telMovil'
+                }];
+
+            this.showAlert(title, options, function(data) {
+                that.telMovil = data.telMovil;
+            });
+        }
+    }
+    
+    //'textInput', userRFC, userRFCList, 
+    showAlertRFC(value, mode, modelList = [], massage = "") {
+        if (this.isEnabledTipo3 == true) {
+
+            let title = this.isEnglish ? 'Choose your ID' : 'Elegir RFC',
+                that = this,
+                options = [{
+                    //type: 'number',   
+                    name: 'rfc',
+                    id: 'rfc'
+                }];
+
+            this.showAlert(title, options, function(data) {
+                that.rfc = data.rfc;
+            });            
+        }
+    }
+
+    //'numInput', userPostalCode, [], 
+    showAlertCodigoPostal() {
+        if (this.isEnabledTipo3Dir == true) {
+
+            let title = this.isEnglish ? 'Input postal code' : 'Ingrese código postal',
+                that = this,
+                options = [
+                    {
+                        type: 'number',
+                        name: 'codigoPostal2',
+                        id: 'codigoPostal2'
+                    }
+                ];
+
+            this.showAlert(title, options, function(data) {
+                let codigoPostal2 = data.codigoPostal2,
+                    url = 'http://services.bunch.guru/WebService.asmx/ConsultaCP?CPostal=' + codigoPostal2;
+                that.userColonyList = [];
+                that.http.get(url).map(res => res.json()).subscribe(data => {
+                    that.delegacion = data.Municipio;
+                    that.estado = data.Estado;
+                    for (let i = 0, len = data.Colonias.length; i < len; i++){
+                        that.userColonyList.push(data.Colonias[i].Colonia);
+                    }
+                    that.codigoPostal2 = codigoPostal2;
+                }, err => {                            
+                    console.error({err});                            
+                });
+            });            
+        }
+    }    
+        
+    showAlertLugarDeNacimiento() {
+        if (this.isEnabledTipo3 == true) {
+
+            let title = this.isEnglish?'Choose your place of birth':'Elegir tu lugar de nacimiento',
+                that = this,
+                options = [
+                    {                  
+                        name: 'lugarNacimiento',
+                        id: 'lugarNacimiento'
+                    }
+                ];
+            
+            this.showAlert(title, options, function(data) {
+                that.lugarNacimiento = data.lugarNacimiento;
+            });                    
+        }
+    }
+    
+    showAlertCvv() {
+
+        let title = this.isEnglish?'Input the CVV':'Ingrese el CVV',
+            that = this,
+            options = [
+                {
+                    type: 'number',
+                    name: 'cvv',
+                    id: 'cvv',
+                    //min: 10,
+                    //max: 10
+                }
+            ];
+
+        this.showAlert(title, options, function(data) {
+            that.cvv = data.cvv;
+        });    
+    }
+
+    showAlertNumeroDeSerie() {        
+
+        let title = this.isEnglish?'Input serial number':'Ingrese el número de serie',
+            that = this,
+            options = [{name: 'numSerie'}];
+
+        this.showAlert(title, options, function(data) {
+
+            let loader = that.loadingCtrl.create();
+            loader.present();
+            
+            let numSerie = data.numSerie;
+
+            that.http.get(`http://services.bunch.guru/WebService.asmx/validarNoSerie?serie=${numSerie}&modelo=${that.modelo}`).map(res => res).subscribe(data => {
+
+                console.log({data});
+                loader.dismiss();
+
+                if (data['_body'] === 'True') {
+                    that.numSerie = numSerie;                
+                } else {
+                    let toaster = that.toastCtrl.create({
+                        duration: 3000,
+                        position: 'bottom'
+                    });
+                    toaster.setMessage('Número de serie inválido');
+                    toaster.present();                
+                    that.showAlertNumeroDeSerie();
+                }
+
+                /*if (data.numSerie.length >= 5) {                
+                    
+                } else {
+                    let toaster = that.toastCtrl.create({
+                        duration: 3000,
+                        position: 'bottom'
+                    });
+                    toaster.setMessage('Número de serie debe tener por lo menos 5 caracteres');
+                    toaster.present();                
+                    that.showAlertNumeroDeSerie();
+                }
+                
+                scheme = data.scheme.toUpperCase();
+                type = data.type;
+                bank = data.bank.name;
+                if (bank == undefined) {
+                    loader.dismiss();
+                    alert('Error: no se pudo validar el banco');
+                } else {                    
+    
+                    //Para quitar caracteres especiales al banco y dejarlo en minus, pero con la primera letra en mayus
+                    bank = bank.toLowerCase();
+                    bank = bank.charAt(0).toUpperCase() + bank.slice(1);
+                    
+                    if (scheme === 'MASTERCARD') {                    
+                        that.carrierCot = '1';
+                        that.master();
+                    } else if (scheme === 'AMEX') {                    
+                        that.carrierCot = '2';
+                        that.amex();
+                    } else if (scheme === 'VISA') {                    
+                        that.carrierCot = '0';
+                        that.visa();
+                    }
+                    
+                    //conversion a espanol lo que devuelve el ws
+                    if (type === 'CREDIT') {
+                        type = 'Crédito';
+                        that.tipoCot = 'CREDITO';
+                    } else {
+                        type = 'Débito';
+                        that.tipoCot = 'DEBITO';
+                    }
+    
+                    that.tipoTarjeta = type;
+                    that.banco = bank;
+                    loader.dismiss();
+                }*/                
+            }, err => {
+                loader.dismiss();
+                console.error({err});                
+            });            
+        });
+    }
+    
+    showAlertNumeroDePlacas() {
+
+        let title = this.isEnglish?'Input plate':'Ingrese el número de placa',
+            that = this,
+            options = [{
+                //type: 'number',   
+                name: 'numPlacas',
+                id: 'numPlacas'
+            }];
+
+        this.showAlert(title, options, function(data) {
+            that.numPlacas = data.numPlacas;
+        });
+    }
+    
+    showAlertNumeroDeMotor() {
+
+        let title = this.isEnglish ? 'Input motor number' : 'Ingrese el número del motor',
+            that = this,
+            options = [{
+                //type: 'number',   
+                name: 'numMotor',
+                id: 'numMotor'
+            }];
+
+        this.showAlert(title, options, function(data) {
+            that.numMotor = data.numMotor;
+        });
+    }
+    
+    showAlertCalle() {
+        if (this.isEnabledTipo3Dir == true) {
+
+            let title = this.isEnglish?'Input street name':'Ingrese el nombre de su calle',
+                options = [
+                    {
+                        //type: 'number',   
+                        name: 'calle',
+                        id: 'calle'
+                    }
+                ],
+                that = this;
+
+            this.showAlert(title, options, function(data) {
+                that.calle = data.calle;
+            });            
+        }
+    }
+    showAlertNoExt() {
+
+        if (this.isEnabledTipo3Dir == true) {
+
+            let title = this.isEnglish?'Input exterior number':'Ingrese número exterior',
+                that = this,
+                options = [
+                    {                        
+                        name: 'numExterior',
+                        id: 'numExterior'
+                    }
+                ];
+
+            this.showAlert(title, options, function(data) {
+                that.numExterior = data.numExterior;
+            });            
+        }
+    }    
+    showAlertNoInt() {
+        if (this.isEnabledTipo3Dir == true) {
+
+            let title = this.isEnglish?'Input interior number':'Ingrese número interior',
+                that = this,
+                options = [
+                    {                        
+                        name: 'numInterior',
+                        id: 'numInterior'
+                    }
+                ];
+
+            this.showAlert(title, options, function(data) {
+                that.numInterior = data.numInterior;
+            });            
+        }
+    }
+    
+    showAlertTarjeta() {
+
+        let loader = this.loadingCtrl.create();
+        loader.present();
+
+        let title = this.isEnglish ? 'Input your credit card number':'Ingrese el número de tarjeta',
+            that = this,
+            options = [
+                {
+                    type: 'number',   
+                    name: 'numTarjeta',
+                    id: 'numTarjeta'
+                }
+            ];
+
+        this.showAlert(title, options, function(data) {
+
+            let scheme,
+                type,
+                bank;
+            
+            that.numTarjeta = data.numTarjeta;
+
+            console.log('lookup...');
+
+            that.http.get('https://lookup.binlist.net/' + data.numTarjeta).map(res => res.json()).subscribe(data => {
+
+                console.log({data});
+                
+                scheme = data.scheme.toUpperCase();
+                type = data.type;
+                bank = data.bank.name;
+                if (bank == undefined) {
+                    loader.dismiss();
+                    alert('Error: no se pudo validar el banco');
+                } else {                    
+    
+                    //Para quitar caracteres especiales al banco y dejarlo en minus, pero con la primera letra en mayus
+                    bank = bank.toLowerCase();
+                    bank = bank.charAt(0).toUpperCase() + bank.slice(1);
+                    
+                    if (scheme === 'MASTERCARD') {                    
+                        that.carrierCot = '1';
+                        that.master();
+                    } else if (scheme === 'AMEX') {                    
+                        that.carrierCot = '2';
+                        that.amex();
+                    } else if (scheme === 'VISA') {                    
+                        that.carrierCot = '0';
+                        that.visa();
+                    }
+                    
+                    //conversion a espanol lo que devuelve el ws
+                    if (type === 'CREDIT') {
+                        type = 'Crédito';
+                        that.tipoCot = 'CREDITO';
+                    } else {
+                        type = 'Débito';
+                        that.tipoCot = 'DEBITO';
+                    }
+    
+                    that.tipoTarjeta = type;
+                    that.banco = bank;
+                    loader.dismiss();
+                }                
+            }, err => {
+                loader.dismiss();      
+                console.error({err});
+                alert('Error');
+            });
+        });
+    }
+
+    showAlertPrima(value, valor, mode, modelList = [], massage = "") {
+        //this.alertSrv.showAlert(value, mode, modelList, massage);
+        var testRadioOpen = false;
+        var testRadioResult = "";
+        let alert = this.alertCtrl.create();
+        alert.setCssClass('definida');
+        
+        alert.setTitle('<center>' + valor.asegur + '</center>');
+        alert.setMessage(
+            '<table class="tablaModal">' +
+            '<tr>' +
+            '  <td>' +
+            '  <img src="' + valor.img + '">' +
+            '  </td>' +
+            '  <td>' +
+            '    <table class="tablaModal">' +
+            '   <tr>' +
+            '<th>Cobertura</th>' +
+            '<th>Periodicidad</th>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>Amplia</td>' +
+            '<td>Anual</td>' +
+            '</tr>' +
+            '</table>' +
+            '</td>' +
+            '</tr>' +
+            ' </table>' +
+
+            '<table>' +
+            '<tr><th></th><th><strong>Suma Asegurada</strong></th>' +
+            '<th><strong>Deducible</strong></th></tr>' +
+            '<tr><td><strong>Prima total</strong></str><td><center><strong>' + valor.value + '</strong></center></td><td><center><strong>' + '</strong></center></td></tr>' +
+            '<tr><td><strong>Daños materiales</strong><td><center><strong>' + valor.danosMateriales + '</strong></center></td><td><center><strong>' + valor.danosMaterialesD + '</strong></center></td></tr>' +
+            '<tr><td><strong>Robo Total</strong><td><center><strong>' + valor.roboTotal + '</strong></center></td><td><center><strong>' + valor.roboTotalD + '</strong></center></td></tr>' +
+            '<tr><td><strong>RC Personas</strong><td><center><strong>' + valor.RCPersonas + '</strong></center></td><td><center><strong>' + valor.RCPersonasD + '</strong></center></td></tr>' +
+            '<tr><td><strong>RC</strong><td><center><strong>' + valor.RC + '</strong></center></td><td><center><strong>' + valor.RCD + '</strong></center></td></tr>' +
+            '<tr><td><strong>Def. Jurídica</strong><td><center><strong>' + valor.DefensaJuridica + '</strong></center></td><td><center><strong>'/*+valor.defensaJuridicaD*/ + '-</strong></center></td></tr>' +
+            '<tr><td><strong>Gastos Médicos Oc.</strong><td><center><strong>' + valor.GastosMedicosOcupantes + '<strong></center></td><td><center><strong>'/*+valor.GastosMedicosOcupantesD*/ + '-</strong></center></td></tr>' +
+            '</table>' +
+            '<hr>'
+        );
+
+
+        alert.addButton('Regresar');
+        alert.addButton({
+            text: 'Contratar',
+            handler: data => {
+                testRadioOpen = false;
+                testRadioResult = data;
+                
+                this.edad = data;
+                document.getElementById("marcaF").innerHTML = valor.asegur;
+                document.getElementById("primaF").innerHTML = valor.value;
+                this.aseguradoraCot = valor.asegur;
+                this.claveCot = valor.clave;
+                var myAnchor = document.getElementById("imgF");
+                var mySpan = document.createElement("IMG");
+                mySpan.setAttribute("src", valor.img);
+                mySpan.setAttribute("id", "imgF");
+                mySpan.setAttribute("width", "40");
+                mySpan.setAttribute("height", "40");
+                mySpan.setAttribute("margin-left", "-40");
+                myAnchor.parentNode.replaceChild(mySpan, myAnchor);
+                this.pagoList[0].subText = (valor.danosMateriales).replace(/"|-N|-S|-D|DAÑOS|MATERIALES/g, '');
+                this.pagoList[1].subText = (valor.roboTotal).replace(/"|-N|-S|-D|ROBO|TOTAL/g, '');
+                this.pagoList[2].subText = (valor.RCPersonas).replace(/"|-N|-S|-D|NRC|PERSONAS|RC/g, '');
+                this.pagoList[3].subText = (valor.RC).replace(/"|-N|-S|-D|RESPONSABILIDAD|CIVIL/g, '');
+                this.pagoList[4].subText = (valor.DefensaJuridica).replace(/"|-N|-S|-D|GASTOS|LEGALES/g, '');
+                this.pagoList[5].subText = (valor.GastosMedicosOcupantes).replace(/"|GASTOS|MEDICOS/g, '');
+                this.changeTab('Cliente');
+            }
+        });
+        alert.present();
+    }
+
+    datePickerNames: any;
+    public datePicked: string;    
+    public datePickedBirth: string;
+    private topTab = 'Cliente';
+    private isClient: any;
+    private local: any;
+    private comparaDetailShown: boolean = false;
+    private productoContinuarShown: boolean = false;
+    private underTabsTitile = localStorage.getItem("language") == "en" ? 'Car insurance' : 'Seguro de Auto';
+    private isEnglish = localStorage.getItem("language") == "en";
+    private comparaList = [];
+    private pagoList = [
+        {
+            mainText: localStorage.getItem("language") == "en" ? "Material damage:" : "Daños materiales: ",
+            subText: localStorage.getItem("language") == "en" ? "5% V. trade" : "5% V. comercial"
+        },
+        {
+            mainText: localStorage.getItem("language") == "en" ? "Total theft:" : "Robo Total: ",
+            subText: localStorage.getItem("language") == "en" ? "10% V. commerce" : "10% V. comercial"
+        },
+        {
+            mainText: localStorage.getItem("language") == "en" ? "RC people:" : "RC personas: ",
+            subText: localStorage.getItem("language") == "en" ? "3,000,000.0" : "3,000,000.00"
+        },
+        {
+            mainText: localStorage.getItem("language") == "en" ? "RC:" : "RC: ",
+            subText: localStorage.getItem("language") == "en" ? "800,000.0" : "800,000.00"
+        },
+        {
+            mainText: localStorage.getItem("language") == "en" ? "Legal defense:" : "Defensa legal: ",
+            subText: localStorage.getItem("language") == "en" ? "AMPARAD" : "AMPARADA"
+        },
+        {
+            mainText: localStorage.getItem("language") == "en" ? "Medical expenses:" : "Gastos médicos OC: ",
+            subText: localStorage.getItem("language") == "en" ? "50.000.0" : "50,000.00"
+        },
+    ];
+    private prevPage: any;
+
+    private userName = { name: 'Miguel Ivan Hernández' };
+    private userNameModal = { name: '' };
+    private userNameModalP = { name: '' };
+    private userNameModalM = { name: '' };
+    private userCreditCard = { name: '' };
+    private userEmail = { name: '' };
+    private userCellPhoneNumber: any = { name: '' }; //n
+    private userHomePhoneNumber: any = { name: '' }; //
+    private userCvv: any = { name: '5529558232' }; //n
+    private userPostalCode = { name: '' }; //n
+    private userStreetName = { name: '' };
+    private userOutdoorNumber = { name: '' };
+    private userInteriorNumber = { name: '' };
+
+    private userGender = { name: '' }; //d
+    private userGenderList = ['Masculino', 'Femenino'];
+    private userRFC = { name: '' }; //d
+    private userRFCList = [''];
+    private userLugarNac = { name: '' }; //d
+    private userLugarNacList = [''];
+    private userNacionalidad = { name: '' }; //d
+    private userNacionalidadList = [''];
+    private userColony = { name: '' }; //d
+    private userColonyList = [];
+    private userState = { name: '' }; //d
+    private userStateList = [];
+    private userDelegation = { name: '' }; //d
+    private userDelegationList = ['Ciudad de México', 'Ciudad de México1', 'Ciudad de México2'];
+    private userBrand = { name: '' }; // Seleccione la marca
+    private userModel = { name: '' }; //d Seleccione el modelo
+    private userModelList = [];
+    private userDescription = { name: '' }; //d Seleccione la descripcion
+    private userSubDescription = { name: '' }; //d Seleccione la sub descripcion
+    private userDescriptionList = [];
+    private userEdad = { name: 'Seleccione la edad descripcion' }; //d
+    private edadList = [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70];
+    private userDetalleList = [];
+    private userSubDescriptionList = [];
+    private userSerialNumber = {}; //d
+    private userSerialNumberList = ['HEAH876542KLOP', 'HEAH87LOP', 'HEKLOP'];
+    private userPlates = { name: 'HEM987' }; //d
+    private userPlatesList = ['HEM987', 'HEM9', 'HE87'];
+
+
+    constructor(public navCtrl: NavController, public http: Http, public navParams: NavParams, public modalCtrl: ModalController, public alertSrv: AlertService, public localizationModal: LocalizationModel, public alertCtrl: AlertController, private storage: Storage, public loadingCtrl: LoadingController, public toastCtrl: ToastController) {
+        this.prevPage = this.navParams.get("prevPage");
+        this.isClient = localStorage.getItem("isClient");
+        this.prevPage == "chat" ? this.topTab = "Compara" : this.isClient == "true" ? this.topTab = "Producto" : this.topTab = "Producto";
+        this.datePickerNames = this.localizationModal.getDatesNames();
+    }
+    
+    retrieveData(callback:any = undefined) {
+        let encodedString = btoa(this.email);
+        
+        this.http.get(`http://services.bunch.guru/WebService.asmx/ConsultaDatosCli?param=${encodedString}`).map(res => res.json()).subscribe(data => {
+                
+            this.nombre = data.Nombre;
+            this.paterno = data.ApellidoPat;
+            this.materno = data.ApellidoMat;
+            this.fechaNacimiento = data.fechaNacimiento;
+            this.genero = data.Genero;
+            if (callback != undefined) {
+                callback(data);
+            }            
+        }, err => {
+            console.error({err});
+        });
+    }
+
+    retrieveData3() {
+
+        let that = this;
+        this.retrieveData(function(data) {
+            that.rfc = data.RFC;
+            that.nacionalidad = data.Nacionalidad;
+            that.lugarNacimiento = data.LugarNacimiento;
+            that.telCasa = data.Telefono;
+        });        
+    }
+
+    crearCliente() {    
+
+        let loader = this.loadingCtrl.create();
+        loader.present(); 
+        this.numInterior = (this.numInterior == undefined) ? '' : this.numInterior;
+        this.genero = this.genero.toUpperCase();
+                        
+        let string = 'nombre=' + this.nombre + '&app=' + this.paterno + '&apm=' + this.materno + '&genero=' + this.genero + '&edad=' + this.edad + '&email=' + this.email + '&telefono=' + this.telMovil + '&RFC=' + this.rfc + '&nacionalidad=MEXICANA&lugNacimiento=' + this.lugarNacimiento + '&cp=' + this.codigoPostal2 + '&calle=' + this.calle + '&noExt=' + this.numExterior + '&noInt=' + this.numInterior + '&colonia=' + this.colonia + '&delegacion=' + this.delegacion + '&estado=' + this.estado + '&telefono2=' + this.telCasa + '&fechaNac=' + this.fechaNacimiento + '&idContVend=' + this.idContVend,
+            encodedString = btoa(string),
+            url = `http://services.bunch.guru/WebService.asmx/CrearCliente?param=${encodedString}`;
+    
+        this.http.get(url).map(res => res.json()).subscribe(data => {
+            this.idCliCot = data.idCli;
+            this.idDirCot = data.idDir;
+            this.idContCot = data.idCont;
+            loader.dismiss();
+        }, err => {
+            loader.dismiss();
+            console.error({err});
+            alert('Error al crear usuario');
+        });        
+    }
+    ionViewDidEnter() {
+        if (localStorage.getItem("isClient") == "true") {
+            setTimeout(() => {
+                if (document.getElementById("tab-t0-5") && document.getElementById("tab-t0-4")) {
+                    document.getElementById("tab-t0-4").setAttribute("aria-selected", "true");
+                    document.getElementById("tab-t0-5").setAttribute("aria-selected", "false");
+                }
+            }, 50);
+        }
+        if (localStorage.getItem("isFirstEnterToHomeScreeb") == "true") {
+            this.navCtrl.push(ProductsPage, null, { animate: false });
+        }
+    }
+    ionViewWillLeave() {
+        if (document.getElementById("tab-t0-5") && document.getElementById("tab-t0-4")) {
+            document.getElementById("tab-t0-4").setAttribute("aria-selected", "false");
+            document.getElementById("tab-t0-5").setAttribute("aria-selected", "false");
+        }
+    }
+    validateTab(step:number):boolean {        
+        
+
+        if (step == 1) {
+            if (this.edad == undefined || this.marca == undefined || this.modelo == undefined || this.subMarca == undefined || this.descripcion == undefined || this.subDescripcion == undefined) {
+                return false;
+            }
+        } else if (step ==3) {
+            
+            let data = {
+                'email': this.email, 
+                'nombre': this.nombre,
+                'paterno': this.paterno,
+                'materno': this.materno,
+                'fechaNacimiento': this.fechaNacimiento,
+                'genero': this.genero,
+                'telCasa': this.telCasa,
+                'telMovil': this.telMovil,
+                'rfc': this.rfc,
+                'nacionalidad': this.nacionalidad,
+                'lugarNacimiento': this.lugarNacimiento,
+                'codigoPostal2': this.codigoPostal2, 
+                'colonia': this.colonia,
+                'estado': this.estado,
+                'delegacion': this.delegacion,
+                'calle': this.calle,
+                'numExterior': this.numExterior,
+                'numMotor': this.numMotor,
+                'numSerie': this.numSerie,
+                'numPlacas': this.numPlacas,
+            };
+            
+            let fieldsWithError = [];
+            Object.keys(data).forEach(function(e) {
+                if (data[e] == undefined) {
+                    fieldsWithError.push(e);
+                }
+            });
+
+            console.error({fieldsWithError});
+
+            if (fieldsWithError.length > 0) {
+                return false;
+            }            
+        } else if (step == 5) {
+
+            this.aceptoCobros = undefined
+            if (document.getElementById('aceptoCobros')['checked']) {
+                this.aceptoCobros = true;
+            }
+
+            let data = {
+                'numTarjeta': this.numTarjeta,
+                'tipoTarjeta': this.tipoTarjeta,
+                'titular': this.titular,
+                'banco': this.banco,
+                'vigencia': this.vigencia,
+                'cvv': this.cvv,
+                'aceptoCobros': this.aceptoCobros,
+            };
+
+            let fieldsWithError = [];
+            Object.keys(data).forEach(function(e) {
+                if (data[e] == undefined) {
+                    fieldsWithError.push(e);
+                }
+            });
+
+            console.error({fieldsWithError});
+
+            if (fieldsWithError.length > 0) {
+                return false;
+            }                        
+        } else {
+            let form = document.getElementById(`step${step}`);
+        
+            if (form == null) {        
+                return false;
+            }
+            
+            let inputs = form.getElementsByClassName('input'),        
+                inputsLen = inputs.length;
+            
+            if (inputsLen == 0){
+                
+                return false;
+            }
+            
+            for (let i = 0; i < inputsLen; i++) {            
+                let className = inputs[i].className;            
+                if (className.indexOf('required') !== -1 && className.indexOf('dirty') === -1) {
+                    console.log('id con problem', inputs[i].id);
+                    return false;                                
+                }
+            }
+        }            
+        
+        return true;
+    }    
+    changeTab(tabName, tabFrom = '') {        
+        
+        let errors = false,
+            stepsElem = document.getElementById('steps'),
+            _this = this;
+
+        switch(tabName) {
+            case 'Producto':
+                stepsElem.innerHTML = "Paso 1 de 5";
+                break;
+            case 'Compara':                
+                if (_this.validateTab(1) == true) {                    
+                    stepsElem.innerHTML = "Paso 2 de 5";
+                    _this.getBuscar();
+                } else {
+                    errors = true;
+                }
+                break;
+            case 'Cliente':
+                stepsElem.innerHTML = "Paso 3 de 5";
+                break;
+            case 'Pago':
+                if (_this.validateTab(3) == true) {
+                    stepsElem.innerHTML = "Paso 4 de 5";
+                } else {
+                    errors = true;
+                }                
+                break;
+            case 'Tarjeta':
+                stepsElem.innerHTML = "Paso 5 de 5";
+                _this.crearCliente();
+                break;
+        }        
+
+        if (errors == false) {
+            tabName == 'Pago' ? this.underTabsTitile = localStorage.getItem("language") == "en" ? 'Summary' : 'Resumen' : this.underTabsTitile = localStorage.getItem("language") == "en" ? 'Car insurance' : 'Seguro de Auto';
+            tabFrom == 'Cliente' ? this.showProductoContinuarShown() : '';
+            this.topTab = tabName;
+            this.comparaDetailShown = false;
+        } else {
+            alert('Faltan campos por completar');
+        }
+    }
+    showProductoContinuarShown() {
+        this.productoContinuarShown = true;
+    }
+    showComparaItemDetail() {
+        this.comparaDetailShown = true;
+    }
+    
+    //para mandar el pago
+    goPaymentSubmitedPage() {        
+
+        let loader = this.loadingCtrl.create();
+
+        loader.present();
+        
+        if (this.validateTab(5) == false) {
+            loader.dismiss();
+            alert('Falta compeltar los campos');
+            return;
+        }        
+        
+        //para las fechas de la vigencia            
+        let vigencia = this.vigencia.split('-');
+        this.anioCot = vigencia[0];
+        this.mesCot = vigencia[1];
+
+        //checkpoint
+        let consultaData = {
+            Aseguradora: this.aseguradoraCot,
+            Cliente: {
+                TipoPersona: 'F',
+                Nombre: this.nombre,
+                ApellidoPat: this.paterno,
+                ApellidoMat: this.materno,
+                RFC: this.rfc,
+                FechaNacimiento: this.fechaNacimiento,
+                Ocupacion: 'EMPLEADO',
+                CURP: null,
+                Direccion: {
+                    Calle: this.calle,
+                    NoExt: this.numExterior,
+                    NoInt: this.numInterior,
+                    Colonia: this.colonia,
+                    CodPostal: this.codigoPostal2,
+                    Poblacion: this.delegacion,
+                    Ciudad: this.estado,
+                    Pais: 'MÉXICO'
+                },
+                Edad: this.edad,
+                Genero: this.genero,
+                Telefono: this.telCasa,
+                Email: this.email
+            },
+            Vehiculo: {
+                Uso: 'PARTICULAR',
+                Marca: this.marca,
+                Modelo: this.modelo,
+                NoMotor: this.numMotor,
+                NoSerie: this.numSerie,
+                NoPlacas: this.numPlacas,
+                Descripcion: this.descripcion,
+                CodMarca: '',
+                CodDescripcion: '',
+                CodUso: '',
+                Clave: this.claveCot,
+                Servicio: 'PARTICULAR'
+            },
+            Coberturas: [],
+            Paquete: 'AMPLIA',
+            Descuento: null,
+            PeriodicidadDePago: 0,
+            Cotizacion: {
+                PrimaTotal: null,
+                PrimaNeta: null,
+                Derechos: null,
+                Impuesto: null,
+                Recargos: null,
+                PrimerPago: null,
+                PagosSubsecuentes: null,
+                IDCotizacion: null,
+                CotID: null,
+                VerID: null,
+                CotIncID: null,
+                VerIncID: null,
+                Resultado: null
+            },
+            Emision: {
+                PrimaTotal: null,
+                PrimaNeta: null,
+                Derechos: null,
+                Impuesto: null,
+                Recargos: null,
+                PrimerPago: null,
+                PagosSubsecuentes: null,
+                IDCotizacion: null,
+                Terminal: null,
+                Documento: null,
+                Poliza: null,
+                Resultado: null
+            },
+            Pago: {
+                MedioPago: this.tipoTarjeta,
+                NombreTarjeta: this.titular,
+                Banco: this.banco,
+                NoTarjeta: this.numTarjeta,
+                MesExp: this.mesCot,
+                AnioExp: this.anioCot,
+                CodigoSeguridad: this.cvv,
+                NoClabe: null,
+                Carrier: this.carrierCot,
+            },
+            CodigoError: null,
+            urlRedireccion: null
+        };
+
+        console.log({consultaData});
+                
+        let string = 'usuario=Bunch&Password=BunCH2O18&data=' + JSON.stringify(consultaData) + '&movimiento=emision&idContVend=' + this.idContVend + '&idcont=' + this.idContCot + '&idcli=' + this.idCliCot + '&iddir=' + this.idDirCot,
+            encodedString = btoa(string),
+            url = 'http://services.bunch.guru/WebService.asmx/CotizacionEmisionJSON?param=' + encodedString;        
+
+        this.http.get(url).map(res => res.json()).subscribe(data => {
+            loader.dismiss();
+            console.log('success!', data);
+            if (data.codigoError != null) {
+                let toaster = this.toastCtrl.create({
+                    duration: 3000,
+                    position: 'bottom'
+                });
+                toaster.setMessage(data.codigoError);
+                toaster.present();
+            } else {
+                this.navCtrl.push(PaymentSubmittedPage, { prevPage: this.prevPage }, { animate: true });
+            }            
+        }, err => {
+            loader.dismiss();
+            alert('Error');
+            console.error({err});
+        });
+    }
+    goToDocumentDetailPage() {
+        this.navCtrl.push(DocumentDetailPage);
+    }
+    goToPayPolicyPage() {
+        let modal = this.modalCtrl.create(PayPolicyPage);
+        modal.onDidDismiss(data => {
+            if (data) {
+                let tmp = document.getElementById("tab-t0-4").setAttribute("aria-selected", "false");
+                tmp = document.getElementById("tab-t0-5").setAttribute("aria-selected", "true");
+                this.navCtrl.push(ProductsPage, { prevPage: "AcqureProductsPage" }, false);
+            }
+        });
+        modal.present();
+    }
+    goBack() {
+        let tmp = document.getElementById("tab-t0-4").setAttribute("aria-selected", "false");
+        tmp = document.getElementById("tab-t0-5").setAttribute("aria-selected", "true");
+        this.navCtrl.pop();
+    }
+}

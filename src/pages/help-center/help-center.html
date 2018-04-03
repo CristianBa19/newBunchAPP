@@ -1,0 +1,43 @@
+<ion-header class="header-cls">
+
+    <ion-toolbar>
+        <ion-buttons left>
+            <button icon-only ion-button class="backButton" (tap)="goBack()">
+                <img src="assets/icon/bt-regresar-menu.png" class="image-left">
+            </button>
+        </ion-buttons>
+        <ion-title class="titleStyle">{{ "HelpPage.titleText" | translate }}</ion-title>
+    </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-row class="container-wrapper" >
+        <ion-row class="item-wrapper">
+            <ion-row align-items-center class="main-text">
+                <span>{{ "HelpPage.paymentIssues" | translate }}</span>
+            </ion-row>
+            <ion-row align-items-center class="arrow-button">
+                <img src="assets/icon/bt-siguiente.png">
+            </ion-row>
+        </ion-row>
+        <ion-row class="item-wrapper">
+            <ion-row align-items-center class="main-text">
+                <span>{{ "HelpPage.problemsWithApplication" | translate }}</span>
+            </ion-row>
+            <ion-row align-items-center class="arrow-button">
+                <img src="assets/icon/bt-siguiente.png">
+            </ion-row>
+        </ion-row>
+        <ion-row class="item-wrapper">
+            <ion-row align-items-center class="main-text">
+                <span>{{ "HelpPage.problemsWithProduct" | translate }}</span>
+            </ion-row>
+            <ion-row align-items-center class="arrow-button">
+                <img src="assets/icon/bt-siguiente.png">
+            </ion-row>
+        </ion-row>
+    </ion-row>
+</ion-content>
+

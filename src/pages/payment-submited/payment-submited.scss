@@ -1,0 +1,46 @@
+payment-submited-page{
+  .negras{
+    font-weight: 800;
+  }
+  .logo-icon{
+    height: 42%;
+    ion-row{
+      width:100%
+    }
+    img{
+      width: 110px;
+    }
+    span{
+      font-size: 24px;
+      letter-spacing: 14px;
+      color: #0c86b2;
+      padding-left: 8px;
+    }
+  }
+  .main-text{
+    font-family: RaleNext;
+    margin-top: 5%;
+    margin-bottom: 14%;
+    font-size: 17px;
+    text-align: justify;
+    font-weight: 500;
+    color: #787878;
+    ion-row{
+      width: 80%;
+    }
+  }
+  .button-wrap{
+    font-family: RaleTitle;
+    width: 100%;
+    height: 50px;
+    margin: 5px 0;
+    background-color: #09c;
+    color: white;
+    border-radius: 15px;
+    margin-top: 5%;
+    font-size: 16px;
+  }
+  .bunch-text{
+    margin-top: 5px
+  }
+}

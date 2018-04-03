@@ -1,0 +1,66 @@
+<!--<ion-header>
+    <ion-col>
+  
+      <ion-toolbar>
+          <div class="divImg">
+              <img src="assets/icon/crear.svg">
+            </div>
+  
+          <ion-buttons left>
+              <button icon-only ion-button (click)="slidePrev()" >
+                  <img src="assets/icon/flecha-regresar.svg">
+              </button>
+          </ion-buttons>
+      </ion-toolbar> -->
+<!--
+      <div class="titleForm">{{ "RegisterPage.titleText" | translate}}</div>-->
+<!-- </ion-col>
+  </ion-header>-->
+
+
+<ion-content padding>
+    <ion-buttons left>
+        <ion-buttons left>
+            <button icon-only ion-button (click)="slidePrev()" class="btnBack">
+                <img src="assets/icon/back.svg">
+            </button>
+        </ion-buttons>
+        <div class="titleForm">{{ "RecoveryPage.titleText" | translate}}</div>
+    </ion-buttons>
+    <ion-slides pager="false" swiper-no-swiping="true" #slides parallax spaceBetween=5>
+        <ion-slide>
+            <form #f="ngForm" name="myForm">
+                <ion-title center class="title-recovery">{{ "RecoveryPage.bodyText" | translate}}</ion-title>
+                <div class="divRow margenesInput">
+                    <ion-input type="email" ngModel name="email1" #email1 required email> </ion-input>
+                </div>
+                <br>
+                <div class="footerSection">
+                    <button [disabled]="!f.valid" ion-button (click)="sendRequest()" class="back-btn">
+                        <img src="assets/icon/Flecha derecha Morado.svg">
+                    </button>
+                </div>
+            </form>
+        </ion-slide>
+
+        <ion-slide>
+
+            <div class="confirm-recovery-text">{{ "RecoveryPage.confirRecoveryText" | translate}}</div>
+
+            <!--
+      <button ion-button (click)="doneRecovery()" class="confirm-recovery-btn prossedBtn">{{ "RecoveryPage.confirmButtonText" | translate}}</button>
+      <ion-row justify-content-center align-items-end class="button-back-wrapp">
+        <button class="button-back" (tap)="slidePrev()">
+          <ion-icon name="arrow-round-back" ></ion-icon>
+        </button>
+      </ion-row>-->
+            <div class="footerSection" stye="background:red;">
+                <!--<button ion-button (click)="doneRecovery()" class="confirm-recovery-btn prossedBtn">{{ "RecoveryPage.confirmButtonText" | translate}}</button>-->
+                <ion-row>
+                    <button ion-button class="products-btn inputStyle" (click)="doneRecovery()">{{ "RecoveryPage.confirmButtonText" | translate}}</button>
+                </ion-row>
+            </div>
+        </ion-slide>
+
+    </ion-slides>
+</ion-content>

@@ -1,0 +1,60 @@
+<ion-header class="tab-header-cls">
+  <ion-col>
+    <div class="divImg">
+      <img src="assets/icon/anuncios2.svg">
+    </div>
+    <!--
+    <div class="titleForm">{{ "AdvertisementPage.titleText" | translate }}</div>-->
+  </ion-col>
+  
+</ion-header>
+
+<ion-content padding>
+ 
+    <ion-toolbar>
+        <ion-segment color="primary" >
+          <ion-segment-button value="auto" >
+            Seguro de Auto
+          </ion-segment-button>
+          <ion-segment-button value="credito">
+            Tarjetas de Crédito
+          </ion-segment-button>
+          <ion-segment-button value="inversion">
+            Inversiones
+          </ion-segment-button>
+        </ion-segment>
+      </ion-toolbar>   
+  
+    <!--
+  <ion-list no-border>
+    <ion-list-header class="list-header-cls">{{ "AdvertisementPage.publishedText" | translate }}</ion-list-header>
+  <ion-item no-lines *ngFor="let adv of publishedAdvs" class="ionitem-cls" (click)="detailAdv(adv)">
+    <ion-thumbnail item-start class="thumbnail-cls">
+      <img src="{{adv.img}}" >
+    </ion-thumbnail>
+    <h2>{{adv.paymentType}}</h2>
+    <p>{{adv.bank}} - {{adv.accountType}}</p>
+    <p>{{ "AdvertisementPage.creditOfText" | translate }} {{adv.bunch}}</p>
+    <ion-buttons item-end>
+      <button class="detail-btn-cls" ><img src="assets/icon/bt-siguiente.png"></button>
+    </ion-buttons>
+  </ion-item>
+  <ion-list-header class="list-header-cls">{{ "AdvertisementPage.draftsText" | translate }}</ion-list-header>
+  <ion-item no-lines *ngFor="let adv of draftAdvs" class="ionitem-cls"  (click)="detailAdv(adv)">
+    <ion-thumbnail item-start class="thumbnail-cls">
+      <img src="{{adv.img}}" >
+    </ion-thumbnail>
+    <h2>{{adv.paymentType}}</h2>
+    <p>{{adv.bank}} - {{adv.accountType}}</p>
+    <p>{{ "AdvertisementPage.creditOfText" | translate }} {{adv.bunch}}</p>
+    <ion-buttons item-end>
+      <button class="detail-btn-cls"><img src="assets/icon/bt-siguiente.png"></button>
+    </ion-buttons>
+  </ion-item>
+  </ion-list>
+  -->
+  <button ion-button full class="publish-adv-btn" (click)="newAdv()">{{ "AdvertisementPage.postButtonText" | translate }}</button>
+  <button ion-button full class="publish-adv-btn" (click)="goAcquireProduct()">Cotizar Ahora</button>
+
+
+</ion-content>

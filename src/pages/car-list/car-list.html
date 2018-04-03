@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Home</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <p>Selecciona tu nombre de usuario</p>
+    <ion-item>
+      <ion-label fixed>Website</ion-label>
+      <ion-input type="text" [(ngModel)]="username"></ion-input>
+    </ion-item>
+  <button ion-button (click)="loginUser()">Login</button>
+
+  <p>Crea una nueva cuenta</p>
+  <ion-list>
+    <ion-item>
+      <ion-label fixed>mail</ion-label>
+      <ion-input type="text" [(ngModel)]="mail"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>pass</ion-label>
+      <ion-input type="text" [(ngModel)]="pass"></ion-input>
+    </ion-item>     
+    <div>
+        <button ion-button (click)="registerUser()">Login</button>
+    </div>
+  </ion-list>
+  <p>Crea una nueva cuenta</p>
+  <ion-list>
+    <ion-item>
+      <ion-label fixed>mail</ion-label>
+      <ion-input type="text" [(ngModel)]="mail2"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>pass</ion-label>
+      <ion-input type="text" [(ngModel)]="pass2"></ion-input>
+    </ion-item>     
+    <div>
+        <button ion-button (click)="signUser()">Login</button>
+    </div>
+  </ion-list>  
+   
+
+
+</ion-content>
