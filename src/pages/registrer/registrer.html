@@ -7,7 +7,7 @@
         <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm)">
             <ion-row>
                 <ion-col>
-                    <ion-list inset>                        
+                    <ion-list inset>
                         <div class="divRow">
                             <ion-input formControlName="email" type="email" placeholder='Email' class="user" [(ngModel)]="newuser.email" ></ion-input>
                         </div>
@@ -28,7 +28,7 @@
         </form>
         <div class="linea"></div>
         <ion-row>
-            <div class="footer-warn footer-warn2">¿Ya eres usuario de Bunch?</div>
+            <div class="footer-warn footer-warn2 form-btnX">¿Ya eres usuario de Bunch?</div>
         </ion-row>
         <button ion-button class="form-btnX" (click)="ReturnLoginPage()">Ingresa aqui</button>        
 

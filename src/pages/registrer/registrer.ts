@@ -32,12 +32,12 @@ export class RegistrerPage {
 
     }
     myForm: FormGroup;
-    message: string;
-    validar: string;
+    message: string;    
     newuser = {
         email: '',
         password: '',
-        celular: ''
+        celular: '',
+        displayName: '', //si quitamos el displayName fireBase marca error en el signup
     }
     emailUser: any;
     passwordUser: any;
@@ -45,15 +45,25 @@ export class RegistrerPage {
 
     
     onSubmit(form: FormGroup) {
-        this.validar="False"
-        this.validateEmail();
-        if (this.validar=="True"){
+        
+        this.validateEmail().then((res) => {            
+            if (res == true && this.validatePassword() == true && this.validateTelefono() == true) {
+                this.signup();
+            } else {
+                alert('Error');
+            }
+        }).catch((err) => {
+            console.error({err});
+        });
+        
+        /*if (this.validar=="True") {
             this.validatePassword();
-        }else if(this.validar=="True") {
+        } else if (this.validar=="True") {
             this.validateTelefono();
-        }else if(this.validar=="True"){
+        } else if (this.validar=="True") {
             this.signup();
-        }
+        }*/
+
         // console.log({form});
         // if (form.valid === true) {
         //     // this.goIntro();    
@@ -86,10 +96,10 @@ export class RegistrerPage {
         toaster.dismiss();
 
         if (email == undefined) {
-            loader.dismiss();
-        
+            loader.dismiss();        
             toaster.setMessage('Se necesita llenar todos los campos');
-            toaster.present();       
+            toaster.present();
+            return false;       
         } else {
 
             email = email.trim();
@@ -100,62 +110,63 @@ export class RegistrerPage {
                 if (re.test(String(email).toLowerCase()) === true) { //check if valid regex email
 
                         
-                        //Checamos si el email ya esta registrado en firebase
-                        let userAlreadyExists = await this.userservice.userAlreadyExists(this.newuser.email);
-                        if (userAlreadyExists === true) {
-                            loader.dismiss();
-                            toaster = this.toastCtrl.create({
-                                duration: 3000,
-                                position: 'bottom'
-                            });            
-                            toaster.setMessage('El E-Mail ya se encuentra registrado');
-                            this.validar="False"
-                            toaster.present();            
-                        } else {
-                            //Si no esta registrado, ahora checamos que no se encuentre registrado en bunch.guru
+                    //Checamos si el email ya esta registrado en firebase
+                    let userAlreadyExists = await this.userservice.userAlreadyExists(this.newuser.email);
+                    if (userAlreadyExists === true) {
+                        loader.dismiss();
+                        toaster = this.toastCtrl.create({
+                            duration: 3000,
+                            position: 'bottom'
+                        });            
+                        toaster.setMessage('El E-Mail ya se encuentra registrado');                        
+                        toaster.present(); 
+                        return false;           
+                    } else {
+                        //Si no esta registrado, ahora checamos que no se encuentre registrado en bunch.guru
+                        
+                        let string = `email=${email}`,
+                            encodedString = btoa(string),
+                            url = `http://services.bunch.guru/WebService.asmx/validarCliente?param=${encodedString}`;
 
-                            console.log('validar cliente por service...');
-                            let string = `email=${email}`,
-                                encodedString = btoa(string),                        
-                                url = `http://services.bunch.guru/WebService.asmx/validarCliente?param=${encodedString}`;
+                        let promise = new Promise((resolve, reject) => {
+                            this.http.get(url).map(res => res.json()).subscribe(data => {                                    
+                                switch(+data.status) {
+                                    case 1:
+                                        //el email esta disponible, quiere decir que podemos registrarlo
+                                        //asi que pasamos al siguiente slide
+                                        //this.getCode();
+                                        toaster.dismiss(); 
+                                        loader.dismiss(); 
+                                        this.newuser.email = email;                                        
+                                        resolve(true);
+                                        break;
+                                    /*case 2:
+                                        //existe pero con info incompleta (se supone que por el cambio de forma de crear cuentas ahora esto nunca deberia pasar)
+                                        break;
+                                    case 3:
+                                        //existe con la info completa
+                                        break;*/
+                                    default:
+                                        loader.dismiss();
+                                        toaster = this.toastCtrl.create({
+                                            duration: 3000,
+                                            position: 'bottom'
+                                        });            
+                                        toaster.setMessage('El E-Mail ya se encuentra registrado');                                        
+                                        resolve(false);
+                                        toaster.present();
+                                        break;
+                                }
+                                
+                            }, err => {                                    
+                                console.error({err});
+                                reject(err);
+                            });                            
+                        });
+                        console.log({promise});
 
-                            this.http.get(url)
-                                .map(res => res.json())
-                                .subscribe(data => {
-                                    console.log('validar cliente por service...', {data});
-                                    switch(+data.status) {
-                                        case 1:
-                                            //el email esta disponible, quiere decir que podemos registrarlo
-                                            //asi que pasamos al siguiente slide
-                                            //this.getCode();
-                                            toaster.dismiss(); 
-                                            loader.dismiss(); 
-                                            this.newuser.email = email;
-                                            this.validar="True"      
-                                            break;
-                                        /*case 2:
-                                            //existe pero con info incompleta (se supone que por el cambio de forma de crear cuentas ahora esto nunca deberia pasar)
-                                            break;
-                                        case 3:
-                                            //existe con la info completa
-                                            break;*/
-                                        default:
-                                            loader.dismiss();
-                                            toaster = this.toastCtrl.create({
-                                                duration: 3000,
-                                                position: 'bottom'
-                                            });            
-                                            toaster.setMessage('El E-Mail ya se encuentra registrado');
-                                            this.validar="False"
-                                            toaster.present();
-                                            break;
-                                    }
-                                    
-                                }, err => {
-                                    console.error({err});
-                                });                            
-                        }                        
-                             
+                        return await promise;
+                    }                                                     
 
                 } else {
                     loader.dismiss();
@@ -163,9 +174,9 @@ export class RegistrerPage {
                         duration: 3000,
                         position: 'bottom'
                     });            
-                    toaster.setMessage('Indique un email válido');
-                    this.validar="False"
-                    toaster.present();        
+                    toaster.setMessage('Indique un email válido');                    
+                    toaster.present();
+                    return false;
                 }                
             } else {
                 loader.dismiss();
@@ -173,9 +184,9 @@ export class RegistrerPage {
                     duration: 3000,
                     position: 'bottom'
                 });            
-                toaster.setMessage('Se necesita llenar todos los campos');
-                this.validar="False"
+                toaster.setMessage('Se necesita llenar todos los campos');                
                 toaster.present();    
+                return false;
             }
         }        
     } 
@@ -195,19 +206,19 @@ export class RegistrerPage {
                     duration: 3000,
                     position: 'bottom'
                 });            
-                toaster.setMessage('El password debe ser por lo menos de 7 caracteres');
-                this.validar="False"
+                toaster.setMessage('El password debe ser por lo menos de 7 caracteres');                
                 toaster.present();
+                return false;
             } else {
                 //password is valid, lets save it and pass to the next slide
-                //this.getUpdateContasenaCuenta();
-                this.validar="True"                
+                //this.getUpdateContasenaCuenta();                
                 loader.dismiss();
+                return true;
             }            
 
     }
 
-    validateTelefono() {
+    validateTelefono():boolean {
 
         let toaster,
             loader = this.loadingCtrl.create({
@@ -222,14 +233,14 @@ export class RegistrerPage {
                     duration: 3000,
                     position: 'bottom'
                 });            
-                toaster.setMessage('El celular debe ser por lo menos de 10 caracteres');
-                this.validar="False"
+                toaster.setMessage('El celular debe ser por lo menos de 10 caracteres');                
                 toaster.present();
+                return false;
             } else {
                 //password is valid, lets save it and pass to the next slide
-                //this.getUpdateContasenaCuenta();
-                this.validar="True"                
+                //this.getUpdateContasenaCuenta();                
                 loader.dismiss();
+                return true;
             }            
 
     }
@@ -238,12 +249,9 @@ export class RegistrerPage {
 
         console.log('signup');
 
-        let loader = this.loadingCtrl.create({
-            content: 'Actualizando'
-        });
+        let loader = this.loadingCtrl.create();
         loader.present();            
-
-        // this.newuser.displayName = this.nombreUser + ' ' + this.apellidoPUser + ' ' + this.apellidoMUser;        
+        
         var toaster = this.toastCtrl.create({
             duration: 3000,
             position: 'bottom'
@@ -262,13 +270,11 @@ export class RegistrerPage {
             //Registrar en la db de bunch.guru
             let string = `celular=${this.newuser.celular}&password=${this.newuser.password}&email=${this.newuser.email}`,
                 encodedString = btoa(string),
-                url = `http://localhost:51505/WebService.asmx/CrearCuenta?param=${encodedString}`;
+                url = `http://services.bunch.guru/WebService.asmx/CrearCuenta?param=${encodedString}`;
 
             console.log({string, encodedString, url});
-            this.http.get(url)
-            .map(res => res.json())
-            .subscribe(data => {
-                console.log({data});            
+            this.http.get(url).map(res => res.json()).subscribe(data => {
+                console.log({data});
                 //this.getCotSeguridad(data);
                 //this.codeEnviar = data;                
 
@@ -277,16 +283,17 @@ export class RegistrerPage {
                     if (res.success) {
                         console.log("se ha creado una nueva cuenta");
                         loader.dismiss();
+                        alert('Success');
                     } else {
                         console.error({res});
                         loader.dismiss();
                     }                    
-                }).catch(() => {
-                    console.error('error');
+                }).catch((a) => {
+                    console.error('error!', {a});
                     loader.dismiss();
                 });
             }, err => {
-                console.error({err});
+                console.error('error->', {err});
                 loader.dismiss();
             });                
         }

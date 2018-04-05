@@ -17,7 +17,8 @@ page-login {
     }
 
     .login-content {
-        background-color: black;
+        background-image:url('../assets/img/fondo-registro.jpg') !important;
+        background-size: cover;
         color: white !important;
         text-align: center;
 
@@ -170,6 +171,7 @@ page-login {
             background: rgba(0,153,204,255);
             font-weight: 100;
             text-transform: none;
+            height: 50px;
         }
 
         .list-md[inset] {
@@ -185,5 +187,31 @@ page-login {
             text-align: center;
             padding-top: 10px;
         }
+        #toggle{
+            background: none !important;
+            border: none;
+        }
+        .toggleFloat{
+            float: left;
+
+        }
+        .toggleDiv{
+            float: left;
+            padding-top: 10px;
+            padding-left: 5px;
+        }
+        .form-btnX{
+            font-size: 16px !important;
+            color: black !important;
+            font-weight: 600;
+            padding-bottom: 2px;
+            margin-top: 10px !important;
+            text-decoration: underline black !important;
+        }
+        .linea{
+            height: 1px;
+            background-color: white;
+            margin-top: 30px;
+          }
     }
 }
