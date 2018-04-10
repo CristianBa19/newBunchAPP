@@ -38,6 +38,13 @@ export class AdvertisementPage {
       }
   }
 
+  ionViewDidEnter() { 
+    let footer = document.getElementById('appFooter').getElementsByClassName('tabbar')[0];    
+    if (footer['style'].display == 'none') {
+      footer['style'].display = '';
+    }    
+  }
+
  public detailAdv = (adv) => {
    this.navCtrl.push(AdDetailPage, null, {animate: true});
  }
