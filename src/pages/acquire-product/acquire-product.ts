@@ -126,16 +126,40 @@ export class AcquireProductPage {
     idContCot: string;
 
     private idContVend:number;
-
-    private fillStep1() {
+    
+    private fillTab1() {
         this.codigoPostal1 = 79050;
-        this.edad = 29;
+        this.edad = 22;
         this.marca = 'CHEVROLET';
         this.modelo = '2014';
         this.subMarca = 'AVEO';
         this.descripcion = 'A';
         this.subDescripcion = 'PAQ A';
     }
+
+    /*private fillTab2() {
+        this.email
+        this.nombre:string;
+        this.paterno:string;
+        this.materno:string;
+        this.fechaNacimiento:string;
+        this.genero:string;
+        this.telCasa:string;
+        private telMovil:string;
+        private rfc:string;
+        private nacionalidad:string;
+        private lugarNacimiento:string;
+        private codigoPostal2:string;
+        private colonia:string;
+        private estado:string;
+        private delegacion:string;
+        private calle:string;
+        private numExterior:string;
+        private numInterior:string;
+        private numMotor:string;
+        private numSerie:string;
+        private numPlacas:string;
+    }*/
 
     master() {        
         document.getElementById("master").style.opacity = "1";
@@ -154,6 +178,8 @@ export class AcquireProductPage {
     }    
 
     ionViewDidLoad() {
+
+        document.getElementById('appFooter').getElementsByClassName('tabbar')[0]['style'].display = 'none';
 
         let loader = this.loadingCtrl.create();
 
@@ -182,8 +208,11 @@ export class AcquireProductPage {
         
         let _alert = this.alertCtrl.create(options);
         _alert.setTitle(title);
-        _alert.setCssClass('definidaX');
-        _alert.addButton('Cancelar');
+        _alert.setCssClass('definidaX');        
+        _alert.addButton({
+            text: 'Cancelar',
+            cssClass: 'alert-cancel-btn',
+        });
         _alert.addButton({
             text: 'OK',
             handler: data => {
@@ -193,6 +222,24 @@ export class AcquireProductPage {
             }
         });
         _alert.present();
+
+        /*setTimeout(function() {
+            let alertInputs = document.getElementsByClassName('alert-input');
+            console.warn({alertInputs});
+            for (let i = 0, len = alertInputs.length; i < len; i++) {
+                let alertInput = alertInputs[i];
+                console.log({alertInput});
+                let minLen = alertInput.getAttribute('min')
+                if (minLen != null) {                
+                    alertInput.setAttribute('minlength', minLen);
+                }
+
+                let maxLen = alertInput.getAttribute('max')
+                if (maxLen != null) {                
+                    alertInput.setAttribute('maxlength', maxLen);
+                }
+            }
+        }, 500);*/
     }
 
     loadInputData(inputId:string) {
@@ -254,8 +301,7 @@ export class AcquireProductPage {
                     this.subDescripcionList = [];
                     for (let i = 0, len = data.ListadoDetalles.length; i < len; i++) {
                         this.subDescripcionList.push(data.ListadoDetalles[i].Detalle);
-                    }
-                    console.warn('subDescripcionList', this.subDescripcionList);
+                    }                    
                     this.inputSubDescripcion.classList.remove('disabled');
                     break;                    
             }
@@ -286,8 +332,8 @@ export class AcquireProductPage {
 
         
         let that = this,
-            title = this.isEnglish ? 'Input ZIP code' :  'Código Postal',
-            options = [{ type: 'number', name: 'codigoPostal1' }];
+            title = this.isEnglish ? 'Input ZIP code' :  'Código Postal',            
+            options = [{ type: 'number', name: 'codigoPostal1', value: this.codigoPostal1, min: 3, max: 5}];
         
         this.showAlert(title, options, function(data) {
 
@@ -319,14 +365,16 @@ export class AcquireProductPage {
     showAlertEdad() {
 
         let that = this,
-            title = this.isEnglish ? 'Choose your age' : 'Elija su edad',
+            title = this.isEnglish ? 'Choose your age' : 'Edad',
             options = [];
         
         for (let edad of this.edadList) {
+            let checked = this.edad == edad;
             options.push({
                 type: 'radio',
-                label: '' + edad,
-                value: '' + edad
+                label: '' + edad,                
+                value: '' + edad,
+                checked: checked,
             });            
         }
 
@@ -338,14 +386,16 @@ export class AcquireProductPage {
     showAlertMarca() {
 
         let that = this,
-            title = this.isEnglish ? 'Choose brand' : 'Elija la marca',
+            title = this.isEnglish ? 'Choose brand' : 'Marca',
             options = [];
 
         for (let marca of this.marcaList) {
+            let checked = this.marca == marca;
             options.push({
                 type: 'radio',
                 label: marca,
-                value: marca
+                value: marca,
+                checked: checked,
             });
         }
         
@@ -356,10 +406,10 @@ export class AcquireProductPage {
             that.descripcion = undefined;
             that.subDescripcion = undefined;                
 
-            that.inputModelo.classList.add('disabled');
+            /*that.inputModelo.classList.add('disabled');
             that.inputSubMarca.classList.add('disabled');
             that.inputDescripcion.classList.add('disabled');
-            that.inputSubDescripcion.classList.add('disabled');                
+            that.inputSubDescripcion.classList.add('disabled');*/
 
             that.loadInputData('inputModelo');                
         });
@@ -370,14 +420,16 @@ export class AcquireProductPage {
         if (this.hasClass(this.inputModelo, 'disabled')) {return;}
 
         let that = this,
-            title = this.isEnglish ? 'Choose model ' : 'Elija el modelo',
+            title = this.isEnglish ? 'Choose model ' : 'Modelo',
             options = [];
 
         for (let modelo of this.modeloList) {
+            let checked = this.modelo == modelo;
             options.push({
                 type: 'radio',
                 label: modelo,
-                value: modelo
+                value: modelo,
+                checked: checked,
             });
         }
         
@@ -387,9 +439,9 @@ export class AcquireProductPage {
             that.descripcion = undefined;
             that.subDescripcion = undefined;                
             
-            that.inputSubMarca.classList.add('disabled');
+            /*that.inputSubMarca.classList.add('disabled');
             that.inputDescripcion.classList.add('disabled');
-            that.inputSubDescripcion.classList.add('disabled');
+            that.inputSubDescripcion.classList.add('disabled');*/
 
             that.loadInputData('inputSubMarca');
         });                
@@ -400,14 +452,16 @@ export class AcquireProductPage {
         if (this.hasClass(this.inputSubMarca, 'disabled')) {return;}
 
         let that = this,
-            title = this.isEnglish ? 'Choose sub brand' : 'Elija sub marca',
+            title = this.isEnglish ? 'Choose sub brand' : 'Submarca',
             options = [];
 
         for (let subMarca of this.subMarcaList) {
+            let checked = this.subMarca == subMarca;
             options.push({
                 type: 'radio',
                 label: subMarca,
-                value: subMarca
+                value: subMarca,
+                checked: checked,
             });
         }
                         
@@ -416,8 +470,8 @@ export class AcquireProductPage {
             that.descripcion = undefined;
             that.subDescripcion = undefined;                
             
-            that.inputDescripcion.classList.add('disabled');
-            that.inputSubDescripcion.classList.add('disabled');                
+            /*that.inputDescripcion.classList.add('disabled');
+            that.inputSubDescripcion.classList.add('disabled');*/
 
             that.loadInputData('inputDescripcion');
         });                
@@ -430,17 +484,19 @@ export class AcquireProductPage {
         let that = this,
             options = [];
         for (let descripcion of this.descripcionList) {
+            let checked = this.descripcion == descripcion;
             options.push({
                 type: 'radio',
                 label: descripcion,
-                value: descripcion
+                value: descripcion,
+                checked: checked,
             });
         }
 
-        this.showAlert('Elija descripción', options, function(data) {
+        this.showAlert('Descripción', options, function(data) {
             that.descripcion = data;                
             that.subDescripcion = undefined;
-            that.inputSubDescripcion.classList.add('disabled');
+            /*that.inputSubDescripcion.classList.add('disabled');*/
             that.loadInputData('inputSubDescripcion');
         });            
     }    
@@ -452,14 +508,17 @@ export class AcquireProductPage {
         let options = [],
             that = this;
         for (let subDescripcion of this.subDescripcionList) {
+            let checked = this.subDescripcion == subDescripcion;
             options.push({
                 type: 'radio',
                 label: subDescripcion,
-                value: subDescripcion
+                value: subDescripcion,
+                checked: checked,
             });
         }
 
-        this.showAlert('Elija sub descripción', options, function(data) {
+        this.showAlert('Subdescripción', options, function(data) {
+            console.log('subDescripcion', data);
             that.subDescripcion = data;
         });        
     }
@@ -467,15 +526,17 @@ export class AcquireProductPage {
     showAlertColony() {
         if (this.isEnabledTipo3Dir == true) {
 
-            let title = this.isEnglish?'Choose colony':'Elegir colonia',
+            let title = this.isEnglish ? 'Choose colony' : 'Colonia',
                 options = [],
                 that = this;
 
-            for (let item of this.userColonyList) {
+            for (let colonia of this.userColonyList) {
+                let checked = this.colonia == colonia;
                 options.push({
                     type: 'radio',
-                    label: item,
-                    value: item
+                    label: colonia,
+                    value: colonia,
+                    checked: checked,
                 });
             }
 
@@ -621,13 +682,13 @@ export class AcquireProductPage {
                 displayPrimaTotal = str.replace(/"|,|\$/g, '');
                 displayPrimaTotalInt = Math.ceil(parseInt(displayPrimaTotal));
                 displayPrimaTotal = displayPrimaTotalInt.toLocaleString();
-                displayPrimaTotal = '$' + displayPrimaTotal;
+                displayPrimaTotal = '$ ' + displayPrimaTotal;
             }            
 
             //para los daños materiales
             displayDanosMaterialesD = displayDanosMateriales.split('-D')[1];
             displayDanosMateriales = parseInt(displayDanosMateriales.split('-D')[0]).toLocaleString();
-            displayDanosMateriales = '$' + displayDanosMateriales;
+            displayDanosMateriales = '$ ' + displayDanosMateriales;
             if (displayDanosMateriales === '$NaN') {
                 displayDanosMateriales = '-';
             }            
@@ -635,7 +696,7 @@ export class AcquireProductPage {
             //para el robo total
             displayRoboTotalD = displayRoboTotal.split('-D')[1];
             displayRoboTotal = parseInt(displayRoboTotal.split('-D')[0]).toLocaleString();
-            displayRoboTotal = '$' + displayRoboTotal;
+            displayRoboTotal = '$ ' + displayRoboTotal;
             if (displayRoboTotal === '$NaN') {
                 displayRoboTotal = '-';
             }            
@@ -643,7 +704,7 @@ export class AcquireProductPage {
             //Def juridica
             //displayDefensaJuridicaD=displayDefensaJuridica.split('-D')[1];
             displayDefensaJuridica = parseInt(displayDefensaJuridica.split('-D')[0]).toLocaleString();
-            displayDefensaJuridica = '$' + displayDefensaJuridica;
+            displayDefensaJuridica = '$ ' + displayDefensaJuridica;
             if (displayDefensaJuridica === '$NaN') {
                 displayDefensaJuridica = '-';
             }            
@@ -654,7 +715,7 @@ export class AcquireProductPage {
                 displayGastosMedicosOcupantes = 'Amparada';
             else {
                 displayGastosMedicosOcupantes = parseInt(displayGastosMedicosOcupantes.split('-D')[0]).toLocaleString();
-                displayGastosMedicosOcupantes = '$' + displayGastosMedicosOcupantes;
+                displayGastosMedicosOcupantes = '$ ' + displayGastosMedicosOcupantes;
             }
             if (displayGastosMedicosOcupantes === '$NaN') {
                 displayGastosMedicosOcupantes = '-';
@@ -664,8 +725,8 @@ export class AcquireProductPage {
             if (displayRCPersonasD === '  Amparada -')
                 displayRCPersonasD = 'Amparada';
             else
-                displayRCPersonasD = '$' + displayRCPersonasD;
-            if (displayRCPersonasD === '$')
+                displayRCPersonasD = '$ ' + displayRCPersonasD;
+            if (displayRCPersonasD === '$ ')
                 displayRCPersonasD = '-';                
 
             aseguradora = aseguradora.replace(/"/g, '');
@@ -712,7 +773,7 @@ export class AcquireProductPage {
                             displayPrimaTotal = primaAna.replace(/"|,|\$/g, '');
                             displayPrimaTotalInt = Math.ceil(parseInt(displayPrimaTotal));
                             displayPrimaTotal = displayPrimaTotalInt.toLocaleString();
-                            displayPrimaTotal = '$' + displayPrimaTotal;
+                            displayPrimaTotal = '$ ' + displayPrimaTotal;
                         }                        
 
                         if (data3.Coberturas[0] != undefined) {
@@ -725,7 +786,7 @@ export class AcquireProductPage {
 
                             displayDanosMaterialesD = displayDanosMateriales.split('-D')[1];
                             displayDanosMateriales = parseInt(displayDanosMateriales.split('-D')[0]).toLocaleString();
-                            displayDanosMateriales = '$' + displayDanosMateriales;
+                            displayDanosMateriales = '$ ' + displayDanosMateriales;
                             if (displayDanosMateriales === '$NaN') {
                                 displayDanosMateriales = '-';
                             }
@@ -733,7 +794,7 @@ export class AcquireProductPage {
                             //para el robo total
                             displayRoboTotalD = displayRoboTotal.split('-D')[1];
                             displayRoboTotal = parseInt(displayRoboTotal.split('-D')[0]).toLocaleString();
-                            displayRoboTotal = '$' + displayRoboTotal;
+                            displayRoboTotal = '$ ' + displayRoboTotal;
                             if (displayRoboTotal === '$NaN') {
                                 displayRoboTotal = '-';
                             }
@@ -839,7 +900,7 @@ export class AcquireProductPage {
                         displayPrimaTotal = primaGNP.replace(/"|,|\$/g, '');
                         displayPrimaTotalInt = Math.ceil(parseInt(displayPrimaTotal));
                         displayPrimaTotal = displayPrimaTotalInt.toLocaleString();
-                        displayPrimaTotal = '$' + displayPrimaTotal;
+                        displayPrimaTotal = '$ ' + displayPrimaTotal;
                         displayDanosMateriales = (JSON.stringify(data3.Coberturas[0].DanosMateriales)).replace(/"|-N|-S|DAÑOS|MATERIALES/g, '');
                         displayRoboTotal = (JSON.stringify(data3.Coberturas[0].RoboTotal)).replace(/"|-N|-S|ROBO|TOTAL/g, '');
                         displayRCPersonas = (JSON.stringify(data3.Coberturas[0].RCPersonas)).replace(/"|-N|-S|NRC|PERSONAS|RESPONSABILIDAD|CIVIL|PERSONAS|NO|APLICA|RC|-|D|-/g, '');
@@ -849,7 +910,7 @@ export class AcquireProductPage {
 
                         displayDanosMaterialesD = displayDanosMateriales.split('-D')[1];
                         displayDanosMateriales = parseInt(displayDanosMateriales.split('-D')[0]).toLocaleString();
-                        displayDanosMateriales = '$' + displayDanosMateriales;
+                        displayDanosMateriales = '$ ' + displayDanosMateriales;
                         if (displayDanosMateriales === '$NaN') {
                             displayDanosMateriales = '-';
                         }
@@ -857,7 +918,7 @@ export class AcquireProductPage {
                         //para el robo total
                         displayRoboTotalD = displayRoboTotal.split('-D')[1];
                         displayRoboTotal = parseInt(displayRoboTotal.split('-D')[0]).toLocaleString();
-                        displayRoboTotal = '$' + displayRoboTotal;
+                        displayRoboTotal = '$ ' + displayRoboTotal;
                         if (displayRoboTotal === '$NaN') {
                             displayRoboTotal = '-';
                         }
@@ -925,7 +986,7 @@ export class AcquireProductPage {
                             displayPrimaTotal = primaHDI.replace(/"|,|\$/g, '');
                             displayPrimaTotalInt = Math.ceil(parseInt(displayPrimaTotal));
                             displayPrimaTotal = displayPrimaTotalInt.toLocaleString();
-                            displayPrimaTotal = '$' + displayPrimaTotal;
+                            displayPrimaTotal = '$ ' + displayPrimaTotal;
                         }                        
 
                         var danosMateriales = '',
@@ -954,7 +1015,7 @@ export class AcquireProductPage {
 
                         displayDanosMaterialesD = displayDanosMateriales.split('-D')[1];
                         displayDanosMateriales = parseInt(displayDanosMateriales.split('-D')[0]).toLocaleString();
-                        displayDanosMateriales = '$' + displayDanosMateriales;
+                        displayDanosMateriales = '$ ' + displayDanosMateriales;
                         if (displayDanosMateriales === '$NaN') {
                             displayDanosMateriales = '-';
                         }
@@ -962,7 +1023,7 @@ export class AcquireProductPage {
                         //para el robo total
                         displayRoboTotalD = displayRoboTotal.split('-D')[1];
                         displayRoboTotal = parseInt(displayRoboTotal.split('-D')[0]).toLocaleString();
-                        displayRoboTotal = '$' + displayRoboTotal;
+                        displayRoboTotal = '$ ' + displayRoboTotal;
                         if (displayRoboTotal === '$NaN') {
                             displayRoboTotal = '-';
                         }
@@ -1047,8 +1108,8 @@ export class AcquireProductPage {
     showAlertEmail() {
 
         let that = this,
-            title = this.isEnglish ? 'Input your email' : 'Ingrese correo electrónico',
-            options = [{ name: 'email', id: 'email'}];
+            title = this.isEnglish ? 'Input your email' : 'Email',
+            options = [{ name: 'email', id: 'email', value: this.email}];
         
         this.showAlert(title, options, function(data) {
             that.email = data.email;
@@ -1116,8 +1177,8 @@ export class AcquireProductPage {
         if (this.isEnabled == true) {
 
             let that = this,
-                title = this.isEnglish ? 'Input name' : 'Ingrese nombre',
-                options = [{name: 'nombre', id: 'nombre'}];
+                title = this.isEnglish ? 'Input name' : 'Nombre',
+                options = [{name: 'nombre', id: 'nombre', value: this.nombre}];
 
             this.showAlert(title, options, function(data) {
                 let nombre = data.nombre.trim();
@@ -1130,8 +1191,8 @@ export class AcquireProductPage {
         if (this.isEnabled == true) {
 
             let that = this,
-                title = this.isEnglish ? 'Input lastname' : 'Ingrese apellido paterno',
-                options = [{name: 'paterno', id: 'paterno'}];
+                title = this.isEnglish ? 'Input lastname' : 'Apellido paterno',
+                options = [{name: 'paterno', id: 'paterno', value: this.paterno}];
 
             this.showAlert(title, options, function(data) {
                 let paterno = data.paterno.trim();
@@ -1144,8 +1205,8 @@ export class AcquireProductPage {
         if (this.isEnabled == true) {
 
             let that = this,
-                title = this.isEnglish ? 'Input lastname' : 'Ingrese apellido materno',
-                options = [{name: 'materno', id: 'materno'}];
+                title = this.isEnglish ? 'Input lastname' : 'Apellido materno',
+                options = [{name: 'materno', id: 'materno', value: this.materno}];
 
             this.showAlert(title, options, function(data) {
                 let materno = data.materno.trim();
@@ -1158,14 +1219,16 @@ export class AcquireProductPage {
         if (this.isEnabled == true) {
 
             let that = this,
-                title = this.isEnglish ? 'Choose gender' : 'Elija género',
+                title = this.isEnglish ? 'Choose gender' : 'Género',
                 options = [];
 
-            for (let item of this.userGenderList) {
+            for (let genero of this.userGenderList) {
+                let checked = this.genero == genero;
                 options.push({
                     type: 'radio',
-                    label: item,
-                    value: item
+                    label: genero,
+                    value: genero,
+                    checked: checked,
                 });
             }
 
@@ -1179,55 +1242,31 @@ export class AcquireProductPage {
     showAlertNacionalidad() {
         if (this.isEnabledTipo3 == true) {
             
-            let title = this.isEnglish?'Choose your nationality':'Elegir tu nacionalidad',
+            let title = this.isEnglish ? 'Choose your nationality' : 'Nacionalidad',
                 that = this,
-                options = [
-                    {                 
-                        name: 'nacionalidad',
-                        id: 'nacionalidad'
-                    }
-                ];
+                options = [];
+
+            for (let nacionalidad of ['Mexicana']) {
+                let checked = this.nacionalidad == nacionalidad;
+                options.push({
+                    type: 'radio',
+                    label: nacionalidad,
+                    value: nacionalidad,
+                    checked: checked,
+                });
+            }
             
             this.showAlert(title, options, function(data) {
-                that.nacionalidad = data.nacionalidad;
+                that.nacionalidad = data;
             });                    
         }
     }
-
-    /*showAlert(value, mode, modelList = [], massage = "") {
-        let alert = this.alertCtrl.create({
-            inputs: [
-                {
-                    //type: 'number',   
-                    name: 'username',
-                    id: 'nombre'
-                }
-            ]
-        });
-        alert.setTitle(massage);
-        alert.setCssClass('definidaX');
-        alert.addButton('Cancelar');
-        alert.addButton({
-            text: 'OK',
-            handler: data => {                
-                document.getElementById('nombre').innerHTML = data.username;
-            }
-        });
-        alert.present();
-
-    }*/
-
-    //'textInput', userGender, userGenderList,
+    
     showAlertTitular() {
 
-        let title = this.isEnglish?'Name of the owner':'Nombre del titular',
+        let title = this.isEnglish ? 'Name of the owner':'Nombre del titular',
             that = this,
-            options = [
-                {              
-                    name: 'titular',
-                    id: 'titular'
-                }
-            ];
+            options = [{name: 'titular', id: 'titular', value: this.titular}];
 
         this.showAlert(title, options, function(data) {
             that.titular = data.titular;
@@ -1305,15 +1344,28 @@ export class AcquireProductPage {
 
         if (this.isEnabledTipo3 == true) {
             let that = this,
-                title = this.isEnglish ? 'Input home number' : 'Ingrese número de teléfono de casa',
+                title = this.isEnglish ? 'Input home number' : 'Teléfono de Casa',
                 options = [{
                     type: 'tel',
                     name: 'telCasa',
-                    id: 'telCasa'
+                    id: 'telCasa',
+                    value: this.telCasa,
                 }];
 
-            this.showAlert(title, options, function(data) {
-                that.telCasa = data.telCasa;
+            this.showAlert(title, options, function(data) {                
+
+                let tel = data.telCasa.trim();
+                if (tel.length >= 10) {
+                    that.telCasa = tel;
+                } else {
+                    let toaster = that.toastCtrl.create({
+                        duration: 3000,
+                        position: 'bottom'
+                    });
+                    toaster.setMessage('Teléfono de Casa inválido');
+                    toaster.present();
+                    that.showAlertTelefonoMovil();
+                }
             });
         }
     }
@@ -1321,33 +1373,44 @@ export class AcquireProductPage {
 
         if (this.isEnabledTipo3 == true) {
             let that = this,
-                title = this.isEnglish ? 'Input cellphone number' : 'Ingrese número de teléfono movil',
+                title = this.isEnglish ? 'Input cellphone number' : 'Teléfono Móvil',
                 options = [{
                     type: 'tel',
                     name: 'telMovil',
-                    id: 'telMovil'
+                    id: 'telMovil',
+                    value: this.telMovil,
                 }];
 
             this.showAlert(title, options, function(data) {
-                that.telMovil = data.telMovil;
+                let tel = data.telMovil.trim();
+                if (tel.length >= 10) {
+                    that.telMovil = tel;
+                } else {
+                    let toaster = that.toastCtrl.create({
+                        duration: 3000,
+                        position: 'bottom'
+                    });
+                    toaster.setMessage('Teléfono Móvil inválido');
+                    toaster.present();
+                    that.showAlertTelefonoMovil();
+                }
             });
         }
     }
-    
-    //'textInput', userRFC, userRFCList, 
+        
     showAlertRFC(value, mode, modelList = [], massage = "") {
         if (this.isEnabledTipo3 == true) {
 
-            let title = this.isEnglish ? 'Choose your ID' : 'Elegir RFC',
+            let title = this.isEnglish ? 'Choose your ID' : 'RFC',
                 that = this,
-                options = [{
-                    //type: 'number',   
+                options = [{                    
                     name: 'rfc',
-                    id: 'rfc'
+                    id: 'rfc',
+                    value: this.rfc,
                 }];
 
             this.showAlert(title, options, function(data) {
-                that.rfc = data.rfc;
+                that.rfc = data.rfc;                
             });            
         }
     }
@@ -1356,13 +1419,14 @@ export class AcquireProductPage {
     showAlertCodigoPostal() {
         if (this.isEnabledTipo3Dir == true) {
 
-            let title = this.isEnglish ? 'Input postal code' : 'Ingrese código postal',
+            let title = this.isEnglish ? 'Input postal code' : 'Código Postal',
                 that = this,
                 options = [
                     {
                         type: 'number',
                         name: 'codigoPostal2',
-                        id: 'codigoPostal2'
+                        id: 'codigoPostal2',
+                        value: this.codigoPostal2,
                     }
                 ];
 
@@ -1387,12 +1451,13 @@ export class AcquireProductPage {
     showAlertLugarDeNacimiento() {
         if (this.isEnabledTipo3 == true) {
 
-            let title = this.isEnglish?'Choose your place of birth':'Elegir tu lugar de nacimiento',
+            let title = this.isEnglish?'Choose your place of birth':'Lugar de nacimiento',
                 that = this,
                 options = [
                     {                  
                         name: 'lugarNacimiento',
-                        id: 'lugarNacimiento'
+                        id: 'lugarNacimiento',
+                        value: this.lugarNacimiento,
                     }
                 ];
             
@@ -1404,15 +1469,16 @@ export class AcquireProductPage {
     
     showAlertCvv() {
 
-        let title = this.isEnglish?'Input the CVV':'Ingrese el CVV',
+        let title = this.isEnglish?'Input the CVV':'CVV',
             that = this,
             options = [
                 {
                     type: 'number',
                     name: 'cvv',
                     id: 'cvv',
-                    //min: 10,
-                    //max: 10
+                    value: this.cvv,
+                    min: 3,
+                    max: 4 //amex tiene casos de 4 digitos
                 }
             ];
 
@@ -1423,9 +1489,9 @@ export class AcquireProductPage {
 
     showAlertNumeroDeSerie() {        
 
-        let title = this.isEnglish?'Input serial number':'Ingrese el número de serie',
+        let title = this.isEnglish?'Input serial number':'Número de serie',
             that = this,
-            options = [{name: 'numSerie'}];
+            options = [{name: 'numSerie', value: this.numSerie, max: 17}];
 
         this.showAlert(title, options, function(data) {
 
@@ -1508,43 +1574,68 @@ export class AcquireProductPage {
     
     showAlertNumeroDePlacas() {
 
-        let title = this.isEnglish?'Input plate':'Ingrese el número de placa',
+        let title = this.isEnglish?'Input plate':'Número de placa',
             that = this,
-            options = [{
-                //type: 'number',   
+            options = [{             
                 name: 'numPlacas',
-                id: 'numPlacas'
+                id: 'numPlacas',
+                value: this.numPlacas,
+                min: 6,
             }];
 
         this.showAlert(title, options, function(data) {
-            that.numPlacas = data.numPlacas;
+            let numPlacas = data.numPlacas;
+            if (numPlacas.length >= 6) {
+                that.numPlacas = data.numPlacas;
+            } else {
+                let toaster = that.toastCtrl.create({
+                    duration: 3000,
+                    position: 'bottom'
+                });
+                toaster.setMessage('Placas no válidas');
+                toaster.present();                
+                that.showAlertNumeroDeSerie();
+            }            
         });
     }
     
     showAlertNumeroDeMotor() {
 
-        let title = this.isEnglish ? 'Input motor number' : 'Ingrese el número del motor',
+        let title = this.isEnglish ? 'Input motor number' : 'Número del motor',
             that = this,
-            options = [{
-                //type: 'number',   
+            options = [{                
                 name: 'numMotor',
-                id: 'numMotor'
+                id: 'numMotor',
+                value: this.numMotor,
+                min: 7,
             }];
 
-        this.showAlert(title, options, function(data) {
-            that.numMotor = data.numMotor;
+        this.showAlert(title, options, function(data) {            
+            let numMotor = data.numMotor;
+            if (numMotor.length >= 7) {
+                that.numMotor = numMotor;
+            } else {
+                let toaster = that.toastCtrl.create({
+                    duration: 3000,
+                    position: 'bottom'
+                });
+                toaster.setMessage('Número de motor inválido');
+                toaster.present();                
+                that.showAlertNumeroDeSerie();
+            }
         });
     }
     
     showAlertCalle() {
         if (this.isEnabledTipo3Dir == true) {
 
-            let title = this.isEnglish?'Input street name':'Ingrese el nombre de su calle',
+            let title = this.isEnglish?'Input street name':'Calle',
                 options = [
                     {
                         //type: 'number',   
                         name: 'calle',
-                        id: 'calle'
+                        id: 'calle',
+                        value: this.calle,
                     }
                 ],
                 that = this;
@@ -1558,12 +1649,13 @@ export class AcquireProductPage {
 
         if (this.isEnabledTipo3Dir == true) {
 
-            let title = this.isEnglish?'Input exterior number':'Ingrese número exterior',
+            let title = this.isEnglish?'Input exterior number':'Número exterior',
                 that = this,
                 options = [
                     {                        
                         name: 'numExterior',
-                        id: 'numExterior'
+                        id: 'numExterior',
+                        value: this.numExterior,
                     }
                 ];
 
@@ -1575,12 +1667,13 @@ export class AcquireProductPage {
     showAlertNoInt() {
         if (this.isEnabledTipo3Dir == true) {
 
-            let title = this.isEnglish?'Input interior number':'Ingrese número interior',
+            let title = this.isEnglish?'Input interior number':'Número interior',
                 that = this,
                 options = [
                     {                        
                         name: 'numInterior',
-                        id: 'numInterior'
+                        id: 'numInterior',
+                        value: this.numInterior,
                     }
                 ];
 
@@ -1590,22 +1683,23 @@ export class AcquireProductPage {
         }
     }
     
-    showAlertTarjeta() {
+    showAlertTarjeta() {        
 
-        let loader = this.loadingCtrl.create();
-        loader.present();
-
-        let title = this.isEnglish ? 'Input your credit card number':'Ingrese el número de tarjeta',
+        let title = this.isEnglish ? 'Input your credit card number':'Número de tarjeta',
             that = this,
             options = [
                 {
                     type: 'number',   
                     name: 'numTarjeta',
-                    id: 'numTarjeta'
+                    id: 'numTarjeta',
+                    value: this.numTarjeta,
                 }
             ];
 
         this.showAlert(title, options, function(data) {
+
+            let loader = this.loadingCtrl.create();
+            loader.present();
 
             let scheme,
                 type,
@@ -1705,9 +1799,11 @@ export class AcquireProductPage {
             '</table>' +
             '<hr>'
         );
-
-
-        alert.addButton('Regresar');
+        
+        alert.addButton({
+            text: 'Regresar',
+            cssClass: 'alert-cancel-btn',
+        });
         alert.addButton({
             text: 'Contratar',
             handler: data => {
@@ -1820,6 +1916,7 @@ export class AcquireProductPage {
     private userSerialNumberList = ['HEAH876542KLOP', 'HEAH87LOP', 'HEKLOP'];
     private userPlates = { name: 'HEM987' }; //d
     private userPlatesList = ['HEM987', 'HEM9', 'HE87'];
+    private maxYear = new Date().getFullYear() - 18;
 
 
     constructor(public navCtrl: NavController, public http: Http, public navParams: NavParams, public modalCtrl: ModalController, public alertSrv: AlertService, public localizationModal: LocalizationModel, public alertCtrl: AlertController, private storage: Storage, public loadingCtrl: LoadingController, public toastCtrl: ToastController) {
@@ -1880,7 +1977,8 @@ export class AcquireProductPage {
             alert('Error al crear usuario');
         });        
     }
-    ionViewDidEnter() {
+    ionViewDidEnter() {        
+        
         if (localStorage.getItem("isClient") == "true") {
             setTimeout(() => {
                 if (document.getElementById("tab-t0-5") && document.getElementById("tab-t0-4")) {
