@@ -50,7 +50,11 @@ export class LoginPage implements OnInit {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad LoginPage');
+        console.log('ionViewDidLoad LoginPage', localStorage.idContVend);
+        if (localStorage.idContVend !== undefined) {
+            this.storage.set('name', localStorage.idContVend);
+            this.navCtrl.push(IntroductionPage, { animate: true });
+        }
     }
 
     createAccount = () => {
@@ -109,6 +113,7 @@ export class LoginPage implements OnInit {
 
                         switch (data.respuesta) {
                             case 'true':
+                                localStorage.idContVend = data.idContVend;
                                 this.storage.set('name', data.idContVend);
                                 this.signin();
                                 break;
@@ -148,6 +153,7 @@ export class LoginPage implements OnInit {
             if (!res.code) {
                 this.navCtrl.push(IntroductionPage, { animate: true });
             } else {
+                localStorage.idContVend = undefined;
                 console.error({res});
             }
         });
