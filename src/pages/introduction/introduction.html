@@ -3,17 +3,16 @@
 
     <ion-slide>
       <ion-row>  
-          <div class="first-section"></div>
-        </ion-row>  
+          <div class="first-section">
         <ion-row class="second-section" padding>
-          <div class="title-text">Sé tu propio jefe</div>
-          <div class="body-text">Tú decide cuánto quieres recomendar y cuanto quieres ganar.</div>
+          <div class="title-text">{{ 'IntroductionPage.firstSlide.titleText' | translate}}</div>
+          <div class="body-text">{{ 'IntroductionPage.firstSlide.bodyText' | translate}}</div>
         </ion-row>
-        <div class="third-section">  
-          <button ion-button style="color: black; text-align:center;" (click)="goHome()" class="scape-intro-btn">{{ 'IntroductionPage.firstSlide.buttonText' | translate}} </button>
-          <ion-item-divider>
-          </ion-item-divider>      
-        </div>   
+        <!-- <div class="third-section">  
+          <button ion-button style="color:white; text-align:center;" (click)="goHome()" class="scape-intro-btn">{{ 'IntroductionPage.firstSlide.buttonText' | translate}} </button>   
+        </div>    -->
+      </div>
+      </ion-row>         
     </ion-slide>
 
     <ion-slide>
@@ -21,14 +20,12 @@
           <div class="first-sectionb"></div>
         </ion-row>
         <ion-row class="second-section" padding>
-          <div class="title-text">Gana por recomendar productos financieros</div>
-          <div class="body-text">Seguros de auto, de vida, tarjetas de crédito, etc.</div>
+          <div class="title-text2">{{ 'IntroductionPage.secondSlide.titleText' | translate}}</div>
+          <div class="body-text">{{ 'IntroductionPage.secondSlide.bodyText' | translate}}</div>
         </ion-row>
-        <div class="third-section">  
-          <button ion-button style="color: black; text-align:center;" (click)="goHome()" class="scape-intro-btn">{{ 'IntroductionPage.secondSlide.buttonText' | translate}}</button>
-          <ion-item-divider>
-          </ion-item-divider>      
-        </div>
+        <!-- <div class="third-section">  
+          <button ion-button style="color: black; text-align:center;" (click)="goHome()" class="scape-intro-btn">{{ 'IntroductionPage.secondSlide.buttonText' | translate}}</button> 
+        </div> -->
     </ion-slide>
 
     <ion-slide>
@@ -36,8 +33,8 @@
           <div class="first-sectionc"></div>
         </ion-row>
         <ion-row class="second-section" padding>
-          <div class="title-text">Trabaja desde tu celular, es muy fácil</div>
-          <div class="body-text">Desde tu casa o cualquier lugar puedes ganar más dinero, BUNCH siempre te guiará, sólo tienes que recomendar.</div>
+          <div class="title-text">{{ 'IntroductionPage.thirdSlide.titleText' | translate}}</div>
+          <div class="body-text">{{ 'IntroductionPage.thirdSlide.bodyText' | translate}}</div>
         </ion-row>
         
           <span>{{ "AcquireProductPage.following" | translate }}</span>
@@ -45,9 +42,7 @@
         <div class="third-section">  
           <ion-row align-items-center justify-content-center class="bot-button" >
           <button ion-button class="bot-button" (click)="goHome()" class="scape-intro-btn-3rd">{{ 'IntroductionPage.thirdSlide.buttonText' | translate}}</button>
-          </ion-row>
-          <ion-item-divider>
-          </ion-item-divider>      
+          </ion-row>   
         </div>
     </ion-slide>
   </ion-slides>
