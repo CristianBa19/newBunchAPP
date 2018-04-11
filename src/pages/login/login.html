@@ -13,11 +13,11 @@
                             <ion-input formControlName="user" type="email" placeholder='Email' class="user" [(ngModel)]="credentials.email"></ion-input>
                         </div>
                         <div class="divRow">
-                            <ion-input [type]="password_type" id="password" formControlName="pass" type="password" [placeholder]='"LoginPage.passwordInputPlaceholderText" | translate' class="pass"
-                                [(ngModel)]="credentials.password">
+                            <ion-input [type]="password_type" id="password" formControlName="pass" type="password" [placeholder]='"LoginPage.passwordInputPlaceholderText" | translate'
+                                class="pass" [(ngModel)]="credentials.password">
                             </ion-input>
-                                <ion-icon name="eye" class="icon-eye" (click)="togglePasswordMode()"></ion-icon>
-                        </div>  
+                            <ion-icon name="eye" class="icon-eye" (click)="togglePasswordMode()"></ion-icon>
+                        </div>
                     </ion-list>
                     <p style="color:red;">{{message}}</p>
                 </ion-col>
@@ -27,10 +27,13 @@
             </ion-row>
         </form>
         <div class="linea"></div>
-        <button ion-button class="form-btnX" (click)="forgotPass()">¿Olvidaste tu contraseña?</button>
-        <button type="button" ion-button class="form-btn form-btnX" (click)="createAccount()">{{ "LoginPage.createAccaunText" | translate }}
-            
-        </button>
+        <ion-row>
+            <button ion-button class="form-btnX justify" (click)="forgotPass()">¿Olvidaste tu contraseña?</button>
+        </ion-row>
+        <ion-row> 
+            <button type="button" ion-button class="form-btn form-btnX justify" (click)="createAccount()">{{ "LoginPage.createAccaunText" | translate }}
+            </button>
+        </ion-row>
         <ion-row>
             <div class="footer-warn">{{ "LoginPage.footerWarnText" | translate }}</div>
         </ion-row>
