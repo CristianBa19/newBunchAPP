@@ -1,5 +1,5 @@
 <ion-content class="page-introduction">
-  <ion-slides pager="true" parallax="true" >
+  <ion-slides  >
 
     <ion-slide>
       <ion-row>  
@@ -29,8 +29,8 @@
     </ion-slide>
 
     <ion-slide>
-      <ion-row>  
-          <div class="first-sectionc"></div>
+      <ion-row (swipeleft)="goHome()">  
+          <div class="first-sectionc" ></div>
         </ion-row>
         <ion-row class="second-section" padding>
           <div class="title-text">{{ 'IntroductionPage.thirdSlide.titleText' | translate}}</div>
@@ -39,11 +39,11 @@
         
           <span>{{ "AcquireProductPage.following" | translate }}</span>
       
-        <div class="third-section">  
+        <!-- <div class="third-section">  
           <ion-row align-items-center justify-content-center class="bot-button" >
           <button ion-button class="bot-button" (click)="goHome()" class="scape-intro-btn-3rd">{{ 'IntroductionPage.thirdSlide.buttonText' | translate}}</button>
           </ion-row>   
-        </div>
+        </div> -->
     </ion-slide>
   </ion-slides>
 </ion-content>
