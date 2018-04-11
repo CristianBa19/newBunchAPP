@@ -1,7 +1,7 @@
 import { IntroductionPage } from './../introduction/introduction';
 import { CarListPage } from './../car-list/car-list';
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { RecoveryPage } from '../recovery/recovery';
 import { RegistrerPage } from '../registrer/registrer';
 import { HomePage } from '../home/home';
@@ -19,13 +19,13 @@ import { ValidateEmail } from '../../app/validators/email.validator';
 })
 export class LoginPage implements OnInit {
     credentials = {} as usercreds;
-    constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, private storage: Storage, public authservice: AuthProvider) { }
+    constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, private storage: Storage, public authservice: AuthProvider, public toastCtrl: ToastController) { }
     //email: string;
     //pass: string;
     message: string;
     isEnabled: boolean;
     myForm: FormGroup;
-
+	password_type: string = 'password';
     ngOnInit() {
         this.myForm = new FormGroup({
             user: new FormControl('', [Validators.required, ValidateEmail]),
@@ -34,12 +34,19 @@ export class LoginPage implements OnInit {
     }
 
     onSubmit(form: FormGroup) {
-        console.log({form});
+        let toaster;
+        toaster = this.toastCtrl.create({
+            duration: 3000,
+            position: 'bottom'
+        });
+        toaster.dismiss();
+        console.log({ form });
         if (form.valid === true) {
-            this.goIntro();    
+            this.goIntro();
         } else {
-            this.message = 'E-mail o password incorrecto';
-        }        
+            toaster.setMessage = 'E-mail o password incorrecto';
+            toaster.present();
+        }
     }
 
     ionViewDidLoad() {
@@ -61,7 +68,12 @@ export class LoginPage implements OnInit {
         this.navCtrl.push(Login2Page, { animate: true });
     }
     goIntro = () => {
-
+        let toaster;
+        toaster = this.toastCtrl.create({
+            duration: 3000,
+            position: 'top'
+        });
+        toaster.dismiss();
         console.log('goIntro');
 
         this.message = '';
@@ -78,7 +90,8 @@ export class LoginPage implements OnInit {
             pass = pass.trim();
 
             if (this.validateEmail(email) !== true) {
-                this.message = 'Debes ingresar el e-mail del usuario';
+                toaster.setMessage = 'Debes ingresar el e-mail del usuario';
+                toaster.present();	  
                 this.isEnabled = true;
             } else {
 
@@ -101,15 +114,18 @@ export class LoginPage implements OnInit {
                                 break;
                             case 'false':
                                 this.isEnabled = true;
-                                this.message = 'Verifica tu contraseña';
+                                toaster.setMessage = 'Verifica tu contraseña';
+                                toaster.present();  
                                 break;
                             case 'No existe usuario':
                                 this.isEnabled = true;
-                                this.message = 'El usuario no existe';
+                                toaster.setMessage = 'El usuario no existe';
+                                toaster.present();  
                                 break;
                             default:
                                 this.isEnabled = true;
-                                this.message = 'Hubo un error, intenta de nuevo';
+                                toaster.setMessage = 'Hubo un error, intenta de nuevo';
+                                toaster.present();
                         }
                     }, err => {
                         console.log("el usuario no existe");
@@ -118,9 +134,11 @@ export class LoginPage implements OnInit {
         } else {
             this.isEnabled = true;
             if (email == undefined) {
-                this.message = 'El campo usuario no puede estar vacío';
+                toaster.setMessage = 'El campo usuario no puede estar vacío';
+                toaster.present();
             } else {
-                this.message = 'El password no puede estar vacío';
+                toaster.setMessage = 'El password no puede estar vacío';
+                toaster.present();
             }
         }
     }
@@ -138,5 +156,10 @@ export class LoginPage implements OnInit {
     validateEmail(email: string): boolean {
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
+    }
+
+
+    togglePasswordMode() {
+        this.password_type = this.password_type === 'text' ? 'password' : 'text';
     }
 }

@@ -13,13 +13,11 @@
                             <ion-input formControlName="user" type="email" placeholder='Email' class="user" [(ngModel)]="credentials.email"></ion-input>
                         </div>
                         <div class="divRow">
-                            <ion-input formControlName="pass" type="text" [placeholder]='"LoginPage.passwordInputPlaceholderText" | translate' class="pass"
-                                [(ngModel)]="credentials.password"></ion-input>
-                        </div>
-                        <div id="toggle" class="divRow">
-                            <ion-toggle class="toggleFloat"></ion-toggle>
-                            <div class="toggleDiv">Recordar usuario</div>
-                        </div>
+                            <ion-input [type]="password_type" id="password" formControlName="pass" type="password" [placeholder]='"LoginPage.passwordInputPlaceholderText" | translate' class="pass"
+                                [(ngModel)]="credentials.password">
+                            </ion-input>
+                                <ion-icon name="eye" class="icon-eye" (click)="togglePasswordMode()"></ion-icon>
+                        </div>  
                     </ion-list>
                     <p style="color:red;">{{message}}</p>
                 </ion-col>
