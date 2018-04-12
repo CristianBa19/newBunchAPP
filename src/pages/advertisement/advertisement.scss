@@ -29,26 +29,27 @@ page-advertisement {
 
     .tab-header-cls {
         //background: url(../assets/img/splash2.jpg);
-        background-color: #2492ff;
+        // background-color: #2492ff;
+        background-image:url('../assets/img/fondo-registro.jpg') !important;
         background-position-y: 140px;
         color: white;
         margin: 0 auto;
         background-size: cover;
         min-height:20px; 
-        max-height: 70px;
+        max-height: 108px;
 
         div.divImg {
             
             position:relative;
             //top: -65px;
-            width: 25%;
+            width: 12%;
             max-height: 50px;
             //margin: -25px auto;
             img {
                 position: relative;
-                width: 100px !important;
-                height: 100px !important;
-                top:-50px;
+                width: 40px !important;
+                height: 45px !important;
+                top:-18px;
                 background-color: transparent;
                 ///height: 140px !important;
                 //margin-top: 15px;
@@ -93,7 +94,45 @@ page-advertisement {
     }
     .publish-adv-btn{
         border: 1px solid transparent;
-        border-radius: 10px;
+        border-radius: 5px;
         background: rgb(34,146,192);
+        margin-top: 13px;
+    }
+    .publish-adv-btn2{
+        border: 1px solid transparent;
+        border-radius: 5px;
+        background: #999;
+        margin-top: 13px;
+    }
+    .login-title{
+        margin-top: -3px;
+        text-align: center;
+        font-size: 1.7rem;
+        line-height: 1;
+        font-family: inherit;
+        font-weight: 200;
+    }
+    .title1{
+        font-size: 2.1rem;
+        color: #2492ff;
+        text-align: center;
+        letter-spacing: 0.15em;
+        padding-bottom: 10px;
+        font-weight: 500;
+        margin-top: 10px;
+    }
+    .title2{
+        font-size: 1.6rem;
+        color: #2492ff;
+        text-align: center;
+        letter-spacing: 0.15em;
+        padding-bottom: 10px;
+        font-weight: 500;
+        width: 71%;
+        margin: auto;
+    }
+
+    .imgAuto{
+        width: 100%;
     }
 }

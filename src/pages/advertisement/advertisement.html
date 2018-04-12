@@ -1,17 +1,21 @@
 <ion-header class="tab-header-cls">
   <ion-col>
     <div class="divImg">
-      <img src="assets/icon/anuncios2.svg">
+      <img src="assets/icon/Icon_Productos.png">
     </div>
-    <!--
+      <div class="login-title">Productos</div>
+      <!--
     <div class="titleForm">{{ "AdvertisementPage.titleText" | translate }}</div>-->
   </ion-col>
   
 </ion-header>
 
 <ion-content padding>
- 
-    <ion-toolbar>
+  <div class="title1">Seguro de Auto</div>
+  <div class="title2">En menos de 5 minutos descubre y compara el Seguro de tu Auto.</div>
+  <img class="imgAuto" src="assets/img/img-advertisement.jpg">
+  
+    <!-- <ion-toolbar>
         <ion-segment color="primary" >
           <ion-segment-button value="auto" >
             Seguro de Auto
@@ -23,7 +27,7 @@
             Inversiones
           </ion-segment-button>
         </ion-segment>
-      </ion-toolbar>   
+      </ion-toolbar>    -->
   
     <!--
   <ion-list no-border>
@@ -53,8 +57,8 @@
   </ion-item>
   </ion-list>
   -->
-  <button ion-button full class="publish-adv-btn" (click)="newAdv()">{{ "AdvertisementPage.postButtonText" | translate }}</button>
-  <button ion-button full class="publish-adv-btn" (click)="goAcquireProduct()">Cotizar Ahora</button>
+  <button ion-button full class="publish-adv-btn" (click)="goAcquireProduct()">¡Cotizar ahora!</button>
+  <button ion-button full class="publish-adv-btn2" (click)="newAdv()">{{ "AdvertisementPage.postButtonText" | translate }}</button>
 
 
 </ion-content>
