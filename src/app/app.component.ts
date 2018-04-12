@@ -13,7 +13,7 @@ import { Splash } from '../pages/splash/splash';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = LoginPage;
+  rootPage:any = IntroductionPage;
 
   constructor(platform: Platform,
               statusBar: StatusBar,
@@ -27,7 +27,7 @@ export class MyApp {
       
 
       this.events.subscribe('user:logout', () => {
-        this.app.getRootNav().setRoot(LoginPage, null, { animate: true });
+        this.app.getRootNav().setRoot(IntroductionPage, null, { animate: true });
       });
 
       this.events.subscribe('user:homePage', ()=> { this.app.getRootNav().setRoot(HomePage, {openProduct:true}, {animate:true})});

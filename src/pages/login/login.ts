@@ -53,7 +53,7 @@ export class LoginPage implements OnInit {
         console.log('ionViewDidLoad LoginPage', localStorage.idContVend);
         if (localStorage.idContVend !== undefined) {
             this.storage.set('name', localStorage.idContVend);
-            this.navCtrl.push(IntroductionPage, { animate: true });
+            this.navCtrl.push(HomePage, { animate: true });
         }
     }
 
@@ -151,7 +151,7 @@ export class LoginPage implements OnInit {
     signin() {
         this.authservice.login(this.credentials).then((res: any) => {
             if (!res.code) {
-                this.navCtrl.push(IntroductionPage, { animate: true });
+                this.navCtrl.push(HomePage, { animate: true });
             } else {
                 localStorage.idContVend = undefined;
                 console.error({res});

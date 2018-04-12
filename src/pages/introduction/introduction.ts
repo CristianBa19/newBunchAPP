@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, Platform, AlertController } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LocalizationModel } from '../../_helpers/localizationModel';
+import { RegistrerPage } from '../registrer/registrer';
 
 
 
@@ -29,15 +30,21 @@ export class IntroductionPage {
       this.setAppLanguage();
   }
 
+  // ionViewDidLoad() {
+  //   console.log('ionViewDidLoad IntroductionPag');
+  //   this.storage.get('name').then((val) => {
+  //     console.log('Your age is', val);
+  //     var local=val;
+  //     console.log('Valor de local', local);
+  //   });  
+  // }
   ionViewDidLoad() {
-    console.log('ionViewDidLoad IntroductionPag');
-    this.storage.get('name').then((val) => {
-      console.log('Your age is', val);
-      var local=val;
-      console.log('Valor de local', local);
-    });  
-  }
-
+    console.log('ionViewDidLoad LoginPage', localStorage.idContVend);
+    if (localStorage.idContVend !== undefined) {
+        this.storage.set('name', localStorage.idContVend);
+        this.navCtrl.push(HomePage, { animate: true });
+    }
+}
   ionViewWillEnter(){
     this.platform.ready().then(() => {
       setTimeout(()=>{
@@ -81,7 +88,7 @@ export class IntroductionPage {
   goHome = () => {
     localStorage.setItem("isClient","false");
     localStorage.setItem("isFirstEnterToHomeScreeb","true");
-    this.navCtrl.push(HomePage, null, {animate: true});
+    this.navCtrl.push(RegistrerPage, null, {animate: true});
   }
 
 }
