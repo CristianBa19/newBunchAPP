@@ -1,18 +1,18 @@
 {
   "IntroductionPage":{
     "firstSlide":{
-      "titleText": "Alcanza tus metas financieras",
-      "bodyText": "Bunch es una opción Flexible que ayuda a sus afiliados a alcanzar su metas financieras de una forma sencilla.",
+      "titleText": "Gana más dinero",
+      "bodyText": "Desde tu casa o cualquier lugar, BUNCH siempre contigo.",
       "buttonText": "Saltar"
     },
     "secondSlide":{
-      "titleText": "Gana con tus amigos y familiares.",
-      "bodyText": "Con Bunch puedes estar en una reunión familiar o una cena con amigos y aprovechar para generar un ingreso extra.",
+      "titleText": "Gana por recomendar productos financieros",
+      "bodyText": "Seguros de Auto por ejemplo.",
       "buttonText": "Saltar"
     },
     "thirdSlide":{
-      "titleText": "Que mejor que ser tu propio jefe.",
-      "bodyText": "Bunch es una forma nueva de ganar dinero extra. Tu decide cuando quieres vender y cuanto quieres ganar. La desición es tuya.",
+      "titleText": "Sé tu propio jefe",
+      "bodyText": "Mientras más recomiendes mayores serán tus ingresos.",
       "buttonText": "Continuar"
     }
   },
@@ -38,11 +38,11 @@
   },
   "RecoveryPage":{
     "titleText":"¿Olvidaste la contraseña?",
-    "bodyText":"Ingresa tu correo electrónico y te enviaremos un enlace para reestablecer tu contraseña.",
+    "bodyText":"Ingresa tu email para restablecer tu contraseña y recuperar tu cuenta",
     "emailInputPlaceholder":"Correo electronico",
     "buttonText":"Recuperar contraseña",
     "confirRecoveryText":"Te hemos enviado un correo electrónico con instrucciones para que puedas reestablecer tu contraseña",
-    "confirmButtonText":"Entendido"
+    "confirmButtonText":"Enviar"
   },
   "RegisterAccountPage":{
     "titleText": "Crear una cuenta",
@@ -91,7 +91,7 @@
     "publishedText": "Publicados",
     "creditOfText": "Crédito de ",
     "draftsText": "Borradores",
-    "postButtonText": "Publicar otro anuncio"
+    "postButtonText": "Publicar anuncio"
   },
   "NotificationPage":{
     "titleText": "Alertas",
