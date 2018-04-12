@@ -357,6 +357,21 @@ export class AcquireProductPage {
                     that.showAlertCP1();
                 } else {
                     that.codigoPostal1 = cp;                        
+
+                    let codigoPostal2 = cp,
+                        url = 'http://services.bunch.guru/WebService.asmx/ConsultaCP?CPostal=' + codigoPostal2;
+                    
+                    that.userColonyList = [];
+                    that.http.get(url).map(res => res.json()).subscribe(data => {
+                        that.delegacion = data.Municipio;
+                        that.estado = data.Estado;
+                        for (let i = 0, len = data.Colonias.length; i < len; i++){
+                            that.userColonyList.push(data.Colonias[i].Colonia);
+                        }
+                        that.codigoPostal2 = codigoPostal2;
+                    }, err => {                            
+                        console.error({err});                            
+                    });
                 }
             });
         });
@@ -1416,7 +1431,7 @@ export class AcquireProductPage {
     }
 
     //'numInput', userPostalCode, [], 
-    showAlertCodigoPostal() {
+    /*showAlertCodigoPostal() {
         if (this.isEnabledTipo3Dir == true) {
 
             let title = this.isEnglish ? 'Input postal code' : 'Código Postal',
@@ -1446,7 +1461,7 @@ export class AcquireProductPage {
                 });
             });            
         }
-    }    
+    }*/
         
     showAlertLugarDeNacimiento() {
         if (this.isEnabledTipo3 == true) {
