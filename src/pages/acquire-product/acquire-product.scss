@@ -26,6 +26,9 @@ acquire-product-page{
         border-radius: 10px;                         
         background:white;
     }
+    .input.focus{
+        border: 1px solid #09c;
+    }
     .input.disabled{        
         opacity:0.6;
     }

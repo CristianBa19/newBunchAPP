@@ -281,28 +281,56 @@ export class AcquireProductPage {
                     for (let i = 0, len = data.ListadoDescripciones.length; i < len; i++) {
                         this.modeloList.push(data.ListadoDescripciones[i].Modelo);                
                     }
+
+                    this.inputModelo.classList.remove('focus');
+                    this.inputSubMarca.classList.remove('focus');
+                    this.inputDescripcion.classList.remove('focus');
+                    this.inputSubDescripcion.classList.remove('focus');
+
                     this.inputModelo.classList.remove('disabled');
+                    this.inputModelo.classList.add('focus');
                     break;
                 case 'inputSubMarca':
                     this.subMarcaList = [];
                     for (let i = 0, len = data.ListadoDescripciones.length; i < len; i++) {
                         this.subMarcaList.push(data.ListadoDescripciones[i].Descripcion);
                     }
+
+                    this.inputModelo.classList.remove('focus');
+                    this.inputSubMarca.classList.remove('focus');
+                    this.inputDescripcion.classList.remove('focus');
+                    this.inputSubDescripcion.classList.remove('focus');
+                    
                     this.inputSubMarca.classList.remove('disabled');
+                    this.inputSubMarca.classList.add('focus');
                     break;
                 case 'inputDescripcion':
                     this.descripcionList = [];
                     for (let i = 0, len = data.ListadoSubDescripciones.length; i < len; i++) {
                         this.descripcionList.push(data.ListadoSubDescripciones[i].SubDescripcion);
                     }
+
+                    this.inputModelo.classList.remove('focus');
+                    this.inputSubMarca.classList.remove('focus');
+                    this.inputDescripcion.classList.remove('focus');
+                    this.inputSubDescripcion.classList.remove('focus');
+                    
                     this.inputDescripcion.classList.remove('disabled');
+                    this.inputDescripcion.classList.add('focus');
                     break;
                 case 'inputSubDescripcion':
                     this.subDescripcionList = [];
                     for (let i = 0, len = data.ListadoDetalles.length; i < len; i++) {
                         this.subDescripcionList.push(data.ListadoDetalles[i].Detalle);
                     }                    
+
+                    this.inputModelo.classList.remove('focus');
+                    this.inputSubMarca.classList.remove('focus');
+                    this.inputDescripcion.classList.remove('focus');
+                    this.inputSubDescripcion.classList.remove('focus');
+
                     this.inputSubDescripcion.classList.remove('disabled');
+                    this.inputSubDescripcion.classList.add('focus');
                     break;                    
             }
 
