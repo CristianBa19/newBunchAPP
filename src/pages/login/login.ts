@@ -49,9 +49,8 @@ export class LoginPage implements OnInit {
         }
     }
 
-    ionViewDidLoad() {
-        console.log('ionViewDidLoad LoginPage', localStorage.idContVend);
-        if (localStorage.idContVend !== undefined) {
+    ionViewDidLoad() {        
+        if (localStorage.idContVend != undefined) {
             this.storage.set('name', localStorage.idContVend);
             this.navCtrl.push(HomePage, { animate: true });
         }

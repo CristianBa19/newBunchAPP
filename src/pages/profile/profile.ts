@@ -40,6 +40,7 @@ export class ProfilePage {
 }
 
   public logout = () => {
+    localStorage.clear();    
     this._event.publish('user:logout');
   }
   public UIupdate = (isClient) => {

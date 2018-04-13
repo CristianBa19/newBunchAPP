@@ -53,7 +53,9 @@ export class IntroductionPage {
     });
   }
   setAppLanguage(){
-    (localStorage.getItem("language")=='en' || localStorage.getItem("language")=='sp') && localStorage.getItem("languageWasChousen") == "true"? "":this.presentLanguagePopup();
+    localStorage.setItem('language', 'sp');
+    localStorage.setItem('languageWasChousen', 'true');
+    //(localStorage.getItem("language")=='en' || localStorage.getItem("language")=='sp') && localStorage.getItem("languageWasChousen") == "true"? "":this.presentLanguagePopup();
   }
 
   presentLanguagePopup(){
