@@ -179,7 +179,7 @@ export class AcquireProductPage {
     }    
 
     ionViewDidLoad() {
-
+        
         document.getElementById('appFooter').getElementsByClassName('tabbar')[0]['style'].display = 'none';
 
         let loader = this.loadingCtrl.create();
@@ -218,7 +218,7 @@ export class AcquireProductPage {
         _alert.addButton({
             text: 'OK',
             handler: data => {
-                setTimeout(function() {
+                setTimeout(function() {                                        
                     callback(data);
                 }, 100);
             }
@@ -239,6 +239,15 @@ export class AcquireProductPage {
                 }, 400);                
             }
         }
+
+        setTimeout(function() {
+            let elem = document.querySelector('input.alert-input[type="text"]');
+            if (elem != null) {
+                elem.addEventListener('keyup', function() {
+                    elem['value'] = elem['value'].toUpperCase();
+                }); 
+            }            
+        }, 400);        
 
         /*setTimeout(function() {
             let alertInputs = document.getElementsByClassName('alert-input');
@@ -408,10 +417,10 @@ export class AcquireProductPage {
                     
                     that.userColonyList = [];
                     that.http.get(url).map(res => res.json()).subscribe(data => {
-                        that.delegacion = data.Municipio;
-                        that.estado = data.Estado;
+                        that.delegacion = data.Municipio.toUpperCase();
+                        that.estado = data.Estado.toUpperCase();
                         for (let i = 0, len = data.Colonias.length; i < len; i++){
-                            that.userColonyList.push(data.Colonias[i].Colonia);
+                            that.userColonyList.push(data.Colonias[i].Colonia.toUpperCase());
                         }
                         that.codigoPostal2 = codigoPostal2;
                     }, err => {                            
@@ -1229,7 +1238,7 @@ export class AcquireProductPage {
 
         let that = this,
             title = this.isEnglish ? 'Input your email' : 'Email',
-            options = [{ name: 'email', id: 'email', value: this.email}];
+            options = [{ name: 'email', type: 'email', id: 'email', value: this.email}];
         
         this.showAlert(title, options, function(data) {
             that.email = data.email;
@@ -1301,7 +1310,7 @@ export class AcquireProductPage {
                 options = [{name: 'nombre', id: 'nombre', value: this.nombre}];
 
             this.showAlert(title, options, function(data) {
-                let nombre = data.nombre.trim();
+                let nombre = data.nombre.trim().toUpperCase();
                 that.nombre = (nombre.length == 0) ? undefined : nombre;
             });
         }
@@ -1315,7 +1324,7 @@ export class AcquireProductPage {
                 options = [{name: 'paterno', id: 'paterno', value: this.paterno}];
 
             this.showAlert(title, options, function(data) {
-                let paterno = data.paterno.trim();
+                let paterno = data.paterno.trim().toUpperCase();
                 that.paterno = (paterno.length == 0) ? undefined : paterno;
             });
         }
@@ -1329,7 +1338,7 @@ export class AcquireProductPage {
                 options = [{name: 'materno', id: 'materno', value: this.materno}];
 
             this.showAlert(title, options, function(data) {
-                let materno = data.materno.trim();
+                let materno = data.materno.trim().toUpperCase();
                 that.materno = (materno.length == 0) ? undefined : materno;
             });            
         }
@@ -1530,7 +1539,7 @@ export class AcquireProductPage {
                 }];
 
             this.showAlert(title, options, function(data) {
-                that.rfc = data.rfc;                
+                that.rfc = data.rfc.toUpperCase();                
             });            
         }
     }
@@ -1626,7 +1635,7 @@ export class AcquireProductPage {
                 loader.dismiss();
 
                 if (data['_body'] === 'True') {
-                    that.numSerie = numSerie;                
+                    that.numSerie = numSerie.toUpperCase();
                 } else {
                     let toaster = that.toastCtrl.create({
                         duration: 3000,
@@ -1706,7 +1715,7 @@ export class AcquireProductPage {
         this.showAlert(title, options, function(data) {
             let numPlacas = data.numPlacas;
             if (numPlacas.length >= 6) {
-                that.numPlacas = data.numPlacas;
+                that.numPlacas = data.numPlacas.toUpperCase();
             } else {
                 let toaster = that.toastCtrl.create({
                     duration: 3000,
@@ -1733,7 +1742,7 @@ export class AcquireProductPage {
         this.showAlert(title, options, function(data) {            
             let numMotor = data.numMotor;
             if (numMotor.length >= 7) {
-                that.numMotor = numMotor;
+                that.numMotor = numMotor.toUpperCase();
             } else {
                 let toaster = that.toastCtrl.create({
                     duration: 3000,
@@ -1761,7 +1770,7 @@ export class AcquireProductPage {
                 that = this;
 
             this.showAlert(title, options, function(data) {
-                that.calle = data.calle;
+                that.calle = data.calle.toUpperCase();
             });            
         }
     }
@@ -2009,7 +2018,7 @@ export class AcquireProductPage {
     private userInteriorNumber = { name: '' };
 
     private userGender = { name: '' }; //d
-    private userGenderList = ['Masculino', 'Femenino'];
+    private userGenderList = ['MASCULINO', 'FEMENINO'];
     private userRFC = { name: '' }; //d
     private userRFCList = [''];
     private userLugarNac = { name: '' }; //d
