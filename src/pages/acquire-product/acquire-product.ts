@@ -1900,8 +1900,8 @@ export class AcquireProductPage {
             '  <td>' +
             '    <table class="tablaModal">' +
             '   <tr>' +
-            '<th>Cobertura</th>' +
-            '<th>Periodicidad</th>' +
+            '<th class="tabla-modal-title">Cobertura</th>' +
+            '<th class="tabla-modal-title">Periodicidad</th>' +
             '</tr>' +
             '<tr>' +
             '<td>Amplia</td>' +
