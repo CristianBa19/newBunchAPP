@@ -1913,7 +1913,7 @@ export class AcquireProductPage {
             ' </table>' +
 
             '<table>' +
-            '<tr><th></th><th><strong>Suma Asegurada</strong></th>' +
+            '<tr><th></th><th class="sumaAseguradaHeader"><strong>Suma Asegurada</strong></th>' +
             '<th><strong>Deducible</strong></th></tr>' +
             '<tr><td><strong>Prima total</strong></str><td><center><strong>' + valor.value + '</strong></center></td><td><center><strong>' + '</strong></center></td></tr>' +
             '<tr><td><strong>Daños materiales</strong><td><center><strong>' + valor.danosMateriales + '</strong></center></td><td><center><strong>' + valor.danosMaterialesD + '</strong></center></td></tr>' +
