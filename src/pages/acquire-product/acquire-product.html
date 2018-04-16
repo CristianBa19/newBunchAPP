@@ -382,20 +382,20 @@
                                 </ion-col>                                
                             </ion-row>
 
-                            <ion-row align-items-center justify-content-center >
-                                <ion-col class="top-tittlex">
-                                    <span><strong>Aseguradora</strong></span>
+                            <ion-row class="fila-0"> <!--align-items-center justify-content-center-->
+                                <ion-col col-4 class="col-0">
+                                    Aseguradora
                                 </ion-col>
-                                <ion-col class="top-tittlex">
-                                    <span><strong>Prima Total Anual</strong></span>
-                                </ion-col>
-                                
+                                <ion-col col-7 class="col-1">
+                                    Prima Total Anual
+                                </ion-col>                                
                             </ion-row>
-                            <ion-list class="list-wrap">
+                            <!--<ion-list class="list-wrap">-->
+                            <ion-list class="list0">
                                 <!--<ion-item *ngFor="let listItem of comparaList" (tap)="isClient == 'false'? changeTab('Pago') : showComparaItemDetail()">-->
-                                <ion-grid>        
-                                <ion-item *ngFor="let listItem of comparaList" (tap)="showAlertPrima('radio', listItem, userEdad, comparaList, isEnglish?'Information':'Información adicional')">                                
-                                    <ion-row align-items-center justify-content-center  class="img-wrap">
+                                <!--<ion-grid>-->
+                                <!--<ion-item >-->
+                                    <!--<ion-row align-items-center justify-content-center  class="img-wrap">
                                         <img [src]="listItem.img">
                                     </ion-row>
                                     <ion-row align-items-center class="text-wrap">
@@ -403,9 +403,22 @@
                                     </ion-row>
                                     <ion-row align-items-center class="arrow-button">
                                         <img src="assets/icon/bt-siguiente.png">
-                                    </ion-row>
-                                </ion-item>
-                                </ion-grid>
+                                    </ion-row>-->
+                                    <div class="resultado-aseguradora" *ngFor="let listItem of comparaList">
+                                        <ion-row align-items-center justify-content-end (tap)="showAlertPrima('radio', listItem, userEdad, comparaList, isEnglish?'Information':'Información adicional')" class="fila0">
+                                            <ion-col col-4 class="col0">
+                                                <img [src]="listItem.img">
+                                            </ion-col>
+                                            <ion-col col-7 class="col1" align-self-center>
+                                                {{listItem.value}}
+                                            </ion-col>
+                                            <ion-col col-1 class="col2">
+                                                <ion-icon name="ios-arrow-forward"></ion-icon>
+                                            </ion-col>
+                                        </ion-row>
+                                    </div>
+                                <!--</ion-item>-->
+                                <!--</ion-grid>-->
                             </ion-list>
                             <!--
                             <ion-row align-items-center justify-content-center class="bot-button" (tap)="changeTab('Pago')">

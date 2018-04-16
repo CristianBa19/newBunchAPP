@@ -654,7 +654,19 @@ export class AcquireProductPage {
             loader.present();
         }
         
-        if (obj == undefined) {
+        if (obj == undefined) {                        
+            console.log('comparaList', this.comparaList);
+            this.comparaList.sort(function(a, b) {
+                if (a.valueInt < b.valueInt)
+                    return -1;
+                if (a.valueInt > b.valueInt)
+                    return 1;
+                return 0;
+            });
+            let elems = document.getElementsByClassName('resultado-aseguradora');
+            for (let i = 0, len = elems.length; i < len; i++) {
+                elems[i]['style'].display = 'block';
+            }
             loader.dismiss();
         } else {
             this.loadCotizacion(obj.aseguradora, obj.clave, obj.descripcion, function() {                                
@@ -800,6 +812,7 @@ export class AcquireProductPage {
                     asegur: aseguradora,
                     img: "assets/icon/logo/asegurdoras-aba.svg",
                     value: displayPrimaTotal,
+                    valueInt: displayPrimaTotalInt,
                     danosMateriales: displayDanosMateriales,
                     danosMaterialesD: displayDanosMaterialesD,
                     roboTotal: displayRoboTotal,
@@ -863,6 +876,7 @@ export class AcquireProductPage {
                                 asegur: aseguradora,
                                 img: "assets/icon/logo/asegurdoras-ana.svg",
                                 value: displayPrimaTotal,
+                                valueInt: displayPrimaTotalInt,
                                 danosMateriales: displayDanosMateriales,
                                 danosMaterialesD: displayDanosMaterialesD,
                                 roboTotal: displayRoboTotal,
@@ -889,6 +903,7 @@ export class AcquireProductPage {
                     asegur: aseguradora,
                     img: "assets/icon/logo/asegurdoras-axa.svg",
                     value: displayPrimaTotal,
+                    valueInt: displayPrimaTotalInt,
                     danosMateriales: displayDanosMateriales,
                     danosMaterialesD: displayDanosMaterialesD,
                     roboTotal: displayRoboTotal,
@@ -909,6 +924,7 @@ export class AcquireProductPage {
                     asegur: aseguradora,
                     img: "assets/icon/logo/asegurdoras-banorte.svg",
                     value: displayPrimaTotal,
+                    valueInt: displayPrimaTotalInt,
                     danosMateriales: displayDanosMateriales,
                     danosMaterialesD: displayDanosMaterialesD,
                     roboTotal: displayRoboTotal,
@@ -929,6 +945,7 @@ export class AcquireProductPage {
                     asegur: aseguradora,
                     img: "assets/icon/logo/asegurdoras-gmx.svg",
                     value: displayPrimaTotal,
+                    valueInt: displayPrimaTotalInt,
                     danosMateriales: displayDanosMateriales,
                     danosMaterialesD: displayDanosMaterialesD,
                     roboTotal: displayRoboTotal,
@@ -987,6 +1004,7 @@ export class AcquireProductPage {
                             asegur: aseguradora,
                             img: "assets/icon/logo/asegurdoras-gnp.svg",
                             value: displayPrimaTotal,
+                            valueInt: displayPrimaTotalInt,
                             danosMateriales: displayDanosMateriales,
                             danosMaterialesD: displayDanosMaterialesD,
                             roboTotal: displayRoboTotal,
@@ -1012,6 +1030,7 @@ export class AcquireProductPage {
                     asegur: aseguradora,
                     img: "assets/icon/logo/asegurdoras-great.svg",
                     value: displayPrimaTotal,
+                    valueInt: displayPrimaTotalInt,
                     danosMateriales: displayDanosMateriales,
                     danosMaterialesD: displayDanosMaterialesD,
                     roboTotal: displayRoboTotal,
@@ -1092,6 +1111,7 @@ export class AcquireProductPage {
                             asegur: aseguradora,
                             img: "assets/icon/logo/asegurdoras-hdi.svg",
                             value: displayPrimaTotal,
+                            valueInt: displayPrimaTotalInt,
                             danosMateriales: displayDanosMateriales,
                             danosMaterialesD: displayDanosMaterialesD,
                             roboTotal: displayRoboTotal,
@@ -1117,6 +1137,7 @@ export class AcquireProductPage {
                     asegur: aseguradora,
                     img: "assets/icon/logo/asegurdoras-mapfre.svg",
                     value: displayPrimaTotal,
+                    valueInt: displayPrimaTotalInt,
                     danosMateriales: displayDanosMateriales,
                     danosMaterialesD: displayDanosMaterialesD,
                     roboTotal: displayRoboTotal,
@@ -1138,6 +1159,7 @@ export class AcquireProductPage {
                     asegur: aseguradora,
                     img: "assets/icon/logo/asegurdoras-qualitas.svg",
                     value: displayPrimaTotal,
+                    valueInt: displayPrimaTotalInt,
                     danosMateriales: displayDanosMateriales,
                     danosMaterialesD: displayDanosMaterialesD,
                     roboTotal: displayRoboTotal,
