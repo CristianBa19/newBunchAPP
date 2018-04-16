@@ -200,13 +200,14 @@ export class AcquireProductPage {
 
     showAlert(title:string, options:any, callback) {
 
+        let _options = {};
         if (options != undefined) {
-            options = {
+            _options = {
                 inputs: options                
             };
         }
         
-        let _alert = this.alertCtrl.create(options);
+        let _alert = this.alertCtrl.create(_options);
         _alert.setTitle(title);
         _alert.setCssClass('definidaX');        
         _alert.addButton({
@@ -222,6 +223,21 @@ export class AcquireProductPage {
             }
         });
         _alert.present();
+
+        console.log({options});
+        if (options.length > 0) {
+            console.log(options[0]['type']);
+            if (options[0]['type'] == 'radio') {
+                console.log('se supone que debe haber un salto');
+                setTimeout(function() {
+                    let elem = document.querySelector('div.alert-radio-group').querySelector('[aria-checked="true"]');
+                    console.log({elem});
+                    if (elem != null) {
+                        elem.scrollIntoView();
+                    }
+                }, 400);                
+            }
+        }
 
         /*setTimeout(function() {
             let alertInputs = document.getElementsByClassName('alert-input');
