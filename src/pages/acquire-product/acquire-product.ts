@@ -1252,17 +1252,20 @@ export class AcquireProductPage {
 
                 switch(status) {
                     case 1:
+                        console.log('email status 1');
                         that.isEnabled = true;
                         that.isEnabledTipo3 = true;
                         that.isEnabledTipo3Dir = true;
                         break;
                     case 2:
-                        that.isEnabled = false;
-                        that.isEnabledTipo3 = true;
-                        that.isEnabledTipo3Dir = true;
+                        console.log('email status 2');
+                        //that.isEnabled = false;
+                        //that.isEnabledTipo3 = true;
+                        //that.isEnabledTipo3Dir = true;
                         that.retrieveData();
                         break;
                     case 3:
+                        console.log('email status 3');
                         that.isEnabled = false;
                         that.isEnabledTipo3 = false;
                                                     
@@ -2059,12 +2062,19 @@ export class AcquireProductPage {
         let encodedString = btoa(this.email);
         
         this.http.get(`http://services.bunch.guru/WebService.asmx/ConsultaDatosCli?param=${encodedString}`).map(res => res.json()).subscribe(data => {
+            console.log('retrieveData data', data);
                 
             this.nombre = data.Nombre;
             this.paterno = data.ApellidoPat;
             this.materno = data.ApellidoMat;
-            this.fechaNacimiento = data.fechaNacimiento;
+            this.fechaNacimiento = data.FechaNacimiento;
             this.genero = data.Genero;
+            this.telCasa = data.Telefono;
+            this.rfc = data.RFC;      
+            this.colonia = data.Direccion.Colonia;
+            this.calle = data.Direccion.Calle;
+            this.numExterior = data.Direccion.NoExt;
+            this.numInterior = data.Direccion.NoInt;
             if (callback != undefined) {
                 callback(data);
             }            

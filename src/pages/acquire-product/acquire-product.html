@@ -182,7 +182,8 @@
                             <ion-row align-items-center class="item-wrapper input">
                                 <ion-col col-10>
                                     <div>Fecha de Nacimiento</div>                                    
-                                    <ion-datetime pickerFormat="YYYY MMMM DD" displayFormat="YYYY MMMM DD"  [monthNames]="datePickerNames.month" [(ngModel)]="fechaNacimiento" cancelText="CANCELAR" doneText="OK" max="{{maxYear}}"></ion-datetime>
+                                    <div>{{fechaNacimiento}}</div>
+                                    <ion-datetime pickerFormat="YYYY MMMM DD" displayFormat="YYYY MMMM DD"  [monthNames]="datePickerNames.month" [(ngModel)]="fechaNacimiento" cancelText="CANCELAR" doneText="OK" max="{{maxYear}}" id="datepiker"></ion-datetime>
                                 </ion-col>
                                 <ion-col col-2>
                                     <ion-icon name="ios-arrow-forward"></ion-icon>
