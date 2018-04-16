@@ -675,6 +675,29 @@ export class AcquireProductPage {
         }
     }
 
+    //Solo funciona para numeros enteros
+    numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    //La ideas quitar decimales (ceil), formatear con comas y agregar un simbolo de $
+    //por ejemplo formatPrice(1212.32) debe regresar $ 1,212
+    formatPrice(price:any) {
+        if (price == undefined) {
+            return 'No disponible';
+        }
+        if (typeof price == 'string') {
+            price = Math.ceil(parseInt(price));
+        }
+        let n = this.numberWithCommas(price);
+        console.log(n, typeof n);
+        if (n == 'NaN') {
+            return 'No disponible';
+        } else {
+            return '$ ' + this.numberWithCommas(price);
+        }        
+    }
+
     loadCotizacion(aseguradora, clave, descripcionAseguradora, callback) {
 
         console.log('loadCotizacion', {aseguradora, clave, descripcionAseguradora});
@@ -748,37 +771,24 @@ export class AcquireProductPage {
             displayPrimaTotal = '';
             data2 = data2.Cotizacion.PrimaTotal;            
             
-            if (data2 != null && isNaN(data2) == false) {
-                str = JSON.stringify(data2);
-                displayPrimaTotal = str.replace(/"|,|\$/g, '');
-                displayPrimaTotalInt = Math.ceil(parseInt(displayPrimaTotal));
-                displayPrimaTotal = displayPrimaTotalInt.toLocaleString();
-                displayPrimaTotal = '$ ' + displayPrimaTotal;
+            if (data2 != null && isNaN(data2) == false) {                                                
+                displayPrimaTotalInt = Math.ceil(parseInt(data2));
+                displayPrimaTotal = this.formatPrice(displayPrimaTotalInt);
             }            
 
             //para los daños materiales
-            displayDanosMaterialesD = displayDanosMateriales.split('-D')[1];
-            displayDanosMateriales = parseInt(displayDanosMateriales.split('-D')[0]).toLocaleString();
-            displayDanosMateriales = '$ ' + displayDanosMateriales;
-            if (displayDanosMateriales === '$NaN') {
-                displayDanosMateriales = '-';
-            }            
+            let displayDanosMaterialesArr = displayDanosMateriales.split('-D');
+            displayDanosMaterialesD = this.formatPrice(displayDanosMaterialesArr[1]);
+            displayDanosMateriales = this.formatPrice(displayDanosMaterialesArr[0]);            
 
             //para el robo total
-            displayRoboTotalD = displayRoboTotal.split('-D')[1];
-            displayRoboTotal = parseInt(displayRoboTotal.split('-D')[0]).toLocaleString();
-            displayRoboTotal = '$ ' + displayRoboTotal;
-            if (displayRoboTotal === '$NaN') {
-                displayRoboTotal = '-';
-            }            
+            let displayRoboTotalArr = displayRoboTotal.split('-D');
+            displayRoboTotalD = this.formatPrice(displayRoboTotalArr[1]);
+            displayRoboTotal = this.formatPrice(displayRoboTotalArr[0]);            
 
             //Def juridica
             //displayDefensaJuridicaD=displayDefensaJuridica.split('-D')[1];
-            displayDefensaJuridica = parseInt(displayDefensaJuridica.split('-D')[0]).toLocaleString();
-            displayDefensaJuridica = '$ ' + displayDefensaJuridica;
-            if (displayDefensaJuridica === '$NaN') {
-                displayDefensaJuridica = '-';
-            }            
+            displayDefensaJuridica = this.formatPrice(displayDefensaJuridica.split('-D')[0]);
 
             //Gastos medicos ocupantes
             displayGastosMedicosOcupantesD = displayGastosMedicosOcupantes.split('-D')[0];
@@ -789,7 +799,7 @@ export class AcquireProductPage {
                 displayGastosMedicosOcupantes = '$ ' + displayGastosMedicosOcupantes;
             }
             if (displayGastosMedicosOcupantes === '$NaN') {
-                displayGastosMedicosOcupantes = '-';
+                displayGastosMedicosOcupantes = 'No disponible';
             }            
 
             //RC Personas         
@@ -798,7 +808,7 @@ export class AcquireProductPage {
             else
                 displayRCPersonasD = '$ ' + displayRCPersonasD;
             if (displayRCPersonasD === '$ ')
-                displayRCPersonasD = '-';                
+                displayRCPersonasD = 'No disponible';                
 
             aseguradora = aseguradora.replace(/"/g, '');
             document.getElementById("nombreAuto").innerHTML = this.marca + ' ' + this.modelo;
@@ -846,10 +856,8 @@ export class AcquireProductPage {
                         displayPrimaTotal = '';
                         let primaAna = data3.Cotizacion.PrimaTotal;
                         if (primaAna != null && isNaN(primaAna) == false) {
-                            displayPrimaTotal = primaAna.replace(/"|,|\$/g, '');
-                            displayPrimaTotalInt = Math.ceil(parseInt(displayPrimaTotal));
-                            displayPrimaTotal = displayPrimaTotalInt.toLocaleString();
-                            displayPrimaTotal = '$ ' + displayPrimaTotal;
+                            displayPrimaTotalInt = Math.ceil(parseInt(primaAna));
+                            displayPrimaTotal = this.formatPrice(displayPrimaTotalInt);                            
                         }                        
 
                         if (data3.Coberturas[0] != undefined) {
@@ -860,20 +868,14 @@ export class AcquireProductPage {
                             displayDefensaJuridica = (JSON.stringify(data3.Coberturas[0].DefensaJuridica)).replace(/"|-N|-S|-D|GASTOS|ES|ASISTENCIA|LEGAL|PROVIAL|LEGALES/g, '');
                             displayGastosMedicosOcupantes = (JSON.stringify(data3.Coberturas[0].GastosMedicosOcupantes)).replace(/"|-N|-S|-D|GASTOS|MÉDICOS|OCUPANTES/g, '');
 
-                            displayDanosMaterialesD = displayDanosMateriales.split('-D')[1];
-                            displayDanosMateriales = parseInt(displayDanosMateriales.split('-D')[0]).toLocaleString();
-                            displayDanosMateriales = '$ ' + displayDanosMateriales;
-                            if (displayDanosMateriales === '$NaN') {
-                                displayDanosMateriales = '-';
-                            }
+                            let displayDanosMaterialesArr = displayDanosMateriales.split('-D');
+                            displayDanosMaterialesD = this.formatPrice(displayDanosMaterialesArr[1]);
+                            displayDanosMateriales = this.formatPrice(displayDanosMaterialesArr[0]);                                        
 
                             //para el robo total
-                            displayRoboTotalD = displayRoboTotal.split('-D')[1];
-                            displayRoboTotal = parseInt(displayRoboTotal.split('-D')[0]).toLocaleString();
-                            displayRoboTotal = '$ ' + displayRoboTotal;
-                            if (displayRoboTotal === '$NaN') {
-                                displayRoboTotal = '-';
-                            }
+                            let displayRoboTotalArr = displayRoboTotal.split('-D');
+                            displayRoboTotalD = this.formatPrice(displayRoboTotalArr[1]);
+                            displayRoboTotal = this.formatPrice(displayRoboTotalArr[0]);            
 
                             if (displayPrimaTotal.length == 0) {
                                 displayPrimaTotal = 'No disponible';
@@ -996,10 +998,8 @@ export class AcquireProductPage {
                     //} else {
                         //para la primatotal
                         primaGNP = data3.Cotizacion.PrimaTotal;
-                        displayPrimaTotal = primaGNP.replace(/"|,|\$/g, '');
-                        displayPrimaTotalInt = Math.ceil(parseInt(displayPrimaTotal));
-                        displayPrimaTotal = displayPrimaTotalInt.toLocaleString();
-                        displayPrimaTotal = '$ ' + displayPrimaTotal;
+                        displayPrimaTotalInt = Math.ceil(parseInt(primaGNP));
+                        displayPrimaTotal = this.formatPrice(displayPrimaTotalInt);
                         displayDanosMateriales = (JSON.stringify(data3.Coberturas[0].DanosMateriales)).replace(/"|-N|-S|DAÑOS|MATERIALES/g, '');
                         displayRoboTotal = (JSON.stringify(data3.Coberturas[0].RoboTotal)).replace(/"|-N|-S|ROBO|TOTAL/g, '');
                         displayRCPersonas = (JSON.stringify(data3.Coberturas[0].RCPersonas)).replace(/"|-N|-S|NRC|PERSONAS|RESPONSABILIDAD|CIVIL|PERSONAS|NO|APLICA|RC|-|D|-/g, '');
@@ -1007,20 +1007,14 @@ export class AcquireProductPage {
                         displayDefensaJuridica = (JSON.stringify(data3.Coberturas[0].DefensaJuridica)).replace(/"|-N|-S|-D|GASTOS|ES|ASISTENCIA|LEGAL|PROVIAL|LEGALES/g, '');
                         displayGastosMedicosOcupantes = (JSON.stringify(data3.Coberturas[0].GastosMedicosOcupantes)).replace(/"|-N|-S|-D|GASTOS|MÉDICOS|OCUPANTES/g, '');
 
-                        displayDanosMaterialesD = displayDanosMateriales.split('-D')[1];
-                        displayDanosMateriales = parseInt(displayDanosMateriales.split('-D')[0]).toLocaleString();
-                        displayDanosMateriales = '$ ' + displayDanosMateriales;
-                        if (displayDanosMateriales === '$NaN') {
-                            displayDanosMateriales = '-';
-                        }
+                        let displayDanosMaterialesArr = displayDanosMateriales.split('-D');
+                        displayDanosMaterialesD = this.formatPrice(displayDanosMaterialesArr[1]);
+                        displayDanosMateriales = this.formatPrice(displayDanosMaterialesArr[0]);            
 
                         //para el robo total
-                        displayRoboTotalD = displayRoboTotal.split('-D')[1];
-                        displayRoboTotal = parseInt(displayRoboTotal.split('-D')[0]).toLocaleString();
-                        displayRoboTotal = '$ ' + displayRoboTotal;
-                        if (displayRoboTotal === '$NaN') {
-                            displayRoboTotal = '-';
-                        }
+                        let displayRoboTotalArr = displayRoboTotal.split('-D');
+                        displayRoboTotalD = this.formatPrice(displayRoboTotalArr[1]);
+                        displayRoboTotal = this.formatPrice(displayRoboTotalArr[0]);            
 
                         if (displayPrimaTotal.length == 0) {
                             displayPrimaTotal = 'No disponible';
@@ -1093,10 +1087,8 @@ export class AcquireProductPage {
                         let primaHDI = data3.Cotizacion.PrimaTotal;
                         
                         if (primaHDI != null && isNaN(primaHDI) == false) {                            
-                            displayPrimaTotal = primaHDI.replace(/"|,|\$/g, '');
-                            displayPrimaTotalInt = Math.ceil(parseInt(displayPrimaTotal));
-                            displayPrimaTotal = displayPrimaTotalInt.toLocaleString();
-                            displayPrimaTotal = '$ ' + displayPrimaTotal;
+                            displayPrimaTotalInt = Math.ceil(parseInt(primaHDI));
+                            displayPrimaTotal = this.formatPrice(displayPrimaTotalInt);
                         }                        
 
                         var danosMateriales = '',
@@ -1123,20 +1115,14 @@ export class AcquireProductPage {
                         displayDefensaJuridica = (JSON.stringify(defensaJuridica)).replace(/"|-N|-S|-D|GASTOS|ES|ASISTENCIA|LEGAL|PROVIAL|LEGALES/g, '');
                         displayGastosMedicosOcupantes = (JSON.stringify(gastosMedicosOcupantes)).replace(/"|-N|-S|-D|GASTOS|MÉDICOS|OCUPANTES/g, '');
 
-                        displayDanosMaterialesD = displayDanosMateriales.split('-D')[1];
-                        displayDanosMateriales = parseInt(displayDanosMateriales.split('-D')[0]).toLocaleString();
-                        displayDanosMateriales = '$ ' + displayDanosMateriales;
-                        if (displayDanosMateriales === '$NaN') {
-                            displayDanosMateriales = '-';
-                        }
+                        let displayDanosMaterialesArr = displayDanosMateriales.split('-D');
+                        displayDanosMaterialesD = this.formatPrice(displayDanosMaterialesArr[1]);
+                        displayDanosMateriales = this.formatPrice(displayDanosMaterialesArr[0]);            
 
                         //para el robo total
-                        displayRoboTotalD = displayRoboTotal.split('-D')[1];
-                        displayRoboTotal = parseInt(displayRoboTotal.split('-D')[0]).toLocaleString();
-                        displayRoboTotal = '$ ' + displayRoboTotal;
-                        if (displayRoboTotal === '$NaN') {
-                            displayRoboTotal = '-';
-                        }
+                        let displayRoboTotalArr = displayRoboTotal.split('-D');
+                        displayRoboTotalD = this.formatPrice(displayRoboTotalArr[1]);
+                        displayRoboTotal = this.formatPrice(displayRoboTotalArr[0]);            
 
                         if (displayPrimaTotal.length == 0) {
                             displayPrimaTotal = 'No disponible';
