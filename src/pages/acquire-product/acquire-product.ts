@@ -1916,7 +1916,7 @@ export class AcquireProductPage {
             '<tr><th></th><th class="sumaAseguradaHeader"><strong>Suma Asegurada</strong></th>' +
             '<th><strong>Deducible</strong></th></tr>' +
             '<tr><td><strong>Prima total</strong></str><td><center><strong>' + valor.value + '</strong></center></td><td><center><strong>' + '</strong></center></td></tr>' +
-            '<tr><td><strong>Daños materiales</strong><td><center><strong>' + valor.danosMateriales + '</strong></center></td><td><center><strong>' + valor.danosMaterialesD + '</strong></center></td></tr>' +
+            '<tr><td><strong>Daños MATERIALES</strong><td><center><strong>' + valor.danosMateriales + '</strong></center></td><td><center><strong>' + valor.danosMaterialesD + '</strong></center></td></tr>' +
             '<tr><td><strong>Robo Total</strong><td><center><strong>' + valor.roboTotal + '</strong></center></td><td><center><strong>' + valor.roboTotalD + '</strong></center></td></tr>' +
             '<tr><td><strong>RC Personas</strong><td><center><strong>' + valor.RCPersonas + '</strong></center></td><td><center><strong>' + valor.RCPersonasD + '</strong></center></td></tr>' +
             '<tr><td><strong>RC</strong><td><center><strong>' + valor.RC + '</strong></center></td><td><center><strong>' + valor.RCD + '</strong></center></td></tr>' +
