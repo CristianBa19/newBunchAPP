@@ -803,9 +803,13 @@ export class AcquireProductPage {
             aseguradora = aseguradora.replace(/"/g, '');
             document.getElementById("nombreAuto").innerHTML = this.marca + ' ' + this.modelo;
             document.getElementById("descrAuto").innerHTML = this.descripcion;
-            document.getElementById("subDescrAuto").innerHTML = this.subDescripcion;            
+            document.getElementById("subDescrAuto").innerHTML = this.subDescripcion;                        
             
             if (aseguradora === 'ABA' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
+
+                if (displayPrimaTotal.length == 0) {
+                    displayPrimaTotal = 'No disponible';
+                }
 
                 this.comparaList.push({
                     clave: clave,
@@ -871,6 +875,10 @@ export class AcquireProductPage {
                                 displayRoboTotal = '-';
                             }
 
+                            if (displayPrimaTotal.length == 0) {
+                                displayPrimaTotal = 'No disponible';
+                            }
+
                             this.comparaList.push({
                                 clave: clave,
                                 asegur: aseguradora,
@@ -898,6 +906,11 @@ export class AcquireProductPage {
                     callback();
                 });
             } else if (aseguradora === 'AXA' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
+
+                if (displayPrimaTotal.length == 0) {
+                    displayPrimaTotal = 'No disponible';
+                }
+
                 this.comparaList.push({
                     clave: clave,
                     asegur: aseguradora,
@@ -919,6 +932,11 @@ export class AcquireProductPage {
                 });
                 callback();
             } else  if (aseguradora === 'BANORTE' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
+
+                if (displayPrimaTotal.length == 0) {
+                    displayPrimaTotal = 'No disponible';
+                }
+
                 this.comparaList.push({
                     clave: clave,
                     asegur: aseguradora,
@@ -940,6 +958,11 @@ export class AcquireProductPage {
                 });
                 callback();
             } else if (aseguradora === 'GMX' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
+
+                if (displayPrimaTotal.length == 0) {
+                    displayPrimaTotal = 'No disponible';
+                }
+
                 this.comparaList.push({
                     clave: clave,
                     asegur: aseguradora,
@@ -999,6 +1022,10 @@ export class AcquireProductPage {
                             displayRoboTotal = '-';
                         }
 
+                        if (displayPrimaTotal.length == 0) {
+                            displayPrimaTotal = 'No disponible';
+                        }
+
                         this.comparaList.push({
                             clave: clave,
                             asegur: aseguradora,
@@ -1025,6 +1052,11 @@ export class AcquireProductPage {
                     callback();
                 });
             } else  if (aseguradora === 'GREAT' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
+
+                if (displayPrimaTotal.length == 0) {
+                    displayPrimaTotal = 'No disponible';
+                }
+
                 this.comparaList.push({
                     clave: clave,
                     asegur: aseguradora,
@@ -1106,6 +1138,10 @@ export class AcquireProductPage {
                             displayRoboTotal = '-';
                         }
 
+                        if (displayPrimaTotal.length == 0) {
+                            displayPrimaTotal = 'No disponible';
+                        }
+
                         this.comparaList.push({
                             clave: clave,
                             asegur: aseguradora,
@@ -1132,6 +1168,11 @@ export class AcquireProductPage {
                     callback();
                 });
             } else if (aseguradora === 'MAPFRE' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
+
+                if (displayPrimaTotal.length == 0) {
+                    displayPrimaTotal = 'No disponible';
+                }
+
                 this.comparaList.push({
                     clave: clave,
                     asegur: aseguradora,
@@ -1153,6 +1194,10 @@ export class AcquireProductPage {
                 });
                 callback();
             } else if (aseguradora === 'QUALITAS' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
+
+                if (displayPrimaTotal.length == 0) {
+                    displayPrimaTotal = 'No disponible';
+                }
                 
                 this.comparaList.push({
                     clave: clave,
