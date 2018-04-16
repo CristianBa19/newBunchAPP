@@ -1,5 +1,5 @@
 import { Storage } from '@ionic/storage';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
 import { PaymentSubmittedPage } from "../payment-submited/payment-submited";
 import { DocumentDetailPage } from '../acquire-product/document-details/document-detail';
@@ -8,7 +8,7 @@ import { ProductsPage } from '../products/products';
 import { ClienteProductDetailPage } from '../client-mode/cliente-product-detail/cliente-product-detail';
 import { AlertService } from '../../_helpers/alert.service'
 import { LocalizationModel } from '../../_helpers/localizationModel'
-import { IonicPage, Events, LoadingController, ToastController } from 'ionic-angular';
+import { IonicPage, Events, LoadingController, ToastController, Content } from 'ionic-angular';
 import { Http, Headers } from '@angular/http';
 
 import 'rxjs/add/operator/retry';
@@ -21,6 +21,7 @@ import 'rxjs/add/operator/map';
     templateUrl: 'acquire-product.html',
 })
 export class AcquireProductPage {
+    @ViewChild(Content) content: Content;
     color = 'pink';
     size = 16;
     url: string;
@@ -656,6 +657,13 @@ export class AcquireProductPage {
         
         if (obj == undefined) {                        
             console.log('comparaList', this.comparaList);
+            this.comparaList.forEach(function(e) {    
+                console.log('e.valueInt', e.valueInt);            
+                if (isNaN(e.valueInt)) {
+                    e.valueInt = 0;
+                }
+            });
+            console.log(this.comparaList);
             this.comparaList.sort(function(a, b) {
                 if (a.valueInt < b.valueInt)
                     return -1;
@@ -2247,6 +2255,7 @@ export class AcquireProductPage {
             tabFrom == 'Cliente' ? this.showProductoContinuarShown() : '';
             this.topTab = tabName;
             this.comparaDetailShown = false;
+            this.content.scrollToTop();
         } else {
             alert('Faltan campos por completar');
         }
