@@ -13,10 +13,12 @@ page-home {
         content: url('../assets/icon/mensajes1.svg');        
     }
     .ion-ios-advertisement-outline,.ion-ios-advertisement,.ion-md-advertisement,.ion-md-advertisement-outline {
-        content: url('../assets/icon/anuncios0.svg');
+        content: url('../assets/icon/Icon_Productos_negro.png');
+        width: 1%;
     }
     .tab-button[aria-selected=true] .tab-button-icon[aria-label="advertisement"] {
-        content: url('../assets/icon/anuncios1.svg');        
+        content: url('../assets/icon/Icon_Productos_gris.png');
+        width: 1%;        
     }
     .ion-ios-statistics-outline,.ion-ios-statistics,.ion-md-statistics,.ion-md-statistics-outline {
         content: url('../assets/icon/estadisticas0.svg');
