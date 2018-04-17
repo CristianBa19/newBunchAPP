@@ -130,6 +130,7 @@ export class AcquireProductPage {
     
     private fillTab1() {
         this.codigoPostal1 = 79050;
+        this.processPostalCode(this.codigoPostal1);
         this.edad = 22;
         this.marca = 'CHEVROLET';
         this.modelo = '2014';
@@ -138,29 +139,36 @@ export class AcquireProductPage {
         this.subDescripcion = 'PAQ A';
     }
 
-    /*private fillTab2() {
-        this.email
-        this.nombre:string;
-        this.paterno:string;
-        this.materno:string;
-        this.fechaNacimiento:string;
-        this.genero:string;
-        this.telCasa:string;
-        private telMovil:string;
-        private rfc:string;
-        private nacionalidad:string;
-        private lugarNacimiento:string;
-        private codigoPostal2:string;
-        private colonia:string;
-        private estado:string;
-        private delegacion:string;
-        private calle:string;
-        private numExterior:string;
-        private numInterior:string;
-        private numMotor:string;
-        private numSerie:string;
-        private numPlacas:string;
-    }*/
+    private fillTab3() {
+        this.email = this.getRandString() + '@gamil.com';
+        this.nombre = 'isjasijsa';
+        this.paterno = 'osakasokas';
+        this.materno = 'aosjsaias';
+        this.fechaNacimiento = '1988-01-01';
+        this.genero = 'MASCULINO';
+        this.telCasa = '4811455468';
+        this.telMovil = '48114555466';
+        this.rfc = 'CICM880930P72';                
+        this.colonia = 'TIPZEN';
+        this.estado = 'SAN LUIS POTOSI';        
+        this.delegacion = 'CIUDAD VALLES';
+        this.calle = 'SAN LUIS';
+        this.numExterior = '23';
+        this.numInterior = '';
+        this.numMotor = 'A1234567';
+        this.numSerie = 'ZHWGE11S84LA00154';
+        this.numPlacas = '7654321A';
+    }
+
+    getRandString() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        
+        for (var i = 0; i < 10; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        
+        return text;
+    }
 
     master() {        
         document.getElementById("master").style.opacity = "1";
@@ -389,45 +397,47 @@ export class AcquireProductPage {
             title = this.isEnglish ? 'Input ZIP code' :  'Código Postal',            
             options = [{ type: 'number', name: 'codigoPostal1', value: this.codigoPostal1, min: 3, max: 5}];
         
-        this.showAlert(title, options, function(data) {
+        this.showAlert(title, options, function(data) {            
+            that.processPostalCode(data.codigoPostal1);
+        });
+    }
 
-            let cp = data.codigoPostal1,
-                loader = that.loadingCtrl.create({
-                    content: 'Validando código postal'
-                });
-            loader.present();
-
-            that.validatePostalCode(cp).then(data => {
-
-                loader.dismiss();
-
-                if (data['Colonias'].length == 0 && data['Estado'] == null && data['Municipio'] == null) {                        
-                    let toaster = that.toastCtrl.create({
-                        duration: 3000,
-                        position: 'bottom'
-                    });
-                    toaster.setMessage('Código postal inválido');
-                    toaster.present();
-                    that.showAlertCP1();
-                } else {
-                    that.codigoPostal1 = cp;                        
-
-                    let codigoPostal2 = cp,
-                        url = 'http://services.bunch.guru/WebService.asmx/ConsultaCP?CPostal=' + codigoPostal2;
-                    
-                    that.userColonyList = [];
-                    that.http.get(url).map(res => res.json()).subscribe(data => {
-                        that.delegacion = data.Municipio.toUpperCase();
-                        that.estado = data.Estado.toUpperCase();
-                        for (let i = 0, len = data.Colonias.length; i < len; i++){
-                            that.userColonyList.push(data.Colonias[i].Colonia.toUpperCase());
-                        }
-                        that.codigoPostal2 = codigoPostal2;
-                    }, err => {                            
-                        console.error({err});                            
-                    });
-                }
+    processPostalCode(cp) {
+        let that = this,
+            loader = that.loadingCtrl.create({
+                content: 'Validando código postal'
             });
+        loader.present();
+        that.validatePostalCode(cp).then(data => {
+
+            loader.dismiss();
+
+            if (data['Colonias'].length == 0 && data['Estado'] == null && data['Municipio'] == null) {                        
+                let toaster = that.toastCtrl.create({
+                    duration: 3000,
+                    position: 'bottom'
+                });
+                toaster.setMessage('Código postal inválido');
+                toaster.present();
+                that.showAlertCP1();
+            } else {
+                that.codigoPostal1 = cp;                        
+
+                let codigoPostal2 = cp,
+                    url = 'http://services.bunch.guru/WebService.asmx/ConsultaCP?CPostal=' + codigoPostal2;
+                
+                that.userColonyList = [];
+                that.http.get(url).map(res => res.json()).subscribe(data => {
+                    that.delegacion = data.Municipio.toUpperCase();
+                    that.estado = data.Estado.toUpperCase();
+                    for (let i = 0, len = data.Colonias.length; i < len; i++){
+                        that.userColonyList.push(data.Colonias[i].Colonia.toUpperCase());
+                    }
+                    that.codigoPostal2 = codigoPostal2;
+                }, err => {                            
+                    console.error({err});                            
+                });
+            }
         });
     }
     
@@ -715,6 +725,17 @@ export class AcquireProductPage {
         }        
     }
 
+    //Toma una cadena por ejemplo "500,000.00 POR PERSONA", la limpia, le quita los decimales, le agrega $ y retorna:
+    //"$ 500,000 POR PERSONA"
+    //PD. Si, ese nombresote, no se me ocurrio otro    
+    stringToFormatedPriceWithString(string:string):string {
+        string = string.trim();                            
+        let arr = string.split(' '); //separa la frase que viene despues de la cantidad
+        let price = arr.shift();
+        price = price.split('.')[0]; //quita los decimales
+        return '$ ' + price + ' ' + arr.join(' ');
+    }    
+
     loadCotizacion(aseguradora, clave, descripcionAseguradora, callback) {
 
         console.log('loadCotizacion', {aseguradora, clave, descripcionAseguradora});
@@ -782,7 +803,8 @@ export class AcquireProductPage {
             displayRCPersonas = (JSON.stringify(data5)).replace(/"|-N|-S|NRC|PERSONAS|RESPONSABILIDAD|CIVIL|PERSONAS|NO|APLICA|RC|-|D|-/g, '');
             displayRC = (JSON.stringify(data6)).replace(/"|-N|-S|-D|RESPONSABILIDAD|CIVIL|NO|APLICA|No|aplica/g, '');
             displayDefensaJuridica = (JSON.stringify(data7)).replace(/"|-N|-S|-D|GASTOS|ES|ASISTENCIA|LEGAL|PROVIAL|LEGALES/g, '');
-            displayGastosMedicosOcupantes = (JSON.stringify(data8)).replace(/"|-N|-S|-D|GASTOS|MÉDICOS|OCUPANTES/g, '');            
+            displayGastosMedicosOcupantes = data8.replace(/"|-N|-S|-D|GASTOS|MÉDICOS|OCUPANTES/g, '').trim();
+            console.warn('displayGastosMedicosOcupantes', displayGastosMedicosOcupantes);
 
             //seccion para la recepcion de la primaTotal y su conversion a int
             displayPrimaTotal = '';
@@ -812,8 +834,9 @@ export class AcquireProductPage {
             if (displayGastosMedicosOcupantesD === '  Amparada')
                 displayGastosMedicosOcupantes = 'Amparada';
             else {
-                displayGastosMedicosOcupantes = parseInt(displayGastosMedicosOcupantes.split('-D')[0]).toLocaleString();
-                displayGastosMedicosOcupantes = '$ ' + displayGastosMedicosOcupantes;
+                //displayGastosMedicosOcupantes = parseInt(displayGastosMedicosOcupantes.split('-D')[0]).toLocaleString();
+                //displayGastosMedicosOcupantes = '$ ' + displayGastosMedicosOcupantes;
+                displayGastosMedicosOcupantes = this.formatPrice(displayGastosMedicosOcupantes);
             }
             if (displayGastosMedicosOcupantes === '$NaN') {
                 displayGastosMedicosOcupantes = 'No disponible';
@@ -879,9 +902,14 @@ export class AcquireProductPage {
 
                         if (data3.Coberturas[0] != undefined) {
                             displayDanosMateriales = (JSON.stringify(data3.Coberturas[0].DanosMateriales)).replace(/"|-N|-S|DAÑOS|MATERIALES/g, '');
-                            displayRoboTotal = (JSON.stringify(data3.Coberturas[0].RoboTotal)).replace(/"|-N|-S|ROBO|TOTAL/g, '');
-                            displayRCPersonas = (JSON.stringify(data3.Coberturas[0].RCPersonas)).replace(/"|-N|-S|NRC|PERSONAS|RESPONSABILIDAD|CIVIL|PERSONAS|NO|APLICA|RC|-|D|-/g, '');
-                            displayRC = (JSON.stringify(data3.Coberturas[0].RC)).replace(/"|-N|-S|-D|RESPONSABILIDAD|CIVIL|NO|APLICA|No|aplica/g, '');
+                            displayRoboTotal = (JSON.stringify(data3.Coberturas[0].RoboTotal)).replace(/"|-N|-S|ROBO|TOTAL/g, '');                                                        
+                            
+                            displayRCPersonas = data3.Coberturas[0].RCPersonas.replace(/"|-N|-S|NRC|PERSONAS|RESPONSABILIDAD|CIVIL|PERSONAS|NO|APLICA|RC|-|D|-/g, '');
+                            displayRCPersonas = this.stringToFormatedPriceWithString(displayRCPersonas);                            
+                            
+                            displayRC = data3.Coberturas[0].RC.replace(/"|-N|-S|-D|RESPONSABILIDAD|CIVIL|NO|APLICA|No|aplica/g, '');
+                            displayRC = this.stringToFormatedPriceWithString(displayRC);
+
                             displayDefensaJuridica = (JSON.stringify(data3.Coberturas[0].DefensaJuridica)).replace(/"|-N|-S|-D|GASTOS|ES|ASISTENCIA|LEGAL|PROVIAL|LEGALES/g, '');
                             displayGastosMedicosOcupantes = (JSON.stringify(data3.Coberturas[0].GastosMedicosOcupantes)).replace(/"|-N|-S|-D|GASTOS|MÉDICOS|OCUPANTES/g, '');
 
@@ -1022,7 +1050,8 @@ export class AcquireProductPage {
                         displayRCPersonas = (JSON.stringify(data3.Coberturas[0].RCPersonas)).replace(/"|-N|-S|NRC|PERSONAS|RESPONSABILIDAD|CIVIL|PERSONAS|NO|APLICA|RC|-|D|-/g, '');
                         displayRC = (JSON.stringify(data3.Coberturas[0].RC)).replace(/"|-N|-S|-D|RESPONSABILIDAD|CIVIL|NO|APLICA|No|aplica/g, '');
                         displayDefensaJuridica = (JSON.stringify(data3.Coberturas[0].DefensaJuridica)).replace(/"|-N|-S|-D|GASTOS|ES|ASISTENCIA|LEGAL|PROVIAL|LEGALES/g, '');
-                        displayGastosMedicosOcupantes = (JSON.stringify(data3.Coberturas[0].GastosMedicosOcupantes)).replace(/"|-N|-S|-D|GASTOS|MÉDICOS|OCUPANTES/g, '');
+                        displayGastosMedicosOcupantes = data3.Coberturas[0].GastosMedicosOcupantes.replace(/"|-N|-S|-D|GASTOS|MÉDICOS|OCUPANTES/g, '');
+                        displayGastosMedicosOcupantes = this.formatPrice(displayGastosMedicosOcupantes);
 
                         let displayDanosMaterialesArr = displayDanosMateriales.split('-D');
                         displayDanosMaterialesD = this.formatPrice(displayDanosMaterialesArr[1]);
