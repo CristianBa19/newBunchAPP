@@ -14,11 +14,13 @@ page-home {
     }
     .ion-ios-advertisement-outline,.ion-ios-advertisement,.ion-md-advertisement,.ion-md-advertisement-outline {
         content: url('../assets/icon/Icon_Productos_negro.png');
-        width: 1%;
+        height: 16px !important;
+        min-width: 21px !important; 
     }
     .tab-button[aria-selected=true] .tab-button-icon[aria-label="advertisement"] {
         content: url('../assets/icon/Icon_Productos_gris.png');
-        width: 1%;        
+        height: 16px !important;
+        min-width: 21px !important;  
     }
     .ion-ios-statistics-outline,.ion-ios-statistics,.ion-md-statistics,.ion-md-statistics-outline {
         content: url('../assets/icon/estadisticas0.svg');
