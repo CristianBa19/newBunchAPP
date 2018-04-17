@@ -6,7 +6,7 @@
       "buttonText": "Saltar"
     },
     "secondSlide":{
-      "titleText": "Gana por recomendar... productos financieros",
+      "titleText": "Gana por recomendar productos financieros",
       "bodyText": "Seguros de Auto por ejemplo.",
       "buttonText": "Saltar"
     },
@@ -47,7 +47,7 @@
   "RegisterAccountPage":{
     "titleText": "Crear una cuenta",
     "password": "Contraseña (6 o más caracteres)",
-    "celular": "Celular (10 digitos)",
+    "celular": "Celular (10 dígitos)",
     "bottomPageCounter":{
       "the": "Paso ",
       "from": " de "
