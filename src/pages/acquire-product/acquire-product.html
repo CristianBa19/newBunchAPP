@@ -12,20 +12,20 @@
 <ion-content>
     <ion-row>
         <ion-col col-12>
-            <ion-row class="tabs-swap-wrap" >
-                <ion-row align-items-center justify-content-center [ngClass]="{active:topTab == 'Producto'}" (tap)="changeTab('Producto')" >
+            <ion-row class="tabs-swap-wrap">
+                <ion-row align-items-center justify-content-center [ngClass]="{active:topTab == 'Producto'}"> <!--(tap)="changeTab('Producto')"-->
                     <span>{{ "AcquireProductPage.productTabText" | translate }}</span>
                 </ion-row>
-                <ion-row  align-items-center justify-content-center [ngClass]="{activeX:topTab == 'Compara'}" (tap)="changeTab('Compara')">
+                <ion-row  align-items-center justify-content-center [ngClass]="{activeX:topTab == 'Compara'}"> <!--(tap)="changeTab('Compara')"-->
                     <span>{{ "AcquireProductPage.compareTabText" | translate }}</span>
                 </ion-row>
-                <ion-row align-items-center justify-content-center [ngClass]="{activeY:topTab == 'Cliente'}" (tap)="changeTab('Cliente')">
+                <ion-row align-items-center justify-content-center [ngClass]="{activeY:topTab == 'Cliente'}"> <!--(tap)="changeTab('Cliente')"-->
                         <span>{{ "AcquireProductPage.clientTabText" | translate }}</span>
                 </ion-row>  
-                <ion-row  align-items-center justify-content-center [ngClass]="{activeM:topTab == 'Pago'}" (tap)="changeTab('Pago')">
+                <ion-row  align-items-center justify-content-center [ngClass]="{activeM:topTab == 'Pago'}"> <!--(tap)="changeTab('Pago')"-->
                     <span>{{ "AcquireProductPage.paymentTabText" | translate }}</span>
                 </ion-row>                    
-                <ion-row  align-items-center justify-content-center [ngClass]="{activeZ:topTab == 'Tarjeta'}" (tap)="changeTab('Tarjeta')">
+                <ion-row  align-items-center justify-content-center [ngClass]="{activeZ:topTab == 'Tarjeta'}"> <!--(tap)="changeTab('Tarjeta')"-->
                     <span>Tarjeta</span>
                 </ion-row>                                      
             </ion-row>

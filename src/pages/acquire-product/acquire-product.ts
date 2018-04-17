@@ -15,6 +15,7 @@ import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/timeout';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/map';
+import { GESTURE_PRIORITY_MENU_SWIPE } from 'ionic-angular/gestures/gesture-controller';
 
 @Component({
     selector: 'acquire-product-page',
@@ -26,6 +27,19 @@ export class AcquireProductPage {
     size = 16;
     url: string;
     data: string;
+
+    private tabs:string[] = ['Producto', 'Compara', 'Cliente', 'Pago', 'Tarjeta'];
+    private currentTab:string = this.tabs[0];
+    public datePicked: string;    
+    public datePickedBirth: string;
+    private topTab = 'Cliente';
+    private isClient: any;
+    private local: any;
+    private comparaDetailShown: boolean = false;
+    private productoContinuarShown: boolean = false;
+    private underTabsTitile = localStorage.getItem("language") == "en" ? 'Car insurance' : 'Seguro de Auto';
+    private isEnglish = localStorage.getItem("language") == "en";
+    private comparaList = [];
 
     //Step 1
 
@@ -667,22 +681,24 @@ export class AcquireProductPage {
 
     cotizarAseguradoras(aseguradoras:any, index:number = 0, loader:any = null) {
         let _this = this,
-            obj = aseguradoras[index];        
+            obj = aseguradoras[index];
+        
+        if (index == 0) {
+            this.comparaList = [];
+        }        
 
         if (loader == null) {
             loader = this.loadingCtrl.create();
             loader.present();
         }
         
-        if (obj == undefined) {                        
-            console.log('comparaList', this.comparaList);
-            this.comparaList.forEach(function(e) {    
-                console.log('e.valueInt', e.valueInt);            
+        if (obj == undefined) {                                    
+            this.comparaList.forEach(function(e) {                    
                 if (isNaN(e.valueInt)) {
                     e.valueInt = 0;
                 }
             });
-            console.log(this.comparaList);
+
             this.comparaList.sort(function(a, b) {
                 if (a.valueInt < b.valueInt)
                     return -1;
@@ -1289,8 +1305,8 @@ export class AcquireProductPage {
                     case 2:
                         console.log('email status 2');
                         //that.isEnabled = false;
-                        //that.isEnabledTipo3 = true;
-                        //that.isEnabledTipo3Dir = true;
+                        that.isEnabledTipo3 = true;
+                        that.isEnabledTipo3Dir = true;
                         that.retrieveData();
                         break;
                     case 3:
@@ -1859,7 +1875,7 @@ export class AcquireProductPage {
 
         this.showAlert(title, options, function(data) {
 
-            let loader = this.loadingCtrl.create();
+            let loader = that.loadingCtrl.create();
             loader.present();
 
             let scheme,
@@ -1996,17 +2012,7 @@ export class AcquireProductPage {
         alert.present();
     }
 
-    datePickerNames: any;
-    public datePicked: string;    
-    public datePickedBirth: string;
-    private topTab = 'Cliente';
-    private isClient: any;
-    private local: any;
-    private comparaDetailShown: boolean = false;
-    private productoContinuarShown: boolean = false;
-    private underTabsTitile = localStorage.getItem("language") == "en" ? 'Car insurance' : 'Seguro de Auto';
-    private isEnglish = localStorage.getItem("language") == "en";
-    private comparaList = [];
+    datePickerNames: any;    
     private pagoList = [
         {
             mainText: localStorage.getItem("language") == "en" ? "Material damage:" : "Daños materiales: ",
@@ -2264,7 +2270,9 @@ export class AcquireProductPage {
         
         return true;
     }    
-    changeTab(tabName, tabFrom = '') {        
+    
+    //changeTab(tabName, tabFrom = '') {        
+    changeTab(tabName, validateTab:boolean = true) {            
         
         let errors = false,
             stepsElem = document.getElementById('steps'),
@@ -2272,25 +2280,25 @@ export class AcquireProductPage {
 
         switch(tabName) {
             case 'Producto':
-                stepsElem.innerHTML = "Paso 1 de 5";
+                stepsElem.innerHTML = "Paso 1 de 5";                
                 break;
             case 'Compara':                
-                if (_this.validateTab(1) == true) {                    
-                    stepsElem.innerHTML = "Paso 2 de 5";
-                    _this.getBuscar();
-                } else {
-                    errors = true;
+                if (validateTab == true) {
+                    errors = !_this.validateTab(1);
+                    if (errors == false) {
+                        _this.getBuscar();
+                    }                    
                 }
+                stepsElem.innerHTML = "Paso 2 de 5";
                 break;
             case 'Cliente':
                 stepsElem.innerHTML = "Paso 3 de 5";
                 break;
             case 'Pago':
-                if (_this.validateTab(3) == true) {
-                    stepsElem.innerHTML = "Paso 4 de 5";
-                } else {
-                    errors = true;
-                }                
+                if (validateTab == true) {
+                    errors = !_this.validateTab(3);
+                }
+                stepsElem.innerHTML = "Paso 4 de 5";                                
                 break;
             case 'Tarjeta':
                 stepsElem.innerHTML = "Paso 5 de 5";
@@ -2300,10 +2308,11 @@ export class AcquireProductPage {
 
         if (errors == false) {
             tabName == 'Pago' ? this.underTabsTitile = localStorage.getItem("language") == "en" ? 'Summary' : 'Resumen' : this.underTabsTitile = localStorage.getItem("language") == "en" ? 'Car insurance' : 'Seguro de Auto';
-            tabFrom == 'Cliente' ? this.showProductoContinuarShown() : '';
+            //tabFrom == 'Cliente' ? this.showProductoContinuarShown() : '';
             this.topTab = tabName;
             this.comparaDetailShown = false;
             this.content.scrollToTop();
+            this.currentTab = tabName;
         } else {
             alert('Faltan campos por completar');
         }
@@ -2461,9 +2470,19 @@ export class AcquireProductPage {
         });
         modal.present();
     }
+
     goBack() {
-        let tmp = document.getElementById("tab-t0-4").setAttribute("aria-selected", "false");
-        tmp = document.getElementById("tab-t0-5").setAttribute("aria-selected", "true");
-        this.navCtrl.pop();
+
+        //let tmp = document.getElementById("tab-t0-4").setAttribute("aria-selected", "false");
+        //tmp = document.getElementById("tab-t0-5").setAttribute("aria-selected", "true");
+
+        let currentTabIndex = this.tabs.indexOf(this.currentTab);
+
+        let validateTab = true;
+        if (currentTabIndex - 1 >= 0) {
+            this.changeTab(this.tabs[currentTabIndex - 1], false);
+        } else {
+            this.navCtrl.pop();
+        }        
     }
 }
