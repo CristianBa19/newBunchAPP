@@ -1374,6 +1374,10 @@ export class AcquireProductPage {
             this.showAlert(title, options, function(data) {
                 let nombre = data.nombre.trim().toUpperCase();
                 that.nombre = (nombre.length == 0) ? undefined : nombre;
+                
+                if (that.nombre != undefined && that.paterno != undefined && that.materno != undefined && that.fechaNacimiento != undefined) {
+                    that.calcHC();
+                }
             });
         }
     }
@@ -1388,6 +1392,10 @@ export class AcquireProductPage {
             this.showAlert(title, options, function(data) {
                 let paterno = data.paterno.trim().toUpperCase();
                 that.paterno = (paterno.length == 0) ? undefined : paterno;
+
+                if (that.nombre != undefined && that.paterno != undefined && that.materno != undefined && that.fechaNacimiento != undefined) {
+                    that.calcHC();
+                }
             });
         }
     }    
@@ -1402,7 +1410,19 @@ export class AcquireProductPage {
             this.showAlert(title, options, function(data) {
                 let materno = data.materno.trim().toUpperCase();
                 that.materno = (materno.length == 0) ? undefined : materno;
+
+                if (that.nombre != undefined && that.paterno != undefined && that.materno != undefined && that.fechaNacimiento != undefined) {
+                    that.calcHC();
+                }
             });            
+        }
+    }
+
+    fechaNacimientoChanged() {
+        console.warn('fechaNacimientoChanged!');
+        let that = this;
+        if (that.nombre != undefined && that.paterno != undefined && that.materno != undefined && that.fechaNacimiento != undefined) {
+            that.calcHC();
         }
     }
     
@@ -2498,5 +2518,427 @@ export class AcquireProductPage {
         } else {
             this.navCtrl.pop();
         }        
+    }
+
+    //Generacion de RFC
+    flag_fecha = false;
+    flag_nombre = true;
+    flag_apaterno = false;
+    flag_amaterno = false;
+    flag_rfc = false;
+    rfc_hc = "";    
+    
+    /*validName(){
+        var txtNombre = document.getElementById("nombre").value;
+        var message = document.getElementById("err_name");
+        var show = document.getElementById("shw_err_name");
+
+        if( txtNombre == null || txtNombre.length == 0 || /^\s+$/.test(txtNombre) || txtNombre == "" || txtNombre == " " )
+            {
+                show.style.display = "block";
+                message.innerHTML = "Error: Ingrese un NOMBRE válido";
+                flag_nombre = false;
+                document.getElementById("nombre").style.background = "#FFF";
+            }
+        else if (txtNombre.length < 3)
+            {
+                show.style.display = "block";
+                message.innerHTML = "Error: Su nombre debe ser de al menos 3 caracteres";
+                flag_nombre = false;
+                document.getElementById("nombre").style.background = "#FFF";
+            }
+        else if ( /^[0-9]/.test(txtNombre) )
+            {
+                show.style.display = "block";
+                message.innerHTML = "Error: El campo nombre no debe contener Números";
+                flag_nombre = false;
+                document.getElementById("nombre").style.background = "#FFF";
+            }
+        else
+            {
+                show.style.display = "none";
+                message.innerHTML = " ";
+                flag_nombre = true;
+                document.getElementById("nombre").style.background = "cornsilk";
+                document.getElementById("nombre").value = txtNombre.toUpperCase()
+            }
+    }*/
+    
+    /*validPaterno(){
+        var txtPaterno = document.getElementById("apaterno").value.toUpperCase();
+        var message = document.getElementById("err_apaterno");
+        var show = document.getElementById("shw_err_apaterno");
+
+        if( txtPaterno == null || txtPaterno.length == 0 || /^\s+$/.test(txtPaterno) || txtPaterno == "" || txtPaterno == " " )
+            {
+                show.style.display = "block";
+                message.innerHTML = "Error: Ingrese un Apellido válido";
+                flag_apaterno = false;
+                document.getElementById("apaterno").style.background = "#FFF";
+            }
+        else if (txtPaterno.length < 3)
+            {
+                show.style.display = "block";
+                message.innerHTML = "Error: Su Apellido debe ser de al menos 3 caracteres";
+                flag_apaterno = false;
+                document.getElementById("apaterno").style.background = "#FFF";
+            }
+        else if ( /^[0-9]/.test(txtPaterno) )
+            {
+                show.style.display = "block";
+                message.innerHTML = "Error: El campo Apellido no debe contener Números";
+                flag_apaterno = false;
+                document.getElementById("apaterno").style.background = "#FFF";
+            }
+        else
+            {
+                show.style.display = "none";
+                message.innerHTML = " ";
+                flag_apaterno = true;
+                document.getElementById("apaterno").style.background = "cornsilk";
+                document.getElementById("apaterno").value = txtPaterno.toUpperCase()
+            }
+    }*/
+    
+    /*validMaterno(){
+        var txtMaterno = document.getElementById("amaterno").value;
+        var message = document.getElementById("err_amaterno");
+        var show = document.getElementById("shw_err_amaterno");
+
+        if( txtMaterno == null || txtMaterno.length == 0 || /^\s+$/.test(txtMaterno) || txtMaterno == "" || txtMaterno == " " )
+            {
+                show.style.display = "block";
+                message.innerHTML = "Error: Ingrese un Apellido válido";
+                flag_amaterno = false;
+                document.getElementById("amaterno").style.background = "#FFF";
+            }
+        else if (txtMaterno.length < 3)
+            {
+                show.style.display = "block";
+                message.innerHTML = "Error: Su Apellido debe ser de al menos 3 caracteres";
+                flag_amaterno = false;
+                document.getElementById("amaterno").style.background = "#FFF";
+            }
+        else if ( /^[0-9]/.test(txtMaterno) )
+            {
+                show.style.display = "block";
+                message.innerHTML = "Error: El campo Apellido no debe contener Números";
+                flag_amaterno = false;
+                document.getElementById("amaterno").style.background = "#FFF";
+            }
+        else
+            {
+                show.style.display = "none";
+                message.innerHTML = " ";
+                flag_amaterno = true;
+                document.getElementById("amaterno").style.background = "cornsilk";
+                document.getElementById("amaterno").value = txtMaterno.toUpperCase();
+            }
+    }*/    
+
+    esVocal(letra){
+        if (letra == 'A' || letra == 'E' || letra == 'I' || letra == 'O'
+                || letra == 'U' || letra == 'a' || letra == 'e' || letra == 'i'
+                || letra == 'o' || letra == 'u')
+            return true;
+        else
+            return false;
+    }
+
+    QuitarArticulos(articles){
+        articles = articles.replace("DEL ", "");
+        articles = articles.replace("LAS ", "");
+        articles = articles.replace("DE ", "");
+        articles = articles.replace("LA ", "");
+        articles = articles.replace("Y ", "");
+        articles = articles.replace("A ", "");
+        articles = articles.replace("VON ", "");
+        articles = articles.replace("VAN ", "");
+        articles = articles.replace("LOS ", "");
+        articles = articles.replace("MAC ", "");
+        articles = articles.replace("MC ", "");
+
+        return articles;
+    }
+    
+    QuitTild(tild) {
+        tild = tild.replace("Á", "A");
+        tild = tild.replace("É", "E");
+        tild = tild.replace("Í", "I");
+        tild = tild.replace("Ó", "O");
+        tild = tild.replace("Ú", "U");
+
+        return tild;
+    }
+    
+    generarRFC(){
+        var nombre:any = this.nombre;
+        var paterno:any = this.paterno;
+        var materno:any = this.materno;        
+
+        nombre = nombre.split(" ");
+        nombre = nombre[0];
+
+        var date = this.fechaNacimiento;
+        var anio = date.substr(2, 2);
+        var mes = date.substr(5, 2);
+        var dia = date.substr(8, 2);
+        var rfc = "";
+
+        nombre = this.QuitTild(nombre);
+        paterno = this.QuitTild(paterno);
+        materno = this.QuitTild(materno);
+
+        paterno = this.QuitarArticulos(paterno);
+        materno = this.QuitarArticulos(materno);
+
+        nombre = nombre.substr(0, 1);
+        materno = materno.substr(0, 1);
+
+        var l = paterno.length;
+        rfc += paterno.substring(0, 1);
+
+        for(var i = 0; i < l; i++)
+            {
+                var a_pat = paterno.substring(1, l);
+                var c = a_pat.charAt(i);
+
+                if(this.esVocal(c))
+                    {
+                        rfc += c;
+                        break;
+                    }
+            }
+        rfc += materno;
+        rfc += nombre;
+        rfc += anio;
+        rfc += mes;
+        rfc += dia;
+
+        this.rfc_hc = rfc;
+        this.rfc_hc = this.badWord(rfc);
+    }
+    
+    calcHC() {
+        var nombre:any = this.nombre;
+        var paterno:any = this.paterno;
+        var materno:any = this.materno;        
+
+        paterno = this.QuitarArticulos(paterno);
+        materno = this.QuitarArticulos(materno);
+
+        paterno = this.QuitTild(paterno);
+        materno = this.QuitTild(materno);
+        nombre = this.QuitTild(nombre);
+
+        var nombreC:any = paterno + " " + materno + " " + nombre;
+
+        for(var k = 0; k < 10; k++)
+            nombreC = this.NameToNumber(nombreC);
+
+        nombreC = "0" + nombreC;
+
+        var tm = nombreC.length - 1;
+        var valorSuma = 0;
+
+        for(var j = 0; j < tm; j++)
+            valorSuma += nombreC.substring(j, j+2) * nombreC.substring(j+1, j+2);
+
+        var divs:any = valorSuma % 1000;
+        var mod:any = Math.trunc(divs / 34);
+        divs = divs - mod * 34;
+
+        if (divs < 9)
+            divs += 1;
+        if (divs == 9)
+            divs = "A";
+        if (mod < 9)
+            mod += 1;
+        if (mod == 9)
+            mod = "A";
+
+        var mss_one =  mod.toString();
+        mss_one = this.NumberToWord(mss_one);
+        mss_one = this.NumberToWord(mss_one);
+        var mss_two =  divs.toString();
+        mss_two = this.NumberToWord(mss_two);
+        mss_two = this.NumberToWord(mss_two);
+        var mss = mss_one + mss_two;
+
+        var rfs:any = this.rfc_hc + mss;
+        rfs = this.rfcToNumber(rfs);
+        rfs = this.rfcToNumber(rfs);
+
+        var n = 0;
+
+        n += ( rfs.substr(0, 2) ) * 13;
+        n += ( rfs.substr(2, 2) ) * 12;
+        n += ( rfs.substr(4, 2) ) * 11;
+        n += ( rfs.substr(6, 2) ) * 10;
+
+        n += ( rfs.substr(8, 1) ) * 9;
+        n += ( rfs.substr(9, 1) ) * 8;
+        n += ( rfs.substr(10, 1) ) * 7;
+        n += ( rfs.substr(11, 1) ) * 6;
+        n += ( rfs.substr(12, 1) ) * 5;
+        n += ( rfs.substr(13, 1) ) * 4;
+
+        n += this.rfcToNumber(mss_one) * 3;
+        n += this.rfcToNumber(mss_two) * 2;
+
+        n = ( 11000 - n ) % 11;
+
+        this.generarRFC();
+        this.rfc = this.rfc_hc + mss + n;
+    }
+    
+    NameToNumber(namber){
+        namber = namber.replace(" ", "00");
+        namber = namber.replace("&", "10");
+        namber = namber.replace("Ã", "10");
+        namber = namber.replace("A", "11");
+        namber = namber.replace("B", "12");
+        namber = namber.replace("C", "13");
+        namber = namber.replace("D", "14");
+        namber = namber.replace("E", "15");
+        namber = namber.replace("F", "16");
+        namber = namber.replace("G", "17");
+        namber = namber.replace("H", "18");
+        namber = namber.replace("I", "19");
+        namber = namber.replace("J", "21");
+        namber = namber.replace("K", "22");
+        namber = namber.replace("L", "23");
+        namber = namber.replace("M", "24");
+        namber = namber.replace("N", "25");
+        namber = namber.replace("O", "26");
+        namber = namber.replace("P", "27");
+        namber = namber.replace("Q", "28");
+        namber = namber.replace("R", "29");
+        namber = namber.replace("S", "32");
+        namber = namber.replace("T", "33");
+        namber = namber.replace("U", "34");
+        namber = namber.replace("V", "35");
+        namber = namber.replace("W", "36");
+        namber = namber.replace("X", "37");
+        namber = namber.replace("Y", "38");
+        namber = namber.replace("Z", "39");
+        namber = namber.replace("Ñ", "40");
+
+        return namber;
+    }
+    
+    NumberToWord(wurth){
+        wurth = wurth.replace("10", "B");
+        wurth = wurth.replace("11", "C");
+        wurth = wurth.replace("12", "D");
+        wurth = wurth.replace("13", "E");
+        wurth = wurth.replace("14", "F");
+        wurth = wurth.replace("15", "G");
+        wurth = wurth.replace("16", "H");
+        wurth = wurth.replace("17", "I");
+        wurth = wurth.replace("18", "J");
+        wurth = wurth.replace("19", "K");
+        wurth = wurth.replace("20", "L");
+        wurth = wurth.replace("21", "M");
+        wurth = wurth.replace("22", "N");
+        wurth = wurth.replace("23", "P");
+        wurth = wurth.replace("24", "Q");
+        wurth = wurth.replace("25", "R");
+        wurth = wurth.replace("26", "S");
+        wurth = wurth.replace("27", "T");
+        wurth = wurth.replace("28", "U");
+        wurth = wurth.replace("29", "V");
+        wurth = wurth.replace("30", "W");
+        wurth = wurth.replace("31", "X");
+        wurth = wurth.replace("32", "Y");
+        wurth = wurth.replace("33", "Z");
+
+        return wurth;
+    }
+    
+    rfcToNumber(namber){
+        namber = namber.replace("A", "10");
+        namber = namber.replace("B", "11");
+        namber = namber.replace("C", "12");
+        namber = namber.replace("D", "13");
+        namber = namber.replace("E", "14");
+        namber = namber.replace("F", "15");
+        namber = namber.replace("G", "16");
+        namber = namber.replace("H", "17");
+        namber = namber.replace("I", "18");
+        namber = namber.replace("J", "19");
+        namber = namber.replace("K", "20");
+        namber = namber.replace("L", "21");
+        namber = namber.replace("M", "22");
+        namber = namber.replace("N", "23");
+        namber = namber.replace("O", "25");
+        namber = namber.replace("P", "26");
+        namber = namber.replace("Q", "27");
+        namber = namber.replace("R", "28");
+        namber = namber.replace("S", "29");
+        namber = namber.replace("T", "30");
+        namber = namber.replace("U", "31");
+        namber = namber.replace("V", "32");
+        namber = namber.replace("W", "33");
+        namber = namber.replace("X", "34");
+        namber = namber.replace("Y", "35");
+        namber = namber.replace("Z", "36");
+        namber = namber.replace("Ñ", "38");
+        namber = namber.replace("0", "0");
+        namber = namber.replace("1", "1");
+        namber = namber.replace("2", "2");
+        namber = namber.replace("3", "3");
+        namber = namber.replace("4", "4");
+        namber = namber.replace("5", "5");
+        namber = namber.replace("6", "6");
+        namber = namber.replace("7", "7");
+        namber = namber.replace("8", "8");
+        namber = namber.replace("9", "9");
+
+        return namber;
+    }
+    
+    badWord(bad){
+        bad = bad.replace("BUEI", "BUEX");
+        bad = bad.replace("BUEY", "BUEX");
+        bad = bad.replace("CACA", "CACX");
+        bad = bad.replace("CACO", "CACX");
+        bad = bad.replace("CAGA", "CAGX");
+        bad = bad.replace("CAGO", "CAGX");
+        bad = bad.replace("CAKA", "CAKX");
+        bad = bad.replace("COGE", "COGX");
+        bad = bad.replace("COJA", "COJX");
+        bad = bad.replace("COJE", "COJX");
+        bad = bad.replace("COJI", "COJX");
+        bad = bad.replace("COJO", "COJX");
+        bad = bad.replace("CULO", "CULX");
+        bad = bad.replace("FETO", "FETX");
+        bad = bad.replace("GUEY", "GUEX");
+        bad = bad.replace("JOTO", "JOTX");
+        bad = bad.replace("KACA", "KACX");
+        bad = bad.replace("KACO", "KACX");
+        bad = bad.replace("KAGA", "KAGX");
+        bad = bad.replace("KAGO", "KAGX");
+        bad = bad.replace("KOGE", "KOGX");
+        bad = bad.replace("KOJO", "KOJX");
+        bad = bad.replace("KAKA", "KAKX");
+        bad = bad.replace("KULO", "KULX");
+        bad = bad.replace("MAME", "MAMX");
+        bad = bad.replace("MAMO", "MAMX");
+        bad = bad.replace("MEAR", "MEAX");
+        bad = bad.replace("MEON", "MEOX");
+        bad = bad.replace("MION", "MIOX");
+        bad = bad.replace("MOCO", "MOCX");
+        bad = bad.replace("MULA", "MULX");
+        bad = bad.replace("PEDA", "PEDX");
+        bad = bad.replace("PEDO", "PEDX");
+        bad = bad.replace("PENE", "PENX");
+        bad = bad.replace("PUTA", "PUTX");
+        bad = bad.replace("PUTO", "PUTX");
+        bad = bad.replace("QULO", "QULX");
+        bad = bad.replace("RATA", "RATX");
+        bad = bad.replace("RUIN", "RUIX");
+
+        return bad;
     }
 }
