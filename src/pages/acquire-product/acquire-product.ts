@@ -1987,7 +1987,7 @@ export class AcquireProductPage {
                 testRadioOpen = false;
                 testRadioResult = data;
                 
-                this.edad = data;
+                //this.edad = data;
                 document.getElementById("marcaF").innerHTML = valor.asegur;
                 document.getElementById("primaF").innerHTML = valor.value;
                 this.aseguradoraCot = valor.asegur;
