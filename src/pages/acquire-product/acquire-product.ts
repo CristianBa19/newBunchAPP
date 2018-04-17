@@ -1521,7 +1521,7 @@ export class AcquireProductPage {
             options = [{ name: 'titular', id: 'titular', value: this.titular }];
 
         this.showAlert(title, options, function (data) {
-            that.titular = data.titular;
+            that.titular = data.titular.toUpperCase();
         });
     }
     tipoTres(valor) {
@@ -2431,7 +2431,7 @@ export class AcquireProductPage {
 
         if (this.validateTab(5) == false) {
             loader.dismiss();
-            alert('Falta compeltar los campos');
+            alert('Falta completar los campos');
             return;
         }
 

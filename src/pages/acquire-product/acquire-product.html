@@ -183,7 +183,7 @@
                                 <ion-col col-10>
                                     <div>Fecha de Nacimiento</div>                                    
                                     <div>{{fechaNacimiento}}</div>
-                                    <ion-datetime pickerFormat="YYYY MMMM DD" displayFormat="YYYY MMMM DD"  [monthNames]="datePickerNames.month" [(ngModel)]="fechaNacimiento" (ngModelChange)="fechaNacimientoChanged()" cancelText="CANCELAR" doneText="OK" max="{{maxYear}}" id="datepiker"></ion-datetime>
+                                    <ion-datetime pickerFormat="YYYY MMMM DD" displayFormat="YYYY MMMM DD"  [monthNames]="datePickerNames.month" [(ngModel)]="fechaNacimiento" (ngModelChange)="fechaNacimientoChanged()" cancelText="CANCELAR" doneText="OK" max="{{maxYear}}" class="datepiker"></ion-datetime>
                                 </ion-col>
                                 <ion-col col-2>
                                     <ion-icon name="ios-arrow-forward"></ion-icon>
@@ -579,7 +579,7 @@
                 <ion-col col-12>
                     <ion-row [hidden]="productoContinuarShown">
                         <ion-col col-12>
-                            <ion-row class="item-wrapper input required" id="inputTarjeta" (tap)="showAlertTarjeta()">
+                            <ion-row align-items-center class="item-wrapper input required" id="inputTarjeta" (tap)="showAlertTarjeta()">
                                 <ion-col col-10>
                                     <div>Número de Tarjeta</div>
                                     <div>{{numTarjeta}}</div>
@@ -589,7 +589,7 @@
                                 </ion-col>               
                             </ion-row>                        
                             
-                            <ion-row class="item-wrapper input" id="inputTipoTarjeta">                                
+                            <ion-row align-items-center class="item-wrapper input" id="inputTipoTarjeta">                                
                                 <ion-col col-10>
                                     <div>Tipo de Tarjeta</div>
                                     <div>{{tipoTarjeta}}</div>
@@ -599,7 +599,7 @@
                                 </ion-col>                                
                             </ion-row>
                             
-                            <ion-row class="item-wrapper input required" id="inputTitular" (tap)="showAlertTitular()">
+                            <ion-row align-items-center class="item-wrapper input required" id="inputTitular" (tap)="showAlertTitular()">
                                 <ion-col col-10>
                                     <div>Titular</div>
                                     <div>{{titular}}</div>
@@ -609,7 +609,7 @@
                                 </ion-col>                                
                             </ion-row>
 
-                            <ion-row class="item-wrapper input" id="inputBank" (tap)="showAlertBancos()">
+                            <ion-row align-items-center class="item-wrapper input" id="inputBank" (tap)="showAlertBancos()">
                                 <ion-col col-10>
                                     <div>Banco</div>
                                     <div>{{banco}}</div>
@@ -637,20 +637,20 @@
 
                             <ion-row>
                                 <ion-col col-6>                                    
-                                    <ion-row class="item-wrapper input required">
+                                    <ion-row align-items-center class="item-wrapper input required">
                                         <ion-col col-10>
                                             <div>Vigencia</div>
                                             <div>{{vigencia}}</div>
+                                            <ion-datetime pickerFormat="MMM YY" displayFormat="MM/YY" min="2017" max="2030" [monthNames]="datePickerNames.month" [(ngModel)]="vigencia" cancelText="CANCELAR" doneText="OK" class="datepiker"></ion-datetime>
                                         </ion-col>
                                         <ion-col col-2>
                                             <ion-icon name="ios-arrow-forward"></ion-icon>
                                         </ion-col>                                        
-                                        <!--<ion-datetime pickerFormat="MMM YY" displayFormat="MM/YY" min="2017" max="2030" [monthNames]="datePickerNames.month" [(ngModel)]="vigencia" cancelText="CANCELAR" doneText="OK"></ion-datetime>-->
                                     </ion-row>                                    
                                 </ion-col>
 
                                 <ion-col col-6>                                    
-                                    <ion-row class="item-wrapper input required" (tap)="showAlertCvv()">
+                                    <ion-row align-items-center class="item-wrapper input required" (tap)="showAlertCvv()">
                                         <ion-col col-10>
                                             <div>CVV</div>
                                             <div>{{cvv}}</div>
