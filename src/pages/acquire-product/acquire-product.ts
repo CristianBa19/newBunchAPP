@@ -1287,6 +1287,20 @@ export class AcquireProductPage {
         
         this.showAlert(title, options, function(data) {
             that.email = data.email;
+            
+            that.nombre = undefined;
+            that.paterno = undefined;
+            that.materno = undefined;
+            that.fechaNacimiento = undefined;
+            that.genero = undefined;
+            that.telCasa = undefined;
+            that.telMovil = undefined;
+            that.rfc = undefined;
+            that.colonia = undefined;            
+            that.calle = undefined;        
+            that.numExterior = undefined;        
+            that.numInterior = undefined;        
+
             let encodedString = btoa(that.email),
                 url = `http://services.bunch.guru/WebService.asmx/validarCliente?param=${encodedString}`;
             
