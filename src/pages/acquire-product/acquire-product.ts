@@ -1484,6 +1484,7 @@ export class AcquireProductPage {
         });
     }    
     tipoTres(valor) {
+        let that = this;
         var testRadioOpen = false;
         var testRadioResult = "";
         var cont = 0;
@@ -1518,6 +1519,7 @@ export class AcquireProductPage {
         alert.addButton({
             text: 'OK',
             handler: data => {
+                console.warn('DATA', data, 'VALOR', valor);
                 testRadioOpen = false;
                 testRadioResult = data;                
                 if (testRadioResult === 'Añadir nueva dirección') {
@@ -1532,19 +1534,19 @@ export class AcquireProductPage {
                     this.isEnabledTipo3 = false;
                     var splitStr = testRadioResult.split(/\s+/);
                     var seleccion = splitStr[0];
-                    var seleccionNum = (parseInt(seleccion)) - 1;
-                    this.retrieveData3();                    
-                    document.getElementById("calle").innerHTML = valor[seleccionNum].Calle;
-                    document.getElementById("noExt").innerHTML = valor[seleccionNum].NoExt;
-                    document.getElementById("noInt").innerHTML = valor[seleccionNum].NoInt;
-                    document.getElementById("colonia").innerHTML = valor[seleccionNum].Colonia;
-                    document.getElementById("codigoPostal").innerHTML = valor[seleccionNum].CodPostal;
-                    document.getElementById("nacionalidad").innerHTML = 'Mexicana';
-                    document.getElementById("delegacion").innerHTML = valor[seleccionNum].Poblacion;
-                    document.getElementById("codigoPostal").innerHTML = valor[seleccionNum].CodPostal;
-                    document.getElementById("estado").innerHTML = valor[seleccionNum].Ciudad;
+                    var seleccionNum = (parseInt(seleccion)) - 1;                    
+                    
+                    let obj = valor[seleccionNum];
+                    console.warn('---->', obj);
+                    that.calle = obj.Calle;
+                    that.numExterior = obj.NoExt;
+                    that.numInterior = obj.NoInt;
+                    that.colonia = obj.Colonia;
+                    that.codigoPostal1 = obj.CodPostal;
+                    that.delegacion = obj.Poblacion;
+                    that.estado = obj.Ciudad;
 
-
+                    that.retrieveData3();
                 }
             }
         });
@@ -2136,14 +2138,30 @@ export class AcquireProductPage {
             this.nombre = data.Nombre;
             this.paterno = data.ApellidoPat;
             this.materno = data.ApellidoMat;
-            this.fechaNacimiento = data.FechaNacimiento;
+
+            //data.FechaNacimiento viene en formato: "9/30/1988 12:00:00 AM" y hay que ponerlo en formato: YYYY-MM-DD
+            //por lo que realizamos esto:
+            let fechaNacimientoArr = data.FechaNacimiento.split('/');
+            let fechaNacimientoDia = fechaNacimientoArr[1];
+            if (+fechaNacimientoDia <= 9) {
+                fechaNacimientoDia = '0' + fechaNacimientoDia;
+            }
+            let fechaNacimientoMes = fechaNacimientoArr[0];
+            if (+fechaNacimientoMes <= 9) {
+                fechaNacimientoMes = '0' + fechaNacimientoMes;
+            }
+            let fechaNacimientoAnio = fechaNacimientoArr[2].substring(0, 4);
+            this.fechaNacimiento = `${fechaNacimientoAnio}-${fechaNacimientoMes}-${fechaNacimientoDia}`;
+
             this.genero = data.Genero;
-            this.telCasa = data.Telefono;
+            this.telCasa = data.Telefono.split('|')[1];
+            this.telMovil = data.Telefono2.split('|')[1];
             this.rfc = data.RFC;      
-            this.colonia = data.Direccion.Colonia;
-            this.calle = data.Direccion.Calle;
-            this.numExterior = data.Direccion.NoExt;
-            this.numInterior = data.Direccion.NoInt;
+            //this.colonia = data.Direccion.Colonia;
+            //this.calle = data.Direccion.Calle;
+            //this.numExterior = data.Direccion.NoExt;
+            //this.numInterior = data.Direccion.NoInt;
+
             if (callback != undefined) {
                 callback(data);
             }            
@@ -2152,18 +2170,18 @@ export class AcquireProductPage {
         });
     }
 
-    retrieveData3() {
-
-        let that = this;
-        this.retrieveData(function(data) {
+    retrieveData3() {        
+        this.retrieveData(/*function(data) {
             that.rfc = data.RFC;
-            that.nacionalidad = data.Nacionalidad;
-            that.lugarNacimiento = data.LugarNacimiento;
+            //that.nacionalidad = data.Nacionalidad;
+            //that.lugarNacimiento = data.LugarNacimiento;
             that.telCasa = data.Telefono;
-        });        
+        }*/);
     }
 
-    crearCliente() {    
+    crearCliente() {
+        
+        console.warn('crearCliente');
 
         let loader = this.loadingCtrl.create();
         loader.present(); 
@@ -2173,8 +2191,11 @@ export class AcquireProductPage {
         let string = 'nombre=' + this.nombre + '&app=' + this.paterno + '&apm=' + this.materno + '&genero=' + this.genero + '&edad=' + this.edad + '&email=' + this.email + '&telefono=' + this.telMovil + '&RFC=' + this.rfc + '&nacionalidad=MEXICANA&lugNacimiento=' + this.lugarNacimiento + '&cp=' + this.codigoPostal2 + '&calle=' + this.calle + '&noExt=' + this.numExterior + '&noInt=' + this.numInterior + '&colonia=' + this.colonia + '&delegacion=' + this.delegacion + '&estado=' + this.estado + '&telefono2=' + this.telCasa + '&fechaNac=' + this.fechaNacimiento + '&idContVend=' + this.idContVend,
             encodedString = btoa(string),
             url = `http://services.bunch.guru/WebService.asmx/CrearCliente?param=${encodedString}`;
+
+        console.log({string, encodedString, url});
     
         this.http.get(url).map(res => res.json()).subscribe(data => {
+            console.log({data});
             this.idCliCot = data.idCli;
             this.idDirCot = data.idDir;
             this.idContCot = data.idCont;
@@ -2331,12 +2352,15 @@ export class AcquireProductPage {
             case 'Pago':
                 if (validateTab == true) {
                     errors = !_this.validateTab(3);
+                    if (errors == false) {
+                        _this.crearCliente();
+                    }
                 }
                 stepsElem.innerHTML = "Paso 4 de 5";                                
                 break;
             case 'Tarjeta':
                 stepsElem.innerHTML = "Paso 5 de 5";
-                _this.crearCliente();
+                //_this.crearCliente();
                 break;
         }        
 
