@@ -1,7 +1,7 @@
 import { IntroductionPage } from './../introduction/introduction';
 import { CarListPage } from './../car-list/car-list';
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { NavController, NavParams, IonicPage, LoadingController, ToastController } from 'ionic-angular';
 import { RecoveryPage } from '../recovery/recovery';
 import { RegistrerPage } from '../registrer/registrer';
 import { HomePage } from '../home/home';
@@ -19,7 +19,7 @@ import { ValidateEmail } from '../../app/validators/email.validator';
 })
 export class LoginPage implements OnInit {
     credentials = {} as usercreds;
-    constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, private storage: Storage, public authservice: AuthProvider, public toastCtrl: ToastController) { }
+    constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, private storage: Storage, public authservice: AuthProvider, public loadingCtrl: LoadingController, public toastCtrl: ToastController) { }
     //email: string;
     //pass: string;
     message: string;
@@ -41,12 +41,13 @@ export class LoginPage implements OnInit {
         });
         toaster.dismiss();
         console.log({ form });
-        if (form.valid === true) {
+        // if (form.valid === true) {
             this.goIntro();
-        } else {
-            toaster.setMessage = 'E-mail o password incorrecto';
-            toaster.present();
-        }
+            // toaster.present();
+        // } else {
+        //     toaster.setMessage('E-mail o password incorrecto');
+        //     toaster.present();
+        // }
     }
 
     ionViewDidLoad() {        
@@ -74,9 +75,9 @@ export class LoginPage implements OnInit {
         let toaster;
         toaster = this.toastCtrl.create({
             duration: 3000,
-            position: 'top'
+            position: 'bottom'
         });
-        toaster.dismiss();
+        // toaster.dismiss();
         console.log('goIntro');
 
         this.message = '';
@@ -88,12 +89,10 @@ export class LoginPage implements OnInit {
         console.log({email, pass});
 
         if (email != undefined && pass != undefined) {
-
             email = email.trim();
             pass = pass.trim();
-
             if (this.validateEmail(email) !== true) {
-                toaster.setMessage = 'Debes ingresar el e-mail del usuario';
+                toaster.setMessage('Indique un email válido');
                 toaster.present();	  
                 this.isEnabled = true;
             } else {
@@ -118,17 +117,17 @@ export class LoginPage implements OnInit {
                                 break;
                             case 'false':
                                 this.isEnabled = true;
-                                toaster.setMessage = 'Verifica tu contraseña';
+                                toaster.setMessage('Verifica tu contraseña');
                                 toaster.present();  
                                 break;
                             case 'No existe usuario':
                                 this.isEnabled = true;
-                                toaster.setMessage = 'El usuario no existe';
+                                toaster.setMessage('El usuario no existe');
                                 toaster.present();  
                                 break;
                             default:
                                 this.isEnabled = true;
-                                toaster.setMessage = 'Hubo un error, intenta de nuevo';
+                                toaster.setMessage('Hubo un error, intenta de nuevo');
                                 toaster.present();
                         }
                     }, err => {
@@ -138,10 +137,10 @@ export class LoginPage implements OnInit {
         } else {
             this.isEnabled = true;
             if (email == undefined) {
-                toaster.setMessage = 'El campo usuario no puede estar vacío';
+                toaster.setMessage('El campo usuario no puede estar vacío');
                 toaster.present();
             } else {
-                toaster.setMessage = 'El password no puede estar vacío';
+                toaster.setMessage('El password no puede estar vacío');
                 toaster.present();
             }
         }

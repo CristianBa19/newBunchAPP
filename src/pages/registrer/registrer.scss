@@ -213,5 +213,16 @@ page-registrer {
           height: 30px !important;
           font-size: 16px;
       }
+      .cell{
+        color:#61c4d4;
+        z-index: 2;
+        position: absolute;
+        width: 40px;
+        height: 36px;
+        left: 1%;
+        top: 86%;
+        transform:translateY(-50%);
+        font-size: 22px
+      }
 
 }

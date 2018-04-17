@@ -15,7 +15,7 @@
                             <ion-input formControlName="password" type="password" [placeholder]='"RegisterAccountPage.password" | translate' class="pass" [(ngModel)]="newuser.password"></ion-input>
                         </div>
                         <div class="divRow">
-                            <ion-input formControlName="celular" type="tel" [placeholder]='"RegisterAccountPage.celular" | translate' class="pass" [(ngModel)]="newuser.celular"></ion-input>
+                            <ion-icon name="call" class="cell"></ion-icon><ion-input formControlName="celular" type="tel" [placeholder]='"RegisterAccountPage.celular" | translate'  [(ngModel)]="newuser.celular"></ion-input>
                         </div>
                     </ion-list>                    
                     <p style="color:red;">{{message}}</p>
@@ -30,7 +30,7 @@
         <ion-row>
             <div class="footer-warn footer-warn2 form-btnX">¿Ya eres usuario de Bunch?</div>
         </ion-row>
-        <button ion-button class="form-btnX" (click)="ReturnLoginPage()">Ingresa aqui</button>        
+        <button ion-button class="form-btnX" (click)="ReturnLoginPage()">Ingresa aquí</button>        
 
         <ion-row>
             <div class="footer-warn">{{ "LoginPage.footerWarnText" | translate }}</div>
