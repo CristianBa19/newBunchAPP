@@ -54,7 +54,7 @@ export class RegistrerPage {
             if (res == true && this.validatePassword() == true && this.validateTelefono() == true) {
                 this.signup();
             } else {
-                alert('Error');
+                //alert('Error');
             }
         }).catch((err) => {
             console.error({err});

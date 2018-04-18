@@ -12,7 +12,7 @@
                             <ion-input formControlName="email" type="email" placeholder='Email' class="user" [(ngModel)]="newuser.email" ></ion-input>
                         </div>
                         <div class="divRow">
-                            <ion-input formControlName="password" type="password" [placeholder]='"RegisterAccountPage.password" | translate' class="pass" [(ngModel)]="newuser.password"></ion-input>
+                            <ion-input formControlName="password" type="password" placeholder="Contraseña (7 o más caracteres)" class="pass" [(ngModel)]="newuser.password"></ion-input>
                         </div>
                         <div class="divRow">
                             <ion-icon name="call" class="cell"></ion-icon><ion-input formControlName="celular" type="tel" [placeholder]='"RegisterAccountPage.celular" | translate'  [(ngModel)]="newuser.celular"></ion-input>
