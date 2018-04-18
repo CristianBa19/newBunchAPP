@@ -1950,7 +1950,7 @@ export class AcquireProductPage {
             ];
 
         this.showAlert(title, options, function (data) {
-
+            
             let loader = that.loadingCtrl.create();
             loader.present();
 
@@ -1958,9 +1958,7 @@ export class AcquireProductPage {
                 type,
                 bank;
 
-            that.numTarjeta = data.numTarjeta;
-
-            console.log('lookup...');
+            that.numTarjeta = data.numTarjeta;            
 
             that.http.get('https://lookup.binlist.net/' + data.numTarjeta).map(res => res.json()).subscribe(data => {
 
@@ -1971,7 +1969,12 @@ export class AcquireProductPage {
                 bank = data.bank.name;
                 if (bank == undefined) {
                     loader.dismiss();
-                    alert('Error: no se pudo validar el banco');
+                    let toaster = that.toastCtrl.create({
+                        duration: 3000,
+                        position: 'bottom'
+                    });
+                    toaster.setMessage('No se pudo validar el banco');
+                    toaster.present();
                 } else {
 
                     //Para quitar caracteres especiales al banco y dejarlo en minus, pero con la primera letra en mayus
@@ -2005,7 +2008,12 @@ export class AcquireProductPage {
             }, err => {
                 loader.dismiss();
                 console.error({ err });
-                alert('Error');
+                let toaster = that.toastCtrl.create({
+                    duration: 3000,
+                    position: 'bottom'
+                });
+                toaster.setMessage('No se pudo validar el banco');
+                toaster.present();
             });
         });
     }
