@@ -448,7 +448,9 @@ export class AcquireProductPage {
             if (data['Colonias'].length == 0 && data['Estado'] == null && data['Municipio'] == null) {
                 let toaster = that.toastCtrl.create({
                     duration: 3000,
-                    position: 'bottom'
+                    position: 'bottom',
+                    showCloseButton: true,
+                    closeButtonText: 'Ok',
                 });
                 toaster.setMessage('Código postal inválido');
                 toaster.present();
@@ -1613,7 +1615,9 @@ export class AcquireProductPage {
                 } else {
                     let toaster = that.toastCtrl.create({
                         duration: 3000,
-                        position: 'bottom'
+                        position: 'bottom',
+                        showCloseButton: true,
+                        closeButtonText: 'Ok',
                     });
                     toaster.setMessage('Teléfono de Casa inválido');
                     toaster.present();
@@ -1641,7 +1645,9 @@ export class AcquireProductPage {
                 } else {
                     let toaster = that.toastCtrl.create({
                         duration: 3000,
-                        position: 'bottom'
+                        position: 'bottom',
+                        showCloseButton: true,
+                        closeButtonText: 'Ok',
                     });
                     toaster.setMessage('Teléfono Móvil inválido');
                     toaster.present();
@@ -1763,7 +1769,9 @@ export class AcquireProductPage {
                 } else {
                     let toaster = that.toastCtrl.create({
                         duration: 3000,
-                        position: 'bottom'
+                        position: 'bottom',
+                        showCloseButton: true,
+                        closeButtonText: 'Ok',
                     });
                     toaster.setMessage('Número de serie inválido');
                     toaster.present();
@@ -1843,7 +1851,9 @@ export class AcquireProductPage {
             } else {
                 let toaster = that.toastCtrl.create({
                     duration: 3000,
-                    position: 'bottom'
+                    position: 'bottom',
+                    showCloseButton: true,
+                    closeButtonText: 'Ok',
                 });
                 toaster.setMessage('Placas no válidas');
                 toaster.present();
@@ -1870,7 +1880,9 @@ export class AcquireProductPage {
             } else {
                 let toaster = that.toastCtrl.create({
                     duration: 3000,
-                    position: 'bottom'
+                    position: 'bottom',
+                    showCloseButton: true,
+                    closeButtonText: 'Ok',
                 });
                 toaster.setMessage('Número de motor inválido');
                 toaster.present();
@@ -1971,7 +1983,9 @@ export class AcquireProductPage {
                     loader.dismiss();
                     let toaster = that.toastCtrl.create({
                         duration: 3000,
-                        position: 'bottom'
+                        position: 'bottom',
+                        showCloseButton: true,
+                        closeButtonText: 'Ok',
                     });
                     toaster.setMessage('No se pudo validar el banco');
                     toaster.present();
@@ -2010,7 +2024,9 @@ export class AcquireProductPage {
                 console.error({ err });
                 let toaster = that.toastCtrl.create({
                     duration: 3000,
-                    position: 'bottom'
+                    position: 'bottom',
+                    showCloseButton: true,
+                    closeButtonText: 'Ok',
                 });
                 toaster.setMessage('No se pudo validar el banco');
                 toaster.present();
@@ -2549,7 +2565,9 @@ export class AcquireProductPage {
             if (data.codigoError != null) {
                 let toaster = this.toastCtrl.create({
                     duration: 3000,
-                    position: 'bottom'
+                    position: 'bottom',
+                    showCloseButton: true,
+                    closeButtonText: 'Ok',
                 });
                 toaster.setMessage(data.codigoError);
                 toaster.present();
