@@ -1,0 +1,50 @@
+<ion-content padding>
+    <!-- <ion-row justify-content-center align-items-center class="logo-icon">
+        <ion-row justify-content-center align-items-center>
+            <img src="assets/icon/bunch-logo.png">
+        </ion-row>
+        <ion-row justify-content-center align-items-center class="bunch-text">
+            <span>BUNCH</span>
+        </ion-row>
+    </ion-row> -->
+    <ion-row justify-content-center align-items-center class="main-text">
+        <span class="title1">¡{{ "PaymentSubmitedPage.congratulation" | translate }}</span>
+        <br>
+        <span class="title2">{{ "PaymentSubmitedPage.congratulation2" | translate }}!</span>
+        <div class="divDetalle">
+            <ion-row justify-content-center align-items-center class="bodytxt" style="padding:0px; margin:3px;">
+                <ion-row justify-content-center align-items-center>
+                    <img src="assets/icon/logo/asegurdoras-{{aseguradora}}.svg" class="logo-icon">
+                </ion-row>
+                <ion-row justify-content-center align-items-center class="txtDetalle">
+                    <span>{{ "PaymentSubmitedPage.TextDetallePolicy" | translate }}  {{poliza}}</span>
+                </ion-row>
+                <ion-row justify-content-center align-items-center class="txtDetalle">
+                    <span>{{ "PaymentSubmitedPage.TextDetallePolicy2" | translate }}  {{vehiculo}}</span>
+                </ion-row>
+                <ion-row justify-content-center align-items-center class="txtDetalle">
+                    <span>{{ "PaymentSubmitedPage.TextDetallePolicy3" | translate }}  {{vigencia}}</span>
+                </ion-row>
+                <ion-row justify-content-center align-items-center class="txtDetalle">
+                    <span>{{ "PaymentSubmitedPage.TextDetallePolicy4" | translate }}  {{primaTotal}}</span>
+                </ion-row>
+            </ion-row>
+        </div>
+        <ion-row justify-content-center align-items-center class="bodytxt">
+            <span>{{ "PaymentSubmitedPage.bodyText2" | translate }}</span>
+        </ion-row>
+    </ion-row>
+    <ion-row class="button-wrap" justify-content-center align-items-center>
+            <a href="{{url}}" download target="_blank" class="astyle" ><span>{{ "PaymentSubmitedPage.goHomeButtonText" | translate }}</span></a>
+    </ion-row>
+    <ion-row class="button-wrapCompartir" justify-content-center align-items-center  (tap)='share()'>
+       <span>{{ "PaymentSubmitedPage.CompartirButtonText" | translate }}</span>
+    </ion-row>
+    <ion-row justify-content-center align-items-center class="bodytxt main-text">
+        <span>
+            <span class="bodytxt2">BUNCH </span>{{ "PaymentSubmitedPage.bodyText3" | translate }}</span>
+    </ion-row>
+    <ion-row justify-content-center align-items-center class="bodytxt main-text">
+        <img src="assets/icon/bunch-logo.png" class="logo-icon">
+    </ion-row>
+</ion-content>

@@ -249,10 +249,17 @@
     "requestAdvisor":"Solicitar asesor"
   },
   "PaymentSubmitedPage":{
-    "congratulation":"Felicitaciones",
+    "congratulation":"Felicidades",
+    "congratulation2":"tu compra ha sido exitosa",
     "bodyText":"Haz concluido la compra de la póliza de tu amigo, le ha llegado un correo electrónico con las indicaciones para descargar su póliza. ",
-    "bodyText2":"Recuerda que cuando lo requieras puedes revisarla y  enviarla nuevamente desde la historia de productos en la sección de estadísticas.",
-    "goHomeButtonText":"Ir a productos"
+    "bodyText2":"En tu póliza encontrarás todos los datos de contacto de la Aseguradora en caso de que requieras de sus servicios",
+    "goHomeButtonText":"Descargar Póliza de Seguro de Auto",
+    "CompartirButtonText":"Compartir",
+    "bodyText3":"agradece tu confianza.",
+    "TextDetallePolicy":"Póliza:  ",
+    "TextDetallePolicy2":"Auto asegurado:  ",
+    "TextDetallePolicy3":"Vigencia:  ",
+    "TextDetallePolicy4":"Total pagado:  "
   },
   "DocumentDetailPage":{
     "guard": "Documentos guardados",

@@ -1,0 +1,96 @@
+payment-submited-page2{
+  .negras{
+    font-weight: 800;
+  }
+  .logo-icon{
+    height: 42%;
+    width: 26%;
+    ion-row{
+      width:100%
+    }
+    img{
+      width: 110px;
+    }
+    span{
+      font-size: 24px;
+      letter-spacing: 14px;
+      color: #0c86b2;
+      padding-left: 8px;
+    }
+  }
+  .main-text{
+    font-family: RaleNext;
+    margin-top: 5%;
+    margin-bottom: 6%;
+    font-size: 17px;
+    text-align: justify;
+    font-weight: 500;
+    color: #787878;
+    ion-row{
+      width: 80%;
+    }
+  }
+  .button-wrap{
+    font-family: RaleTitle;
+    width: 100%;
+    height: 50px;
+    margin: 5px 0;
+    background-color: #09c;
+    color: white;
+    border-radius: 6px;
+    margin-top: 5%;
+    font-size: 16px;
+  }
+  .button-wrapCompartir{
+    font-family: RaleTitle;
+    width: 100%;
+    height: 50px;
+    margin: 5px 0;
+    background-color: #999;
+    color: white;
+    border-radius: 6px;
+    margin-top: 5%;
+    font-size: 16px;
+  }
+  .bunch-text{
+    margin-top: 5px
+  }
+
+  .title1{
+    color:#09c;
+    font-size: 34px;
+    font-weight: 900;
+  }
+  .title2{
+    color:black;
+    font-size: 20px;
+    font-weight: 900;
+    padding-bottom: 10px
+  }
+  .divDetalle{
+    width: 100%;
+    background-color: white;
+    height: 200px;
+    border: #cfcbcb 2px solid;
+    border-radius: 8px;
+  }
+  .bodytxt{
+    font-weight: 500;
+    padding: 10px;
+    width: 100% !important;
+  }
+  .bodytxt2{
+    font-weight: 900;
+  }
+
+  .txtDetalle{
+    padding-top: 3px;
+    font-weight: 900;
+    text-align: center !important;
+  }
+
+  .astyle{
+    text-decoration:none;
+    color: white;
+  }
+}

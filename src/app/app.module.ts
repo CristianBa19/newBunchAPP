@@ -45,6 +45,7 @@ import { AcquireProductPage } from '../pages/acquire-product/acquire-product';
 import { DocumentDetailPage } from '../pages/acquire-product/document-details/document-detail';
 import { PayPolicyPage } from '../pages/acquire-product/pay-policy/pay-policy';
 import { PaymentSubmittedPage } from '../pages/payment-submited/payment-submited';
+import { PaymentSubmittedPage2 } from '../pages/payment-submited2/payment-submited2';
 import { HelpCenterPage } from '../pages/help-center/help-center';
 import { ClienteProductDetailPage } from '../pages/client-mode/cliente-product-detail/cliente-product-detail';
 import { Localstorage } from './../_helpers/localstorage.controller';
@@ -68,7 +69,7 @@ import { RequestsProvider } from '../providers/requests/requests';
 import { ChatProvider } from '../providers/chat/chat';
 import { Splash } from '../pages/splash/splash';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 
 @NgModule({
@@ -111,6 +112,7 @@ import { ReactiveFormsModule } from '@angular/forms';
         AdDetailPage,
         AcquireProductPage,
         PaymentSubmittedPage,
+        PaymentSubmittedPage2,
         HelpCenterPage,
         ClienteProductDetailPage,
         DocumentDetailPage,
@@ -181,6 +183,7 @@ import { ReactiveFormsModule } from '@angular/forms';
         AdDetailPage,
         AcquireProductPage,
         PaymentSubmittedPage,
+        PaymentSubmittedPage2,
         HelpCenterPage,
         ClienteProductDetailPage,
         DocumentDetailPage,
@@ -188,6 +191,7 @@ import { ReactiveFormsModule } from '@angular/forms';
         Splash,
     ],
     providers: [
+        SocialSharing,
         Constants,
         Localstorage,
         LocalizationModel,
