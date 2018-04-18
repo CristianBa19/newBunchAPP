@@ -132,8 +132,7 @@ export class AcquireProductPage {
     estadoCot: string;
     telefonoCasaCot: string;
     claveCot: string;
-    noTarjetaCot: string;
-    titularCot: string;
+    noTarjetaCot: string;    
     bancoCot: string;
     tipoCot: string;
     cvvCot: string;
@@ -1420,6 +1419,7 @@ export class AcquireProductPage {
 
                 if (that.nombre != undefined && that.paterno != undefined && that.materno != undefined && that.fechaNacimiento != undefined) {
                     that.calcHC();
+                    that.titular = `${that.nombre} ${that.paterno} ${that.materno}`.toUpperCase();
                 }
             });
         }
@@ -1438,6 +1438,7 @@ export class AcquireProductPage {
 
                 if (that.nombre != undefined && that.paterno != undefined && that.materno != undefined && that.fechaNacimiento != undefined) {
                     that.calcHC();
+                    that.titular = `${that.nombre} ${that.paterno} ${that.materno}`.toUpperCase();
                 }
             });
         }
@@ -1456,6 +1457,7 @@ export class AcquireProductPage {
 
                 if (that.nombre != undefined && that.paterno != undefined && that.materno != undefined && that.fechaNacimiento != undefined) {
                     that.calcHC();
+                    that.titular = `${that.nombre} ${that.paterno} ${that.materno}`.toUpperCase();
                 }
             });
         }
@@ -1466,6 +1468,7 @@ export class AcquireProductPage {
         let that = this;
         if (that.nombre != undefined && that.paterno != undefined && that.materno != undefined && that.fechaNacimiento != undefined) {
             that.calcHC();
+            that.titular = `${that.nombre} ${that.paterno} ${that.materno}`.toUpperCase();
         }
     }
 
@@ -1518,7 +1521,7 @@ export class AcquireProductPage {
 
     showAlertTitular() {
 
-        let title = this.isEnglish ? 'Name of the owner' : 'Nombre del titular',
+        let title = this.isEnglish ? 'Name of the owner' : 'Titular',
             that = this,
             options = [{ name: 'titular', id: 'titular', value: this.titular }];
 
@@ -2202,6 +2205,7 @@ export class AcquireProductPage {
             this.nombre = data.Nombre;
             this.paterno = data.ApellidoPat;
             this.materno = data.ApellidoMat;
+            this.titular = `${this.nombre} ${this.paterno} ${this.materno}`.toUpperCase();
 
             //data.FechaNacimiento viene en formato: "9/30/1988 12:00:00 AM" y hay que ponerlo en formato: YYYY-MM-DD
             //por lo que realizamos esto:
