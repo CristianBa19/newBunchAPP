@@ -34,7 +34,8 @@
             <span>{{ "PaymentSubmitedPage.bodyText2" | translate }}</span>
         </ion-row>
     </ion-row>
-    <ion-row class="button-wrap" justify-content-center align-items-center>
+    <ion-row class="button-wrap" justify-content-center align-items-center (tap)='abrirPoliza()'>
+            <!-- <a href="#"  class="astyle" onclick="window.open('https://plus.google.com/+NicRaboy', '_system', 'location=yes'); return false;"><span>{{ "PaymentSubmitedPage.goHomeButtonText" | translate }}</span></a> -->
             <a href="{{url}}" download target="_blank" class="astyle" ><span>{{ "PaymentSubmitedPage.goHomeButtonText" | translate }}</span></a>
     </ion-row>
     <ion-row class="button-wrapCompartir" justify-content-center align-items-center  (tap)='share()'>

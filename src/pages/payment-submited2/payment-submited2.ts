@@ -54,7 +54,7 @@ export class PaymentSubmittedPage2 {
                 this.vehiculo= data2.auto;
                 this.vigencia= data2.Vigencia;
                 this.primaTotal= data2.PrimaTotal;
-                this.url= data2.url;
+                this.url=  data2.url;
                 this.aseguradora='HDI';
                 console.log("esta es la response " + this.data2);
             }, err => {
@@ -68,5 +68,8 @@ export class PaymentSubmittedPage2 {
           }).catch(() => {
             // Sharing via email is not possible
           });
+    }
+    abrirPoliza(){
+        window.open(encodeURI(this.url), '_system', 'location=yes'); 
     }
 }
