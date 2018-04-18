@@ -3,8 +3,11 @@ import { NavController, NavParams, Slides, Platform } from 'ionic-angular';
 import { DatePicker } from '@ionic-native/date-picker';
 import { Keyboard } from '@ionic-native/keyboard';
 import { LoginPage } from '../login/login';
+import { StatisticsPage } from '../statistics/statistics';
+import { HomePage } from '../home/home';
 import { LocalizationModel } from '../../_helpers/localizationModel';
 import { Http, Headers } from '@angular/http';
+import { Storage } from '@ionic/storage';
 import { IonicPage, LoadingController, ToastController } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/user';
 import { Console } from '@angular/core/src/console';
@@ -25,7 +28,8 @@ export class RegistrerPage {
         private kBoard: Keyboard,
         private platform: Platform,
         private localizationModal: LocalizationModel,
-        public http: Http, 
+        public http: Http,
+        private storage: Storage,
         public userservice: UserProvider,
         public loadingCtrl: LoadingController, 
         public toastCtrl: ToastController) {
@@ -248,7 +252,7 @@ export class RegistrerPage {
     signup() {
 
         console.log('signup');
-
+        let that = this;
         let loader = this.loadingCtrl.create();
         loader.present();            
         
@@ -282,8 +286,10 @@ export class RegistrerPage {
                 this.userservice.adduser(this.newuser).then((res: any) => {                                    
                     if (res.success) {
                         console.log("se ha creado una nueva cuenta");
+                        localStorage.idContVend = data;
+                        that.storage.set('name', data);
                         loader.dismiss();
-                        alert('Success');
+                        that.navCtrl.push(HomePage, { animate: true });
                     } else {
                         console.error({res});
                         loader.dismiss();
