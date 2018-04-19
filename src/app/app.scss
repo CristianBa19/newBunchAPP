@@ -15,7 +15,9 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
-.toast-container{background:rgb(218, 207, 123);}
+.toast-container{background:#FDEF60;}
+.toast-message{color:black !important;}
+.toast-button{color:black;}
 .definida {
     .alert-cancel-btn{color:gray;}
     .alert-message{
