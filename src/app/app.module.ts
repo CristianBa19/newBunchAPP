@@ -46,6 +46,7 @@ import { DocumentDetailPage } from '../pages/acquire-product/document-details/do
 import { PayPolicyPage } from '../pages/acquire-product/pay-policy/pay-policy';
 import { PaymentSubmittedPage } from '../pages/payment-submited/payment-submited';
 import { PaymentSubmittedPage2 } from '../pages/payment-submited2/payment-submited2';
+import { errorPage } from '../pages/error/error';
 import { HelpCenterPage } from '../pages/help-center/help-center';
 import { ClienteProductDetailPage } from '../pages/client-mode/cliente-product-detail/cliente-product-detail';
 import { Localstorage } from './../_helpers/localstorage.controller';
@@ -113,6 +114,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
         AcquireProductPage,
         PaymentSubmittedPage,
         PaymentSubmittedPage2,
+        errorPage,
         HelpCenterPage,
         ClienteProductDetailPage,
         DocumentDetailPage,
@@ -184,6 +186,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
         AcquireProductPage,
         PaymentSubmittedPage,
         PaymentSubmittedPage2,
+        errorPage,
         HelpCenterPage,
         ClienteProductDetailPage,
         DocumentDetailPage,

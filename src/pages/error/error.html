@@ -1,0 +1,24 @@
+<ion-content padding>
+        <ion-row justify-content-center align-items-center class="logo-icon">
+            <ion-row justify-content-center align-items-center>
+                <img src="assets/icon/FALSO.png">
+            </ion-row>
+        </ion-row>
+        <ion-row justify-content-center align-items-center class="main-text">
+            <span class="title1">{{ "errorPage.TxtTitle1" | translate }}</span>
+            <span class="title1">{{ "errorPage.TxtTitle2" | translate }}</span>
+            <br>
+            <span class="title2">{{ "errorPage.TxtTitle3" | translate }}</span>
+
+            <ion-row justify-content-center align-items-center class="bodytxt">
+                <span>{{ "errorPage.BodyTxt" | translate }}</span>
+            </ion-row>
+        </ion-row>
+        <ion-row class="button-wrap" justify-content-center align-items-center (tap)='goToHome()'>
+                <!-- <a href="#"  class="astyle" onclick="window.open('https://plus.google.com/+NicRaboy', '_system', 'location=yes'); return false;"><span>{{ "PaymentSubmitedPage.goHomeButtonText" | translate }}</span></a> -->
+                <span>{{ "errorPage.BtnTxt" | translate }}</span>
+        </ion-row>
+        <ion-row justify-content-center align-items-center class="bodytxt main-text">
+            <img src="assets/icon/bunch-logo.png" class="logo-icon2">
+        </ion-row>
+    </ion-content>
