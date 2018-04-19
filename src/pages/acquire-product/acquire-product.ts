@@ -119,8 +119,7 @@ export class AcquireProductPage {
     apellidoPCot: string;
     apellidoMCot: string;
     generoCot: string;
-    movilCot: string;
-    rfcCot: string;
+    movilCot: string;    
     noDePlacasCot: string;
     noDeSerieCot: string;
     noDeMotorCot: string;
@@ -145,7 +144,7 @@ export class AcquireProductPage {
     idDirCot: string;
     idContCot: string;
 
-    private idContVend: number;
+    private idContVend: number;    
 
     private fillTab1() {
         this.codigoPostal1 = 79050;
@@ -224,6 +223,18 @@ export class AcquireProductPage {
             loader.dismiss();
             this.loadInputData('inputMarca');
         });
+    }
+
+    showToast(message) {
+        let toast = this.toastCtrl.create({
+            duration: 3000,
+            position: 'bottom',
+            showCloseButton: true,
+            closeButtonText: 'Ok',
+            cssClass: 'toast',
+            message: message,
+        });
+        toast.present();
     }
 
     showAlert(title: string, options: any, callback) {
@@ -447,14 +458,7 @@ export class AcquireProductPage {
             loader.dismiss();
 
             if (data['Colonias'].length == 0 && data['Estado'] == null && data['Municipio'] == null) {
-                let toaster = that.toastCtrl.create({
-                    duration: 3000,
-                    position: 'bottom',
-                    showCloseButton: true,
-                    closeButtonText: 'Ok',
-                });
-                toaster.setMessage('Código postal inválido');
-                toaster.present();
+                that.showToast('Código postal inválido');                
                 that.showAlertCP1();
             } else {
                 that.codigoPostal1 = cp;
@@ -832,7 +836,7 @@ export class AcquireProductPage {
         var fecha = new Date();
         var ano = fecha.getFullYear();
         var anioFechaNac = ano - this.edad;
-        var myJSON = '{"Aseguradora":"' + aseguradora + '","Cliente":{"TipoPersona":null,"Nombre":null,"ApellidoPat":null,"ApellidoMat":null,"RFC":null,"FechaNacimiento":"01/01/' + anioFechaNac + '","Ocupacion":null,"CURP":null,"Direccion":{"Calle":null,"NoExt":null,"NoInt":null,"Colonia":null,"CodPostal":"' + this.codigoPostal1 + '","Poblacion":null,"Ciudad":null,"Pais":null},"Edad":' + this.edad + ',"Genero":"Masculino","Telefono":null,"Email":null},"Vehiculo":{"Uso":"PARTICULAR","Marca":"' + this.marca + '","Modelo":"' + this.modelo + '","NoMotor":"","NoSerie":"","NoPlacas":"","Descripcion":"' + descripcionAseguradora + '","CodMarca":"","CodDescripcion":"","CodUso":"","Clave":"' + clave + '","Servicio":"PARTICULAR"},"Coberturas":[],"Paquete":"AMPLIA","Descuento":null,"PeriodicidadDePago":0,"Cotizacion":{"PrimaTotal":null,"PrimaNeta":null,"Derechos":null,"Impuesto":null,"Recargos":null,"PrimerPago":null,"PagosSubsecuentes":null,"IDCotizacion":null,"CotID":null,"VerID":null,"CotIncID":null,"VerIncID":null,"Resultado":null},"Emision":{"PrimaTotal":null,"PrimaNeta":null,"Derechos":null,"Impuesto":null,"Recargos":null,"PrimerPago":null,"PagosSubsecuentes":null,"IDCotizacion":null,"Terminal":null,"Documento":null,"Poliza":null,"Resultado":null},"Pago":{"MedioPago":null,"NombreTarjeta":null,"Banco":null,"NoTarjeta":null,"MesExp":null,"AnioExp":null,"CodigoSeguridad":null,"NoClabe":null,"Carrier":0},"CodigoError":null,"urlRedireccion":null}';
+        var myJSON = '{"Aseguradora":"' + aseguradora + '","Cliente":{"TipoPersona":null,"Nombre":null,"ApellidoPat":null,"ApellidoMat":null,"RFC":"' + this.rfc + '","FechaNacimiento":"01/01/' + anioFechaNac + '","Ocupacion":null,"CURP":null,"Direccion":{"Calle":null,"NoExt":null,"NoInt":null,"Colonia":null,"CodPostal":"' + this.codigoPostal1 + '","Poblacion":null,"Ciudad":null,"Pais":null},"Edad":' + this.edad + ',"Genero":"Masculino","Telefono":null,"Email":null},"Vehiculo":{"Uso":"PARTICULAR","Marca":"' + this.marca + '","Modelo":"' + this.modelo + '","NoMotor":"","NoSerie":"","NoPlacas":"","Descripcion":"' + descripcionAseguradora + '","CodMarca":"","CodDescripcion":"","CodUso":"","Clave":"' + clave + '","Servicio":"PARTICULAR"},"Coberturas":[],"Paquete":"AMPLIA","Descuento":null,"PeriodicidadDePago":0,"Cotizacion":{"PrimaTotal":null,"PrimaNeta":null,"Derechos":null,"Impuesto":null,"Recargos":null,"PrimerPago":null,"PagosSubsecuentes":null,"IDCotizacion":null,"CotID":null,"VerID":null,"CotIncID":null,"VerIncID":null,"Resultado":null},"Emision":{"PrimaTotal":null,"PrimaNeta":null,"Derechos":null,"Impuesto":null,"Recargos":null,"PrimerPago":null,"PagosSubsecuentes":null,"IDCotizacion":null,"Terminal":null,"Documento":null,"Poliza":null,"Resultado":null},"Pago":{"MedioPago":null,"NombreTarjeta":null,"Banco":null,"NoTarjeta":null,"MesExp":null,"AnioExp":null,"CodigoSeguridad":null,"NoClabe":null,"Carrier":0},"CodigoError":null,"urlRedireccion":null}';
 
         let enStr = btoa(`usuario=Bunch&Password=BunCH2O18&data=${myJSON}&movimiento=cotizacion&idContVend=${this.idContVend}`),
             url = `http://services.bunch.guru/WebService.asmx/CotizacionEmisionJSON?param=${enStr}`; //'http://core.alimx.mx/webservice.asmx/CotizacionEmisionJSON?usuario=AhorraSeguros&password=Ah0rraS3guros2017&data=' + myJSON + '&movimiento=cotizacion';
@@ -1418,12 +1422,16 @@ export class AcquireProductPage {
             this.showAlert(title, options, function (data) {
                 let nombre = data.nombre.trim().toUpperCase();
                 that.nombre = (nombre.length == 0) ? undefined : nombre;
-
-                if (that.nombre != undefined && that.paterno != undefined && that.materno != undefined && that.fechaNacimiento != undefined) {
-                    that.calcHC();
-                    that.titular = `${that.nombre} ${that.paterno} ${that.materno}`.toUpperCase();
-                }
+                that.calcRFCYTitular();
             });
+        }
+    }
+
+    calcRFCYTitular() {
+        let that = this;
+        if (that.nombre != undefined && that.paterno != undefined && that.materno != undefined && that.fechaNacimiento != undefined) {
+            that.calcHC();
+            that.titular = `${that.nombre} ${that.paterno} ${that.materno}`.toUpperCase();
         }
     }
 
@@ -1437,11 +1445,7 @@ export class AcquireProductPage {
             this.showAlert(title, options, function (data) {
                 let paterno = data.paterno.trim().toUpperCase();
                 that.paterno = (paterno.length == 0) ? undefined : paterno;
-
-                if (that.nombre != undefined && that.paterno != undefined && that.materno != undefined && that.fechaNacimiento != undefined) {
-                    that.calcHC();
-                    that.titular = `${that.nombre} ${that.paterno} ${that.materno}`.toUpperCase();
-                }
+                that.calcRFCYTitular();                
             });
         }
     }
@@ -1456,11 +1460,7 @@ export class AcquireProductPage {
             this.showAlert(title, options, function (data) {
                 let materno = data.materno.trim().toUpperCase();
                 that.materno = (materno.length == 0) ? undefined : materno;
-
-                if (that.nombre != undefined && that.paterno != undefined && that.materno != undefined && that.fechaNacimiento != undefined) {
-                    that.calcHC();
-                    that.titular = `${that.nombre} ${that.paterno} ${that.materno}`.toUpperCase();
-                }
+                that.calcRFCYTitular();
             });
         }
     }
@@ -1468,10 +1468,7 @@ export class AcquireProductPage {
     fechaNacimientoChanged() {
         console.warn('fechaNacimientoChanged!');
         let that = this;
-        if (that.nombre != undefined && that.paterno != undefined && that.materno != undefined && that.fechaNacimiento != undefined) {
-            that.calcHC();
-            that.titular = `${that.nombre} ${that.paterno} ${that.materno}`.toUpperCase();
-        }
+        that.calcRFCYTitular();
     }
 
     showAlertGenero() {
@@ -1617,15 +1614,8 @@ export class AcquireProductPage {
                 let tel = data.telCasa.trim();
                 if (tel.length >= 10) {
                     that.telCasa = tel;
-                } else {
-                    let toaster = that.toastCtrl.create({
-                        duration: 3000,
-                        position: 'bottom',
-                        showCloseButton: true,
-                        closeButtonText: 'Ok',
-                    });
-                    toaster.setMessage('Teléfono de Casa inválido');
-                    toaster.present();
+                } else {                    
+                    that.showToast('Teléfono de Casa inválido');                    
                     that.showAlertTelefonoMovil();
                 }
             });
@@ -1647,15 +1637,8 @@ export class AcquireProductPage {
                 let tel = data.telMovil.trim();
                 if (tel.length >= 10) {
                     that.telMovil = tel;
-                } else {
-                    let toaster = that.toastCtrl.create({
-                        duration: 3000,
-                        position: 'bottom',
-                        showCloseButton: true,
-                        closeButtonText: 'Ok',
-                    });
-                    toaster.setMessage('Teléfono Móvil inválido');
-                    toaster.present();
+                } else {                    
+                    that.showToast('Teléfono Móvil inválido');                    
                     that.showAlertTelefonoMovil();
                 }
             });
@@ -1760,81 +1743,74 @@ export class AcquireProductPage {
         this.showAlert(title, options, function (data) {
 
             let loader = that.loadingCtrl.create();
-            // loader.present();
+            loader.present();
 
             let numSerie = data.numSerie;
 
-            // that.http.get(`http://services.bunch.guru/WebService.asmx/validarNoSerie?serie=${numSerie}&modelo=${that.modelo}`).map(res => res).subscribe(data => {
+            that.http.get(`http://services.bunch.guru/WebService.asmx/validarNoSerie?serie=${numSerie}&modelo=${that.modelo}`).map(res => res).subscribe(data => {
 
-            //     console.log({ data });
-            //     loader.dismiss();
+                console.log({ data });
+                loader.dismiss();
 
-            //     if (data['_body'] === 'True') {
+                if (data['_body'] === 'True') {
                     that.numSerie = numSerie.toUpperCase();
-            //     } else {
-            //         let toaster = that.toastCtrl.create({
-            //             duration: 3000,
-            //             position: 'bottom',
-            //             showCloseButton: true,
-            //             closeButtonText: 'Ok',
-            //         });
-            //         toaster.setMessage('Número de serie inválido');
-            //         toaster.present();
-            //         that.showAlertNumeroDeSerie();
-            //     }
+                } else {                    
+                    that.showToast('Número de serie inválido');                    
+                    that.showAlertNumeroDeSerie();
+                }
 
-            //     /*if (data.numSerie.length >= 5) {                
+                /*if (data.numSerie.length >= 5) {                
                     
-            //     } else {
-            //         let toaster = that.toastCtrl.create({
-            //             duration: 3000,
-            //             position: 'bottom'
-            //         });
-            //         toaster.setMessage('Número de serie debe tener por lo menos 5 caracteres');
-            //         toaster.present();                
-            //         that.showAlertNumeroDeSerie();
-            //     }
+                } else {
+                    let toaster = that.toastCtrl.create({
+                        duration: 3000,
+                        position: 'bottom'
+                    });
+                    toaster.setMessage('Número de serie debe tener por lo menos 5 caracteres');
+                    toaster.present();                
+                    that.showAlertNumeroDeSerie();
+                }
                 
-            //     scheme = data.scheme.toUpperCase();
-            //     type = data.type;
-            //     bank = data.bank.name;
-            //     if (bank == undefined) {
-            //         loader.dismiss();
-            //         alert('Error: no se pudo validar el banco');
-            //     } else {                    
+                scheme = data.scheme.toUpperCase();
+                type = data.type;
+                bank = data.bank.name;
+                if (bank == undefined) {
+                    loader.dismiss();
+                    alert('Error: no se pudo validar el banco');
+                } else {                    
     
-            //         //Para quitar caracteres especiales al banco y dejarlo en minus, pero con la primera letra en mayus
-            //         bank = bank.toLowerCase();
-            //         bank = bank.charAt(0).toUpperCase() + bank.slice(1);
+                    //Para quitar caracteres especiales al banco y dejarlo en minus, pero con la primera letra en mayus
+                    bank = bank.toLowerCase();
+                    bank = bank.charAt(0).toUpperCase() + bank.slice(1);
                     
-            //         if (scheme === 'MASTERCARD') {                    
-            //             that.carrierCot = '1';
-            //             that.master();
-            //         } else if (scheme === 'AMEX') {                    
-            //             that.carrierCot = '2';
-            //             that.amex();
-            //         } else if (scheme === 'VISA') {                    
-            //             that.carrierCot = '0';
-            //             that.visa();
-            //         }
+                    if (scheme === 'MASTERCARD') {                    
+                        that.carrierCot = '1';
+                        that.master();
+                    } else if (scheme === 'AMEX') {                    
+                        that.carrierCot = '2';
+                        that.amex();
+                    } else if (scheme === 'VISA') {                    
+                        that.carrierCot = '0';
+                        that.visa();
+                    }
                     
-            //         //conversion a espanol lo que devuelve el ws
-            //         if (type === 'CREDIT') {
-            //             type = 'Crédito';
-            //             that.tipoCot = 'CREDITO';
-            //         } else {
-            //             type = 'Débito';
-            //             that.tipoCot = 'DEBITO';
-            //         }
+                    //conversion a espanol lo que devuelve el ws
+                    if (type === 'CREDIT') {
+                        type = 'Crédito';
+                        that.tipoCot = 'CREDITO';
+                    } else {
+                        type = 'Débito';
+                        that.tipoCot = 'DEBITO';
+                    }
     
-            //         that.tipoTarjeta = type;
-            //         that.banco = bank;
-            //         loader.dismiss();
-            //     }*/
-            // }, err => {
-            //     loader.dismiss();
-            //     console.error({ err });
-            // });
+                    that.tipoTarjeta = type;
+                    that.banco = bank;
+                    loader.dismiss();
+                }*/
+            }, err => {
+                loader.dismiss();
+                console.error({ err });
+            });
         });
     }
 
@@ -1854,14 +1830,7 @@ export class AcquireProductPage {
             if (numPlacas.length >= 6) {
                 that.numPlacas = data.numPlacas.toUpperCase();
             } else {
-                let toaster = that.toastCtrl.create({
-                    duration: 3000,
-                    position: 'bottom',
-                    showCloseButton: true,
-                    closeButtonText: 'Ok',
-                });
-                toaster.setMessage('Placas no válidas');
-                toaster.present();
+                that.showToast('Placas no válidas');                
                 that.showAlertNumeroDeSerie();
             }
         });
@@ -1883,14 +1852,7 @@ export class AcquireProductPage {
             if (numMotor.length >= 7) {
                 that.numMotor = numMotor.toUpperCase();
             } else {
-                let toaster = that.toastCtrl.create({
-                    duration: 3000,
-                    position: 'bottom',
-                    showCloseButton: true,
-                    closeButtonText: 'Ok',
-                });
-                toaster.setMessage('Número de motor inválido');
-                toaster.present();
+                that.showToast('Número de motor inválido');                
                 that.showAlertNumeroDeSerie();
             }
         });
@@ -1986,14 +1948,7 @@ export class AcquireProductPage {
                 bank = data.bank.name;
                 if (bank == undefined) {
                     loader.dismiss();
-                    let toaster = that.toastCtrl.create({
-                        duration: 3000,
-                        position: 'bottom',
-                        showCloseButton: true,
-                        closeButtonText: 'Ok',
-                    });
-                    toaster.setMessage('No se pudo validar el banco');
-                    toaster.present();
+                    that.showToast('No se pudo validar el banco');                    
                 } else {
 
                     //Para quitar caracteres especiales al banco y dejarlo en minus, pero con la primera letra en mayus
@@ -2027,17 +1982,10 @@ export class AcquireProductPage {
             }, err => {
                 loader.dismiss();
                 console.error({ err });
-                let toaster = that.toastCtrl.create({
-                    duration: 3000,
-                    position: 'bottom',
-                    showCloseButton: true,
-                    closeButtonText: 'Ok',
-                });
-                toaster.setMessage('No se pudo validar el banco');
-                toaster.present();
+                that.showToast('No se pudo validar el banco');                
             });
         });
-    }
+    }    
 
     showAlertPrima(value, valor, mode, modelList = [], massage = "") {
         //this.alertSrv.showAlert(value, mode, modelList, massage);
@@ -2409,6 +2357,7 @@ export class AcquireProductPage {
                 break;
             case 'Compara':
                 if (validateTab == true) {
+                    this.calcRFCYTitular();
                     errors = !_this.validateTab(1);
                     if (errors == false) {
                         _this.getBuscar();
@@ -2442,7 +2391,7 @@ export class AcquireProductPage {
             this.content.scrollToTop();
             this.currentTab = tabName;
         } else {
-            alert('Faltan campos por completar');
+            _this.showToast('Faltan campos por completar');            
         }
     }
     showProductoContinuarShown() {
@@ -2568,15 +2517,8 @@ export class AcquireProductPage {
         this.http.get(url).map(res => res.json()).subscribe(data => {
             loader.dismiss();
             console.log('success!', data);
-            if (data.Emision.Poliza == null || data.Emision.Poliza == "") {
-                let toaster = this.toastCtrl.create({
-                    duration: 3000,
-                    position: 'bottom',
-                    showCloseButton: true,
-                    closeButtonText: 'Ok',
-                });
-                toaster.setMessage(data.codigoError);
-                toaster.present();
+            if (data.Emision.Poliza == null || data.Emision.Poliza == "") {                
+                this.showToast(data.codigoError);                
                 this.navCtrl.push(errorPage, { prevPage: this.prevPage }, { animate: true });
             } else {
                 localStorage.Poliza = data.Emision.Poliza
