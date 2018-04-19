@@ -1334,80 +1334,88 @@ export class AcquireProductPage {
             options = [{ name: 'email', type: 'email', id: 'email', value: this.email }];
 
         this.showAlert(title, options, function (data) {
-            that.email = data.email;
 
-            that.nombre = undefined;
-            that.paterno = undefined;
-            that.materno = undefined;
-            that.fechaNacimiento = undefined;
-            that.genero = undefined;
-            that.telCasa = undefined;
-            that.telMovil = undefined;
-            that.rfc = undefined;
-            that.colonia = undefined;
-            that.calle = undefined;
-            that.numExterior = undefined;
-            that.numInterior = undefined;
+            let email = data.email;
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if (re.test(String(email).toLowerCase()) !== true) {
+                that.showToast('Email no válido');
+                that.email = undefined;                
+            } else {
+                that.email = data.email;
 
-            let encodedString = btoa(that.email),
-                url = `http://services.bunch.guru/WebService.asmx/validarCliente?param=${encodedString}`;
+                that.nombre = undefined;
+                that.paterno = undefined;
+                that.materno = undefined;
+                that.fechaNacimiento = undefined;
+                that.genero = undefined;
+                that.telCasa = undefined;
+                that.telMovil = undefined;
+                that.rfc = undefined;
+                that.colonia = undefined;
+                that.calle = undefined;
+                that.numExterior = undefined;
+                that.numInterior = undefined;
 
-            that.http.get(url).map(res => res.json()).subscribe(data => {
+                let encodedString = btoa(that.email),
+                    url = `http://services.bunch.guru/WebService.asmx/validarCliente?param=${encodedString}`;
 
-                let status = +data.status,
-                    id = data.id;
+                that.http.get(url).map(res => res.json()).subscribe(data => {
 
-                switch (status) {
-                    case 1:
-                        console.log('email status 1');
-                        that.isEnabled = true;
-                        that.isEnabledTipo3 = true;
-                        that.isEnabledTipo3Dir = true;
-                        break;
-                    case 2:
-                        console.log('email status 2');
-                        //that.isEnabled = false;
-                        that.isEnabledTipo3 = true;
-                        that.isEnabledTipo3Dir = true;
-                        that.retrieveData();
-                        break;
-                    case 3:
-                        console.log('email status 3');
-                        that.isEnabled = false;
-                        that.isEnabledTipo3 = false;
+                    let status = +data.status,
+                        id = data.id;
 
-                        encodedString = btoa(`id=${id}`);
-                        url = `http://services.bunch.guru/WebService.asmx/ConsultarDirecciones?param=${encodedString}`;
-                        that.http.get(url).map(res => res.json()).subscribe(data => {
+                    switch (status) {
+                        case 1:
+                            console.log('email status 1');
+                            that.isEnabled = true;
+                            that.isEnabledTipo3 = true;
+                            that.isEnabledTipo3Dir = true;
+                            break;
+                        case 2:
+                            console.log('email status 2');
+                            //that.isEnabled = false;
+                            that.isEnabledTipo3 = true;
+                            that.isEnabledTipo3Dir = true;
+                            that.retrieveData();
+                            break;
+                        case 3:
+                            console.log('email status 3');
+                            that.isEnabled = false;
+                            that.isEnabledTipo3 = false;
 
-                            data.direccion.forEach(function (e, i) {
-                                Object.keys(e).forEach(function (key) {
-                                    if (e[key] == 'undefined') {
-                                        data.direccion[i][key] = '';
-                                    }
+                            encodedString = btoa(`id=${id}`);
+                            url = `http://services.bunch.guru/WebService.asmx/ConsultarDirecciones?param=${encodedString}`;
+                            that.http.get(url).map(res => res.json()).subscribe(data => {
+
+                                data.direccion.forEach(function (e, i) {
+                                    Object.keys(e).forEach(function (key) {
+                                        if (e[key] == 'undefined') {
+                                            data.direccion[i][key] = '';
+                                        }
+                                    });
                                 });
-                            });
-                            that.userStateList = data.direccion;
-                            that.userStateList.push({
-                                Calle: 'Añadir nueva dirección',
-                                NoExt: '',
-                                NoInt: '',
-                                Colonia: '',
-                                CodPostal: '',
-                                Poblacion: '',
-                                Ciudad: '',
-                                IdDir: ''
-                            });
+                                that.userStateList = data.direccion;
+                                that.userStateList.push({
+                                    Calle: 'Añadir nueva dirección',
+                                    NoExt: '',
+                                    NoInt: '',
+                                    Colonia: '',
+                                    CodPostal: '',
+                                    Poblacion: '',
+                                    Ciudad: '',
+                                    IdDir: ''
+                                });
 
-                            that.tipoTres(that.userStateList);
-                        }, err => {
-                            console.error({ err });
-                        });
-                        break;
-                }
-            }, err => {
-                console.error({ err });
-            });
+                                that.tipoTres(that.userStateList);
+                            }, err => {
+                                console.error({ err });
+                            });
+                            break;
+                    }
+                }, err => {
+                    console.error({ err });
+                });
+            }            
         });
     }
 
@@ -1421,8 +1429,12 @@ export class AcquireProductPage {
 
             this.showAlert(title, options, function (data) {
                 let nombre = data.nombre.trim().toUpperCase();
-                that.nombre = (nombre.length == 0) ? undefined : nombre;
-                that.calcRFCYTitular();
+                if (that.validName(nombre)) {
+                    that.nombre = nombre;    
+                    that.calcRFCYTitular();
+                } else {
+                    that.nombre = undefined;
+                }
             });
         }
     }
@@ -1444,8 +1456,12 @@ export class AcquireProductPage {
 
             this.showAlert(title, options, function (data) {
                 let paterno = data.paterno.trim().toUpperCase();
-                that.paterno = (paterno.length == 0) ? undefined : paterno;
-                that.calcRFCYTitular();                
+                if (that.validLastName(paterno)) {
+                    that.paterno = paterno;    
+                    that.calcRFCYTitular();
+                } else {
+                    that.paterno = undefined;
+                }
             });
         }
     }
@@ -1459,16 +1475,18 @@ export class AcquireProductPage {
 
             this.showAlert(title, options, function (data) {
                 let materno = data.materno.trim().toUpperCase();
-                that.materno = (materno.length == 0) ? undefined : materno;
-                that.calcRFCYTitular();
+                if (that.validLastName(materno)) {
+                    that.materno = materno;    
+                    that.calcRFCYTitular();
+                } else {
+                    that.materno = undefined;
+                }
             });
         }
     }
 
     fechaNacimientoChanged() {
-        console.warn('fechaNacimientoChanged!');
-        let that = this;
-        that.calcRFCYTitular();
+        this.calcRFCYTitular();
     }
 
     showAlertGenero() {
@@ -2569,113 +2587,40 @@ export class AcquireProductPage {
     flag_rfc = false;
     rfc_hc = "";
 
-    /*validName(){
-        var txtNombre = document.getElementById("nombre").value;
-        var message = document.getElementById("err_name");
-        var show = document.getElementById("shw_err_name");
+    validName(txtNombre:string):boolean {
+                
+        txtNombre = txtNombre;
+        let flag = false;
 
-        if( txtNombre == null || txtNombre.length == 0 || /^\s+$/.test(txtNombre) || txtNombre == "" || txtNombre == " " )
-            {
-                show.style.display = "block";
-                message.innerHTML = "Error: Ingrese un NOMBRE válido";
-                flag_nombre = false;
-                document.getElementById("nombre").style.background = "#FFF";
-            }
-        else if (txtNombre.length < 3)
-            {
-                show.style.display = "block";
-                message.innerHTML = "Error: Su nombre debe ser de al menos 3 caracteres";
-                flag_nombre = false;
-                document.getElementById("nombre").style.background = "#FFF";
-            }
-        else if ( /^[0-9]/.test(txtNombre) )
-            {
-                show.style.display = "block";
-                message.innerHTML = "Error: El campo nombre no debe contener Números";
-                flag_nombre = false;
-                document.getElementById("nombre").style.background = "#FFF";
-            }
-        else
-            {
-                show.style.display = "none";
-                message.innerHTML = " ";
-                flag_nombre = true;
-                document.getElementById("nombre").style.background = "cornsilk";
-                document.getElementById("nombre").value = txtNombre.toUpperCase()
-            }
-    }*/
+        if (txtNombre == null || txtNombre.length == 0 || /^\s+$/.test(txtNombre) || txtNombre == "" || txtNombre == " ") {
+                this.showToast('Error: Ingrese un nombre válido');
+        } else if (txtNombre.length < 3) {
+            this.showToast('Error: Su nombre debe ser de al menos 3 caracteres');            
+        } else if ( /^[0-9]/.test(txtNombre) ) {
+            this.showToast('Error: El campo nombre no debe contener Números');                        
+        } else {            
+            flag = true;            
+        }
 
-    /*validPaterno(){
-        var txtPaterno = document.getElementById("apaterno").value.toUpperCase();
-        var message = document.getElementById("err_apaterno");
-        var show = document.getElementById("shw_err_apaterno");
+        return flag;
+    }
 
-        if( txtPaterno == null || txtPaterno.length == 0 || /^\s+$/.test(txtPaterno) || txtPaterno == "" || txtPaterno == " " )
-            {
-                show.style.display = "block";
-                message.innerHTML = "Error: Ingrese un Apellido válido";
-                flag_apaterno = false;
-                document.getElementById("apaterno").style.background = "#FFF";
-            }
-        else if (txtPaterno.length < 3)
-            {
-                show.style.display = "block";
-                message.innerHTML = "Error: Su Apellido debe ser de al menos 3 caracteres";
-                flag_apaterno = false;
-                document.getElementById("apaterno").style.background = "#FFF";
-            }
-        else if ( /^[0-9]/.test(txtPaterno) )
-            {
-                show.style.display = "block";
-                message.innerHTML = "Error: El campo Apellido no debe contener Números";
-                flag_apaterno = false;
-                document.getElementById("apaterno").style.background = "#FFF";
-            }
-        else
-            {
-                show.style.display = "none";
-                message.innerHTML = " ";
-                flag_apaterno = true;
-                document.getElementById("apaterno").style.background = "cornsilk";
-                document.getElementById("apaterno").value = txtPaterno.toUpperCase()
-            }
-    }*/
+    validLastName(txtPaterno:string):boolean{            
 
-    /*validMaterno(){
-        var txtMaterno = document.getElementById("amaterno").value;
-        var message = document.getElementById("err_amaterno");
-        var show = document.getElementById("shw_err_amaterno");
+        let flag = false;
 
-        if( txtMaterno == null || txtMaterno.length == 0 || /^\s+$/.test(txtMaterno) || txtMaterno == "" || txtMaterno == " " )
-            {
-                show.style.display = "block";
-                message.innerHTML = "Error: Ingrese un Apellido válido";
-                flag_amaterno = false;
-                document.getElementById("amaterno").style.background = "#FFF";
-            }
-        else if (txtMaterno.length < 3)
-            {
-                show.style.display = "block";
-                message.innerHTML = "Error: Su Apellido debe ser de al menos 3 caracteres";
-                flag_amaterno = false;
-                document.getElementById("amaterno").style.background = "#FFF";
-            }
-        else if ( /^[0-9]/.test(txtMaterno) )
-            {
-                show.style.display = "block";
-                message.innerHTML = "Error: El campo Apellido no debe contener Números";
-                flag_amaterno = false;
-                document.getElementById("amaterno").style.background = "#FFF";
-            }
-        else
-            {
-                show.style.display = "none";
-                message.innerHTML = " ";
-                flag_amaterno = true;
-                document.getElementById("amaterno").style.background = "cornsilk";
-                document.getElementById("amaterno").value = txtMaterno.toUpperCase();
-            }
-    }*/
+        if( txtPaterno == null || txtPaterno.length == 0 || /^\s+$/.test(txtPaterno) || txtPaterno == "" || txtPaterno == " " ) {
+            this.showToast('Error: Ingrese un Apellido válido');                                    
+        } else if (txtPaterno.length < 3) {
+            this.showToast('Error: Su Apellido debe ser de al menos 3 caracteres');
+        } else if ( /^[0-9]/.test(txtPaterno) ) {
+            this.showToast('Error: El campo Apellido no debe contener Números');                
+        } else {
+            flag = true;            
+        }
+
+        return flag;
+    }    
 
     esVocal(letra) {
         if (letra == 'A' || letra == 'E' || letra == 'I' || letra == 'O'
