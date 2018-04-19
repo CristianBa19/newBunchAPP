@@ -10,6 +10,8 @@ import { AlertService } from '../../_helpers/alert.service'
 import { LocalizationModel } from '../../_helpers/localizationModel'
 import { IonicPage, Events, LoadingController, ToastController, Content } from 'ionic-angular';
 import { Http, Headers } from '@angular/http';
+import { PaymentSubmittedPage2 } from '../payment-submited2/payment-submited2';
+import { errorPage } from '../error/error';
 
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/timeout';
@@ -1758,81 +1760,81 @@ export class AcquireProductPage {
         this.showAlert(title, options, function (data) {
 
             let loader = that.loadingCtrl.create();
-            loader.present();
+            // loader.present();
 
             let numSerie = data.numSerie;
 
-            that.http.get(`http://services.bunch.guru/WebService.asmx/validarNoSerie?serie=${numSerie}&modelo=${that.modelo}`).map(res => res).subscribe(data => {
+            // that.http.get(`http://services.bunch.guru/WebService.asmx/validarNoSerie?serie=${numSerie}&modelo=${that.modelo}`).map(res => res).subscribe(data => {
 
-                console.log({ data });
-                loader.dismiss();
+            //     console.log({ data });
+            //     loader.dismiss();
 
-                if (data['_body'] === 'True') {
+            //     if (data['_body'] === 'True') {
                     that.numSerie = numSerie.toUpperCase();
-                } else {
-                    let toaster = that.toastCtrl.create({
-                        duration: 3000,
-                        position: 'bottom',
-                        showCloseButton: true,
-                        closeButtonText: 'Ok',
-                    });
-                    toaster.setMessage('Número de serie inválido');
-                    toaster.present();
-                    that.showAlertNumeroDeSerie();
-                }
+            //     } else {
+            //         let toaster = that.toastCtrl.create({
+            //             duration: 3000,
+            //             position: 'bottom',
+            //             showCloseButton: true,
+            //             closeButtonText: 'Ok',
+            //         });
+            //         toaster.setMessage('Número de serie inválido');
+            //         toaster.present();
+            //         that.showAlertNumeroDeSerie();
+            //     }
 
-                /*if (data.numSerie.length >= 5) {                
+            //     /*if (data.numSerie.length >= 5) {                
                     
-                } else {
-                    let toaster = that.toastCtrl.create({
-                        duration: 3000,
-                        position: 'bottom'
-                    });
-                    toaster.setMessage('Número de serie debe tener por lo menos 5 caracteres');
-                    toaster.present();                
-                    that.showAlertNumeroDeSerie();
-                }
+            //     } else {
+            //         let toaster = that.toastCtrl.create({
+            //             duration: 3000,
+            //             position: 'bottom'
+            //         });
+            //         toaster.setMessage('Número de serie debe tener por lo menos 5 caracteres');
+            //         toaster.present();                
+            //         that.showAlertNumeroDeSerie();
+            //     }
                 
-                scheme = data.scheme.toUpperCase();
-                type = data.type;
-                bank = data.bank.name;
-                if (bank == undefined) {
-                    loader.dismiss();
-                    alert('Error: no se pudo validar el banco');
-                } else {                    
+            //     scheme = data.scheme.toUpperCase();
+            //     type = data.type;
+            //     bank = data.bank.name;
+            //     if (bank == undefined) {
+            //         loader.dismiss();
+            //         alert('Error: no se pudo validar el banco');
+            //     } else {                    
     
-                    //Para quitar caracteres especiales al banco y dejarlo en minus, pero con la primera letra en mayus
-                    bank = bank.toLowerCase();
-                    bank = bank.charAt(0).toUpperCase() + bank.slice(1);
+            //         //Para quitar caracteres especiales al banco y dejarlo en minus, pero con la primera letra en mayus
+            //         bank = bank.toLowerCase();
+            //         bank = bank.charAt(0).toUpperCase() + bank.slice(1);
                     
-                    if (scheme === 'MASTERCARD') {                    
-                        that.carrierCot = '1';
-                        that.master();
-                    } else if (scheme === 'AMEX') {                    
-                        that.carrierCot = '2';
-                        that.amex();
-                    } else if (scheme === 'VISA') {                    
-                        that.carrierCot = '0';
-                        that.visa();
-                    }
+            //         if (scheme === 'MASTERCARD') {                    
+            //             that.carrierCot = '1';
+            //             that.master();
+            //         } else if (scheme === 'AMEX') {                    
+            //             that.carrierCot = '2';
+            //             that.amex();
+            //         } else if (scheme === 'VISA') {                    
+            //             that.carrierCot = '0';
+            //             that.visa();
+            //         }
                     
-                    //conversion a espanol lo que devuelve el ws
-                    if (type === 'CREDIT') {
-                        type = 'Crédito';
-                        that.tipoCot = 'CREDITO';
-                    } else {
-                        type = 'Débito';
-                        that.tipoCot = 'DEBITO';
-                    }
+            //         //conversion a espanol lo que devuelve el ws
+            //         if (type === 'CREDIT') {
+            //             type = 'Crédito';
+            //             that.tipoCot = 'CREDITO';
+            //         } else {
+            //             type = 'Débito';
+            //             that.tipoCot = 'DEBITO';
+            //         }
     
-                    that.tipoTarjeta = type;
-                    that.banco = bank;
-                    loader.dismiss();
-                }*/
-            }, err => {
-                loader.dismiss();
-                console.error({ err });
-            });
+            //         that.tipoTarjeta = type;
+            //         that.banco = bank;
+            //         loader.dismiss();
+            //     }*/
+            // }, err => {
+            //     loader.dismiss();
+            //     console.error({ err });
+            // });
         });
     }
 
@@ -2467,7 +2469,7 @@ export class AcquireProductPage {
         let vigencia = this.vigencia.split('-');
         this.anioCot = vigencia[0];
         this.mesCot = vigencia[1];
-
+        localStorage.Aseguradora=this.aseguradoraCot
         //checkpoint
         let consultaData = {
             Aseguradora: this.aseguradoraCot,
@@ -2566,7 +2568,7 @@ export class AcquireProductPage {
         this.http.get(url).map(res => res.json()).subscribe(data => {
             loader.dismiss();
             console.log('success!', data);
-            if (data.codigoError != null) {
+            if (data.Emision.Poliza == null || data.Emision.Poliza == "") {
                 let toaster = this.toastCtrl.create({
                     duration: 3000,
                     position: 'bottom',
@@ -2575,25 +2577,27 @@ export class AcquireProductPage {
                 });
                 toaster.setMessage(data.codigoError);
                 toaster.present();
+                this.navCtrl.push(errorPage, { prevPage: this.prevPage }, { animate: true });
             } else {
-                this.navCtrl.push(PaymentSubmittedPage, { prevPage: this.prevPage }, { animate: true });
+                localStorage.Poliza = data.Emision.Poliza
+                this.navCtrl.push(PaymentSubmittedPage2, { prevPage: this.prevPage }, { animate: true });
             }
         }, err => {
             loader.dismiss();
             alert('Error');
-            console.error({ err });
+            console.log({ err });
         });
     }
     goToDocumentDetailPage() {
         this.navCtrl.push(DocumentDetailPage);
     }
     goToPayPolicyPage() {
-        let modal = this.modalCtrl.create(PayPolicyPage);
+        let modal = this.modalCtrl.create(PaymentSubmittedPage2);
         modal.onDidDismiss(data => {
             if (data) {
                 let tmp = document.getElementById("tab-t0-4").setAttribute("aria-selected", "false");
                 tmp = document.getElementById("tab-t0-5").setAttribute("aria-selected", "true");
-                this.navCtrl.push(ProductsPage, { prevPage: "AcqureProductsPage" }, false);
+                this.navCtrl.push(ProductsPage, { prevPage: "AcqureProductsPage" });
             }
         });
         modal.present();

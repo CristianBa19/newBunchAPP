@@ -45,7 +45,7 @@ export class PaymentSubmittedPage2 {
         var conta = 0;
 
         //console.log('este sera el url a consultar '+'http://core.alimx.mx/webservice.asmx/CotizacionEmisionJSON?usuario=AhorraSeguros&password=Ah0rraS3guros2017&data='+myJSON+'&movimiento=cotizacion');
-        this.http.get('http://services.bunch.guru/WebService.asmx/getDatosPoliza?usuario=Bunch&password=BunCH2O18&poliza=prueba1')
+        this.http.get('http://services.bunch.guru/WebService.asmx/getDatosPoliza?usuario=Bunch&password=BunCH2O18&poliza=' + localStorage.Poliza)
             .map(res2 => res2.json())
             .subscribe(data2 => {
                 this.data2 = data2;
@@ -55,7 +55,7 @@ export class PaymentSubmittedPage2 {
                 this.vigencia= data2.Vigencia;
                 this.primaTotal= data2.PrimaTotal;
                 this.url=  data2.url;
-                this.aseguradora='HDI';
+                this.aseguradora=localStorage.Aseguradora;
                 console.log("esta es la response " + this.data2);
             }, err => {
                 console.log(err);

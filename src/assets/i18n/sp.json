@@ -284,5 +284,13 @@
     "validityText":"Validez",
     "totalPremiumText":"Prima total",
     "frequencyOfPaymentMethodText":"Frecuencia del método de pago"
-  }
+  },
+  "errorPage":{
+    "TxtTitle1":"¡Oh oh,",
+  "TxtTitle2":"hubo un problema!",
+  "TxtTitle3":"Compra NO Exitosa",
+  "BodyTxt":"No se pudo realizar el cobro de tu póliza del seguro de tu auto, por favor vuelve a ingresar tus datos más tarde.",
+  "BtnTxt":"Ir a cotizar"
+}
+
 }
