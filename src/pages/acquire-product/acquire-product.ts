@@ -2585,7 +2585,8 @@ export class AcquireProductPage {
         }, err => {
             loader.dismiss();
             alert('Error');
-            console.log({ err });
+                this.navCtrl.push(errorPage, { prevPage: this.prevPage }, { animate: true });
+                console.log({ err });
         });
     }
     goToDocumentDetailPage() {
