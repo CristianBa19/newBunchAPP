@@ -30,6 +30,7 @@ export class AcquireProductPage {
     url: string;
     data: string;
 
+    private createClient:boolean = false;
     private tabs: string[] = ['Producto', 'Compara', 'Cliente', 'Pago', 'Tarjeta'];
     private currentTab: string = this.tabs[0];
     public datePicked: string;
@@ -1368,12 +1369,14 @@ export class AcquireProductPage {
 
                     switch (status) {
                         case 1:
+                            that.createClient = true;
                             console.log('email status 1');
                             that.isEnabled = true;
                             that.isEnabledTipo3 = true;
                             that.isEnabledTipo3Dir = true;
                             break;
                         case 2:
+                            that.createClient = false;
                             console.log('email status 2');
                             //that.isEnabled = false;
                             that.isEnabledTipo3 = true;
@@ -1587,6 +1590,7 @@ export class AcquireProductPage {
                 testRadioOpen = false;
                 testRadioResult = data;
                 if (testRadioResult === 'Añadir nueva dirección') {
+                    that.createClient = true;
                     //do something
                     this.isEnabledTipo3Dir = true;
                     this.isEnabled = false;
@@ -1988,10 +1992,10 @@ export class AcquireProductPage {
 
                     //conversion a espanol lo que devuelve el ws
                     if (type === 'CREDIT') {
-                        type = 'Crédito';
+                        type = 'CREDITO';
                         that.tipoCot = 'CREDITO';
                     } else {
-                        type = 'Débito';
+                        type = 'DEBITO';
                         that.tipoCot = 'DEBITO';
                     }
 
@@ -2194,7 +2198,11 @@ export class AcquireProductPage {
             this.genero = data.Genero;
             this.telCasa = data.Telefono.split('|')[1];
             this.telMovil = data.Telefono2.split('|')[1];
-            this.rfc = data.RFC;
+            if (data.RFC == undefined || data.RFC == null || data.RFC.trim().length == 0) {
+                this.calcRFCYTitular();                
+            } else {
+                this.rfc = data.RFC;
+            }            
             //this.colonia = data.Direccion.Colonia;
             //this.calle = data.Direccion.Calle;
             //this.numExterior = data.Direccion.NoExt;
@@ -2219,12 +2227,17 @@ export class AcquireProductPage {
 
     crearCliente() {
 
+        if (this.createClient == false) {
+            return;
+        }
+
         console.log('crearCliente');
 
         let loader = this.loadingCtrl.create();
         loader.present();
         this.numInterior = (this.numInterior == undefined) ? '' : this.numInterior;
         this.genero = this.genero.toUpperCase();
+        this.calcRFCYTitular();
 
         let string = 'nombre=' + this.nombre + '&app=' + this.paterno + '&apm=' + this.materno + '&genero=' + this.genero + '&edad=' + this.edad + '&email=' + this.email + '&telefono=' + this.telMovil + '&RFC=' + this.rfc + '&nacionalidad=MEXICANA&lugNacimiento=' + this.lugarNacimiento + '&cp=' + this.codigoPostal2 + '&calle=' + this.calle + '&noExt=' + this.numExterior + '&noInt=' + this.numInterior + '&colonia=' + this.colonia + '&delegacion=' + this.delegacion + '&estado=' + this.estado + '&telefono2=' + this.telCasa + '&fechaNac=' + this.fechaNacimiento + '&idContVend=' + this.idContVend,
             encodedString = btoa(string),
@@ -2735,9 +2748,11 @@ export class AcquireProductPage {
 
         for (var j = 0; j < tm; j++)
             valorSuma += nombreC.substring(j, j + 2) * nombreC.substring(j + 1, j + 2);
-
+        console.log('valorSuma', valorSuma);
         var divs: any = valorSuma % 1000;
+        console.log('divs', divs);
         var mod: any = Math.trunc(divs / 34);
+        console.log('mod', mod);
         divs = divs - mod * 34;
 
         if (divs < 9)
@@ -2781,6 +2796,7 @@ export class AcquireProductPage {
         n = (11000 - n) % 11;
 
         this.generarRFC();
+        console.log('rfc_hc', this.rfc_hc, 'mss', mss, 'n', n);
         this.rfc = this.rfc_hc + mss + n;
     }
 
