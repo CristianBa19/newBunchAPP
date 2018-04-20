@@ -1770,8 +1770,9 @@ export class AcquireProductPage {
             loader.present();
 
             let numSerie = data.numSerie;
+            that.numSerie = numSerie.toUpperCase();
 
-            that.http.get(`http://services.bunch.guru/WebService.asmx/validarNoSerie?serie=${numSerie}&modelo=${that.modelo}`).map(res => res).subscribe(data => {
+            /*that.http.get(`http://services.bunch.guru/WebService.asmx/validarNoSerie?serie=${numSerie}&modelo=${that.modelo}`).map(res => res).subscribe(data => {
 
                 console.log({ data });
                 loader.dismiss();
@@ -1781,60 +1782,12 @@ export class AcquireProductPage {
                 } else {                    
                     that.showToast('Número de serie inválido');                    
                     that.showAlertNumeroDeSerie();
-                }
-
-                /*if (data.numSerie.length >= 5) {                
-                    
-                } else {
-                    let toaster = that.toastCtrl.create({
-                        duration: 3000,
-                        position: 'bottom'
-                    });
-                    toaster.setMessage('Número de serie debe tener por lo menos 5 caracteres');
-                    toaster.present();                
-                    that.showAlertNumeroDeSerie();
-                }
-                
-                scheme = data.scheme.toUpperCase();
-                type = data.type;
-                bank = data.bank.name;
-                if (bank == undefined) {
-                    loader.dismiss();
-                    alert('Error: no se pudo validar el banco');
-                } else {                    
-    
-                    //Para quitar caracteres especiales al banco y dejarlo en minus, pero con la primera letra en mayus
-                    bank = bank.toLowerCase();
-                    bank = bank.charAt(0).toUpperCase() + bank.slice(1);
-                    
-                    if (scheme === 'MASTERCARD') {                    
-                        that.carrierCot = '1';
-                        that.master();
-                    } else if (scheme === 'AMEX') {                    
-                        that.carrierCot = '2';
-                        that.amex();
-                    } else if (scheme === 'VISA') {                    
-                        that.carrierCot = '0';
-                        that.visa();
-                    }
-                    
-                    //conversion a espanol lo que devuelve el ws
-                    if (type === 'CREDIT') {
-                        type = 'Crédito';
-                        that.tipoCot = 'CREDITO';
-                    } else {
-                        type = 'Débito';
-                        that.tipoCot = 'DEBITO';
-                    }
-    
-                    that.tipoTarjeta = type;
-                    that.banco = bank;
-                    loader.dismiss();
-                }*/
+                }                
             }, err => {
-                loader.dismiss();
+                that.numSerie = undefined;
+                loader.dismiss();                
                 console.error({ err });
-            });
+            });*/
         });
     }
 
