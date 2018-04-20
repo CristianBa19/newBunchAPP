@@ -311,6 +311,7 @@ export class AcquireProductPage {
         console.log('loadInputData', inputId);
 
         let url,
+            that = this,
             aseguradoras = [],
             loader = this.loadingCtrl.create();
         loader.present();
@@ -417,7 +418,7 @@ export class AcquireProductPage {
         }, err => {
             console.error({ err, url });
             loader.dismiss();
-            alert('Error');
+            that.showToast('Error');
         });
     }
 
@@ -702,6 +703,7 @@ export class AcquireProductPage {
             descripcion,
             aseguradoras = [],
             obj,
+            that = this,
             loader = this.loadingCtrl.create();
 
         loader.present();
@@ -723,7 +725,7 @@ export class AcquireProductPage {
         }, err => {
             loader.dismiss();
             console.error({ err });
-            alert('Error');
+            that.showToast('Error');
         });
     }
 
@@ -2422,13 +2424,17 @@ export class AcquireProductPage {
     //para mandar el pago
     goPaymentSubmitedPage() {
 
-        let loader = this.loadingCtrl.create();
+        console.log('goPaymentSubmitedPage');
+        console.log('rfc', this.rfc);
+
+        let loader = this.loadingCtrl.create(),
+            that = this;
 
         loader.present();
 
         if (this.validateTab(5) == false) {
             loader.dismiss();
-            alert('Falta completar los campos');
+            that.showToast('Falta completar los campos');
             return;
         }
 
@@ -2532,6 +2538,8 @@ export class AcquireProductPage {
             encodedString = btoa(string),
             url = 'http://services.bunch.guru/WebService.asmx/CotizacionEmisionJSON?param=' + encodedString;
 
+        console.log({string, encodedString, url});
+
         this.http.get(url).map(res => res.json()).subscribe(data => {
             loader.dismiss();
             console.log('success!', data);
@@ -2544,9 +2552,9 @@ export class AcquireProductPage {
             }
         }, err => {
             loader.dismiss();
-            alert('Error');
-                this.navCtrl.push(errorPage, { prevPage: this.prevPage }, { animate: true });
-                console.log({ err });
+            that.showToast('Error');
+            this.navCtrl.push(errorPage, { prevPage: this.prevPage }, { animate: true });
+            console.log({ err });
         });
     }
     goToDocumentDetailPage() {
