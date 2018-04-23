@@ -1456,7 +1456,7 @@ export class AcquireProductPage {
     calcRFCYTitular() {
         let that = this;
         if (that.nombre != undefined && that.paterno != undefined && that.materno != undefined && that.fechaNacimiento != undefined) {
-            that.calcHC();
+            //that.calcHC();
             that.titular = `${that.nombre} ${that.paterno} ${that.materno}`.toUpperCase();
         }
     }
