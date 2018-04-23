@@ -67,6 +67,11 @@ export class AcquireProductPage {
     private subMarcaList: any;
     private descripcionList: any;
     private subDescripcionList: any;
+	private PrimaTotalHDI: any;
+    private PrimaNetaHDI: any;
+    private DerechosHDI: any;
+    private ImpuestosHDI: any;
+    private RecargoHDI: any;						   
 
     //Step 2
 
@@ -1198,7 +1203,11 @@ export class AcquireProductPage {
                     //para la primatotal
                     displayPrimaTotal = '';
                     let primaHDI = data3.Cotizacion.PrimaTotal;
-
+                    this.PrimaTotalHDI=data3.Cotizacion.PrimaTotal
+                    this.PrimaNetaHDI=data3.Cotizacion.PrimaNeta
+                    this.DerechosHDI=data3.Cotizacion.Derechos
+                    this.ImpuestosHDI=data3.Cotizacion.Impuesto
+                    this.RecargoHDI=data3.Cotizacion.Recargos
                     if (primaHDI != null && isNaN(primaHDI) == false) {
                         displayPrimaTotalInt = Math.ceil(parseInt(primaHDI));
                         displayPrimaTotal = this.formatPrice(displayPrimaTotalInt);
@@ -1788,6 +1797,7 @@ export class AcquireProductPage {
                 loader.dismiss();                
                 console.error({ err });
             });*/
+            loader.dismiss();                
         });
     }
 
@@ -2151,6 +2161,9 @@ export class AcquireProductPage {
             this.genero = data.Genero;
             this.telCasa = data.Telefono.split('|')[1];
             this.telMovil = data.Telefono2.split('|')[1];
+            this.idContCot=data.IdCont
+            this.idCliCot=data.IdCli
+            this.idDirCot=data.IdDir
             if (data.RFC == undefined || data.RFC == null || data.RFC.trim().length == 0) {
                 this.calcRFCYTitular();                
             } else {
@@ -2409,94 +2422,185 @@ export class AcquireProductPage {
         this.anioCot = vigencia[0];
         this.mesCot = vigencia[1];
         localStorage.Aseguradora=this.aseguradoraCot
+		let consultaData				
         //checkpoint
-        let consultaData = {
-            Aseguradora: this.aseguradoraCot,
-            Cliente: {
-                TipoPersona: 'F',
-                Nombre: this.nombre,
-                ApellidoPat: this.paterno,
-                ApellidoMat: this.materno,
-                RFC: this.rfc,
-                FechaNacimiento: this.fechaNacimiento,
-                Ocupacion: 'EMPLEADO',
-                CURP: null,
-                Direccion: {
-                    Calle: this.calle,
-                    NoExt: this.numExterior,
-                    NoInt: this.numInterior,
-                    Colonia: this.colonia,
-                    CodPostal: this.codigoPostal2,
-                    Poblacion: this.delegacion,
-                    Ciudad: this.estado,
-                    Pais: 'MÉXICO'
+        if (this.aseguradoraCot=="HDI"){
+            consultaData = {
+                Aseguradora: this.aseguradoraCot,
+                Cliente: {
+                    TipoPersona: 'F',
+                    Nombre: this.nombre,
+                    ApellidoPat: this.paterno,
+                    ApellidoMat: this.materno,
+                    RFC: this.rfc,
+                    FechaNacimiento: this.fechaNacimiento,
+                    Ocupacion: 'EMPLEADO',
+                    CURP: null,
+                    Direccion: {
+                        Calle: this.calle,
+                        NoExt: this.numExterior,
+                        NoInt: this.numInterior,
+                        Colonia: this.colonia,
+                        CodPostal: this.codigoPostal2,
+                        Poblacion: this.delegacion,
+                        Ciudad: this.estado,
+                        Pais: 'MÉXICO'
+                    },
+                    Edad: this.edad,
+                    Genero: this.genero,
+                    Telefono: this.telCasa,
+                    Email: this.email
                 },
-                Edad: this.edad,
-                Genero: this.genero,
-                Telefono: this.telCasa,
-                Email: this.email
-            },
-            Vehiculo: {
-                Uso: 'PARTICULAR',
-                Marca: this.marca,
-                Modelo: this.modelo,
-                NoMotor: this.numMotor,
-                NoSerie: this.numSerie,
-                NoPlacas: this.numPlacas,
-                Descripcion: this.descripcion,
-                CodMarca: '',
-                CodDescripcion: '',
-                CodUso: '',
-                Clave: this.claveCot,
-                Servicio: 'PARTICULAR'
-            },
-            Coberturas: [],
-            Paquete: 'AMPLIA',
-            Descuento: null,
-            PeriodicidadDePago: 0,
-            Cotizacion: {
-                PrimaTotal: null,
-                PrimaNeta: null,
-                Derechos: null,
-                Impuesto: null,
-                Recargos: null,
-                PrimerPago: null,
-                PagosSubsecuentes: null,
-                IDCotizacion: null,
-                CotID: null,
-                VerID: null,
-                CotIncID: null,
-                VerIncID: null,
-                Resultado: null
-            },
-            Emision: {
-                PrimaTotal: null,
-                PrimaNeta: null,
-                Derechos: null,
-                Impuesto: null,
-                Recargos: null,
-                PrimerPago: null,
-                PagosSubsecuentes: null,
-                IDCotizacion: null,
-                Terminal: null,
-                Documento: null,
-                Poliza: null,
-                Resultado: null
-            },
-            Pago: {
-                MedioPago: this.tipoTarjeta,
-                NombreTarjeta: this.titular,
-                Banco: this.banco,
-                NoTarjeta: this.numTarjeta,
-                MesExp: this.mesCot,
-                AnioExp: this.anioCot,
-                CodigoSeguridad: this.cvv,
-                NoClabe: null,
-                Carrier: this.carrierCot,
-            },
-            CodigoError: null,
-            urlRedireccion: null
-        };
+                Vehiculo: {
+                    Uso: 'PARTICULAR',
+                    Marca: this.marca,
+                    Modelo: this.modelo,
+                    NoMotor: this.numMotor,
+                    NoSerie: this.numSerie,
+                    NoPlacas: this.numPlacas,
+                    Descripcion: this.descripcion,
+                    CodMarca: '',
+                    CodDescripcion: '',
+                    CodUso: '',
+                    Clave: this.claveCot,
+                    Servicio: 'PARTICULAR'
+                },
+                Coberturas: [],
+                Paquete: 'AMPLIA',
+                Descuento: null,
+                PeriodicidadDePago: 0,
+                Cotizacion: {
+                    PrimaTotal: this.PrimaTotalHDI,
+                    PrimaNeta: this.PrimaNetaHDI,
+                    Derechos: this.DerechosHDI,
+                    Impuesto: this.ImpuestosHDI,
+                    Recargos: this.RecargoHDI,
+                    PrimerPago: null,
+                    PagosSubsecuentes: null,
+                    IDCotizacion: null,
+                    CotID: null,
+                    VerID: null,
+                    CotIncID: null,
+                    VerIncID: null,
+                    Resultado: null
+                },
+                Emision: {
+                    PrimaTotal: null,
+                    PrimaNeta: null,
+                    Derechos: null,
+                    Impuesto: null,
+                    Recargos: null,
+                    PrimerPago: null,
+                    PagosSubsecuentes: null,
+                    IDCotizacion: null,
+                    Terminal: null,
+                    Documento: null,
+                    Poliza: null,
+                    Resultado: null
+                },
+                Pago: {
+                    MedioPago: this.tipoTarjeta,
+                    NombreTarjeta: this.titular,
+                    Banco: this.banco,
+                    NoTarjeta: this.numTarjeta,
+                    MesExp: this.mesCot,
+                    AnioExp: this.anioCot,
+                    CodigoSeguridad: this.cvv,
+                    NoClabe: null,
+                    Carrier: this.carrierCot,
+                },
+                CodigoError: null,
+                urlRedireccion: null
+            };
+        }else{
+            consultaData = {
+                Aseguradora: this.aseguradoraCot,
+                Cliente: {
+                    TipoPersona: 'F',
+                    Nombre: this.nombre,
+                    ApellidoPat: this.paterno,
+                    ApellidoMat: this.materno,
+                    RFC: this.rfc,
+                    FechaNacimiento: this.fechaNacimiento,
+                    Ocupacion: 'EMPLEADO',
+                    CURP: null,
+                    Direccion: {
+                        Calle: this.calle,
+                        NoExt: this.numExterior,
+                        NoInt: this.numInterior,
+                        Colonia: this.colonia,
+                        CodPostal: this.codigoPostal2,
+                        Poblacion: this.delegacion,
+                        Ciudad: this.estado,
+                        Pais: 'MÉXICO'
+                    },
+                    Edad: this.edad,
+                    Genero: this.genero,
+                    Telefono: this.telCasa,
+                    Email: this.email
+                },
+                Vehiculo: {
+                    Uso: 'PARTICULAR',
+                    Marca: this.marca,
+                    Modelo: this.modelo,
+                    NoMotor: this.numMotor,
+                    NoSerie: this.numSerie,
+                    NoPlacas: this.numPlacas,
+                    Descripcion: this.descripcion,
+                    CodMarca: '',
+                    CodDescripcion: '',
+                    CodUso: '',
+                    Clave: this.claveCot,
+                    Servicio: 'PARTICULAR'
+                },
+                Coberturas: [],
+                Paquete: 'AMPLIA',
+                Descuento: null,
+                PeriodicidadDePago: 0,
+                Cotizacion: {
+                    PrimaTotal: null,
+                    PrimaNeta: null,
+                    Derechos: null,
+                    Impuesto: null,
+                    Recargos: null,
+                    PrimerPago: null,
+                    PagosSubsecuentes: null,
+                    IDCotizacion: null,
+                    CotID: null,
+                    VerID: null,
+                    CotIncID: null,
+                    VerIncID: null,
+                    Resultado: null
+                },
+                Emision: {
+                    PrimaTotal: null,
+                    PrimaNeta: null,
+                    Derechos: null,
+                    Impuesto: null,
+                    Recargos: null,
+                    PrimerPago: null,
+                    PagosSubsecuentes: null,
+                    IDCotizacion: null,
+                    Terminal: null,
+                    Documento: null,
+                    Poliza: null,
+                    Resultado: null
+                },
+                Pago: {
+                    MedioPago: this.tipoTarjeta,
+                    NombreTarjeta: this.titular,
+                    Banco: this.banco,
+                    NoTarjeta: this.numTarjeta,
+                    MesExp: this.mesCot,
+                    AnioExp: this.anioCot,
+                    CodigoSeguridad: this.cvv,
+                    NoClabe: null,
+                    Carrier: this.carrierCot,
+                },
+                CodigoError: null,
+                urlRedireccion: null
+            };
+        }
 
         console.log({ consultaData });
 
