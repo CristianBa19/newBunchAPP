@@ -89,7 +89,8 @@ export class RegistrerPage {
         let email = this.newuser.email,
             toaster,
             loader = this.loadingCtrl.create({
-                content: 'Validando E-Mail'
+                content: 'Validando E-Mail',
+                dismissOnPageChange: true,
             });
             toaster = this.toastCtrl.create({
                 duration: 3000,
@@ -199,7 +200,8 @@ export class RegistrerPage {
 
         let toaster,
             loader = this.loadingCtrl.create({
-                content: 'Validando Contraseña'
+                content: 'Validando Contraseña',
+                dismissOnPageChange: true,
             });
         
         loader.present();
@@ -226,7 +228,8 @@ export class RegistrerPage {
 
         let toaster,
             loader = this.loadingCtrl.create({
-                content: 'Validando celular'
+                content: 'Validando celular',
+                dismissOnPageChange: true,
             });
         
         loader.present();
@@ -253,7 +256,9 @@ export class RegistrerPage {
 
         console.log('signup');
         let that = this;
-        let loader = this.loadingCtrl.create();
+        let loader = this.loadingCtrl.create({
+            dismissOnPageChange: true,
+        });
         loader.present();            
         
         var toaster = this.toastCtrl.create({
@@ -288,7 +293,6 @@ export class RegistrerPage {
                         console.log("se ha creado una nueva cuenta");
                         localStorage.idContVend = data;
                         that.storage.set('name', data);
-                        loader.dismiss();
                         that.navCtrl.push(HomePage, { animate: true });
                     } else {
                         console.error({res});
