@@ -1,4 +1,5 @@
 import { AcquireProductPage } from './../acquire-product/acquire-product';
+import { AcquireProductPage2 } from './../acquire-product-2/acquire-product';
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { NewAdvertisementPage } from './../new-advertisement/new-advertisement';
@@ -58,6 +59,9 @@ export class AdvertisementPage {
 }
 public goAcquireProduct = () => {
   this.navCtrl.push(AcquireProductPage, null, {animate: true});
+}
+public goAcquireProduct2 = () => {
+  this.navCtrl.push(AcquireProductPage2, null, {animate: true});
 }
 goGetMarcas = () => {
   this.navCtrl.push(AcquireProductPage, {animate: true});

@@ -42,6 +42,7 @@ import { PurchasePage } from './../pages/purchase/purchase';
 import { AdDetailPage } from './../pages/ad-detail/ad-detail';
 import { FilterPage } from './../pages/filter-page/filter-page';
 import { AcquireProductPage } from '../pages/acquire-product/acquire-product';
+import { AcquireProductPage2 } from '../pages/acquire-product-2/acquire-product';
 import { DocumentDetailPage } from '../pages/acquire-product/document-details/document-detail';
 import { PayPolicyPage } from '../pages/acquire-product/pay-policy/pay-policy';
 import { PaymentSubmittedPage } from '../pages/payment-submited/payment-submited';
@@ -112,6 +113,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
         PurchasePage,
         AdDetailPage,
         AcquireProductPage,
+        AcquireProductPage2,
         PaymentSubmittedPage,
         PaymentSubmittedPage2,
         errorPage,
@@ -184,6 +186,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
         PurchasePage,
         AdDetailPage,
         AcquireProductPage,
+        AcquireProductPage2,
         PaymentSubmittedPage,
         PaymentSubmittedPage2,
         errorPage,
