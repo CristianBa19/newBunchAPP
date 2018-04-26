@@ -20,7 +20,7 @@ import 'rxjs/add/operator/map';
 import { GESTURE_PRIORITY_MENU_SWIPE } from 'ionic-angular/gestures/gesture-controller';
 
 @Component({
-    selector: 'acquire-product-page',
+    selector: 'acquire-product-page-2',
     templateUrl: 'acquire-product.html',
 })
 export class AcquireProductPage2 {
