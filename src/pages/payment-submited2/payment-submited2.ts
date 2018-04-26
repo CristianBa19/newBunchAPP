@@ -60,6 +60,16 @@ export class PaymentSubmittedPage2 {
             }, err => {
                 console.log(err);
             });
+            var url= 'http://services.bunch.guru/WebService.asmx/envioCorreoCompra?email=' + localStorage.email + '&poliza='+ localStorage.Poliza +'&idvend=' + localStorage.idvend
+            console.log(url);
+            this.http.get('http://services.bunch.guru/WebService.asmx/envioCorreoCompra?email=' + localStorage.email + '&poliza='+ localStorage.Poliza +'&idvend=' + localStorage.idvend)
+            .map(res2 => res2.json())
+            .subscribe(data2 => {
+                this.data2 = data2;
+                console.log("esta es la response " + this.data2);
+            }, err => {
+                console.log(err);
+            });
     }
 
     share(){
