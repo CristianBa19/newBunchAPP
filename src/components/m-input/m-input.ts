@@ -13,8 +13,7 @@ import { Component, Input } from '@angular/core';
 export class MInputComponent {
   
   @Input() label: string;
-  @Input() field: string;
-  @Input() type: string = 'text';
+  @Input() field: string;  
 
   constructor() {
     console.log('Hello MInputComponent Component');    

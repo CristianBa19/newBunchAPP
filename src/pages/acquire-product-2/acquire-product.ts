@@ -181,7 +181,7 @@ export class AcquireProductPage2 {
         if (currentStep == 1) {
             let fields = ['codigoPostal1', 'edad', 'marca', 'modelo', 'subMarca', 'descripcion', 'subDescripcion'];
             for (let i = 0, len = fields.length; i < len; i++) {
-                if (this[fields[i]] === undefined) {
+                if (this[fields[i]] === undefined || this[fields[i]] === null) {
                     errors = true;
                     break;
                 }
@@ -504,7 +504,17 @@ export class AcquireProductPage2 {
             options = [{ type: 'number', name: 'codigoPostal1', value: this.codigoPostal1, min: 3, max: 5 }];
 
         this.showAlert(title, options, function (data) {
-            that.processPostalCode(data.codigoPostal1);
+            console.warn('len', data.codigoPostal1.trim().length);
+            if (data.codigoPostal1.trim().length == 0) {
+                that.codigoPostal1 = null;
+                console.log('ahora es null', that.codigoPostal1);
+                that.codigoPostal2 = null;
+                that.userColonyList = [];
+                that.showToast('Código postal inválido');                
+                that.showAlertCP1();
+            } else {
+                that.processPostalCode(data.codigoPostal1);
+            }            
         });
     }
 
@@ -519,10 +529,13 @@ export class AcquireProductPage2 {
             loader.dismiss();
 
             if (data['Colonias'].length == 0 && data['Estado'] == null && data['Municipio'] == null) {
+                that.codigoPostal1 = null;
+                that.codigoPostal2 = null;
+                that.userColonyList = [];
                 that.showToast('Código postal inválido');                
                 that.showAlertCP1();
             } else {
-                that.codigoPostal1 = cp;
+                that.codigoPostal1 = cp;                
 
                 let codigoPostal2 = cp,
                     url = 'http://services.bunch.guru/WebService.asmx/ConsultaCP?CPostal=' + codigoPostal2;
@@ -536,7 +549,11 @@ export class AcquireProductPage2 {
                     }
                     that.codigoPostal2 = codigoPostal2;
                 }, err => {
-                    console.error({ err });
+                    that.codigoPostal1 = null;
+                    that.codigoPostal2 = null;
+                    that.userColonyList = [];
+                    that.showToast('Código postal inválido');                
+                    that.showAlertCP1();
                 });
             }
         });
@@ -1187,7 +1204,7 @@ export class AcquireProductPage2 {
 
                     if (displayPrimaTotal.length == 0) {
                         displayPrimaTotal = 'No disponible';
-                    }
+                    }                    
 
                     this.comparaList.push({
                         clave: clave,

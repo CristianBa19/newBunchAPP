@@ -1,15 +1,14 @@
 <ion-row class="m-input">
-  <ion-col col-11>                                    
-      <ion-row class="m-input-label">
-          <ion-col col-12>{{label}}</ion-col>
-      </ion-row>
-      <ion-row class="m-input-value">
-          <ion-col col-12>
-              <input type="type" [(ngModel)]="field">
-          </ion-col>
-      </ion-row>                    
-  </ion-col>    
-  <ion-col col-1>
-      <ion-icon name="ios-arrow-forward" class="m-input-arrow-2"></ion-icon>
-  </ion-col>                
+    <ion-col col-11>                                    
+        <ion-row class="m-input-label">
+            <ion-col col-12>{{label}}</ion-col>
+        </ion-row>
+        <ion-row class="m-input-value">
+            <ion-col col-12>{{field}}</ion-col>
+        </ion-row>                    
+    </ion-col>    
+    <ion-col col-1>
+        <ion-icon *ngIf="field !== undefined && field !== null" class="m-input-icon m-input-icon-ok" name="ios-checkmark-outline"></ion-icon>
+        <ion-icon *ngIf="field === null" class="m-input-icon m-input-icon-error" name="ios-close-outline"></ion-icon>
+    </ion-col>                            
 </ion-row>

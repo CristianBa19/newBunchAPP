@@ -52,7 +52,7 @@
                 </ion-col>                                
             </ion-row>-->
 
-            <ion-row class="m-input" (tap)="showAlertCP1()">
+            <!--<ion-row class="m-input" (tap)="showAlertCP1()">
                 <ion-col col-11>                                    
                     <ion-row class="m-input-label">
                         <ion-col col-12>Código Postal</ion-col>
@@ -64,93 +64,17 @@
                     </ion-row>                    
                 </ion-col>    
                 <ion-col col-1>
-                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
+                    //<ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
                 </ion-col>                            
-            </ion-row>
+            </ion-row>-->
 
-            <ion-row class="m-input" (tap)="showAlertEdad()">
-                <ion-col col-11>                                    
-                    <ion-row class="m-input-label">
-                        <ion-col col-12>Edad</ion-col>
-                    </ion-row>
-                    <ion-row class="m-input-value">
-                        <ion-col col-12>{{edadTxt}}</ion-col>
-                    </ion-row>                    
-                </ion-col>    
-                <ion-col col-1>
-                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                                        
-            </ion-row>    
-
-            <ion-row class="m-input" (tap)="showAlertMarca()">
-                <ion-col col-11>                                    
-                    <ion-row class="m-input-label">
-                        <ion-col col-12>Marca</ion-col>
-                    </ion-row>
-                    <ion-row class="m-input-value">
-                        <ion-col col-12>{{marca}}</ion-col>
-                    </ion-row>                    
-                </ion-col>    
-                <ion-col col-1>
-                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                                        
-            </ion-row>    
-
-            <ion-row class="m-input" (tap)="showAlertModelo()" id="inputModelo">
-                <ion-col col-11>                                    
-                    <ion-row class="m-input-label">
-                        <ion-col col-12>Modelo</ion-col>
-                    </ion-row>
-                    <ion-row class="m-input-value">
-                        <ion-col col-12>{{modelo}}</ion-col>
-                    </ion-row>                    
-                </ion-col>    
-                <ion-col col-1>
-                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                                        
-            </ion-row>    
-
-            <ion-row class="m-input" (tap)="showAlertSubMarca()" id="inputSubMarca">
-                <ion-col col-11>                                    
-                    <ion-row class="m-input-label">
-                        <ion-col col-12>Submarca</ion-col>
-                    </ion-row>
-                    <ion-row class="m-input-value">
-                        <ion-col col-12>{{subMarca}}</ion-col>
-                    </ion-row>                    
-                </ion-col>    
-                <ion-col col-1>
-                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                                        
-            </ion-row>    
-
-            <ion-row class="m-input" (tap)="showAlertDescripcion()" id="inputDescripcion">
-                <ion-col col-11>                                    
-                    <ion-row class="m-input-label">
-                        <ion-col col-12>Descripción</ion-col>
-                    </ion-row>
-                    <ion-row class="m-input-value">
-                        <ion-col col-12>{{descripcion}}</ion-col>
-                    </ion-row>                    
-                </ion-col>    
-                <ion-col col-1>
-                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                                        
-            </ion-row>    
-
-            <ion-row class="m-input" (tap)="showAlertSubDescripcion()" id="inputSubDescripcion">
-                <ion-col col-11>                                    
-                    <ion-row class="m-input-label">
-                        <ion-col col-12>SubDescripción</ion-col>
-                    </ion-row>
-                    <ion-row class="m-input-value">
-                        <ion-col col-12>{{subDescripcion}}</ion-col>
-                    </ion-row>                    
-                </ion-col>    
-                <ion-col col-1>
-                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>
-            </ion-row>           
+            <m-input label="Código Postal" [field]="codigoPostal1" (tap)="showAlertCP1()"></m-input>            
+            <m-input label="Edad" [field]="edadTxt" (tap)="showAlertEdad()"></m-input>
+            <m-input label="Marca" [field]="marca" (tap)="showAlertMarca()"></m-input>
+            <m-input label="Modelo" [field]="modelo" (tap)="showAlertModelo()" id="inputModelo"></m-input>
+            <m-input label="Submarca" [field]="subMarca" (tap)="showAlertSubMarca()" id="inputSubMarca"></m-input>            
+            <m-input label="Descripción" [field]="descripcion" (tap)="showAlertDescripcion()" id="inputDescripcion"></m-input>
+            <m-input label="SubDescripción" [field]="subDescripcion" (tap)="showAlertSubDescripcion()" id="inputSubDescripcion"></m-input>
             
             <ion-row class="m-button">
                 <ion-col col-3></ion-col>
@@ -334,89 +258,15 @@
                 </ion-col>
             </ion-row>
 
-            <ion-row class="m-input">
-                <ion-col col-12>                                    
-                    <ion-row class="m-input-label">
-                        <ion-col col-12>Email</ion-col>
-                    </ion-row>
-                    <ion-row class="m-input-value">
-                        <ion-col col-12>martin.cisneros@gmail.com</ion-col>
-                    </ion-row>
-                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                
-            </ion-row>    
-
-            <ion-row class="m-input">
-                <ion-col col-12>                                    
-                    <ion-row class="m-input-label">
-                        <ion-col col-12>Nombre(s)</ion-col>
-                    </ion-row>
-                    <ion-row class="m-input-value">
-                        <ion-col col-12>MIGUEL IVAN</ion-col>
-                    </ion-row>
-                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                
-            </ion-row>    
-
-            <ion-row class="m-input">
-                <ion-col col-12>                                    
-                    <ion-row class="m-input-label">
-                        <ion-col col-12>Apellido Paterno</ion-col>
-                    </ion-row>
-                    <ion-row class="m-input-value">
-                        <ion-col col-12>PATERNO</ion-col>
-                    </ion-row>
-                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                
-            </ion-row>    
-
-            <ion-row class="m-input">
-                <ion-col col-12>                                    
-                    <ion-row class="m-input-label">
-                        <ion-col col-12>Apelido Materno</ion-col>
-                    </ion-row>
-                    <ion-row class="m-input-value">
-                        <ion-col col-12>MATERNO</ion-col>
-                    </ion-row>
-                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                
-            </ion-row>    
-
-            <ion-row class="m-input">
-                <ion-col col-12>                                    
-                    <ion-row class="m-input-label">
-                        <ion-col col-12>Fecha de Nacimiento</ion-col>
-                    </ion-row>
-                    <ion-row class="m-input-value">
-                        <ion-col col-12>1988-09-30</ion-col>
-                    </ion-row>
-                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                
-            </ion-row>    
-
-            <ion-row class="m-input">
-                <ion-col col-12>                                    
-                    <ion-row class="m-input-label">
-                        <ion-col col-12>Género</ion-col>
-                    </ion-row>
-                    <ion-row class="m-input-value">
-                        <ion-col col-12>Lorem Ipsum Dolor</ion-col>
-                    </ion-row>
-                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                
-            </ion-row>    
-
-            <ion-row class="m-input">
-                <ion-col col-12>                                    
-                    <ion-row class="m-input-label">
-                        <ion-col col-12>Teléfono de casa</ion-col>
-                    </ion-row>
-                    <ion-row class="m-input-value">
-                        <ion-col col-12>481 145 5468</ion-col>
-                    </ion-row>
-                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                
-            </ion-row>           
+            <m-input label="Email" [field]="email" (tap)="showAlertEmail()"></m-input>
+            <m-input label="Nombre" [field]="nombre" (tap)="showAlertNombre()"></m-input>
+            <m-input label="Apellido Paterno" [field]="paterno" (tap)="showAlertApellidoP()"></m-input>
+            <m-input label="Apellido Materno" [field]="materno" (tap)="showAlertApellidoM()"></m-input>            
+            <m-input label="Fecha de Nacimiento" [field]="fechaNacimiento"></m-input>
+            <m-input label="Género" [field]="genero" (tap)="showAlertGenero()"></m-input>
+            <m-input label="Teléfono de Casa" [field]="telCasa" (tap)="showAlertTelefonoCasa()"></m-input>
+            <m-input label="Teléfono de Casa" [field]="telCasa" (tap)="showAlertTelefonoCasa()"></m-input>
+            <m-input label="Teléfono Móvil" [field]="telMovil" (tap)="showAlertTelefonoMovil()"></m-input>
             
             <ion-row class="m-button">
                 <ion-col col-3></ion-col>
