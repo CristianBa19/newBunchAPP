@@ -291,8 +291,8 @@ export class RegistrerPage {
                 this.userservice.adduser(this.newuser).then((res: any) => {                                    
                     if (res.success) {
                         console.log("se ha creado una nueva cuenta");
-                        localStorage.idContVend = data;
-                        that.storage.set('name', data);
+                        localStorage.idContVend = data.IdVend;
+                        that.storage.set('name', data.idContacto);
                         that.navCtrl.push(HomePage, { animate: true });
                     } else {
                         console.error({res});
