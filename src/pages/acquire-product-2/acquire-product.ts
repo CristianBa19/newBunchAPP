@@ -12,6 +12,7 @@ import { IonicPage, Events, LoadingController, ToastController, Content } from '
 import { Http, Headers } from '@angular/http';
 import { PaymentSubmittedPage2 } from '../payment-submited2/payment-submited2';
 import { errorPage } from '../error/error';
+import { MInputComponent } from '../../components/m-input';
 
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/timeout';
@@ -30,6 +31,10 @@ export class AcquireProductPage2 {
     url: string;
     data: string;
 
+    private toast:any;    
+    private cotizacion = {monto:0, logo: '', responsabilidadCivil: {sumaAsegurada: '', deducible: ''}, roboTotal: {sumaAsegurada: '', deducible: ''}, danosMateriales: {sumaAsegurada: '', deducible: ''}};
+
+    private currentStep:number = 1;
     public step:number = 1;
     private createClient:boolean = false;
     private tabs: string[] = ['Producto', 'Compara', 'Cliente', 'Pago', 'Tarjeta'];
@@ -50,6 +55,7 @@ export class AcquireProductPage2 {
     //Values
     private codigoPostal1: number;
     private edad: number;
+    private edadTxt: string;
     private marca: string;
     private modelo: string;
     private subMarca: string;
@@ -164,9 +170,51 @@ export class AcquireProductPage2 {
         this.subDescripcion = 'PAQ A';
     }
 
-    public showStep(stepIndex:number):void {
-        console.log('showStep', stepIndex);
-        this.step = stepIndex;
+    public showStep(stepIndex:number, obj:any = undefined):void {
+        let currentStep = this.currentStep,
+            errors = false,
+            that = this;
+
+        let loader = this.loadingCtrl.create();
+        loader.present();
+
+        if (currentStep == 1) {
+            let fields = ['codigoPostal1', 'edad', 'marca', 'modelo', 'subMarca', 'descripcion', 'subDescripcion'];
+            for (let i = 0, len = fields.length; i < len; i++) {
+                if (this[fields[i]] === undefined) {
+                    errors = true;
+                    break;
+                }
+            }            
+        } else if (currentStep == 2) {
+            console.log('selectedItem', obj);
+            that.cotizacion.monto = obj.value;
+            that.cotizacion.logo = obj.img;
+            that.cotizacion.responsabilidadCivil.sumaAsegurada = obj.RC;
+            that.cotizacion.responsabilidadCivil.deducible = obj.RCD;
+            that.cotizacion.danosMateriales.sumaAsegurada = obj.danosMateriales;
+            that.cotizacion.danosMateriales.deducible = obj.danosMaterialesD;
+            that.cotizacion.roboTotal.sumaAsegurada = obj.roboTotal;
+            that.cotizacion.roboTotal.deducible = obj.roboTotalD;            
+        }
+        
+        if (errors == true) {
+            loader.dismiss();
+            loader.onDidDismiss(() => {
+                that.showAlert('Faltan campos por completar');
+            });
+        } else {
+            this.step = stepIndex;
+            this.currentStep = stepIndex;
+
+            if (this.step == 2) {            
+                this.cotizar(undefined, 0, function() {
+                    loader.dismiss();                
+                });            
+            } else {
+                loader.dismiss();
+            }
+        }        
     }
 
     private fillTab3() {
@@ -225,8 +273,7 @@ export class AcquireProductPage2 {
         loader.present();
 
         this.storage.get('name').then((val) => {
-            this.idContVend = val;
-
+            this.idContVend = val;            
             this.inputModelo = document.getElementById('inputModelo');
             this.inputSubMarca = document.getElementById('inputSubMarca');
             this.inputDescripcion = document.getElementById('inputDescripcion');
@@ -238,18 +285,38 @@ export class AcquireProductPage2 {
     }
 
     showToast(message) {
-        let toast = this.toastCtrl.create({
-            duration: 3000,
-            position: 'bottom',
-            showCloseButton: true,
-            closeButtonText: 'Ok',
-            cssClass: 'toast',
-            message: message,
-        });
-        toast.present();
+        let that = this;
+        if (this.toast === undefined) {            
+            this.toast = this.toastCtrl.create({
+                duration: 3000,
+                position: 'bottom',
+                showCloseButton: true,
+                closeButtonText: 'Ok',
+                cssClass: 'toast',
+                message: message,
+                //dismissOnPageChange: true,
+            });
+            this.toast.present();
+        } else {
+            this.toast.dismiss();
+            this.toast.onDidDismiss(() => {
+                console.warn('Dismissed toast');
+                //that.toast = undefined;
+                that.toast = that.toastCtrl.create({
+                    duration: 3000,
+                    position: 'bottom',
+                    showCloseButton: true,
+                    closeButtonText: 'Ok',
+                    cssClass: 'toast',
+                    message: message,
+                    //dismissOnPageChange: true,
+                });
+                that.toast.present();
+            });
+        }
     }
 
-    showAlert(title: string, options: any, callback) {
+    showAlert(title: string, options: any = undefined, callback:any = undefined) {
 
         let _options = {};
         if (options != undefined) {
@@ -260,7 +327,7 @@ export class AcquireProductPage2 {
 
         let _alert = this.alertCtrl.create(_options);
         _alert.setTitle(title);
-        _alert.setCssClass('definidaX');
+        _alert.setCssClass('definidaX');        
         _alert.addButton({
             text: 'Cancelar',
             cssClass: 'alert-cancel-btn',
@@ -268,21 +335,19 @@ export class AcquireProductPage2 {
         _alert.addButton({
             text: 'OK',
             handler: data => {
-                setTimeout(function () {
-                    callback(data);
-                }, 100);
+                if (callback != undefined) {
+                    setTimeout(function () {
+                        callback(data);
+                    }, 100);
+                }                
             }
         });
         _alert.present();
-
-        console.log({ options });
-        if (options.length > 0) {
-            console.log(options[0]['type']);
-            if (options[0]['type'] == 'radio') {
-                console.log('se supone que debe haber un salto');
+        
+        if (options != undefined && options.length > 0) {            
+            if (options[0]['type'] == 'radio') {                
                 setTimeout(function () {
-                    let elem = document.querySelector('div.alert-radio-group').querySelector('[aria-checked="true"]');
-                    console.log({ elem });
+                    let elem = document.querySelector('div.alert-radio-group').querySelector('[aria-checked="true"]');                    
                     if (elem != null) {
                         elem.scrollIntoView();
                     }
@@ -298,24 +363,6 @@ export class AcquireProductPage2 {
                 });
             }
         }, 400);
-
-        /*setTimeout(function() {
-            let alertInputs = document.getElementsByClassName('alert-input');
-            console.warn({alertInputs});
-            for (let i = 0, len = alertInputs.length; i < len; i++) {
-                let alertInput = alertInputs[i];
-                console.log({alertInput});
-                let minLen = alertInput.getAttribute('min')
-                if (minLen != null) {                
-                    alertInput.setAttribute('minlength', minLen);
-                }
-
-                let maxLen = alertInput.getAttribute('max')
-                if (maxLen != null) {                
-                    alertInput.setAttribute('maxlength', maxLen);
-                }
-            }
-        }, 500);*/
     }
 
     loadInputData(inputId: string) {
@@ -368,6 +415,7 @@ export class AcquireProductPage2 {
                         this.modeloList.push(data.ListadoDescripciones[i].Modelo);
                     }
 
+                    console.log(this.inputModelo, this.inputSubMarca, this.inputDescripcion, this.inputSubDescripcion);
                     this.inputModelo.classList.remove('focus');
                     this.inputSubMarca.classList.remove('focus');
                     this.inputDescripcion.classList.remove('focus');
@@ -512,6 +560,7 @@ export class AcquireProductPage2 {
 
         this.showAlert(title, options, function (data) {
             that.edad = data;
+            that.edadTxt = `${that.edad} años`;
         });
     }
 
@@ -708,17 +757,14 @@ export class AcquireProductPage2 {
         }
     }
 
-    getBuscar() {
+    getAseguradoras(success, err) {        
+
         let url = "",
             aseguradora,
             clave,
             descripcion,
             aseguradoras = [],
-            obj,
-            that = this,
-            loader = this.loadingCtrl.create();
-
-        loader.present();
+            obj;
 
         url = `http://test.alimx.mx/WebService.asmx/BuscarJSON?usuario=AhorraSeguros&password=Ah0rraS3guros2017&marca=${this.marca}&modelo=${this.modelo}&descripcion=${this.subMarca}&subdescripcion=${this.descripcion}&detalle=${this.subDescripcion}`;
         this.http.get(url).map(res => res.json()).subscribe(data => {
@@ -729,56 +775,66 @@ export class AcquireProductPage2 {
                     clave = obj.CatDescripciones[0].clave;
                     descripcion = obj.CatDescripciones[0].Descripcion;
                     aseguradoras.push({ aseguradora, clave, descripcion });
-                }
-            }
-
-            loader.dismiss();
-            this.cotizarAseguradoras(aseguradoras);
+                }                
+            }            
+            success(aseguradoras);
         }, err => {
-            loader.dismiss();
-            console.error({ err });
-            that.showToast('Error');
+            err(err);
         });
-    }
+    }    
 
-    cotizarAseguradoras(aseguradoras: any, index: number = 0, loader: any = null) {
-        let _this = this,
-            obj = aseguradoras[index];
+    cotizar(aseguradoras: any = undefined, index: number = 0, callback:any = undefined) {
+        
+        let that = this;        
 
-        if (index == 0) {
-            this.comparaList = [];
-        }
+        if (aseguradoras === undefined) {            
+            this.getAseguradoras(function(aseguradoras) {                
+                that.cotizar(aseguradoras, index, callback);
+            }, function(err) {
+                that.showAlert('Ha habido un error, intente de nuevo por favor');
+            });
+        } else {            
+            let obj = aseguradoras[index];
 
-        if (loader == null) {
-            loader = this.loadingCtrl.create();
-            loader.present();
-        }
+            if (index == 0) {
+                this.comparaList = [];
+            }            
 
-        if (obj == undefined) {
-            this.comparaList.forEach(function (e) {
-                if (isNaN(e.valueInt)) {
-                    e.valueInt = 0;
+            if (obj == undefined) {
+                
+                //Ordena de menor a mayor precio
+                this.comparaList.forEach(function (e) {
+                    if (isNaN(e.valueInt)) {
+                        e.valueInt = 0;
+                    }
+                });
+
+                this.comparaList.sort(function (a, b) {
+                    if (a.valueInt < b.valueInt)
+                        return -1;
+                    if (a.valueInt > b.valueInt)
+                        return 1;
+                    return 0;
+                });
+                
+                //Muestra los resultados, 
+                //los cuales previamente estaban ocultos para esperar a que 
+                //los resultados se ordenaran de menor a mayor precio
+                let elems = document.getElementsByClassName('resultado-aseguradora');
+                for (let i = 0, len = elems.length; i < len; i++) {
+                    elems[i]['style'].display = 'block';
+                }           
+                
+                if (callback != undefined) {
+                    callback();
                 }
-            });
-
-            this.comparaList.sort(function (a, b) {
-                if (a.valueInt < b.valueInt)
-                    return -1;
-                if (a.valueInt > b.valueInt)
-                    return 1;
-                return 0;
-            });
-            let elems = document.getElementsByClassName('resultado-aseguradora');
-            for (let i = 0, len = elems.length; i < len; i++) {
-                elems[i]['style'].display = 'block';
+            } else {
+                this.getCotizacionPorAseguradora(obj, function() {
+                    that.cotizar(aseguradoras, ++index, callback);
+                });
             }
-            loader.dismiss();
-        } else {
-            this.loadCotizacion(obj.aseguradora, obj.clave, obj.descripcion, function () {
-                _this.cotizarAseguradoras(aseguradoras, ++index, loader);
-            });
-        }
-    }
+        }        
+    }    
 
     //Solo funciona para numeros enteros
     numberWithCommas(x) {
@@ -794,8 +850,7 @@ export class AcquireProductPage2 {
         if (typeof price == 'string') {
             price = Math.ceil(parseInt(price));
         }
-        let n = this.numberWithCommas(price);
-        console.log(n, typeof n);
+        let n = this.numberWithCommas(price);        
         if (n == 'NaN') {
             return 'No disponible';
         } else {
@@ -814,9 +869,13 @@ export class AcquireProductPage2 {
         return '$ ' + price + ' ' + arr.join(' ');
     }
 
-    loadCotizacion(aseguradora, clave, descripcionAseguradora, callback) {
+    getCotizacionPorAseguradora(objAseguradora, callback) {
 
-        console.log('loadCotizacion', { aseguradora, clave, descripcionAseguradora });
+        console.log('getCotizacionPorAseguradora', {objAseguradora});
+
+        let aseguradora = objAseguradora.aseguradora,
+            clave = objAseguradora.clave, 
+            descripcionAseguradora = objAseguradora.descripcion;
 
         var str = "";
         var str2 = "";
@@ -855,9 +914,7 @@ export class AcquireProductPage2 {
         let enStr = btoa(`usuario=Bunch&Password=BunCH2O18&data=${myJSON}&movimiento=cotizacion&idContVend=${this.idContVend}`),
             url = `http://services.bunch.guru/WebService.asmx/CotizacionEmisionJSON?param=${enStr}`; //'http://core.alimx.mx/webservice.asmx/CotizacionEmisionJSON?usuario=AhorraSeguros&password=Ah0rraS3guros2017&data=' + myJSON + '&movimiento=cotizacion';
 
-        this.http.get(url).map(res2 => res2.json()).subscribe(data2 => {
-
-            console.log('success', aseguradora);
+        this.http.get(url).map(res2 => res2.json()).subscribe(data2 => {            
 
             var data3 = '',
                 data4 = '',
@@ -881,8 +938,7 @@ export class AcquireProductPage2 {
             displayRCPersonas = (JSON.stringify(data5)).replace(/"|-N|-S|NRC|PERSONAS|RESPONSABILIDAD|CIVIL|PERSONAS|NO|APLICA|RC|-|D|-/g, '');
             displayRC = (JSON.stringify(data6)).replace(/"|-N|-S|-D|RESPONSABILIDAD|CIVIL|NO|APLICA|No|aplica/g, '');
             displayDefensaJuridica = (JSON.stringify(data7)).replace(/"|-N|-S|-D|GASTOS|ES|ASISTENCIA|LEGAL|PROVIAL|LEGALES/g, '');
-            displayGastosMedicosOcupantes = data8.replace(/"|-N|-S|-D|GASTOS|MÉDICOS|OCUPANTES/g, '').trim();
-            console.warn('displayGastosMedicosOcupantes', displayGastosMedicosOcupantes);
+            displayGastosMedicosOcupantes = data8.replace(/"|-N|-S|-D|GASTOS|MÉDICOS|OCUPANTES/g, '').trim();            
 
             //seccion para la recepcion de la primaTotal y su conversion a int
             displayPrimaTotal = '';
@@ -929,9 +985,9 @@ export class AcquireProductPage2 {
                 displayRCPersonasD = 'No disponible';
 
             aseguradora = aseguradora.replace(/"/g, '');
-            document.getElementById("nombreAuto").innerHTML = this.marca + ' ' + this.modelo;
-            document.getElementById("descrAuto").innerHTML = this.descripcion;
-            document.getElementById("subDescrAuto").innerHTML = this.subDescripcion;
+            //document.getElementById("nombreAuto").innerHTML = this.marca + ' ' + this.modelo;
+            //document.getElementById("descrAuto").innerHTML = this.descripcion;
+            //document.getElementById("subDescrAuto").innerHTML = this.subDescripcion;
 
             if (aseguradora === 'ABA' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
 
@@ -962,15 +1018,9 @@ export class AcquireProductPage2 {
                 callback();
             } else if (aseguradora === 'ANA') {
 
-                this.http.get(url).map(res3 => res3.json()).subscribe(data3 => {
+                this.http.get(url).map(res3 => res3.json()).subscribe(data3 => {                    
 
-                    console.log('ANA data', { data3 });
-
-                    let codigoError = data3.CodigoError;
-                    //if (codigoError != null) {
-                    console.error({ codigoError });
-                    //} else {
-                    //para la primatotal
+                    let codigoError = data3.CodigoError;                    
                     displayPrimaTotal = '';
                     let primaAna = data3.Cotizacion.PrimaTotal;
                     if (primaAna != null && isNaN(primaAna) == false) {
@@ -1026,8 +1076,7 @@ export class AcquireProductPage2 {
                     }
                     //}
                     callback();
-                }, err => {
-                    console.error('error', aseguradora, { url, err });
+                }, err => {                    
                     callback();
                 });
             } else if (aseguradora === 'AXA' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
@@ -1111,15 +1160,11 @@ export class AcquireProductPage2 {
             } else if (aseguradora === 'GNP') {
 
                 var primaGNP = '';
-                this.http.get(url).map(res3 => res3.json()).subscribe(data3 => {
+                this.http.get(url).map(res3 => res3.json()).subscribe(data3 => {     
+                    
+                    console.warn('GNP', data3);
 
-                    console.warn('GNP data', { data3 });
-
-                    let codigoError = data3.CodigoError;
-                    //if (codigoError != null) {
-                    console.error({ codigoError });
-                    //} else {
-                    //para la primatotal
+                    let codigoError = data3.CodigoError;                    
                     primaGNP = data3.Cotizacion.PrimaTotal;
                     displayPrimaTotalInt = Math.ceil(parseInt(primaGNP));
                     displayPrimaTotal = this.formatPrice(displayPrimaTotalInt);
@@ -1165,8 +1210,7 @@ export class AcquireProductPage2 {
                     });
                     //}                        
                     callback();
-                }, err => {
-                    console.error('error', aseguradora, { url, err });
+                }, err => {                    
                     callback();
                 });
             } else if (aseguradora === 'GREAT' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
@@ -1197,14 +1241,9 @@ export class AcquireProductPage2 {
                 callback();
             } else if (aseguradora === 'HDI') {
 
-                this.http.get(url).timeout(500000).map(res3 => res3.json()).subscribe(data3 => {
+                this.http.get(url).timeout(500000).map(res3 => res3.json()).subscribe(data3 => {                    
 
-                    console.log('HDI data', { data3 });
-
-                    let codigoError = data3.CodigoError;
-                    //if (codigoError != null) {
-                    console.error({ codigoError });
-                    //} else {
+                    let codigoError = data3.CodigoError;                    
 
                     //para la primatotal
                     displayPrimaTotal = '';
@@ -1277,8 +1316,7 @@ export class AcquireProductPage2 {
                     });
                     //}
                     callback();
-                }, err => {
-                    console.error('error', aseguradora, { url, err });
+                }, err => {                    
                     callback();
                 });
             } else if (aseguradora === 'MAPFRE' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
@@ -1337,8 +1375,7 @@ export class AcquireProductPage2 {
             } else {
                 callback();
             }
-        }, err => {
-            console.error('error', aseguradora, { url, err });
+        }, err => {            
             callback();
         });
     }
@@ -2365,7 +2402,7 @@ export class AcquireProductPage2 {
                     this.calcRFCYTitular();
                     errors = !_this.validateTab(1);
                     if (errors == false) {
-                        _this.getBuscar();
+                        //_this.getBuscar();
                     }
                 }
                 stepsElem.innerHTML = "Paso 2 de 5";

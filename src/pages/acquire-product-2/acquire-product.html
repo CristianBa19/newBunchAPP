@@ -36,90 +36,120 @@
                         </ion-col>            
                     </ion-row>
                 </ion-col>
-            </ion-row>
+            </ion-row>            
 
-            <ion-row class="m-input">
+            <!--<ion-row class="m-input" (tap)="showAlertCP1()">
                 <ion-col col-12>                                    
                     <ion-row class="m-input-label">
                         <ion-col col-12>Código Postal</ion-col>
                     </ion-row>
                     <ion-row class="m-input-value">
-                        <ion-col col-12>79050</ion-col>
+                        <ion-col col-12>
+                            {{codigoPostal1}}
+                        </ion-col>
                     </ion-row>
                     <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
                 </ion-col>                                
-            </ion-row>    
+            </ion-row>-->
 
-            <ion-row class="m-input">
-                <ion-col col-12>                                    
+            <ion-row class="m-input" (tap)="showAlertCP1()">
+                <ion-col col-11>                                    
+                    <ion-row class="m-input-label">
+                        <ion-col col-12>Código Postal</ion-col>
+                    </ion-row>
+                    <ion-row class="m-input-value">
+                        <ion-col col-12>
+                            {{codigoPostal1}}
+                        </ion-col>
+                    </ion-row>                    
+                </ion-col>    
+                <ion-col col-1>
+                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
+                </ion-col>                            
+            </ion-row>
+
+            <ion-row class="m-input" (tap)="showAlertEdad()">
+                <ion-col col-11>                                    
                     <ion-row class="m-input-label">
                         <ion-col col-12>Edad</ion-col>
                     </ion-row>
                     <ion-row class="m-input-value">
-                        <ion-col col-12>31 años</ion-col>
-                    </ion-row>
+                        <ion-col col-12>{{edadTxt}}</ion-col>
+                    </ion-row>                    
+                </ion-col>    
+                <ion-col col-1>
                     <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                
+                </ion-col>                                                        
             </ion-row>    
 
-            <ion-row class="m-input">
-                <ion-col col-12>                                    
+            <ion-row class="m-input" (tap)="showAlertMarca()">
+                <ion-col col-11>                                    
                     <ion-row class="m-input-label">
                         <ion-col col-12>Marca</ion-col>
                     </ion-row>
                     <ion-row class="m-input-value">
-                        <ion-col col-12>Chevrolet</ion-col>
-                    </ion-row>
+                        <ion-col col-12>{{marca}}</ion-col>
+                    </ion-row>                    
+                </ion-col>    
+                <ion-col col-1>
                     <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                
+                </ion-col>                                                        
             </ion-row>    
 
-            <ion-row class="m-input">
-                <ion-col col-12>                                    
+            <ion-row class="m-input" (tap)="showAlertModelo()" id="inputModelo">
+                <ion-col col-11>                                    
                     <ion-row class="m-input-label">
                         <ion-col col-12>Modelo</ion-col>
                     </ion-row>
                     <ion-row class="m-input-value">
-                        <ion-col col-12>2014</ion-col>
-                    </ion-row>
+                        <ion-col col-12>{{modelo}}</ion-col>
+                    </ion-row>                    
+                </ion-col>    
+                <ion-col col-1>
                     <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                
+                </ion-col>                                                        
             </ion-row>    
 
-            <ion-row class="m-input">
-                <ion-col col-12>                                    
+            <ion-row class="m-input" (tap)="showAlertSubMarca()" id="inputSubMarca">
+                <ion-col col-11>                                    
                     <ion-row class="m-input-label">
                         <ion-col col-12>Submarca</ion-col>
                     </ion-row>
                     <ion-row class="m-input-value">
-                        <ion-col col-12>Aveo</ion-col>
-                    </ion-row>
+                        <ion-col col-12>{{subMarca}}</ion-col>
+                    </ion-row>                    
+                </ion-col>    
+                <ion-col col-1>
                     <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                
+                </ion-col>                                                        
             </ion-row>    
 
-            <ion-row class="m-input">
-                <ion-col col-12>                                    
+            <ion-row class="m-input" (tap)="showAlertDescripcion()" id="inputDescripcion">
+                <ion-col col-11>                                    
                     <ion-row class="m-input-label">
                         <ion-col col-12>Descripción</ion-col>
                     </ion-row>
                     <ion-row class="m-input-value">
-                        <ion-col col-12>Lorem Ipsum Dolor</ion-col>
-                    </ion-row>
+                        <ion-col col-12>{{descripcion}}</ion-col>
+                    </ion-row>                    
+                </ion-col>    
+                <ion-col col-1>
                     <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                
+                </ion-col>                                                        
             </ion-row>    
 
-            <ion-row class="m-input">
-                <ion-col col-12>                                    
+            <ion-row class="m-input" (tap)="showAlertSubDescripcion()" id="inputSubDescripcion">
+                <ion-col col-11>                                    
                     <ion-row class="m-input-label">
                         <ion-col col-12>SubDescripción</ion-col>
                     </ion-row>
                     <ion-row class="m-input-value">
-                        <ion-col col-12>Sit amet</ion-col>
-                    </ion-row>
+                        <ion-col col-12>{{subDescripcion}}</ion-col>
+                    </ion-row>                    
+                </ion-col>    
+                <ion-col col-1>
                     <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                
+                </ion-col>
             </ion-row>           
             
             <ion-row class="m-button">
@@ -153,35 +183,25 @@
                 <ion-col col-12>
                     <p><span>Cobertura:</span> Amplia</p>
                     <p><span>Forma de Pago:</span> Mensual</p>
-                    <p>Volkswagen Jetta 2014</p>
+                    <p>{{marca}} {{subMarca}} {{modelo}}</p>
                 </ion-col>                
             </ion-row>
             
             <ion-row id="resultsContainer">
-                <ion-col col-12>
-                    <ion-row class="result" align-items-center (tap)="showStep(3)">
-                        <ion-col col-5>
-                            <img src="../../assets/icon/logo/asegurdoras-aba.svg">
-                        </ion-col>
-                        <ion-col col-5 class="result-amount">
-                            $7,500
-                        </ion-col>
-                        <ion-col col-2 class="result-arrow">
-                            <ion-icon name="ios-arrow-forward"></ion-icon>
-                        </ion-col>
-                    </ion-row>
-
-                    <ion-row class="result" align-items-center (tap)="showStep(3)">
-                        <ion-col col-5>
-                            <img src="../../assets/icon/logo/asegurdoras-ana.svg">
-                        </ion-col>
-                        <ion-col col-5 class="result-amount">
-                            $7,500
-                        </ion-col>
-                        <ion-col col-2 class="result-arrow">
-                            <ion-icon name="ios-arrow-forward"></ion-icon>
-                        </ion-col>
-                    </ion-row>
+                <ion-col col-12>                    
+                    <div class="resultado-aseguradora" *ngFor="let listItem of comparaList">
+                        <ion-row class="result" align-items-center (tap)="showStep(3, listItem)">
+                            <ion-col col-5>
+                                <img [src]="listItem.img"> <!--src="../../assets/icon/logo/asegurdoras-aba.svg"-->
+                            </ion-col>
+                            <ion-col col-5 class="result-amount">
+                                {{listItem.value}}
+                            </ion-col>
+                            <ion-col col-2 class="result-arrow">
+                                <ion-icon name="ios-arrow-forward"></ion-icon>
+                            </ion-col>
+                        </ion-row>
+                    </div>                    
                 </ion-col>
             </ion-row>
 
@@ -212,11 +232,11 @@
                 <ion-col col-9>
                     <p><span>Cobertura:</span> Amplia</p>
                     <p><span>Perioricidad de Pago:</span> Mensual</p>
-                    <p><span>Pago con:</span> Tarjeta de Crédito</p>
-                    <p><span>Costo total:</span> $7,500</p>                    
+                    <p><span>Pago con:</span> -</p>
+                    <p><span>Costo total:</span> {{cotizacion.monto}}</p>                    
                 </ion-col>     
                 <ion-col>
-                    <img src="../../assets/icon/logo/asegurdoras-aba.svg">
+                    <img [src]="cotizacion.logo">
                 </ion-col>           
             </ion-row>
             
@@ -239,10 +259,10 @@
                             Daños Materiales
                         </ion-col>
                         <ion-col col-4>
-                            $284,000
+                            {{cotizacion.danosMateriales.sumaAsegurada}}
                         </ion-col>
                         <ion-col col-4>
-                            5%
+                            {{cotizacion.danosMateriales.deducible}}
                         </ion-col>
                     </ion-row>
 
@@ -251,22 +271,22 @@
                             Robo Total
                         </ion-col>
                         <ion-col col-4>
-                            $284,000
+                            {{cotizacion.roboTotal.sumaAsegurada}}
                         </ion-col>
                         <ion-col col-4>
-                            10%
+                            {{cotizacion.roboTotal.deducible}}
                         </ion-col>
                     </ion-row>
 
                     <ion-row class="result" align-items-center>
                         <ion-col col-4>
-                            Daños Materiales
+                            Responsabilidad Civil
                         </ion-col>
                         <ion-col col-4>
-                            $3,000,000
+                            {{cotizacion.responsabilidadCivil.sumaAsegurada}}
                         </ion-col>
                         <ion-col col-4>
-                            -
+                            {{cotizacion.responsabilidadCivil.deducible}}
                         </ion-col>
                     </ion-row>
                 </ion-col>

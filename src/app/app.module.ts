@@ -72,6 +72,7 @@ import { ChatProvider } from '../providers/chat/chat';
 import { Splash } from '../pages/splash/splash';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { MInputComponent } from '../components/m-input/m-input';
 
 
 @NgModule({
@@ -122,6 +123,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
         DocumentDetailPage,
         PayPolicyPage,
         Splash,
+    MInputComponent,
     ],
     imports: [
         BrowserModule,
