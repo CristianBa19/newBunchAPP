@@ -219,7 +219,7 @@ export class AcquireProductPage {
         loader.present();
 
         this.storage.get('name').then((val) => {
-            this.idContVend = val;
+            this.idContVend = localStorage.idContVend;
 
             this.inputModelo = document.getElementById('inputModelo');
             this.inputSubMarca = document.getElementById('inputSubMarca');
@@ -2422,6 +2422,8 @@ export class AcquireProductPage {
         this.anioCot = vigencia[0];
         this.mesCot = vigencia[1];
         localStorage.Aseguradora=this.aseguradoraCot
+        localStorage.email=this.email
+        localStorage.idvend=this.idContVend
 		let consultaData				
         //checkpoint
         if (this.aseguradoraCot=="HDI"){
