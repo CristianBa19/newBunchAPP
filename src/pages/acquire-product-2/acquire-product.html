@@ -68,13 +68,13 @@
                 </ion-col>                            
             </ion-row>-->
 
-            <m-input label="Código Postal" [field]="codigoPostal1" (tap)="showAlertCP1()"></m-input>            
-            <m-input label="Edad" [field]="edadTxt" (tap)="showAlertEdad()"></m-input>
-            <m-input label="Marca" [field]="marca" (tap)="showAlertMarca()"></m-input>
-            <m-input label="Modelo" [field]="modelo" (tap)="showAlertModelo()" id="inputModelo"></m-input>
-            <m-input label="Submarca" [field]="subMarca" (tap)="showAlertSubMarca()" id="inputSubMarca"></m-input>            
-            <m-input label="Descripción" [field]="descripcion" (tap)="showAlertDescripcion()" id="inputDescripcion"></m-input>
-            <m-input label="SubDescripción" [field]="subDescripcion" (tap)="showAlertSubDescripcion()" id="inputSubDescripcion"></m-input>
+            <m-input label="Código Postal" id="codigoPostal1" [field]="codigoPostal1" (tap)="showAlertCP1()"></m-input>            
+            <m-input label="Edad" id="edad" [field]="edadTxt" (tap)="showAlertEdad()"></m-input>
+            <m-input label="Marca" id="marca" [field]="marca" (tap)="showAlertMarca()"></m-input>
+            <m-input label="Modelo" id="inputModelo" [field]="modelo" (tap)="showAlertModelo()" id="inputModelo"></m-input>
+            <m-input label="Submarca" id="inputSubMarca" [field]="subMarca" (tap)="showAlertSubMarca()" id="inputSubMarca"></m-input>            
+            <m-input label="Descripción" id="inputDescripcion" [field]="descripcion" (tap)="showAlertDescripcion()" id="inputDescripcion"></m-input>
+            <m-input label="SubDescripción" id="inputSubDescripcion" [field]="subDescripcion" (tap)="showAlertSubDescripcion()" id="inputSubDescripcion"></m-input>
             
             <ion-row class="m-button">
                 <ion-col col-3></ion-col>
@@ -258,15 +258,43 @@
                 </ion-col>
             </ion-row>
 
-            <m-input label="Email" [field]="email" (tap)="showAlertEmail()"></m-input>
-            <m-input label="Nombre" [field]="nombre" (tap)="showAlertNombre()"></m-input>
-            <m-input label="Apellido Paterno" [field]="paterno" (tap)="showAlertApellidoP()"></m-input>
-            <m-input label="Apellido Materno" [field]="materno" (tap)="showAlertApellidoM()"></m-input>            
-            <m-input label="Fecha de Nacimiento" [field]="fechaNacimiento"></m-input>
-            <m-input label="Género" [field]="genero" (tap)="showAlertGenero()"></m-input>
-            <m-input label="Teléfono de Casa" [field]="telCasa" (tap)="showAlertTelefonoCasa()"></m-input>
-            <m-input label="Teléfono de Casa" [field]="telCasa" (tap)="showAlertTelefonoCasa()"></m-input>
-            <m-input label="Teléfono Móvil" [field]="telMovil" (tap)="showAlertTelefonoMovil()"></m-input>
+            <m-input label="Email" id="email" [field]="email" (tap)="showAlertEmail()"></m-input>
+            <m-input label="Nombre" id="nombre" [field]="nombre" (tap)="showAlertNombre()"></m-input>
+            <m-input label="Apellido Paterno" id="paterno" [field]="paterno" (tap)="showAlertApellidoP()"></m-input>
+            <m-input label="Apellido Materno" id="materno" [field]="materno" (tap)="showAlertApellidoM()"></m-input>
+
+            <ion-row class="m-input" id="fechaNacimiento">
+                <ion-col col-11>                                    
+                    <ion-row class="m-input-label">
+                        <ion-col col-12>Fecha de Nacimiento</ion-col>
+                    </ion-row>
+                    <ion-row class="m-input-value">
+                        <ion-col col-12>
+                            <ion-datetime pickerFormat="YYYY MMMM DD" displayFormat="YYYY MMMM DD"  [monthNames]="datePickerNames.month" [(ngModel)]="fechaNacimiento" (ngModelChange)="fechaNacimientoChanged()" cancelText="CANCELAR" doneText="OK" max="{{maxYear}}"></ion-datetime>
+                        </ion-col>
+                    </ion-row>                    
+                </ion-col>    
+                <ion-col col-1>
+                    <ion-icon *ngIf="fechaNacimiento !== undefined && fechaNacimiento !== null" class="m-input-icon m-input-icon-ok" name="ios-checkmark-outline"></ion-icon>
+                    <ion-icon *ngIf="fechaNacimiento === null" class="m-input-icon m-input-icon-error" name="ios-close-outline"></ion-icon>
+                </ion-col>                            
+            </ion-row>
+
+            <m-input label="Género" [field]="genero" id="genero" (tap)="showAlertGenero()"></m-input>
+            <m-input label="Teléfono de Casa" id="telCasa" [field]="telCasa" (tap)="showAlertTelefonoCasa()"></m-input>            
+            <m-input label="Teléfono Móvil" id="telMovil" [field]="telMovil" (tap)="showAlertTelefonoMovil()"></m-input>
+            <m-input label="RFC" id="rfc" [field]="rfc" (tap)="showAlertRFC()"></m-input>
+            <m-input label="Código Postal" id="codigoPostal2" [field]="codigoPostal1"></m-input>
+            <m-input label="Colonia" id="colonia" [field]="colonia" (tap)="showAlertColony()"></m-input>
+            <m-input label="Estado" id="estado" [field]="estado"></m-input>
+            <m-input label="Delegación/Municipio" id="delegacion" [field]="delegacion"></m-input>
+            <m-input label="Calle" id="calle" [field]="calle" (tap)="showAlertCalle()"></m-input>
+            <m-input label="Número Exterior" id="numExterior" [field]="numExterior" (tap)="showAlertNoExt()"></m-input>
+            <m-input label="Número Interior" id="numInterior" [field]="numInterior" (tap)="showAlertNoInt()"></m-input>
+            <hr>
+            <m-input label="Número de Motor" id="numMotor" [field]="numMotor" (tap)="showAlertNumeroDeMotor()"></m-input>
+            <m-input label="Número de Serie" id="numSerie" [field]="numSerie" (tap)="showAlertNumeroDeSerie()"></m-input>
+            <m-input label="Número de Placas" id="numPlacas" [field]="numPlacas" (tap)="showAlertNumeroDePlacas()"></m-input>
             
             <ion-row class="m-button">
                 <ion-col col-3></ion-col>
@@ -297,22 +325,22 @@
             <ion-row class="lolo">
                 <ion-col col-12>
                     <p class="title">Datos personales</p>
-                    <p><span>Nombre:</span> Joaquín Ramos</p>
-                    <p><span>Email:</span> joaquin@gmail.com</p>
-                    <p><span>RFC:</span> CICM880930H12</p>
-                    <p><span>Tel. Celular:</span> (55) 2955 8232</p>
-                    <p><span>Código Postal:</span> 01234</p>
+                    <p><span>Nombre:</span> {{nombre}} {{paterno}} {{materno}}</p>
+                    <p><span>Email:</span> {{email}}</p>
+                    <p><span>RFC:</span> {{rfc}}</p>
+                    <p><span>Tel. Celular:</span> {{telMovil}}</p>
+                    <p><span>Código Postal:</span> {{codigoPostal1}}</p>
                 </ion-col>                
             </ion-row>
             <br>
             <ion-row class="lolo">
                 <ion-col col-12>
                     <p class="title">Datos del vehículo</p>
-                    <p><span>No. de Motor:</span> 1234123412</p>
-                    <p><span>No. Serie:</span> ABC123AAEE2121</p>
-                    <p><span>Placas:</span> XXX123</p>
-                    <p><span>Aseguradora:</span> GNP</p>
-                    <p><span>Prima:</span> $7,500</p>
+                    <p><span>No. de Motor:</span> {{numMotor}}</p>
+                    <p><span>No. Serie:</span> {{numSerie}}</p>
+                    <p><span>Placas:</span> {{numPlacas}}</p>
+                    <p><span>Aseguradora:</span> {{cotizacion.aseguradora}}</p>
+                    <p><span>Prima:</span> {{cotizacion.monto}}</p>
                 </ion-col>                
             </ion-row>
 
@@ -341,81 +369,48 @@
                 </ion-col>
             </ion-row>
 
-            <ion-row class="m-input">
-                <ion-col col-12>                                    
-                    <ion-row class="m-input-label">
-                        <ion-col col-12>Númro de tarjeta</ion-col>
-                    </ion-row>
-                    <ion-row class="m-input-value">
-                        <ion-col col-12>1234123412341234</ion-col>
-                    </ion-row>
-                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                
-            </ion-row>    
+            <m-input label="Número de Tarjeta" id="numTarjeta" [field]="numTarjeta" (tap)="showAlertTarjeta()"></m-input>
+            <m-input label="Tipo de Tarjeta" id="tipoTarjeta" [field]="tipoTarjeta"></m-input>
+            <m-input label="Titular" id="titular" [field]="titular" (tap)="showAlertTitular()"></m-input>
+            <m-input label="Banco" id="inputBank" [field]="banco" (tap)="showAlertBancos()"></m-input>            
 
-            <ion-row class="m-input">
-                <ion-col col-12>                                    
-                    <ion-row class="m-input-label">
-                        <ion-col col-12>Tipo de Tarjeta</ion-col>
-                    </ion-row>
-                    <ion-row class="m-input-value">
-                        <ion-col col-12>DEBITO</ion-col>
-                    </ion-row>
-                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                
-            </ion-row>    
+            <ion-row>
+                <ion-col col-12>
+                    <div>Carrier</div>                                    
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col col-12>
+                    <div class="button-bar">
+                        <a class="tarjetas"><img src="assets/img/Amex.svg" id="amex"></a>
+                        <a class="tarjetas"><img src="assets/img/MasterCard.svg" id="master"></a>
+                        <a class="tarjetas"><img src="assets/img/Visa.svg" id="visa"></a>
+                    </div> 
+                </ion-col>
+            </ion-row>                                            
 
-            <ion-row class="m-input">
-                <ion-col col-12>                                    
-                    <ion-row class="m-input-label">
-                        <ion-col col-12>Titular</ion-col>
-                    </ion-row>
-                    <ion-row class="m-input-value">
-                        <ion-col col-12>Martin Cisneros</ion-col>
-                    </ion-row>
-                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                
-            </ion-row>    
-
-            <ion-row class="m-input">
-                <ion-col col-12>                                    
-                    <ion-row class="m-input-label">
-                        <ion-col col-12>Banco</ion-col>
-                    </ion-row>
-                    <ion-row class="m-input-value">
-                        <ion-col col-12>Santander</ion-col>
-                    </ion-row>
-                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                
-            </ion-row>    
-
-            <ion-row class="m-input">
-                <ion-col col-12>                                    
+            <ion-row class="m-input" id="vigencia">
+                <ion-col col-11>                                    
                     <ion-row class="m-input-label">
                         <ion-col col-12>Vigencia</ion-col>
                     </ion-row>
                     <ion-row class="m-input-value">
-                        <ion-col col-12>11/30</ion-col>
-                    </ion-row>
-                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                
-            </ion-row>    
+                        <ion-col col-12>
+                            <ion-datetime pickerFormat="MMM YY" displayFormat="MM/YY" min="2017" max="2030" [monthNames]="datePickerNames.month" [(ngModel)]="vigencia" cancelText="CANCELAR" doneText="OK"></ion-datetime>
+                        </ion-col>
+                    </ion-row>                    
+                </ion-col>    
+                <ion-col col-1>
+                    <ion-icon *ngIf="vigencia !== undefined && vigencia !== null" class="m-input-icon m-input-icon-ok" name="ios-checkmark-outline"></ion-icon>
+                    <ion-icon *ngIf="vigencia === null" class="m-input-icon m-input-icon-error" name="ios-close-outline"></ion-icon>
+                </ion-col>                            
+            </ion-row>
 
-            <ion-row class="m-input">
-                <ion-col col-12>                                    
-                    <ion-row class="m-input-label">
-                        <ion-col col-12>CVV</ion-col>
-                    </ion-row>
-                    <ion-row class="m-input-value">
-                        <ion-col col-12>0123</ion-col>
-                    </ion-row>
-                    <ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
-                </ion-col>                                
-            </ion-row>    
+            <m-input label="CVV" id="cvv" [field]="cvv" (tap)="showAlertCvv()"></m-input>
 
             <ion-row>
                 <ion-col col-12>                                    
-                    <input type="checkbox"> Acepto expresamente que se realicen los cobros de mi póliza a la tarjeta bancaria registrada y que los pagos subsecuentes sean domiciliados a la misma.
+                    <input type="checkbox" id="aceptoCobros"> Acepto expresamente que se realicen los cobros de mi póliza a la tarjeta bancaria registrada y que los pagos subsecuentes sean domiciliados a la misma.
                 </ion-col>                                
             </ion-row>           
             

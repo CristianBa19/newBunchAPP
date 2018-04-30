@@ -32,7 +32,7 @@ export class AcquireProductPage2 {
     data: string;
 
     private toast:any;    
-    private cotizacion = {monto:0, logo: '', responsabilidadCivil: {sumaAsegurada: '', deducible: ''}, roboTotal: {sumaAsegurada: '', deducible: ''}, danosMateriales: {sumaAsegurada: '', deducible: ''}};
+    private cotizacion = {aseguradora: '',monto:0, logo: '', responsabilidadCivil: {sumaAsegurada: '', deducible: ''}, roboTotal: {sumaAsegurada: '', deducible: ''}, danosMateriales: {sumaAsegurada: '', deducible: ''}};
 
     private currentStep:number = 1;
     public step:number = 1;
@@ -195,7 +195,8 @@ export class AcquireProductPage2 {
             that.cotizacion.danosMateriales.sumaAsegurada = obj.danosMateriales;
             that.cotizacion.danosMateriales.deducible = obj.danosMaterialesD;
             that.cotizacion.roboTotal.sumaAsegurada = obj.roboTotal;
-            that.cotizacion.roboTotal.deducible = obj.roboTotalD;            
+            that.cotizacion.roboTotal.deducible = obj.roboTotalD;   
+            that.cotizacion.aseguradora = obj.asegur;         
         }
         
         if (errors == true) {
@@ -206,6 +207,7 @@ export class AcquireProductPage2 {
         } else {
             this.step = stepIndex;
             this.currentStep = stepIndex;
+            this.content.scrollToTop();
 
             if (this.step == 2) {            
                 this.cotizar(undefined, 0, function() {
@@ -496,6 +498,13 @@ export class AcquireProductPage2 {
         });
     }
 
+    scrollToElement(elementId:string):void {
+        let x = document.getElementById(elementId);        
+        if (x != null) {
+            x.scrollIntoView();
+        }        
+    }
+
     showAlertCP1() {
 
 
@@ -503,17 +512,17 @@ export class AcquireProductPage2 {
             title = this.isEnglish ? 'Input ZIP code' : 'Código Postal',
             options = [{ type: 'number', name: 'codigoPostal1', value: this.codigoPostal1, min: 3, max: 5 }];
 
-        this.showAlert(title, options, function (data) {
-            console.warn('len', data.codigoPostal1.trim().length);
-            if (data.codigoPostal1.trim().length == 0) {
-                that.codigoPostal1 = null;
-                console.log('ahora es null', that.codigoPostal1);
+        this.showAlert(title, options, function(data) {
+            that.scrollToElement('codigoPostal1');
+            let cp = data.codigoPostal1.trim();            
+            if (cp.length == 0) {
+                that.codigoPostal1 = null;                
                 that.codigoPostal2 = null;
                 that.userColonyList = [];
-                that.showToast('Código postal inválido');                
+                that.showToast('Código postal inválido');
                 that.showAlertCP1();
             } else {
-                that.processPostalCode(data.codigoPostal1);
+                that.processPostalCode(cp);
             }            
         });
     }
@@ -557,7 +566,7 @@ export class AcquireProductPage2 {
                 });
             }
         });
-    }
+    }    
 
     showAlertEdad() {
 
@@ -575,9 +584,16 @@ export class AcquireProductPage2 {
             });
         }
 
-        this.showAlert(title, options, function (data) {
-            that.edad = data;
-            that.edadTxt = `${that.edad} años`;
+        this.showAlert(title, options, function(edad) {
+            that.scrollToElement('edad');            
+            edad = edad.trim();
+            if (edad.length == 0) {
+                that.edad = null;
+                that.edadTxt = null;
+            } else {
+                that.edad = edad;
+                that.edadTxt = `${that.edad} años`;
+            }                        
         });
     }
 
@@ -597,8 +613,14 @@ export class AcquireProductPage2 {
             });
         }
 
-        this.showAlert(title, options, function (data) {
-            that.marca = data;
+        this.showAlert(title, options, function(marca) {
+            that.scrollToElement('marca');
+            marca = marca.trim();
+            if (marca.length == 0) {
+                that.marca = null;
+            } else {
+                that.marca = marca;
+            }            
             that.modelo = undefined;
             that.subMarca = undefined;
             that.descripcion = undefined;
@@ -612,7 +634,7 @@ export class AcquireProductPage2 {
             that.loadInputData('inputModelo');
         });
     }
-
+    
     showAlertModelo() {
 
         if (this.hasClass(this.inputModelo, 'disabled')) { return; }
@@ -631,8 +653,14 @@ export class AcquireProductPage2 {
             });
         }
 
-        this.showAlert(title, options, function (data) {
-            that.modelo = data;
+        this.showAlert(title, options, function(modelo) {
+            that.scrollToElement('inputModelo');
+            modelo = modelo.trim();
+            if (modelo.length == 0) {
+                that.modelo = null;
+            } else {
+                that.modelo = modelo;
+            }            
             that.subMarca = undefined;
             that.descripcion = undefined;
             that.subDescripcion = undefined;
@@ -663,8 +691,14 @@ export class AcquireProductPage2 {
             });
         }
 
-        this.showAlert(title, options, function (data) {
-            that.subMarca = data;
+        this.showAlert(title, options, function(subMarca) {
+            that.scrollToElement('inputSubMarca');
+            subMarca = subMarca.trim();
+            if (subMarca.length == 0){
+                that.subMarca = null;
+            } else {
+                that.subMarca = subMarca;
+            }            
             that.descripcion = undefined;
             that.subDescripcion = undefined;
 
@@ -673,7 +707,7 @@ export class AcquireProductPage2 {
 
             that.loadInputData('inputDescripcion');
         });
-    }
+    }    
 
     showAlertDescripcion() {
 
@@ -691,13 +725,19 @@ export class AcquireProductPage2 {
             });
         }
 
-        this.showAlert('Descripción', options, function (data) {
-            that.descripcion = data;
+        this.showAlert('Descripción', options, function(descripcion) {
+            that.scrollToElement('inputDescripcion');
+            descripcion = descripcion.trim();
+            if (descripcion.length == 0) {
+                that.descripcion = null;
+            } else {
+                that.descripcion = descripcion;
+            }            
             that.subDescripcion = undefined;
             /*that.inputSubDescripcion.classList.add('disabled');*/
             that.loadInputData('inputSubDescripcion');
         });
-    }
+    }    
 
     showAlertSubDescripcion() {
 
@@ -715,11 +755,18 @@ export class AcquireProductPage2 {
             });
         }
 
-        this.showAlert('Subdescripción', options, function (data) {
-            console.log('subDescripcion', data);
-            that.subDescripcion = data;
+        this.showAlert('Subdescripción', options, function(subDescripcion) {
+            that.scrollToElement('inputSubDescripcion');
+            subDescripcion = subDescripcion.trim();
+            if (subDescripcion.length == 0) {
+                that.subDescripcion = null;
+            } else {
+                that.subDescripcion = subDescripcion;
+            }            
         });
     }
+
+    //--------------------------------------
 
     showAlertColony() {
         if (this.isEnabledTipo3Dir == true) {
@@ -1411,7 +1458,7 @@ export class AcquireProductPage2 {
             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             if (re.test(String(email).toLowerCase()) !== true) {
                 that.showToast('Email no válido');
-                that.email = undefined;                
+                that.email = null;
             } else {
                 that.email = data.email;
 
@@ -1501,13 +1548,13 @@ export class AcquireProductPage2 {
                 title = this.isEnglish ? 'Input name' : 'Nombre',
                 options = [{ name: 'nombre', id: 'nombre', value: this.nombre }];
 
-            this.showAlert(title, options, function (data) {
+            this.showAlert(title, options, function(data) {
                 let nombre = data.nombre.trim().toUpperCase();
                 if (that.validName(nombre)) {
                     that.nombre = nombre;    
                     that.calcRFCYTitular();
                 } else {
-                    that.nombre = undefined;
+                    that.nombre = null;
                 }
             });
         }
@@ -1515,7 +1562,14 @@ export class AcquireProductPage2 {
 
     calcRFCYTitular() {
         let that = this;
-        if (that.nombre != undefined && that.paterno != undefined && that.materno != undefined && that.fechaNacimiento != undefined) {
+        if (that.nombre !== undefined && 
+            that.paterno !== undefined && 
+            that.materno !== undefined && 
+            that.fechaNacimiento !== undefined &&
+            that.nombre !== null && 
+            that.paterno !== null && 
+            that.materno !== null && 
+            that.fechaNacimiento !== null) {
             //that.calcHC();
             that.titular = `${that.nombre} ${that.paterno} ${that.materno}`.toUpperCase();
         }
@@ -1534,7 +1588,7 @@ export class AcquireProductPage2 {
                     that.paterno = paterno;    
                     that.calcRFCYTitular();
                 } else {
-                    that.paterno = undefined;
+                    that.paterno = null;
                 }
             });
         }
@@ -1553,7 +1607,7 @@ export class AcquireProductPage2 {
                     that.materno = materno;    
                     that.calcRFCYTitular();
                 } else {
-                    that.materno = undefined;
+                    that.materno = null;
                 }
             });
         }
@@ -1582,7 +1636,11 @@ export class AcquireProductPage2 {
 
             this.showAlert(title, options, function (data) {
                 let genero = data.trim();
-                that.genero = (genero.length == 0) ? undefined : genero;
+                if (genero.length == 0) {
+                    that.genero = null;
+                } else {
+                    that.genero = genero;
+                }                
             });
         }
     }
@@ -1617,9 +1675,87 @@ export class AcquireProductPage2 {
             options = [{ name: 'titular', id: 'titular', value: this.titular }];
 
         this.showAlert(title, options, function (data) {
-            that.titular = data.titular.toUpperCase();
+            let titular = data.titular.trim().toUpperCase();
+            if (titular.length == 0) {
+                that.titular = null;
+            } else {
+                that.titular = titular;
+            }
         });
     }
+
+    showAlertTelefonoCasa() {
+
+        if (this.isEnabledTipo3 == true) {
+            let that = this,
+                title = this.isEnglish ? 'Input home number' : 'Teléfono de Casa',
+                options = [{
+                    type: 'tel',
+                    name: 'telCasa',
+                    id: 'telCasa',
+                    value: this.telCasa,
+                }];
+
+            this.showAlert(title, options, function (data) {
+
+                let tel = data.telCasa.trim();
+                if (tel.length >= 10) {
+                    that.telCasa = tel;
+                } else {
+                    that.telCasa = null;                    
+                    that.showToast('Teléfono de Casa inválido');                    
+                    that.showAlertTelefonoMovil();
+                }
+            });
+        }
+    }
+    showAlertTelefonoMovil() {
+
+        if (this.isEnabledTipo3 == true) {
+            let that = this,
+                title = this.isEnglish ? 'Input cellphone number' : 'Teléfono Móvil',
+                options = [{
+                    type: 'tel',
+                    name: 'telMovil',
+                    id: 'telMovil',
+                    value: this.telMovil,
+                }];
+
+            this.showAlert(title, options, function (data) {
+                let tel = data.telMovil.trim();
+                if (tel.length >= 10) {
+                    that.telMovil = tel;
+                } else {                
+                    that.telMovil = null;    
+                    that.showToast('Teléfono Móvil inválido');                    
+                    that.showAlertTelefonoMovil();
+                }
+            });
+        }
+    }
+
+    showAlertRFC(value, mode, modelList = [], massage = "") {
+        if (this.isEnabledTipo3 == true) {
+
+            let title = this.isEnglish ? 'Choose your ID' : 'RFC',
+                that = this,
+                options = [{
+                    name: 'rfc',
+                    id: 'rfc',
+                    value: this.rfc,
+                }];
+
+            this.showAlert(title, options, function (data) {
+                let rfc = data.rfc.trim().toUpperCase();
+                if (rfc.length == 0) {
+                    that.rfc = null;
+                } else {
+                    that.rfc = rfc;
+                }
+            });
+        }
+    }
+
     tipoTres(valor) {
         let that = this;
         var testRadioOpen = false;
@@ -1688,72 +1824,7 @@ export class AcquireProductPage2 {
             }
         });
         alert.present();
-    }
-
-    showAlertTelefonoCasa() {
-
-        if (this.isEnabledTipo3 == true) {
-            let that = this,
-                title = this.isEnglish ? 'Input home number' : 'Teléfono de Casa',
-                options = [{
-                    type: 'tel',
-                    name: 'telCasa',
-                    id: 'telCasa',
-                    value: this.telCasa,
-                }];
-
-            this.showAlert(title, options, function (data) {
-
-                let tel = data.telCasa.trim();
-                if (tel.length >= 10) {
-                    that.telCasa = tel;
-                } else {                    
-                    that.showToast('Teléfono de Casa inválido');                    
-                    that.showAlertTelefonoMovil();
-                }
-            });
-        }
-    }
-    showAlertTelefonoMovil() {
-
-        if (this.isEnabledTipo3 == true) {
-            let that = this,
-                title = this.isEnglish ? 'Input cellphone number' : 'Teléfono Móvil',
-                options = [{
-                    type: 'tel',
-                    name: 'telMovil',
-                    id: 'telMovil',
-                    value: this.telMovil,
-                }];
-
-            this.showAlert(title, options, function (data) {
-                let tel = data.telMovil.trim();
-                if (tel.length >= 10) {
-                    that.telMovil = tel;
-                } else {                    
-                    that.showToast('Teléfono Móvil inválido');                    
-                    that.showAlertTelefonoMovil();
-                }
-            });
-        }
-    }
-
-    showAlertRFC(value, mode, modelList = [], massage = "") {
-        if (this.isEnabledTipo3 == true) {
-
-            let title = this.isEnglish ? 'Choose your ID' : 'RFC',
-                that = this,
-                options = [{
-                    name: 'rfc',
-                    id: 'rfc',
-                    value: this.rfc,
-                }];
-
-            this.showAlert(title, options, function (data) {
-                that.rfc = data.rfc.toUpperCase();
-            });
-        }
-    }
+    }    
 
     //'numInput', userPostalCode, [], 
     /*showAlertCodigoPostal() {
