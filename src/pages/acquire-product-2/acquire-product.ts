@@ -201,6 +201,16 @@ export class AcquireProductPage2 {
         this.getCardInfo(this.numTarjeta);        
     }
 
+    private validVars(fields:string[]) {        
+        for (let i = 0, len = fields.length; i < len; i++) {
+            if (this[fields[i]] === undefined || this[fields[i]] === null) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public showStep(stepIndex:number, obj:any = undefined):void {
 
         console.warn('showStep', {stepIndex, 'currentStep': this.currentStep, 'step': this.step});
@@ -213,13 +223,7 @@ export class AcquireProductPage2 {
         loader.present();
 
         if (currentStep == 1) {
-            let fields = ['codigoPostal1', 'edad', 'marca', 'modelo', 'subMarca', 'descripcion', 'subDescripcion'];
-            for (let i = 0, len = fields.length; i < len; i++) {
-                if (this[fields[i]] === undefined || this[fields[i]] === null) {
-                    errors = true;
-                    break;
-                }
-            }            
+            errors = !this.validVars(['codigoPostal1', 'edad', 'marca', 'modelo', 'subMarca', 'descripcion', 'subDescripcion']);
         } else if (currentStep == 2) {            
             that.cotizacion.monto = obj.value;
             that.cotizacion.logo = obj.img;
@@ -232,28 +236,9 @@ export class AcquireProductPage2 {
             that.cotizacion.aseguradora = obj.asegur;         
         } else if (currentStep == 4) {
 
-            let fields = ['email', 'nombre', 'paterno', 'materno', 'fechaNacimiento', 'genero', 'telCasa', 'telMovil', 'rfc', 'colonia', 'estado', 'delegacion', 'calle', 'numExterior', 'numMotor', 'numSerie', 'numPlacas'];
-            for (let i = 0, len = fields.length; i < len; i++) {
-                if (this[fields[i]] === undefined || this[fields[i]] === null) {
-                    errors = true;
-                    break;
-                }
-            }            
-        } else if (currentStep == 6) {
-
-            let fields = ['numTarjeta', 'titular', 'cvv', 'vigencia', 'carrierCot', 'tipoCot', 'banco', 'tipoTarjeta'];
-            for (let i = 0, len = fields.length; i < len; i++) {
-                if (this[fields[i]] === undefined || this[fields[i]] === null) {
-                    errors = true;
-                    break;
-                }
-            }
-            
-            if (document.getElementById('aceptoCobros')['checked'] == false) {
-                errors = true;
-            }
+            errors = !this.validVars(['email', 'nombre', 'paterno', 'materno', 'fechaNacimiento', 'genero', 'telCasa', 'telMovil', 'rfc', 'colonia', 'estado', 'delegacion', 'calle', 'numExterior', 'numMotor', 'numSerie', 'numPlacas']);
         }
-        console.warn({errors});
+        
         if (errors == true) {
             loader.dismiss();
             loader.onDidDismiss(() => {
@@ -2627,19 +2612,20 @@ export class AcquireProductPage2 {
     }
 
     //para mandar el pago
-    goPaymentSubmitedPage() {
-
-        console.log('goPaymentSubmitedPage');
-        console.log('rfc', this.rfc);
+    pay() {
 
         let loader = this.loadingCtrl.create(),
             that = this;
 
-        loader.present();
+        loader.present();        
 
-        if (this.validateTab(5) == false) {
+        let checkboxChecked = document.getElementById('aceptoCobros')['checked'];            
+
+        if (this.validVars(['numTarjeta', 'titular', 'cvv', 'vigencia', 'carrierCot', 'tipoCot', 'banco', 'tipoTarjeta']) == false || checkboxChecked == false) {
             loader.dismiss();
-            that.showToast('Falta completar los campos');
+            loader.onDidDismiss(() => {
+                that.showToast('Falta completar los campos');
+            });            
             return;
         }
 
@@ -2836,26 +2822,38 @@ export class AcquireProductPage2 {
 
         console.log({string, encodedString, url});
 
-        this.http.get(url).map(res => res.json()).subscribe(data => {
+        this.http.get(url).map(res => res.json()).subscribe(data => {            
             loader.dismiss();
-            console.log('success!', data);
-            if (data.Emision.Poliza == null || data.Emision.Poliza == "") {                
-                this.showToast(data.codigoError);                
-                this.navCtrl.push(errorPage, { prevPage: this.prevPage }, { animate: true });
-            } else {
-                localStorage.Poliza = data.Emision.Poliza
-                this.navCtrl.push(PaymentSubmittedPage2, { prevPage: this.prevPage }, { animate: true });
-            }
+            loader.onDidDismiss(() => {
+                console.log({data});
+                if (data.Emision.Poliza == null || data.Emision.Poliza == '') {
+                    //this.showToast(data.codigoError);                
+                    //this.navCtrl.push(errorPage, { prevPage: this.prevPage }, { animate: true });
+                    that.step = 8;
+                    that.currentStep = 8;
+                } else {
+                    localStorage.Poliza = data.Emision.Poliza
+                    //this.navCtrl.push(PaymentSubmittedPage2, { prevPage: this.prevPage }, { animate: true });
+                    that.step = 7;
+                    that.currentStep = 7;
+                }
+            });                        
         }, err => {
             loader.dismiss();
-            that.showToast('Error');
-            this.navCtrl.push(errorPage, { prevPage: this.prevPage }, { animate: true });
-            console.log({ err });
+            loader.onDidDismiss(() => {
+                console.log({ err });
+                that.step = 8;
+                that.currentStep = 8;
+            });
+            //that.showToast('Error');
+            //this.navCtrl.push(errorPage, { prevPage: this.prevPage }, { animate: true });            
         });
+    
     }
     goToDocumentDetailPage() {
         this.navCtrl.push(DocumentDetailPage);
     }
+
     goToPayPolicyPage() {
         let modal = this.modalCtrl.create(PaymentSubmittedPage2);
         modal.onDidDismiss(data => {
