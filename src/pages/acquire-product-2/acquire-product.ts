@@ -172,6 +172,9 @@ export class AcquireProductPage2 {
     }
 
     public showStep(stepIndex:number, obj:any = undefined):void {
+
+        console.warn('showStep', {stepIndex, 'currentStep': this.currentStep, 'step': this.step});
+
         let currentStep = this.currentStep,
             errors = false,
             that = this;
@@ -220,22 +223,47 @@ export class AcquireProductPage2 {
                 errors = true;
             }
         }
-        
+        console.warn({errors});
         if (errors == true) {
             loader.dismiss();
             loader.onDidDismiss(() => {
                 that.showAlert('Faltan campos por completar');
             });
-        } else {
-            this.step = stepIndex;
-            this.currentStep = stepIndex;
-            this.content.scrollToTop();
+        } else {            
 
-            if (this.step == 2) {            
+            if (this.currentStep == 1) {            
                 this.cotizar(undefined, 0, function() {
-                    loader.dismiss();                
+                    loader.dismiss();
+                    loader.onDidDismiss(() => {
+                        that.step = stepIndex;
+                        that.currentStep = stepIndex;
+                        that.content.scrollToTop();
+                    });
                 });            
+            } else if (this.currentStep == 4) {
+                this.crearCliente(function() {
+                    console.log('crearCliente success');
+                    //onSuccess
+                    loader.dismiss();
+                    loader.onDidDismiss(() => {
+                        that.step = stepIndex;
+                        that.currentStep = stepIndex;
+                        that.content.scrollToTop();
+                    });
+                }, function() {
+                    console.error('crearCliente error');
+                    //onError, lo deje igual a onSuccess porque considero que un error al crear cliente no deberia ser bloqueante
+                    loader.dismiss();
+                    loader.onDidDismiss(() => {
+                        that.step = stepIndex;
+                        that.currentStep = stepIndex;
+                        that.content.scrollToTop();
+                    });
+                });
             } else {
+                this.step = stepIndex;
+                this.currentStep = stepIndex;
+                this.content.scrollToTop();
                 loader.dismiss();
             }
         }        
@@ -2226,7 +2254,7 @@ export class AcquireProductPage2 {
                 this.pagoList[3].subText = (valor.RC).replace(/"|-N|-S|-D|RESPONSABILIDAD|CIVIL/g, '');
                 this.pagoList[4].subText = (valor.DefensaJuridica).replace(/"|-N|-S|-D|GASTOS|LEGALES/g, '');
                 this.pagoList[5].subText = (valor.GastosMedicosOcupantes).replace(/"|GASTOS|MEDICOS/g, '');
-                this.changeTab('Cliente');
+                //this.changeTab('Cliente');
             }
         });
         alert.present();
@@ -2371,17 +2399,15 @@ export class AcquireProductPage2 {
         }*/);
     }
 
-    crearCliente() {
+    crearCliente(success:any, error:any) {
+
+        console.log('crearCliente', this.createClient);
 
         if (this.createClient == false) {
             return;
-        }
-
-        console.log('crearCliente');
-
-        let loader = this.loadingCtrl.create();
-        loader.present();
-        this.numInterior = (this.numInterior == undefined) ? '' : this.numInterior;
+        }        
+        
+        let numInterior = (this.numInterior === null || this.numInterior === undefined) ? '' : this.numInterior;
         this.genero = this.genero.toUpperCase();
         this.calcRFCYTitular();
 
@@ -2392,14 +2418,19 @@ export class AcquireProductPage2 {
         this.http.get(url).map(res => res.json()).subscribe(data => {
             this.idCliCot = data.idCli;
             this.idDirCot = data.idDir;
-            this.idContCot = data.idCont;
-            loader.dismiss();
-            this.loadInputData('inputBank');
-        }, err => {
-            loader.dismiss();
-            console.error({ err });
+            this.idContCot = data.idCont;            
+            //this.loadInputData('inputBank');
+            if (success != undefined) {
+                success();
+            }            
+        }, err => {            
+            //console.error({ err });
             //alert('Error al crear usuario');
-            this.loadInputData('inputBank');
+            //this.loadInputData('inputBank');
+
+            if (error != undefined) {
+                error();
+            }
         });        
 
     }
@@ -2523,7 +2554,7 @@ export class AcquireProductPage2 {
         return true;
     }
 
-    //changeTab(tabName, tabFrom = '') {        
+    /*//changeTab(tabName, tabFrom = '') {        
     changeTab(tabName, validateTab: boolean = true) {
 
         let errors = false,
@@ -2572,7 +2603,8 @@ export class AcquireProductPage2 {
         } else {
             _this.showToast('Faltan campos por completar');            
         }
-    }
+    }*/
+    
     showProductoContinuarShown() {
         this.productoContinuarShown = true;
     }
@@ -2831,7 +2863,7 @@ export class AcquireProductPage2 {
 
         let validateTab = true;
         if (currentTabIndex - 1 >= 0) {
-            this.changeTab(this.tabs[currentTabIndex - 1], false);
+            //this.changeTab(this.tabs[currentTabIndex - 1], false);
         } else {
             this.navCtrl.pop();
         }
