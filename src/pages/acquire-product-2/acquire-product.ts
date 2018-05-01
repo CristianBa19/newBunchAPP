@@ -163,6 +163,7 @@ export class AcquireProductPage2 {
         this.codigoPostal1 = 79050;
         this.processPostalCode(this.codigoPostal1);
         this.edad = 22;
+        this.edadTxt = `${this.edad} años`;
         this.marca = 'CHEVROLET';
         this.modelo = '2014';
         this.subMarca = 'AVEO';
@@ -186,8 +187,7 @@ export class AcquireProductPage2 {
                     break;
                 }
             }            
-        } else if (currentStep == 2) {
-            console.log('selectedItem', obj);
+        } else if (currentStep == 2) {            
             that.cotizacion.monto = obj.value;
             that.cotizacion.logo = obj.img;
             that.cotizacion.responsabilidadCivil.sumaAsegurada = obj.RC;
@@ -197,6 +197,28 @@ export class AcquireProductPage2 {
             that.cotizacion.roboTotal.sumaAsegurada = obj.roboTotal;
             that.cotizacion.roboTotal.deducible = obj.roboTotalD;   
             that.cotizacion.aseguradora = obj.asegur;         
+        } else if (currentStep == 4) {
+
+            let fields = ['email', 'nombre', 'paterno', 'materno', 'fechaNacimiento', 'genero', 'telCasa', 'telMovil', 'rfc', 'colonia', 'estado', 'delegacion', 'calle', 'numExterior', 'numMotor', 'numSerie', 'numPlacas'];
+            for (let i = 0, len = fields.length; i < len; i++) {
+                if (this[fields[i]] === undefined || this[fields[i]] === null) {
+                    errors = true;
+                    break;
+                }
+            }            
+        } else if (currentStep == 6) {
+
+            let fields = ['numTarjeta', 'titular', 'cvv', 'vigencia', 'carrierCot', 'tipoCot', 'banco', 'tipoTarjeta'];
+            for (let i = 0, len = fields.length; i < len; i++) {
+                if (this[fields[i]] === undefined || this[fields[i]] === null) {
+                    errors = true;
+                    break;
+                }
+            }
+            
+            if (document.getElementById('aceptoCobros')['checked'] == false) {
+                errors = true;
+            }
         }
         
         if (errors == true) {
@@ -239,6 +261,15 @@ export class AcquireProductPage2 {
         this.numSerie = 'ZHWGE11S84LA00154';
         this.numPlacas = '7654321A';
     }
+
+    private fillPayment() {
+        this.numTarjeta = 4169160321185259;
+        this.titular = `${this.nombre} ${this.paterno} ${this.materno}`;
+        this.cvv = 123;
+        this.vigencia = '03-30';
+        document.getElementById('aceptoCobros')['checked'] = true;
+        this.getCardInfo(this.numTarjeta);        
+    }    
 
     getRandString() {
         var text = "";
@@ -1894,7 +1925,12 @@ export class AcquireProductPage2 {
             ];
 
         this.showAlert(title, options, function (data) {
-            that.cvv = data.cvv;
+            let cvv = data.cvv.trim();
+            if (cvv.length == 0) {
+                that.cvv = null;
+            } else {
+                that.cvv = cvv;
+            }            
         });
     }
 
@@ -1949,7 +1985,7 @@ export class AcquireProductPage2 {
                 that.numPlacas = data.numPlacas.toUpperCase();
             } else {
                 that.showToast('Placas no válidas');                
-                that.showAlertNumeroDeSerie();
+                that.showAlertNumeroDePlacas();
             }
         });
     }
@@ -2046,64 +2082,77 @@ export class AcquireProductPage2 {
                 }
             ];
 
-        this.showAlert(title, options, function (data) {
-            
-            let loader = that.loadingCtrl.create();
-            loader.present();
-
-            let scheme,
-                type,
-                bank;
-
-            that.numTarjeta = data.numTarjeta;            
-
-            that.http.get('https://lookup.binlist.net/' + data.numTarjeta).map(res => res.json()).subscribe(data => {
-
-                console.log({ data });
-
-                scheme = data.scheme.toUpperCase();
-                type = data.type;
-                bank = data.bank.name;
-                if (bank == undefined) {
-                    loader.dismiss();
-                    that.showToast('No se pudo validar el banco');                    
-                } else {
-
-                    //Para quitar caracteres especiales al banco y dejarlo en minus, pero con la primera letra en mayus
-                    bank = bank.toLowerCase();
-                    bank = bank.charAt(0).toUpperCase() + bank.slice(1);
-
-                    if (scheme === 'MASTERCARD') {
-                        that.carrierCot = '1';
-                        that.master();
-                    } else if (scheme === 'AMEX') {
-                        that.carrierCot = '2';
-                        that.amex();
-                    } else if (scheme === 'VISA') {
-                        that.carrierCot = '0';
-                        that.visa();
-                    }
-
-                    //conversion a espanol lo que devuelve el ws
-                    if (type === 'CREDIT') {
-                        type = 'CREDITO';
-                        that.tipoCot = 'CREDITO';
-                    } else {
-                        type = 'DEBITO';
-                        that.tipoCot = 'DEBITO';
-                    }
-
-                    that.tipoTarjeta = type;
-                    that.banco = bank;
-                    loader.dismiss();
-                }
-            }, err => {
-                loader.dismiss();
-                console.error({ err });
-                that.showToast('No se pudo validar el banco');                
-            });
+        this.showAlert(title, options, function(data) {
+            let numTarjeta = data.numTarjeta.trim();
+            if (numTarjeta.length == 0) {
+                that.numTarjeta = null;
+            } else {
+                that.getCardInfo(numTarjeta);
+            }            
         });
     }    
+
+    private getCardInfo(numTarjeta:number) {
+        let that = this,
+            loader = that.loadingCtrl.create();
+            loader.present();
+
+        let scheme,
+            type,
+            bank;
+
+        that.numTarjeta = numTarjeta;            
+
+        that.http.get('https://lookup.binlist.net/' + numTarjeta).map(res => res.json()).subscribe(data => {
+
+            console.log({ data });
+
+            scheme = data.scheme.toUpperCase();
+            type = data.type;
+            bank = data.bank.name;
+            if (bank == undefined) {
+                loader.dismiss();
+                that.showToast('No se pudo validar el banco');                    
+            } else {
+
+                //Para quitar caracteres especiales al banco y dejarlo en minus, pero con la primera letra en mayus
+                bank = bank.toLowerCase();
+                bank = bank.charAt(0).toUpperCase() + bank.slice(1);
+
+                if (scheme === 'MASTERCARD') {
+                    that.carrierCot = '1';
+                    that.master();
+                } else if (scheme === 'AMEX') {
+                    that.carrierCot = '2';
+                    that.amex();
+                } else if (scheme === 'VISA') {
+                    that.carrierCot = '0';
+                    that.visa();
+                }
+
+                //conversion a espanol lo que devuelve el ws
+                if (type === 'CREDIT') {
+                    type = 'CREDITO';
+                    that.tipoCot = 'CREDITO';
+                } else {
+                    type = 'DEBITO';
+                    that.tipoCot = 'DEBITO';
+                }
+
+                that.tipoTarjeta = type;
+                that.banco = bank;
+                loader.dismiss();
+            }
+        }, err => {
+            that.carrierCot = null;
+            that.tipoCot = null;
+            that.banco = null;
+            that.tipoTarjeta = null;
+            loader.dismiss();
+            console.error({ err });
+            that.showToast('No se pudo validar el banco');                
+        });
+    }
 
     showAlertPrima(value, valor, mode, modelList = [], massage = "") {
         //this.alertSrv.showAlert(value, mode, modelList, massage);
