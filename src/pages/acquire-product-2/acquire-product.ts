@@ -171,6 +171,36 @@ export class AcquireProductPage2 {
         this.subDescripcion = 'PAQ A';
     }
 
+    private fillTab3() {
+        this.email = this.getRandString() + '@gamil.com';
+        this.nombre = 'isjasijsa';
+        this.paterno = 'osakasokas';
+        this.materno = 'aosjsaias';
+        this.fechaNacimiento = '1988-01-01';
+        this.genero = 'MASCULINO';
+        this.telCasa = '4811455468';
+        this.telMovil = '48114555466';
+        this.rfc = 'CICM880930P72';
+        this.colonia = 'TIPZEN';
+        this.estado = 'SAN LUIS POTOSI';
+        this.delegacion = 'CIUDAD VALLES';
+        this.calle = 'SAN LUIS';
+        this.numExterior = '23';
+        //this.numInterior = '';
+        this.numMotor = 'A1234567';
+        this.numSerie = 'ZHWGE11S84LA00154';
+        this.numPlacas = '7654321A';
+    }
+
+    private fillPayment() {
+        this.numTarjeta = 4169160321185259;
+        this.titular = `${this.nombre} ${this.paterno} ${this.materno}`;
+        this.cvv = 123;
+        this.vigencia = '03-30';
+        document.getElementById('aceptoCobros')['checked'] = true;
+        this.getCardInfo(this.numTarjeta);        
+    }
+
     public showStep(stepIndex:number, obj:any = undefined):void {
 
         console.warn('showStep', {stepIndex, 'currentStep': this.currentStep, 'step': this.step});
@@ -267,37 +297,7 @@ export class AcquireProductPage2 {
                 loader.dismiss();
             }
         }        
-    }
-
-    private fillTab3() {
-        this.email = this.getRandString() + '@gamil.com';
-        this.nombre = 'isjasijsa';
-        this.paterno = 'osakasokas';
-        this.materno = 'aosjsaias';
-        this.fechaNacimiento = '1988-01-01';
-        this.genero = 'MASCULINO';
-        this.telCasa = '4811455468';
-        this.telMovil = '48114555466';
-        this.rfc = 'CICM880930P72';
-        this.colonia = 'TIPZEN';
-        this.estado = 'SAN LUIS POTOSI';
-        this.delegacion = 'CIUDAD VALLES';
-        this.calle = 'SAN LUIS';
-        this.numExterior = '23';
-        this.numInterior = '';
-        this.numMotor = 'A1234567';
-        this.numSerie = 'ZHWGE11S84LA00154';
-        this.numPlacas = '7654321A';
-    }
-
-    private fillPayment() {
-        this.numTarjeta = 4169160321185259;
-        this.titular = `${this.nombre} ${this.paterno} ${this.materno}`;
-        this.cvv = 123;
-        this.vigencia = '03-30';
-        document.getElementById('aceptoCobros')['checked'] = true;
-        this.getCardInfo(this.numTarjeta);        
-    }    
+    }        
 
     getRandString() {
         var text = "";
@@ -1546,6 +1546,7 @@ export class AcquireProductPage2 {
                         case 1:
                             that.createClient = true;
                             console.log('email status 1');
+
                             that.isEnabled = true;
                             that.isEnabledTipo3 = true;
                             that.isEnabledTipo3Dir = true;
@@ -1553,15 +1554,28 @@ export class AcquireProductPage2 {
                         case 2:
                             that.createClient = false;
                             console.log('email status 2');
-                            //that.isEnabled = false;
+                            
+                            /*that.isEnabled = false;                            
+                            that.isEnabledTipo3 = true;
+                            that.isEnabledTipo3Dir = true;*/
+
+                            that.isEnabled = true;
                             that.isEnabledTipo3 = true;
                             that.isEnabledTipo3Dir = true;
+
+                            console.log('retrieveData A');
                             that.retrieveData();
                             break;
                         case 3:
+                            that.createClient = false;
                             console.log('email status 3');
-                            that.isEnabled = false;
-                            that.isEnabledTipo3 = false;
+                            
+                            /*that.isEnabled = false;
+                            that.isEnabledTipo3 = false;*/
+
+                            that.isEnabled = true;
+                            that.isEnabledTipo3 = true;
+                            that.isEnabledTipo3Dir = true;
 
                             encodedString = btoa(`id=${id}`);
                             url = `http://services.bunch.guru/WebService.asmx/ConsultarDirecciones?param=${encodedString}`;
@@ -1854,31 +1868,35 @@ export class AcquireProductPage2 {
                 testRadioOpen = false;
                 testRadioResult = data;
                 if (testRadioResult === 'Añadir nueva dirección') {
-                    that.createClient = true;
-                    //do something
+                    that.createClient = true;                    
                     this.isEnabledTipo3Dir = true;
                     this.isEnabled = false;
                     this.isEnabledTipo3 = false;
-                    this.retrieveData3();
-                }
-                else {
-                    this.isEnabledTipo3Dir = false;
-                    this.isEnabledTipo3 = false;
+                    console.log('retrieveData B');
+                    this.retrieveData();
+                } else {
+                    
+                    //this.isEnabledTipo3Dir = false;
+                    //this.isEnabledTipo3 = false;
+                    
                     var splitStr = testRadioResult.split(/\s+/);
                     var seleccion = splitStr[0];
                     var seleccionNum = (parseInt(seleccion)) - 1;
 
-                    let obj = valor[seleccionNum];
-                    console.warn('---->', obj);
+                    let obj = valor[seleccionNum];                    
                     that.calle = obj.Calle;
                     that.numExterior = obj.NoExt;
-                    that.numInterior = obj.NoInt;
+
+                    let numInterior = obj.NoInt.trim();
+                    that.numInterior = (numInterior.length == 0) ? undefined : numInterior;
+
                     that.colonia = obj.Colonia;
                     that.codigoPostal1 = obj.CodPostal;
                     that.delegacion = obj.Poblacion;
                     that.estado = obj.Ciudad;
-
-                    that.retrieveData3();
+                    
+                    console.log('retrieveData C');
+                    that.retrieveData();
                 }
             }
         });
@@ -2092,7 +2110,8 @@ export class AcquireProductPage2 {
                 ];
 
             this.showAlert(title, options, function (data) {
-                that.numInterior = data.numInterior;
+                let numInterior = data.numInterior.trim();                
+                that.numInterior = (numInterior.length == 0) ? null : numInterior;
             });
         }
     }
@@ -2354,17 +2373,20 @@ export class AcquireProductPage2 {
 
             //data.FechaNacimiento viene en formato: "9/30/1988 12:00:00 AM" y hay que ponerlo en formato: YYYY-MM-DD
             //por lo que realizamos esto:
-            let fechaNacimientoArr = data.FechaNacimiento.split('/');
-            let fechaNacimientoDia = fechaNacimientoArr[1];
-            if (+fechaNacimientoDia <= 9) {
-                fechaNacimientoDia = '0' + fechaNacimientoDia;
-            }
-            let fechaNacimientoMes = fechaNacimientoArr[0];
-            if (+fechaNacimientoMes <= 9) {
-                fechaNacimientoMes = '0' + fechaNacimientoMes;
-            }
-            let fechaNacimientoAnio = fechaNacimientoArr[2].substring(0, 4);
-            this.fechaNacimiento = `${fechaNacimientoAnio}-${fechaNacimientoMes}-${fechaNacimientoDia}`;
+            let fechaNacimiento = data.FechaNacimiento.trim();
+            if (fechaNacimiento.length > 0) {
+                let fechaNacimientoArr = fechaNacimiento.split('/');
+                let fechaNacimientoDia = fechaNacimientoArr[1];
+                if (+fechaNacimientoDia <= 9) {
+                    fechaNacimientoDia = '0' + fechaNacimientoDia;
+                }
+                let fechaNacimientoMes = fechaNacimientoArr[0];
+                if (+fechaNacimientoMes <= 9) {
+                    fechaNacimientoMes = '0' + fechaNacimientoMes;
+                }
+                let fechaNacimientoAnio = fechaNacimientoArr[2].substring(0, 4);
+                this.fechaNacimiento = `${fechaNacimientoAnio}-${fechaNacimientoMes}-${fechaNacimientoDia}`;
+            }            
 
             this.genero = data.Genero;
             this.telCasa = data.Telefono.split('|')[1];
@@ -2388,22 +2410,14 @@ export class AcquireProductPage2 {
         }, err => {
             console.error({ err });
         });
-    }
-
-    retrieveData3() {
-        this.retrieveData(/*function(data) {
-            that.rfc = data.RFC;
-            //that.nacionalidad = data.Nacionalidad;
-            //that.lugarNacimiento = data.LugarNacimiento;
-            that.telCasa = data.Telefono;
-        }*/);
-    }
+    }    
 
     crearCliente(success:any, error:any) {
 
         console.log('crearCliente', this.createClient);
 
         if (this.createClient == false) {
+            success(); //no necesitaba crearcliente pero llamo a success
             return;
         }        
         
@@ -2411,7 +2425,7 @@ export class AcquireProductPage2 {
         this.genero = this.genero.toUpperCase();
         this.calcRFCYTitular();
 
-        let string = 'nombre=' + this.nombre + '&app=' + this.paterno + '&apm=' + this.materno + '&genero=' + this.genero + '&edad=' + this.edad + '&email=' + this.email + '&telefono=' + this.telMovil + '&RFC=' + this.rfc + '&nacionalidad=MEXICANA&lugNacimiento=' + this.lugarNacimiento + '&cp=' + this.codigoPostal2 + '&calle=' + this.calle + '&noExt=' + this.numExterior + '&noInt=' + this.numInterior + '&colonia=' + this.colonia + '&delegacion=' + this.delegacion + '&estado=' + this.estado + '&telefono2=' + this.telCasa + '&fechaNac=' + this.fechaNacimiento + '&idContVend=' + this.idContVend,
+        let string = 'nombre=' + this.nombre + '&app=' + this.paterno + '&apm=' + this.materno + '&genero=' + this.genero + '&edad=' + this.edad + '&email=' + this.email + '&telefono=' + this.telMovil + '&RFC=' + this.rfc + '&nacionalidad=MEXICANA&lugNacimiento=' + this.lugarNacimiento + '&cp=' + this.codigoPostal2 + '&calle=' + this.calle + '&noExt=' + this.numExterior + '&noInt=' + numInterior + '&colonia=' + this.colonia + '&delegacion=' + this.delegacion + '&estado=' + this.estado + '&telefono2=' + this.telCasa + '&fechaNac=' + this.fechaNacimiento + '&idContVend=' + this.idContVend,
             encodedString = btoa(string),
             url = `http://services.bunch.guru/WebService.asmx/CrearCliente?param=${encodedString}`;
 
