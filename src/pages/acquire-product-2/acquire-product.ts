@@ -874,21 +874,35 @@ export class AcquireProductPage2 {
             aseguradoras = [],
             obj;
 
-        url = `http://test.alimx.mx/WebService.asmx/BuscarJSON?usuario=AhorraSeguros&password=Ah0rraS3guros2017&marca=${this.marca}&modelo=${this.modelo}&descripcion=${this.subMarca}&subdescripcion=${this.descripcion}&detalle=${this.subDescripcion}`;
+        url = 'http://services.bunch.guru/WebService.asmx/getAseguradoras';
         this.http.get(url).map(res => res.json()).subscribe(data => {
-            for (let i = 0, len = data.Catalogo.length; i < len; i++) {
-                obj = data.Catalogo[i];
-                aseguradora = obj.Aseguradora;
-                if (aseguradora.toUpperCase() != 'ZURICH' && aseguradora.toUpperCase() != 'BANORTE') {
-                    clave = obj.CatDescripciones[0].clave;
-                    descripcion = obj.CatDescripciones[0].Descripcion;
-                    aseguradoras.push({ aseguradora, clave, descripcion });
-                }                
-            }            
-            success(aseguradoras);
+            console.log({url, data});
+            let arr = [];
+            for (let i = 0, len = data.Aseguradoras.length; i < len; i++) {
+                arr.push(data.Aseguradoras[i].Aseguradora);
+            }                
+            console.warn({arr});
+
+            url = `http://test.alimx.mx/WebService.asmx/BuscarJSON?usuario=AhorraSeguros&password=Ah0rraS3guros2017&marca=${this.marca}&modelo=${this.modelo}&descripcion=${this.subMarca}&subdescripcion=${this.descripcion}&detalle=${this.subDescripcion}`;        
+            this.http.get(url).map(res => res.json()).subscribe(data => {
+                for (let i = 0, len = data.Catalogo.length; i < len; i++) {
+                    obj = data.Catalogo[i];
+                    aseguradora = obj.Aseguradora;                                        
+                    //if (aseguradora.toUpperCase() != 'ZURICH' && aseguradora.toUpperCase() != 'BANORTE') {
+                    if (arr.indexOf(aseguradora) !== -1) {
+                        clave = obj.CatDescripciones[0].clave;
+                        descripcion = obj.CatDescripciones[0].Descripcion;
+                        aseguradoras.push({ aseguradora, clave, descripcion });
+                    }                
+                } 
+                console.log({aseguradoras});    
+                success(aseguradoras);
+            }, err => {
+                err(err);
+            });
         }, err => {
-            err(err);
-        });
+            console.error({url, err});
+        });        
     }    
 
     cotizar(aseguradoras: any = undefined, index: number = 0, callback:any = undefined) {
