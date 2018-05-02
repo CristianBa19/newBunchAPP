@@ -22,7 +22,8 @@
             </ion-toolbar>        -->
 </ion-header>
 
-<ion-content padding>
+<ion-content padding>    
+
     <!-- Paso 1 de 5 -->
     <ion-row class="cliente-tab" [hidden]="step != 1">        
         <ion-col col-12>
@@ -68,7 +69,7 @@
                 </ion-col>                            
             </ion-row>-->
 
-            <m-input label="Código Postal" id="codigoPostal1" [field]="codigoPostal1" (tap)="showAlertCP1()"></m-input>            
+            <m-input label="Código Postal" id="codigoPostal1" [field]="codigoPostal1" (tap)="showAlertCP1()"></m-input>
             <m-input label="Edad" id="edad" [field]="edadTxt" (tap)="showAlertEdad()"></m-input>
             <m-input label="Marca" id="marca" [field]="marca" (tap)="showAlertMarca()"></m-input>
             <m-input label="Modelo" id="inputModelo" [field]="modelo" (tap)="showAlertModelo()" id="inputModelo"></m-input>
@@ -103,7 +104,7 @@
                             <p class="instrucciones">Selecciona la mejor opción</p>                            
                         </ion-col>     
                         <ion-col col-2 id="confIconContainer">
-                            <ion-icon name="ios-settings-outline"></ion-icon>                            
+                            <ion-icon name="ios-settings-outline" (tap)="showOpcionesCotizacion()"></ion-icon>                            
                         </ion-col>       
                     </ion-row>
                 </ion-col>
@@ -111,8 +112,8 @@
 
             <ion-row class="lolo">
                 <ion-col col-12>
-                    <p><span>Cobertura:</span> Amplia</p>
-                    <p><span>Forma de Pago:</span> Mensual</p>
+                    <p><span>Cobertura:</span> {{cobertura}}</p>
+                    <p><span>Forma de Pago:</span> {{formaDePago}}</p>
                     <p>{{marca}} {{subMarca}} {{modelo}}</p>
                 </ion-col>                
             </ion-row>
@@ -501,3 +502,24 @@
         </ion-col>
     </ion-row>                
 </ion-content>
+
+<button id="opcionesCotizacion"></button>
+<div id="opcionesCotizacionTile">
+    <ion-grid padding>
+        <ion-row>                
+            <ion-col col-12>
+                <p class="text-gray">Selecciona el plan que más te convenga</p>                    
+            </ion-col>
+        </ion-row>
+
+        <m-input label="Cobertura" id="cobertura" [field]="cobertura" (tap)="showAlertCobertura()"></m-input>
+        <m-input label="Forma de Pago" id="formaDePago" [field]="formaDePago" (tap)="showAlertFormaDePago()"></m-input>
+
+        <ion-row>
+            <ion-col col-3></ion-col>
+            <ion-col col-6>
+                <button type="button" class="button-purple" (tap)="closeOpcionesCotizacion()">Continuar</button>
+            </ion-col>                
+        </ion-row>         
+    </ion-grid>                
+</div>

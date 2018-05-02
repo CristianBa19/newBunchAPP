@@ -308,11 +308,15 @@ export class AcquireProductPage2 {
         document.getElementById("master").style.opacity = ".5";
         document.getElementById("visa").style.opacity = "1";
         document.getElementById("amex").style.opacity = ".5";
-    }
+    }    
 
     ionViewDidLoad() {
-
-        //document.getElementById('appFooter').getElementsByClassName('tabbar')[0]['style'].display = 'none';
+        
+        document.getElementById('opcionesCotizacion').addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();            
+            return false;
+        });        
 
         let loader = this.loadingCtrl.create();
 
@@ -910,6 +914,7 @@ export class AcquireProductPage2 {
         let that = this;        
 
         if (aseguradoras === undefined) {            
+            this.comparaList = [];
             this.getAseguradoras(function(aseguradoras) {                
                 that.cotizar(aseguradoras, index, callback);
             }, function(err) {
@@ -918,9 +923,9 @@ export class AcquireProductPage2 {
         } else {            
             let obj = aseguradoras[index];
 
-            if (index == 0) {
-                this.comparaList = [];
-            }            
+            //if (index == 0) {
+            //    this.comparaList = [];
+            //}            
 
             if (obj == undefined) {
                 
@@ -1031,9 +1036,97 @@ export class AcquireProductPage2 {
         var fecha = new Date();
         var ano = fecha.getFullYear();
         var anioFechaNac = ano - this.edad;
-        var myJSON = '{"Aseguradora":"' + aseguradora + '","Cliente":{"TipoPersona":null,"Nombre":null,"ApellidoPat":null,"ApellidoMat":null,"RFC":"' + this.rfc + '","FechaNacimiento":"01/01/' + anioFechaNac + '","Ocupacion":null,"CURP":null,"Direccion":{"Calle":null,"NoExt":null,"NoInt":null,"Colonia":null,"CodPostal":"' + this.codigoPostal1 + '","Poblacion":null,"Ciudad":null,"Pais":null},"Edad":' + this.edad + ',"Genero":"Masculino","Telefono":null,"Email":null},"Vehiculo":{"Uso":"PARTICULAR","Marca":"' + this.marca + '","Modelo":"' + this.modelo + '","NoMotor":"","NoSerie":"","NoPlacas":"","Descripcion":"' + descripcionAseguradora + '","CodMarca":"","CodDescripcion":"","CodUso":"","Clave":"' + clave + '","Servicio":"PARTICULAR"},"Coberturas":[],"Paquete":"AMPLIA","Descuento":null,"PeriodicidadDePago":0,"Cotizacion":{"PrimaTotal":null,"PrimaNeta":null,"Derechos":null,"Impuesto":null,"Recargos":null,"PrimerPago":null,"PagosSubsecuentes":null,"IDCotizacion":null,"CotID":null,"VerID":null,"CotIncID":null,"VerIncID":null,"Resultado":null},"Emision":{"PrimaTotal":null,"PrimaNeta":null,"Derechos":null,"Impuesto":null,"Recargos":null,"PrimerPago":null,"PagosSubsecuentes":null,"IDCotizacion":null,"Terminal":null,"Documento":null,"Poliza":null,"Resultado":null},"Pago":{"MedioPago":null,"NombreTarjeta":null,"Banco":null,"NoTarjeta":null,"MesExp":null,"AnioExp":null,"CodigoSeguridad":null,"NoClabe":null,"Carrier":0},"CodigoError":null,"urlRedireccion":null}';
+        //var myJSON = '{"Aseguradora":"' + aseguradora + '","Cliente":{"TipoPersona":null,"Nombre":null,"ApellidoPat":null,"ApellidoMat":null,"RFC":"' + this.rfc + '","FechaNacimiento":"01/01/' + anioFechaNac + '","Ocupacion":null,"CURP":null,"Direccion":{"Calle":null,"NoExt":null,"NoInt":null,"Colonia":null,"CodPostal":"' + this.codigoPostal1 + '","Poblacion":null,"Ciudad":null,"Pais":null},"Edad":' + this.edad + ',"Genero":"Masculino","Telefono":null,"Email":null},"Vehiculo":{"Uso":"PARTICULAR","Marca":"' + this.marca + '","Modelo":"' + this.modelo + '","NoMotor":"","NoSerie":"","NoPlacas":"","Descripcion":"' + descripcionAseguradora + '","CodMarca":"","CodDescripcion":"","CodUso":"","Clave":"' + clave + '","Servicio":"PARTICULAR"},"Coberturas":[],"Paquete":"'+cobertura+'","Descuento":null,"PeriodicidadDePago":0,"Cotizacion":{"PrimaTotal":null,"PrimaNeta":null,"Derechos":null,"Impuesto":null,"Recargos":null,"PrimerPago":null,"PagosSubsecuentes":null,"IDCotizacion":null,"CotID":null,"VerID":null,"CotIncID":null,"VerIncID":null,"Resultado":null},"Emision":{"PrimaTotal":null,"PrimaNeta":null,"Derechos":null,"Impuesto":null,"Recargos":null,"PrimerPago":null,"PagosSubsecuentes":null,"IDCotizacion":null,"Terminal":null,"Documento":null,"Poliza":null,"Resultado":null},"Pago":{"MedioPago":null,"NombreTarjeta":null,"Banco":null,"NoTarjeta":null,"MesExp":null,"AnioExp":null,"CodigoSeguridad":null,"NoClabe":null,"Carrier":0},"CodigoError":null,"urlRedireccion":null}';
+        let dataObj = {
+            Aseguradora: aseguradora,
+            Cliente: {
+                TipoPersona: null,
+                Nombre: null,
+                ApellidoPat: null,
+                ApellidoMat: null,
+                RFC: this.rfc,
+                FechaNacimiento: `01/01/${anioFechaNac}`,
+                Ocupacion: null,
+                CURP: null,
+                Direccion: {
+                    Calle: null,
+                    NoExt: null,
+                    NoInt: null,
+                    Colonia: null,
+                    CodPostal: this.codigoPostal1,
+                    Poblacion: null,
+                    Ciudad: null,
+                    Pais: null
+                },
+                Edad: this.edad,
+                Genero: this.genero,
+                Telefono: null,
+                Email: null
+            },
+            Vehiculo: {
+                Uso: 'PARTICULAR',
+                Marca: this.marca,
+                Modelo: this.modelo,
+                NoMotor: '',
+                NoSerie: '',
+                NoPlacas: '',
+                Descripcion: descripcionAseguradora,
+                CodMarca: '',
+                CodDescripcion: '',
+                CodUso: '',
+                Clave: clave,
+                Servicio: 'PARTICULAR'
+            },
+            Coberturas: [],
+            Paquete: this.cobertura, //si, this.cobertura contiene el valor de Paquete
+            Descuento: null,
+            PeriodicidadDePago: this.formaDePagoInt, //0 es Anual, 4 es Mensual
+            Cotizacion: {
+                PrimaTotal: null,
+                PrimaNeta: null,
+                Derechos: null,
+                Impuesto: null,
+                Recargos: null,
+                PrimerPago: null,
+                PagosSubsecuentes: null,
+                IDCotizacion: null,
+                CotID: null,
+                VerID: null,
+                CotIncID: null,
+                VerIncID:null,
+                Resultado: null
+            },
+            Emision: {
+                PrimaTotal: null,
+                PrimaNeta: null,
+                Derechos: null,
+                Impuesto: null,
+                Recargos: null,
+                PrimerPago: null,
+                PagosSubsecuentes: null,
+                IDCotizacion: null,
+                Terminal: null,
+                Documento: null,
+                Poliza: null,
+                Resultado: null
+            },
+            Pago: {
+                MedioPago: null,
+                NombreTarjeta: null,
+                Banco: null,
+                NoTarjeta: null,
+                MesExp: null,
+                AnioExp: null,
+                CodigoSeguridad: null,
+                NoClabe: null,
+                Carrier: 0
+            },
+            CodigoError: null,
+            urlRedireccion: null
+        };
 
-        let enStr = btoa(`usuario=Bunch&Password=BunCH2O18&data=${myJSON}&movimiento=cotizacion&idContVend=${this.idContVend}`),
+        let myJSON = JSON.stringify(dataObj),
+            enStr = btoa(`usuario=Bunch&Password=BunCH2O18&data=${myJSON}&movimiento=cotizacion&idContVend=${this.idContVend}`),
             url = `http://services.bunch.guru/WebService.asmx/CotizacionEmisionJSON?param=${enStr}`; //'http://core.alimx.mx/webservice.asmx/CotizacionEmisionJSON?usuario=AhorraSeguros&password=Ah0rraS3guros2017&data=' + myJSON + '&movimiento=cotizacion';
 
         this.http.get(url).map(res2 => res2.json()).subscribe(data2 => {            
@@ -2692,9 +2785,9 @@ export class AcquireProductPage2 {
                     Servicio: 'PARTICULAR'
                 },
                 Coberturas: [],
-                Paquete: 'AMPLIA',
+                Paquete: this.cobertura, //si, this.cobertura contiene el valor de Paquete
                 Descuento: null,
-                PeriodicidadDePago: 0,
+                PeriodicidadDePago: this.formaDePagoInt, //0 es Anual, 4 es Mensual
                 Cotizacion: {
                     PrimaTotal: this.PrimaTotalHDI,
                     PrimaNeta: this.PrimaNetaHDI,
@@ -2780,9 +2873,9 @@ export class AcquireProductPage2 {
                     Servicio: 'PARTICULAR'
                 },
                 Coberturas: [],
-                Paquete: 'AMPLIA',
+                Paquete: this.cobertura, //si, this.cobertura contiene el valor de Paquete
                 Descuento: null,
-                PeriodicidadDePago: 0,
+                PeriodicidadDePago: this.formaDePagoInt, //0 es Anual, 4 es Mensual
                 Cotizacion: {
                     PrimaTotal: null,
                     PrimaNeta: null,
@@ -3243,5 +3336,98 @@ export class AcquireProductPage2 {
         bad = bad.replace("RUIN", "RUIX");
 
         return bad;
+    }
+
+    private coberturaList = ['Amplia', 'Limitada', 'RC'];
+    private cobertura:string = this.coberturaList[0];
+    private formaDePagoList = ['Anual', 'Mensual'];
+    private formaDePago:string = this.formaDePagoList[0];
+    private formaDePagoInt:number = (this.formaDePago == 'Mensual') ? 4 : 0; //0 es Anual, 4 es Mensual
+    private opcionesCotizacionChanged:boolean = false;
+
+    private showAlertCobertura() {
+
+        let that = this,
+            title = 'Cobertura',
+            options = [];
+
+        for (let cobertura of this.coberturaList) {
+            let checked = this.cobertura == cobertura;
+            options.push({
+                type: 'radio',
+                label: cobertura,
+                value: cobertura,
+                checked: checked,
+            });
+        }
+
+        this.showAlert(title, options, function(cobertura) {
+            cobertura = cobertura.trim();
+            if (cobertura.length == 0) {
+                that.cobertura = null;
+            } else {
+                if (cobertura != that.cobertura) { 
+                    that.opcionesCotizacionChanged = true;
+                    that.cobertura = cobertura;
+                }
+            }
+        });
+    }    
+
+    private showAlertFormaDePago() {
+        let that = this,
+            title = 'Forma de Pago',
+            options = [];
+
+        for (let formaDePago of this.formaDePagoList) {
+            let checked = this.formaDePago == formaDePago;
+            options.push({
+                type: 'radio',
+                label: formaDePago,
+                value: formaDePago,
+                checked: checked,
+            });
+        }
+
+        this.showAlert(title, options, function(formaDePago) {
+            formaDePago = formaDePago.trim();
+            if (formaDePago.length == 0) {
+                that.formaDePago = null;
+                that.formaDePagoInt = null;
+            } else {
+                if (formaDePago != that.formaDePago) {
+                    that.opcionesCotizacionChanged = true;
+                    that.formaDePago = formaDePago;
+                    that.formaDePagoInt = (formaDePago == 'Mensual') ? 4 : 0; //0 es Anual, 4 es Mensual                
+                }                
+            }
+        });        
+    }
+
+    private showOpcionesCotizacion() {
+        document.getElementById('opcionesCotizacion').style.display = 'block';
+        document.getElementById('opcionesCotizacionTile').style.display = 'block';    
+        document.getElementById('appFooter').getElementsByClassName('tabbar')[0]['style'].visibility = 'hidden';
+    }
+
+    private closeOpcionesCotizacion() {
+        
+        let that = this;
+
+        document.getElementById('opcionesCotizacion').style.display = 'none';
+        document.getElementById('opcionesCotizacionTile').style.display = 'none';
+        document.getElementById('appFooter').getElementsByClassName('tabbar')[0]['style'].visibility = 'visible';
+        
+        if (that.opcionesCotizacionChanged == true) {
+            let loader = this.loadingCtrl.create();
+            loader.present();            
+            this.cotizar(undefined, 0, function() {
+                loader.dismiss();
+                loader.onDidDismiss(() => {                
+                    that.opcionesCotizacionChanged = false;
+                    that.content.scrollToTop();
+                });
+            });
+        }
     }
 }
