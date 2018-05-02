@@ -211,7 +211,7 @@ export class AcquireProductPage2 {
         return true;
     }
 
-    public showStep(stepIndex:number, obj:any = undefined):void {
+    public showStep(stepIndex:number, obj:any = undefined, validate:boolean = true):void {
 
         console.warn('showStep', {stepIndex, 'currentStep': this.currentStep, 'step': this.step});
 
@@ -239,7 +239,7 @@ export class AcquireProductPage2 {
             errors = !this.validVars(['email', 'nombre', 'paterno', 'materno', 'fechaNacimiento', 'genero', 'telCasa', 'telMovil', 'rfc', 'colonia', 'estado', 'delegacion', 'calle', 'numExterior', 'numMotor', 'numSerie', 'numPlacas']);
         }
         
-        if (errors == true) {
+        if (validate == true && errors == true) {
             loader.dismiss();
             loader.onDidDismiss(() => {
                 that.showAlert('Faltan campos por completar');
@@ -2971,22 +2971,7 @@ export class AcquireProductPage2 {
             }
         });
         modal.present();
-    }
-
-    goBack() {
-
-        //let tmp = document.getElementById("tab-t0-4").setAttribute("aria-selected", "false");
-        //tmp = document.getElementById("tab-t0-5").setAttribute("aria-selected", "true");
-
-        let currentTabIndex = this.tabs.indexOf(this.currentTab);
-
-        let validateTab = true;
-        if (currentTabIndex - 1 >= 0) {
-            //this.changeTab(this.tabs[currentTabIndex - 1], false);
-        } else {
-            this.navCtrl.pop();
-        }
-    }
+    }    
 
     //Generacion de RFC
     flag_fecha = false;
@@ -3404,6 +3389,19 @@ export class AcquireProductPage2 {
         });        
     }
 
+    private goBack() {        
+
+        let currentTabIndex = this.tabs.indexOf(this.currentTab);
+
+        let validateTab = true;
+        let step = this.currentStep - 1;
+        if (step >= 1) {
+            this.showStep(step, {}, false);
+        } else {
+            this.navCtrl.pop();
+        }
+    }
+
     private showOpcionesCotizacion() {
         document.getElementById('opcionesCotizacion').style.display = 'block';
         document.getElementById('opcionesCotizacionTile').style.display = 'block';    
@@ -3417,7 +3415,7 @@ export class AcquireProductPage2 {
         document.getElementById('opcionesCotizacion').style.display = 'none';
         document.getElementById('opcionesCotizacionTile').style.display = 'none';
         document.getElementById('appFooter').getElementsByClassName('tabbar')[0]['style'].visibility = 'visible';
-        
+
         if (that.opcionesCotizacionChanged == true) {
             let loader = this.loadingCtrl.create();
             loader.present();            
