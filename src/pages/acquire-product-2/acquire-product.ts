@@ -3389,12 +3389,10 @@ export class AcquireProductPage2 {
         });        
     }
 
-    private goBack() {        
+    private goBack() {                
 
-        let currentTabIndex = this.tabs.indexOf(this.currentTab);
-
-        let validateTab = true;
-        let step = this.currentStep - 1;
+        let validateTab = true,
+            step = this.currentStep - 1;
         if (step >= 1) {
             this.showStep(step, {}, false);
         } else {
