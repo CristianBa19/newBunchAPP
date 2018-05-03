@@ -457,13 +457,13 @@ export class AcquireProductPage2 {
                 case 'inputMarca':
                     this.marcaList = [];
                     for (let i = 0, len = data.ListadoMarcas.length; i < len; i++) {
-                        this.marcaList.push(data.ListadoMarcas[i].Marca);
+                        this.marcaList.push(data.ListadoMarcas[i].Marca.trim());
                     }
                     break;
                 case 'inputModelo':
                     this.modeloList = [];
                     for (let i = 0, len = data.ListadoDescripciones.length; i < len; i++) {
-                        this.modeloList.push(data.ListadoDescripciones[i].Modelo);
+                        this.modeloList.push(data.ListadoDescripciones[i].Modelo.trim());
                     }
                     
                     this.inputModelo.classList.remove('focus');
@@ -471,13 +471,14 @@ export class AcquireProductPage2 {
                     this.inputDescripcion.classList.remove('focus');
                     this.inputSubDescripcion.classList.remove('focus');
 
-                    this.inputModelo.classList.remove('disabled');
+                    //this.inputModelo.classList.remove('disabled');                    
+                    this.enableElement('inputModelo');
                     this.inputModelo.classList.add('focus');
                     break;
                 case 'inputSubMarca':
                     this.subMarcaList = [];
                     for (let i = 0, len = data.ListadoDescripciones.length; i < len; i++) {
-                        this.subMarcaList.push(data.ListadoDescripciones[i].Descripcion);
+                        this.subMarcaList.push(data.ListadoDescripciones[i].Descripcion.trim());
                     }
 
                     this.inputModelo.classList.remove('focus');
@@ -485,13 +486,13 @@ export class AcquireProductPage2 {
                     this.inputDescripcion.classList.remove('focus');
                     this.inputSubDescripcion.classList.remove('focus');
 
-                    this.inputSubMarca.classList.remove('disabled');
+                    this.enableElement('inputSubMarca');
                     this.inputSubMarca.classList.add('focus');
                     break;
                 case 'inputDescripcion':
                     this.descripcionList = [];
                     for (let i = 0, len = data.ListadoSubDescripciones.length; i < len; i++) {
-                        this.descripcionList.push(data.ListadoSubDescripciones[i].SubDescripcion);
+                        this.descripcionList.push(data.ListadoSubDescripciones[i].SubDescripcion.trim());
                     }
 
                     this.inputModelo.classList.remove('focus');
@@ -499,13 +500,13 @@ export class AcquireProductPage2 {
                     this.inputDescripcion.classList.remove('focus');
                     this.inputSubDescripcion.classList.remove('focus');
 
-                    this.inputDescripcion.classList.remove('disabled');
+                    this.enableElement('inputDescripcion');
                     this.inputDescripcion.classList.add('focus');
                     break;
                 case 'inputSubDescripcion':
                     this.subDescripcionList = [];
                     for (let i = 0, len = data.ListadoDetalles.length; i < len; i++) {
-                        this.subDescripcionList.push(data.ListadoDetalles[i].Detalle);
+                        this.subDescripcionList.push(data.ListadoDetalles[i].Detalle.trim());
                     }
 
                     this.inputModelo.classList.remove('focus');
@@ -513,22 +514,17 @@ export class AcquireProductPage2 {
                     this.inputDescripcion.classList.remove('focus');
                     this.inputSubDescripcion.classList.remove('focus');
 
-                    this.inputSubDescripcion.classList.remove('disabled');
+                    this.enableElement('inputSubDescripcion');
                     this.inputSubDescripcion.classList.add('focus');
                     break;
-                case 'inputBank':
-                    console.log('11');
-                    this.bancoList = [];
-                    console.log('22');
+                case 'inputBank':                    
+                    this.bancoList = [];                    
                     for (let i = 0, len = data.Bancos.length; i < len; i++) {
                         this.bancoList.push(data.Bancos[i].Abreviacion);
-                    }
-                    console.log('33');
+                    }                    
                     break;
-            }            
-            console.log('aqui');
-            loader.dismiss();
-            console.log('aca');
+            }                        
+            loader.dismiss();            
         }, err => {
             console.error({ err, url });
             loader.dismiss();
@@ -618,216 +614,110 @@ export class AcquireProductPage2 {
                 });
             }
         });
-    }    
+    }            
 
-    showAlertEdad() {
+    private disableElement(id) {
+        document.getElementById(id).setAttribute('disabled', 'disabled');
+    }
 
-        let that = this,
-            title = this.isEnglish ? 'Choose your age' : 'Edad',
-            options = [];
-
-        for (let edad of this.edadList) {
-            let checked = this.edad == edad;
-            options.push({
-                type: 'radio',
-                label: '' + edad,
-                value: '' + edad,
-                checked: checked,
-            });
+    private disableElements(arrIds) {
+        for (let i = 0, len = arrIds.length; i < len; i++) {
+            this.disableElement(arrIds[i]);
         }
+    }
 
-        this.showAlert(title, options, function(edad) {
-            that.scrollToElement('edad');            
-            edad = edad.trim();
-            if (edad.length == 0) {
-                that.edad = null;
-                that.edadTxt = null;
+    private enableElement(id) {
+        document.getElementById(id).removeAttribute('disabled');
+    }
+
+    showAlertEdad() {        
+
+        let that = this;
+        this.bottomAlert('edad', this.edadList, function(edad) {
+            if (edad == null) {
+                that.edadTxt = null;                
             } else {
-                that.edad = edad;
-                that.edadTxt = `${that.edad} años`;
-            }                        
+                that.edadTxt = `${edad} años`;
+            }                                    
         });
-    }    
+    }
 
     private showAlertMarca() {        
-        /*console.log(this.marcaList);
-        this.bottomAlert('marca', this.marcaList, function(x) {            
-            console.log('dentro', x);
-        });*/
+        let that = this; 
+        this.bottomAlert('marca', this.marcaList, function() {
 
-        let that = this,
-            title = this.isEnglish ? 'Choose brand' : 'Marca',
-            options = [];
-
-        for (let marca of this.marcaList) {
-            let checked = this.marca == marca;
-            options.push({
-                type: 'radio',
-                label: marca,
-                value: marca,
-                checked: checked,
-            });
-        }
-
-        this.showAlert(title, options, function(marca) {
-            that.scrollToElement('marca');
-            marca = marca.trim();
-            if (marca.length == 0) {
-                that.marca = null;
-            } else {
-                that.marca = marca;
-            }            
+            //that.scrollToElement('marca');
             that.modelo = undefined;
             that.subMarca = undefined;
             that.descripcion = undefined;
             that.subDescripcion = undefined;
 
-            //that.inputModelo.classList.add('disabled');
-            //that.inputSubMarca.classList.add('disabled');
-            //that.inputDescripcion.classList.add('disabled');
-            //that.inputSubDescripcion.classList.add('disabled');
-
+            that.disableElements(['inputModelo', 'inputSubMarca', 'inputDescripcion', 'inputSubDescripcion']);
             that.loadInputData('inputModelo');
-        });
+        });        
     }
     
     showAlertModelo() {
 
-        if (this.hasClass(this.inputModelo, 'disabled')) { return; }
+        if (document.getElementById('inputModelo').getAttribute('disabled') !== null) { return; }
 
-        let that = this,
-            title = this.isEnglish ? 'Choose model ' : 'Modelo',
-            options = [];
+        let that = this; 
+        this.bottomAlert('modelo', this.modeloList, function() {
 
-        for (let modelo of this.modeloList) {
-            let checked = this.modelo == modelo;
-            options.push({
-                type: 'radio',
-                label: modelo,
-                value: modelo,
-                checked: checked,
-            });
-        }
-
-        this.showAlert(title, options, function(modelo) {
-            that.scrollToElement('inputModelo');
-            modelo = modelo.trim();
-            if (modelo.length == 0) {
-                that.modelo = null;
-            } else {
-                that.modelo = modelo;
-            }            
             that.subMarca = undefined;
             that.descripcion = undefined;
             that.subDescripcion = undefined;
 
-            /*that.inputSubMarca.classList.add('disabled');
-            that.inputDescripcion.classList.add('disabled');
-            that.inputSubDescripcion.classList.add('disabled');*/
-
+            that.disableElements(['inputSubMarca', 'inputDescripcion', 'inputSubDescripcion']);
             that.loadInputData('inputSubMarca');
-        });
+        });                
     }
 
     showAlertSubMarca() {
 
-        if (this.hasClass(this.inputSubMarca, 'disabled')) { return; }
+        if (document.getElementById('inputSubMarca').getAttribute('disabled') !== null) { return; }
 
-        let that = this,
-            title = this.isEnglish ? 'Choose sub brand' : 'Submarca',
-            options = [];
-
-        for (let subMarca of this.subMarcaList) {
-            let checked = this.subMarca == subMarca;
-            options.push({
-                type: 'radio',
-                label: subMarca,
-                value: subMarca,
-                checked: checked,
-            });
-        }
-
-        this.showAlert(title, options, function(subMarca) {
-            that.scrollToElement('inputSubMarca');
-            subMarca = subMarca.trim();
-            if (subMarca.length == 0){
-                that.subMarca = null;
-            } else {
-                that.subMarca = subMarca;
-            }            
+        let that = this; 
+        this.bottomAlert('subMarca', this.subMarcaList, function() {
+            
             that.descripcion = undefined;
             that.subDescripcion = undefined;
 
-            /*that.inputDescripcion.classList.add('disabled');
-            that.inputSubDescripcion.classList.add('disabled');*/
-
+            that.disableElements(['inputDescripcion', 'inputSubDescripcion']);
             that.loadInputData('inputDescripcion');
-        });
+        });                        
     }    
 
     showAlertDescripcion() {
 
-        if (this.hasClass(this.inputDescripcion, 'disabled')) { return; }
+        if (document.getElementById('inputDescripcion').getAttribute('disabled') !== null) { return; }
 
-        let that = this,
-            options = [];
-        for (let descripcion of this.descripcionList) {
-            let checked = this.descripcion == descripcion;
-            options.push({
-                type: 'radio',
-                label: descripcion,
-                value: descripcion,
-                checked: checked,
-            });
-        }
-
-        this.showAlert('Descripción', options, function(descripcion) {
-            that.scrollToElement('inputDescripcion');
-            descripcion = descripcion.trim();
-            if (descripcion.length == 0) {
-                that.descripcion = null;
-            } else {
-                that.descripcion = descripcion;
-            }            
+        let that = this; 
+        this.bottomAlert('descripcion', this.descripcionList, function() {
+                        
             that.subDescripcion = undefined;
-            /*that.inputSubDescripcion.classList.add('disabled');*/
+
+            that.disableElements(['inputSubDescripcion']);
             that.loadInputData('inputSubDescripcion');
-        });
+        });                        
     }    
 
     showAlertSubDescripcion() {
 
-        if (this.hasClass(this.inputSubDescripcion, 'disabled')) { return; }
+        if (document.getElementById('inputSubDescripcion').getAttribute('disabled') !== null) { return; }
 
-        let options = [],
-            that = this;
-        for (let subDescripcion of this.subDescripcionList) {
-            let checked = this.subDescripcion == subDescripcion;
-            options.push({
-                type: 'radio',
-                label: subDescripcion,
-                value: subDescripcion,
-                checked: checked,
-            });
-        }
-
-        this.showAlert('Subdescripción', options, function(subDescripcion) {
-            that.scrollToElement('inputSubDescripcion');
-            subDescripcion = subDescripcion.trim();
-            if (subDescripcion.length == 0) {
-                that.subDescripcion = null;
-            } else {
-                that.subDescripcion = subDescripcion;
-            }            
-        });
+        let that = this; 
+        this.bottomAlert('subDescripcion', this.subDescripcionList);
     }
 
     //--------------------------------------
 
     showAlertColony() {
         if (this.isEnabledTipo3Dir == true) {
+            
+            this.bottomAlert('colonia', this.userColonyList);                
 
-            let title = this.isEnglish ? 'Choose colony' : 'Colonia',
+            /*let title = this.isEnglish ? 'Choose colony' : 'Colonia',
                 options = [],
                 that = this;
 
@@ -843,7 +733,7 @@ export class AcquireProductPage2 {
 
             this.showAlert(title, options, function (data) {
                 that.colonia = data;
-            });
+            });*/
         }
     }
 
@@ -863,8 +753,7 @@ export class AcquireProductPage2 {
             });
         }
 
-        this.showAlert(title, options, function (data) {
-            console.log('data seleccionado', data);
+        this.showAlert(title, options, function (data) {            
             that.banco = data;
         });
     }
@@ -1808,9 +1697,10 @@ export class AcquireProductPage2 {
     }
 
     showAlertGenero() {
-        if (this.isEnabled == true) {
+        if (this.isEnabled == true) {            
+            this.bottomAlert('genero', this.userGenderList);                
 
-            let that = this,
+            /*let that = this,
                 title = this.isEnglish ? 'Choose gender' : 'Género',
                 options = [];
 
@@ -1831,11 +1721,11 @@ export class AcquireProductPage2 {
                 } else {
                     that.genero = genero;
                 }                
-            });
+            });*/
         }
     }
 
-    showAlertNacionalidad() {
+    /*showAlertNacionalidad() {
         if (this.isEnabledTipo3 == true) {
 
             let title = this.isEnglish ? 'Choose your nationality' : 'Nacionalidad',
@@ -1856,7 +1746,7 @@ export class AcquireProductPage2 {
                 that.nacionalidad = data;
             });
         }
-    }
+    }*/
 
     showAlertTitular() {
 
@@ -3450,21 +3340,32 @@ export class AcquireProductPage2 {
 
     private bottomAlertOptionsList = [];
 
-    private bottomAlert(field, list, callback) {
-        this.bottomAlertField = field;
-        console.log({list}); 
+    private bottomAlert(field, list, callback:any = undefined) {
+        this.bottomAlertField = field;        
         let newList = [];
         for (let i = 0, len = list.length; i < len; i++) {
-            let isSelected = list[i] == this[field];
-            if (list[i] == this[field]) {
-                console.log('this is it everybody!', list[i], isSelected);
-            }            
+            let isSelected = list[i] == this[field];                        
             newList.push({value: list[i], selected: isSelected});
         }
         this.bottomAlertOptionsList = newList;
         document.getElementById('bottomAlertBackground').style.display = 'block';
         document.getElementById('bottomAlertTile').style.display = 'block';
+        document.getElementById('bottomAlertTile').getElementsByClassName('scroll-content')[0].scrollTo(0, 0);        
+        //document.getElementById('bottomAlertTile').scrollToTop();
         this.hideFooterMenu();
+
+        
+        //scrollIntoView();    
+
+        if (this[field] !== null && this[field] !== undefined) {
+            setTimeout(function() {
+                let elem = document.getElementById('bottomAlertTile').getElementsByClassName('selected')[0];
+                if (elem != null) {
+                    elem.scrollIntoView();
+                }
+            }, 350);
+        }        
+
         if (callback != undefined) {            
             this.triggers.push({field: field, fn: callback});
         }
@@ -3475,7 +3376,7 @@ export class AcquireProductPage2 {
 
     private bottomAlertOptionSelected(optionSelected:any):void {
         console.log('bottomAlertOptionSelected', optionSelected, this.triggers);
-        this[this.bottomAlertField] = optionSelected.value;
+        this[this.bottomAlertField] = (optionSelected.value.length == 0) ? null : optionSelected.value;
         for (let i = 0, len = this.triggers.length; i < len; i++) {
             if (this.triggers[i]['field'] == this.bottomAlertField) {
                 this.triggers[i]['fn'](optionSelected.value);
