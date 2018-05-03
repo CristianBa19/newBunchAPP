@@ -1,5 +1,42 @@
 
 acquire-product-page-2{    
+    #ionScroll{height:100%;width:100%;}
+    #bottomAlertBackground{
+        position:absolute;
+        left:0;
+        top:0;
+        width:100%;
+        height:100%;        
+        z-index:87;
+        background:lightgray;                   
+        display:none;
+        opacity:0.4;
+    }
+    #bottomAlertTile{        
+        background:white;    
+        opacity:1;
+        position:absolute;
+        z-index:88;
+        left:0;
+        bottom:0;
+        height:33.33%;
+        width:100%;        
+        border:2px solid map-get($colors, b-gray);               
+        display:none;
+        
+            
+            ion-scroll{                
+                ion-list{                    
+                    width:100%;height:100%;
+                    ion-item{
+                        border-bottom:1px solid lightgray;
+                        &.selected{color:map-get($colors, b-purple);font-weight:bold;}
+                        span{padding-left:12px !important;font-size:17px;}                        
+                    }
+                }
+            }
+                             
+    }
     #opcionesCotizacion{
         position:absolute;
         left:0;

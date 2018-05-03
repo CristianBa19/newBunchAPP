@@ -32,7 +32,7 @@ export class AcquireProductPage2 {
     data: string;
 
     private toast:any;    
-    private cotizacion = {aseguradora: '',monto:0, logo: '', responsabilidadCivil: {sumaAsegurada: '', deducible: ''}, roboTotal: {sumaAsegurada: '', deducible: ''}, danosMateriales: {sumaAsegurada: '', deducible: ''}};
+    private cotizacion = {aseguradora: '',clave: '',bancos:[],monto:0, logo: '', responsabilidadCivil: {sumaAsegurada: '', deducible: ''}, roboTotal: {sumaAsegurada: '', deducible: ''}, danosMateriales: {sumaAsegurada: '', deducible: ''}};
 
     private currentStep:number = 1;
     public step:number = 1;
@@ -53,7 +53,7 @@ export class AcquireProductPage2 {
     //Step 1
 
     //Values
-    private codigoPostal1: number;
+    private codigoPostal1: string; //DEBE ser string
     private edad: number;
     private edadTxt: string;
     private marca: string;
@@ -94,7 +94,7 @@ export class AcquireProductPage2 {
     private rfc: string;
     private nacionalidad: string;
     private lugarNacimiento: string;
-    private codigoPostal2: string;
+    private codigoPostal2: string; //DEBE ser string
     private colonia: string;
     private estado: string;
     private delegacion: string;
@@ -106,12 +106,12 @@ export class AcquireProductPage2 {
     private numPlacas: string;
 
     //Step 5
-    private numTarjeta: number;
+    private numTarjeta: string; //DEBE ser string
     private tipoTarjeta: string;
     private titular: string;
     private banco: string;
     private vigencia: string;
-    private cvv: number;
+    private cvv:string; //DEBE ser string
     private aceptoCobros: any;
 
     //Lists
@@ -160,7 +160,7 @@ export class AcquireProductPage2 {
     private idContVend: number;    
 
     private fillTab1() {
-        this.codigoPostal1 = 79050;
+        this.codigoPostal1 = '79050';
         this.processPostalCode(this.codigoPostal1);
         this.edad = 22;
         this.edadTxt = `${this.edad} años`;
@@ -173,19 +173,19 @@ export class AcquireProductPage2 {
 
     private fillTab3() {
         this.email = this.getRandString() + '@gamil.com';
-        this.nombre = 'isjasijsa';
-        this.paterno = 'osakasokas';
-        this.materno = 'aosjsaias';
-        this.fechaNacimiento = '1988-01-01';
-        this.genero = 'MASCULINO';
-        this.telCasa = '4811455468';
+        this.nombre = 'LUNA';
+        this.paterno = 'CISNEROS';
+        this.materno = 'LOPEZ';
+        this.fechaNacimiento = '1988-02-12';
+        this.genero = 'FEMENINO';
+        this.telCasa = '4811455422';
         this.telMovil = '48114555466';
-        this.rfc = 'CICM880930P72';
+        this.rfc = 'CILL880212P11';        
         this.colonia = 'TIPZEN';
         this.estado = 'SAN LUIS POTOSI';
         this.delegacion = 'CIUDAD VALLES';
         this.calle = 'SAN LUIS';
-        this.numExterior = '23';
+        this.numExterior = '13';
         //this.numInterior = '';
         this.numMotor = 'A1234567';
         this.numSerie = 'ZHWGE11S84LA00154';
@@ -193,10 +193,11 @@ export class AcquireProductPage2 {
     }
 
     private fillPayment() {
-        this.numTarjeta = 4169160321185259;
-        this.titular = `${this.nombre} ${this.paterno} ${this.materno}`;
-        this.cvv = 123;
-        this.vigencia = '03-30';
+        this.numTarjeta = '4169160321185259';
+        //this.titular = `${this.nombre} ${this.paterno} ${this.materno}`;
+        this.calcRFCYTitular();
+        this.cvv = '123';
+        //this.vigencia = '03-30';
         document.getElementById('aceptoCobros')['checked'] = true;
         this.getCardInfo(this.numTarjeta);        
     }
@@ -211,9 +212,7 @@ export class AcquireProductPage2 {
         return true;
     }
 
-    public showStep(stepIndex:number, obj:any = undefined, validate:boolean = true):void {
-
-        console.warn('showStep', {stepIndex, 'currentStep': this.currentStep, 'step': this.step});
+    public showStep(stepIndex:number, obj:any = undefined, validate:boolean = true):void {        
 
         let currentStep = this.currentStep,
             errors = false,
@@ -224,7 +223,8 @@ export class AcquireProductPage2 {
 
         if (currentStep == 1) {
             errors = !this.validVars(['codigoPostal1', 'edad', 'marca', 'modelo', 'subMarca', 'descripcion', 'subDescripcion']);
-        } else if (currentStep == 2) {            
+        } else if (currentStep == 2) {
+            
             that.cotizacion.monto = obj.value;
             that.cotizacion.logo = obj.img;
             that.cotizacion.responsabilidadCivil.sumaAsegurada = obj.RC;
@@ -233,7 +233,10 @@ export class AcquireProductPage2 {
             that.cotizacion.danosMateriales.deducible = obj.danosMaterialesD;
             that.cotizacion.roboTotal.sumaAsegurada = obj.roboTotal;
             that.cotizacion.roboTotal.deducible = obj.roboTotalD;   
-            that.cotizacion.aseguradora = obj.asegur;         
+            that.cotizacion.aseguradora = obj.asegur;   
+            that.cotizacion.clave = obj.clave;
+
+            //that.loadInputData('inputBank');
         } else if (currentStep == 4) {
 
             errors = !this.validVars(['email', 'nombre', 'paterno', 'materno', 'fechaNacimiento', 'genero', 'telCasa', 'telMovil', 'rfc', 'colonia', 'estado', 'delegacion', 'calle', 'numExterior', 'numMotor', 'numSerie', 'numPlacas']);
@@ -415,9 +418,7 @@ export class AcquireProductPage2 {
         }, 400);
     }
 
-    loadInputData(inputId: string) {
-
-        console.log('loadInputData', inputId);
+    loadInputData(inputId: string) {        
 
         let url,
             that = this,
@@ -442,14 +443,14 @@ export class AcquireProductPage2 {
                 url = `http://test.alimx.mx/WebService.asmx/GetDetalleJSON?usuario=AhorraSeguros&password=Ah0rraS3guros2017&marca=${this.marca}&modelo=${this.modelo}&descripcion=${this.subMarca}&subdescripcion=${this.descripcion}`;
                 break;
             case 'inputBank':
-                url = `http://services.bunch.guru/WebService.asmx/GetBancos?usuario=Bunch&password=BunCH2O18&aseguradora=${this.aseguradoraCot}`;
+                url = `http://services.bunch.guru/WebService.asmx/GetBancos?usuario=Bunch&password=BunCH2O18&aseguradora=${this.cotizacion.aseguradora}`;
                 break;
         }
 
-        console.log(url);
+        console.log({url});
 
-        this.http.get(url).map(res => res.json()).subscribe(data => {
-
+        this.http.get(url).map(res => res.json()).subscribe(data => {         
+            
             console.log({data});
 
             switch (inputId) {
@@ -464,8 +465,7 @@ export class AcquireProductPage2 {
                     for (let i = 0, len = data.ListadoDescripciones.length; i < len; i++) {
                         this.modeloList.push(data.ListadoDescripciones[i].Modelo);
                     }
-
-                    console.log(this.inputModelo, this.inputSubMarca, this.inputDescripcion, this.inputSubDescripcion);
+                    
                     this.inputModelo.classList.remove('focus');
                     this.inputSubMarca.classList.remove('focus');
                     this.inputDescripcion.classList.remove('focus');
@@ -517,14 +517,18 @@ export class AcquireProductPage2 {
                     this.inputSubDescripcion.classList.add('focus');
                     break;
                 case 'inputBank':
+                    console.log('11');
                     this.bancoList = [];
+                    console.log('22');
                     for (let i = 0, len = data.Bancos.length; i < len; i++) {
                         this.bancoList.push(data.Bancos[i].Abreviacion);
                     }
+                    console.log('33');
                     break;
-            }
-
+            }            
+            console.log('aqui');
             loader.dismiss();
+            console.log('aca');
         }, err => {
             console.error({ err, url });
             loader.dismiss();
@@ -575,7 +579,7 @@ export class AcquireProductPage2 {
         });
     }
 
-    processPostalCode(cp) {
+    processPostalCode(cp:string) {
         let that = this,
             loader = that.loadingCtrl.create({
                 content: 'Validando código postal'
@@ -643,9 +647,13 @@ export class AcquireProductPage2 {
                 that.edadTxt = `${that.edad} años`;
             }                        
         });
-    }
+    }    
 
-    showAlertMarca() {
+    private showAlertMarca() {        
+        /*console.log(this.marcaList);
+        this.bottomAlert('marca', this.marcaList, function(x) {            
+            console.log('dentro', x);
+        });*/
 
         let that = this,
             title = this.isEnglish ? 'Choose brand' : 'Marca',
@@ -674,10 +682,10 @@ export class AcquireProductPage2 {
             that.descripcion = undefined;
             that.subDescripcion = undefined;
 
-            /*that.inputModelo.classList.add('disabled');
-            that.inputSubMarca.classList.add('disabled');
-            that.inputDescripcion.classList.add('disabled');
-            that.inputSubDescripcion.classList.add('disabled');*/
+            //that.inputModelo.classList.add('disabled');
+            //that.inputSubMarca.classList.add('disabled');
+            //that.inputDescripcion.classList.add('disabled');
+            //that.inputSubDescripcion.classList.add('disabled');
 
             that.loadInputData('inputModelo');
         });
@@ -869,6 +877,22 @@ export class AcquireProductPage2 {
         }
     }
 
+    private getBancosDeCadaAseguradora(aseguradoras:any, callback:any, index:number = 0) {
+        let obj = aseguradoras[index];
+        if (obj == undefined) {
+            callback(aseguradoras);
+            return;
+        }
+        let aseguradora = obj.aseguradora;
+        let url = `http://services.bunch.guru/WebService.asmx/GetBancos?usuario=Bunch&password=BunCH2O18&aseguradora=${aseguradora}`;
+        this.http.get(url).map(res => res.json()).subscribe(data => {            
+            obj.bancos = data.Bancos;
+            this.getBancosDeCadaAseguradora(aseguradoras, callback, ++index);
+        }, err => {
+            callback([]);
+        });
+    }
+
     getAseguradoras(success, err) {        
 
         let url = "",
@@ -876,31 +900,32 @@ export class AcquireProductPage2 {
             clave,
             descripcion,
             aseguradoras = [],
-            obj;
+            obj,
+            that = this;
 
         url = 'http://services.bunch.guru/WebService.asmx/getAseguradoras';
-        this.http.get(url).map(res => res.json()).subscribe(data => {
-            console.log({url, data});
+        this.http.get(url).map(res => res.json()).subscribe(data => {            
             let arr = [];
             for (let i = 0, len = data.Aseguradoras.length; i < len; i++) {
                 arr.push(data.Aseguradoras[i].Aseguradora);
-            }                
-            console.warn({arr});
+            }                            
 
             url = `http://test.alimx.mx/WebService.asmx/BuscarJSON?usuario=AhorraSeguros&password=Ah0rraS3guros2017&marca=${this.marca}&modelo=${this.modelo}&descripcion=${this.subMarca}&subdescripcion=${this.descripcion}&detalle=${this.subDescripcion}`;        
             this.http.get(url).map(res => res.json()).subscribe(data => {
                 for (let i = 0, len = data.Catalogo.length; i < len; i++) {
                     obj = data.Catalogo[i];
-                    aseguradora = obj.Aseguradora;                                        
-                    //if (aseguradora.toUpperCase() != 'ZURICH' && aseguradora.toUpperCase() != 'BANORTE') {
+                    aseguradora = obj.Aseguradora;
                     if (arr.indexOf(aseguradora) !== -1) {
                         clave = obj.CatDescripciones[0].clave;
                         descripcion = obj.CatDescripciones[0].Descripcion;
                         aseguradoras.push({ aseguradora, clave, descripcion });
                     }                
-                } 
-                console.log({aseguradoras});    
-                success(aseguradoras);
+                }          
+                
+                that.getBancosDeCadaAseguradora(aseguradoras, function(aseguradoras) {
+                    console.log('yei!', aseguradoras);
+                    success(aseguradoras);
+                });                
             }, err => {
                 err(err);
             });
@@ -915,7 +940,7 @@ export class AcquireProductPage2 {
 
         if (aseguradoras === undefined) {            
             this.comparaList = [];
-            this.getAseguradoras(function(aseguradoras) {                
+            this.getAseguradoras(function(aseguradoras) {
                 that.cotizar(aseguradoras, index, callback);
             }, function(err) {
                 that.showAlert('Ha habido un error, intente de nuevo por favor');
@@ -2231,7 +2256,7 @@ export class AcquireProductPage2 {
         });
     }    
 
-    private getCardInfo(numTarjeta:number) {
+    private getCardInfo(numTarjeta:string) {
         let that = this,
             loader = that.loadingCtrl.create();
             loader.present();
@@ -2254,33 +2279,55 @@ export class AcquireProductPage2 {
                 that.showToast('No se pudo validar el banco');                    
             } else {
 
-                //Para quitar caracteres especiales al banco y dejarlo en minus, pero con la primera letra en mayus
+                bank = bank.trim();
+                if (bank.length == 0) {
+                    loader.dismiss();
+                    return;
+                }
+
+                //Para quitar caracteres especiales al banco y dejarlo en minus, pero con la primera letra en mayus                
                 bank = bank.toLowerCase();
-                bank = bank.charAt(0).toUpperCase() + bank.slice(1);
+                bank = bank.charAt(0).toUpperCase() + bank.slice(1).toLowerCase();
 
-                if (scheme === 'MASTERCARD') {
-                    that.carrierCot = '1';
-                    that.master();
-                } else if (scheme === 'AMEX') {
-                    that.carrierCot = '2';
-                    that.amex();
-                } else if (scheme === 'VISA') {
-                    that.carrierCot = '0';
-                    that.visa();
+                let BANK = bank.toUpperCase(),
+                    found = false;
+                for (let i = 0, len = that.cotizacion.bancos.length; i < len; i++) {
+                    if (that.cotizacion.bancos[i].Abreviacion.toUpperCase() == BANK) {
+                        found = true;
+                        break;
+                    }
                 }
 
-                //conversion a espanol lo que devuelve el ws
-                if (type === 'CREDIT') {
-                    type = 'CREDITO';
-                    that.tipoCot = 'CREDITO';
-                } else {
-                    type = 'DEBITO';
-                    that.tipoCot = 'DEBITO';
+                if (found == true) {
+                    if (scheme === 'MASTERCARD') {
+                        that.carrierCot = '1';
+                        that.master();
+                    } else if (scheme === 'AMEX') {
+                        that.carrierCot = '2';
+                        that.amex();
+                    } else if (scheme === 'VISA') {
+                        that.carrierCot = '0';
+                        that.visa();
+                    }
+    
+                    //conversion a espanol lo que devuelve el ws
+                    if (type === 'CREDIT') {
+                        type = 'CREDITO';
+                        that.tipoCot = 'CREDITO';
+                    } else {
+                        type = 'DEBITO';
+                        that.tipoCot = 'DEBITO';
+                    }
+    
+                    that.tipoTarjeta = type;                
+                    that.banco = bank;
+                    loader.dismiss();
+                } else {                    
+                    loader.dismiss();
+                    loader.onDidDismiss(() => {
+                        that.showAlert(`La aseguradora ${that.cotizacion.aseguradora} no acepta pagos del banco ${bank}`);
+                    });                                
                 }
-
-                that.tipoTarjeta = type;
-                that.banco = bank;
-                loader.dismiss();
             }
         }, err => {
             that.carrierCot = null;
@@ -2504,9 +2551,7 @@ export class AcquireProductPage2 {
         });
     }    
 
-    crearCliente(success:any, error:any) {
-
-        console.log('crearCliente', this.createClient);
+    crearCliente(success:any, error:any) {        
 
         if (this.createClient == false) {
             success(); //no necesitaba crearcliente pero llamo a success
@@ -2743,6 +2788,9 @@ export class AcquireProductPage2 {
         localStorage.Aseguradora=this.aseguradoraCot
 		let consultaData				
         //checkpoint
+        this.aseguradoraCot = this.cotizacion.aseguradora;
+        this.claveCot = this.cotizacion.clave;
+        let numInterior = (this.numInterior == undefined) ? null : this.numInterior;
         if (this.aseguradoraCot=="HDI"){
             consultaData = {
                 Aseguradora: this.aseguradoraCot,
@@ -2758,7 +2806,7 @@ export class AcquireProductPage2 {
                     Direccion: {
                         Calle: this.calle,
                         NoExt: this.numExterior,
-                        NoInt: this.numInterior,
+                        NoInt: numInterior,
                         Colonia: this.colonia,
                         CodPostal: this.codigoPostal2,
                         Poblacion: this.delegacion,
@@ -2846,7 +2894,7 @@ export class AcquireProductPage2 {
                     Direccion: {
                         Calle: this.calle,
                         NoExt: this.numExterior,
-                        NoInt: this.numInterior,
+                        NoInt: numInterior,
                         Colonia: this.colonia,
                         CodPostal: this.codigoPostal2,
                         Poblacion: this.delegacion,
@@ -3400,10 +3448,60 @@ export class AcquireProductPage2 {
         }
     }
 
+    private bottomAlertOptionsList = [];
+
+    private bottomAlert(field, list, callback) {
+        this.bottomAlertField = field;
+        console.log({list}); 
+        let newList = [];
+        for (let i = 0, len = list.length; i < len; i++) {
+            let isSelected = list[i] == this[field];
+            if (list[i] == this[field]) {
+                console.log('this is it everybody!', list[i], isSelected);
+            }            
+            newList.push({value: list[i], selected: isSelected});
+        }
+        this.bottomAlertOptionsList = newList;
+        document.getElementById('bottomAlertBackground').style.display = 'block';
+        document.getElementById('bottomAlertTile').style.display = 'block';
+        this.hideFooterMenu();
+        if (callback != undefined) {            
+            this.triggers.push({field: field, fn: callback});
+        }
+    }
+
+    private bottomAlertField:string;
+    private triggers:any[] = [];
+
+    private bottomAlertOptionSelected(optionSelected:any):void {
+        console.log('bottomAlertOptionSelected', optionSelected, this.triggers);
+        this[this.bottomAlertField] = optionSelected.value;
+        for (let i = 0, len = this.triggers.length; i < len; i++) {
+            if (this.triggers[i]['field'] == this.bottomAlertField) {
+                this.triggers[i]['fn'](optionSelected.value);
+            }
+        }
+        this.closeBottomAlert();
+    }
+
+    private closeBottomAlert() {
+        document.getElementById('bottomAlertBackground').style.display = 'none';
+        document.getElementById('bottomAlertTile').style.display = 'none';        
+        this.showFooterMenu();  
+    }    
+
+    private hideFooterMenu() {
+        document.getElementById('appFooter').getElementsByClassName('tabbar')[0]['style'].visibility = 'hidden';
+    }
+
+    private showFooterMenu() {
+        document.getElementById('appFooter').getElementsByClassName('tabbar')[0]['style'].visibility = 'visible';
+    }
+
     private showOpcionesCotizacion() {
         document.getElementById('opcionesCotizacion').style.display = 'block';
         document.getElementById('opcionesCotizacionTile').style.display = 'block';    
-        document.getElementById('appFooter').getElementsByClassName('tabbar')[0]['style'].visibility = 'hidden';
+        this.hideFooterMenu();
     }
 
     private closeOpcionesCotizacion() {
@@ -3411,8 +3509,8 @@ export class AcquireProductPage2 {
         let that = this;
 
         document.getElementById('opcionesCotizacion').style.display = 'none';
-        document.getElementById('opcionesCotizacionTile').style.display = 'none';
-        document.getElementById('appFooter').getElementsByClassName('tabbar')[0]['style'].visibility = 'visible';
+        document.getElementById('opcionesCotizacionTile').style.display = 'none';        
+        this.showFooterMenu();
 
         if (that.opcionesCotizacionChanged == true) {
             let loader = this.loadingCtrl.create();

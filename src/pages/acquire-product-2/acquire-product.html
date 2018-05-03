@@ -33,7 +33,7 @@
                     <ion-row>
                         <ion-col col-12>
                             <p class="instrucciones">Ingresa la siguiente información</p>
-                            <p class="sub-instrucciones">Obtendrás una cotización inmediata</p>
+                            <p class="sub-instrucciones">Obtendrás una cotización inmediata</p>                            
                         </ion-col>            
                     </ion-row>
                 </ion-col>
@@ -91,7 +91,7 @@
                 </ion-col>
             </ion-row>-->
         </ion-col>
-    </ion-row>                
+    </ion-row>
 
     <!-- Paso 2 de 5 -->
     <ion-row class="cliente-tab" [hidden]="step != 2">        
@@ -161,9 +161,9 @@
 
             <ion-row class="lolo">
                 <ion-col col-9>
-                    <p><span>Cobertura:</span> Amplia</p>
-                    <p><span>Perioricidad de Pago:</span> Mensual</p>
-                    <p><span>Pago con:</span> -</p>
+                    <p><span>Cobertura:</span> {{cobertura}}</p>
+                    <p><span>Perioricidad de Pago:</span> {{cotizacion.formaDePago}}</p>
+                    <p><span>Pago con:</span> Tarjeta de crédito</p>
                     <p><span>Costo total:</span> {{cotizacion.monto}}</p>                    
                 </ion-col>     
                 <ion-col>
@@ -522,4 +522,16 @@
             </ion-col>                
         </ion-row>         
     </ion-grid>                
+</div>
+
+<button id="bottomAlertBackground" (tap)="closeBottomAlert()"></button>
+<div id="bottomAlertTile">
+        
+    <ion-scroll id="ionScroll" scrollY="true">
+    <ion-list>
+        <ion-item *ngFor="let item of bottomAlertOptionsList" (tap)="bottomAlertOptionSelected(item)" [ngClass]="{'selected':item.selected == true}">
+            <span>{{item.value}}</span>            
+        </ion-item>        
+    </ion-list>
+    </ion-scroll>    
 </div>
