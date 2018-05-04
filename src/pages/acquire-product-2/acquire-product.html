@@ -186,41 +186,17 @@
                         </ion-col>
                     </ion-row>
                     
-                    <ion-row class="result" align-items-center>
+                    <ion-row class="result" align-items-center *ngFor="let cobertura of cotizacion.coberturas">
                         <ion-col col-4>
-                            Daños Materiales
+                            {{cobertura.NombreCobertura}}
                         </ion-col>
                         <ion-col col-4>
-                            {{cotizacion.coberturas.danosMateriales.sumaAsegurada}}
+                            {{cobertura.SumaAsegurada}}
                         </ion-col>
                         <ion-col col-4>
-                            {{cotizacion.coberturas.danosMateriales.deducible}}
+                            {{cobertura.Deducible}}
                         </ion-col>
-                    </ion-row>
-
-                    <ion-row class="result" align-items-center>
-                        <ion-col col-4>
-                            Robo Total
-                        </ion-col>
-                        <ion-col col-4>
-                            {{cotizacion.coberturas.roboTotal.sumaAsegurada}}
-                        </ion-col>
-                        <ion-col col-4>
-                            {{cotizacion.coberturas.roboTotal.deducible}}
-                        </ion-col>
-                    </ion-row>
-
-                    <ion-row class="result" align-items-center>
-                        <ion-col col-4>
-                            Responsabilidad Civil
-                        </ion-col>
-                        <ion-col col-4>
-                            {{cotizacion.coberturas.responsabilidadCivil.sumaAsegurada}}
-                        </ion-col>
-                        <ion-col col-4>
-                            {{cotizacion.coberturas.responsabilidadCivil.deducible}}
-                        </ion-col>
-                    </ion-row>
+                    </ion-row>                    
                 </ion-col>
             </ion-row>
 

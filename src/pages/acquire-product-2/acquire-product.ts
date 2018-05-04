@@ -32,7 +32,7 @@ export class AcquireProductPage2 {
     data: string;
 
     private toast:any;    
-    private cotizacion = {aseguradora: '',clave: '',bancos:[],coberturas:{roboTotal:{sumaAsegurada:'',deducible:''},danosMateriales:{sumaAsegurada:'',deducible:''},responsabilidadCivil:{sumaAsegurada:'',deducible:''}},monto:0, logo: '', responsabilidadCivil: {sumaAsegurada: '', deducible: ''}, roboTotal: {sumaAsegurada: '', deducible: ''}, danosMateriales: {sumaAsegurada: '', deducible: ''}};
+    private cotizacion = {aseguradora: '',clave: '',bancos:[],coberturas:[],monto:0, logo: '', responsabilidadCivil: {sumaAsegurada: '', deducible: ''}, roboTotal: {sumaAsegurada: '', deducible: ''}, danosMateriales: {sumaAsegurada: '', deducible: ''}};
 
     private currentStep:number = 1;
     public step:number = 1;
@@ -213,31 +213,13 @@ export class AcquireProductPage2 {
     }
 
     private getCoberturas(callback) {
-        let url = `http://services.bunch.guru/WebService.asmx/GetCoberturas?usuario=Bunch&password=BunCH2O18&aseguradora=${this.cotizacion.aseguradora}&paquete=${this.cobertura}`;
-        console.log('getCoberturas', url);
-        this.http.get(url).map(res => res.json()).subscribe(data => {
-            console.log('data antes de filtrar', data);
-            let coberturas = data.Coberturas;
-            let newObj = {'responsabilidadCivil':{}, 'roboTotal': {}, 'danosMateriales': {}};
-            let cobertura = this.cobertura.toUpperCase();
-            let filtroCoberturas = ['RESPONSABILIDAD POR DAÑOS A TERCEROS', 'ROBO TOTAL', 'DAÑOS MATERIALES'];
-            let filtroCoberturasLabel = ['responsabilidadCivil', 'roboTotal', 'danosMateriales'];
-            for (let i = 0, len = coberturas.length; i < len; i++) {
-                //filtrar por nombrepaquete y por nombre de cobertura
-                let obj = coberturas[i];
-                let index = filtroCoberturas.indexOf(obj['NombreCobertura']);
-                if (obj['NombrePaquete'] == cobertura && index !== -1) {                    
-                    newObj[filtroCoberturasLabel[index]] = {
-                        sumaAsegurada: obj.SumaAsegurada,
-                        deducible: obj.Deducible,
-                    };
-                }
-            }
-            callback(newObj);
-
-
+        
+        let url = `http://services.bunch.guru/WebService.asmx/GetCoberturas?usuario=Bunch&password=BunCH2O18&aseguradora=${this.cotizacion.aseguradora}&paquete=${this.cobertura}`;        
+        
+        this.http.get(url).map(res => res.json()).subscribe(data => {                                
+            callback(data.Coberturas);
         }, err => {
-            console.error(err);
+            console.error(url, err);
             callback([]);
         });
     }
@@ -293,8 +275,7 @@ export class AcquireProductPage2 {
                     loader.dismiss();
                     loader.onDidDismiss(() => {
                         that.step = stepIndex;
-                        that.currentStep = stepIndex;
-                        console.log({coberturas});
+                        that.currentStep = stepIndex;                        
                         that.cotizacion.coberturas = coberturas;
                         that.content.scrollToTop();
                     });
