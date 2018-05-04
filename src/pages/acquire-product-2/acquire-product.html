@@ -65,12 +65,13 @@
                     </ion-row>                    
                 </ion-col>    
                 <ion-col col-1>
-                    //<ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
+                    ////<ion-icon name="ios-arrow-forward" class="m-input-arrow"></ion-icon>
                 </ion-col>                            
             </ion-row>-->
 
-            <m-input label="Código Postal" id="codigoPostal1" [field]="codigoPostal1" (tap)="showAlertCP1()"></m-input>
+            <m-input label="Código Postal" id="codigoPostal1" [field]="codigoPostal1" (change)="mInputChange('codigoPostal1', codigoPostalChanged)"></m-input>
             <m-input label="Edad" id="edad" [field]="edadTxt" (tap)="showAlertEdad()"></m-input>
+            <m-input label="Género" [field]="genero" id="genero" (tap)="showAlertGenero()"></m-input>
             <m-input label="Marca" id="marca" [field]="marca" (tap)="showAlertMarca()"></m-input>
             <m-input label="Modelo" id="inputModelo" [field]="modelo" (tap)="showAlertModelo()" id="inputModelo" disabled></m-input>
             <m-input label="Submarca" id="inputSubMarca" [field]="subMarca" (tap)="showAlertSubMarca()" id="inputSubMarca" disabled></m-input>            
@@ -265,10 +266,10 @@
                 </ion-col>
             </ion-row>
 
-            <m-input label="Email" id="email" [field]="email" (tap)="showAlertEmail()"></m-input>
-            <m-input label="Nombre" id="nombre" [field]="nombre" (tap)="showAlertNombre()"></m-input>
-            <m-input label="Apellido Paterno" id="paterno" [field]="paterno" (tap)="showAlertApellidoP()"></m-input>
-            <m-input label="Apellido Materno" id="materno" [field]="materno" (tap)="showAlertApellidoM()"></m-input>
+            <m-input label="Email" id="email" [field]="email" (change)="mInputChange('email', emailChanged)"></m-input>
+            <m-input label="Nombre" id="nombre" [field]="nombre" (change)="mInputChange('nombre', nombreChanged)"></m-input>
+            <m-input label="Apellido Paterno" id="paterno" [field]="paterno" (change)="mInputChange('paterno', paternoChanged)"></m-input>
+            <m-input label="Apellido Materno" id="materno" [field]="materno" (change)="mInputChange('materno', maternoChanged)"></m-input>
 
             <ion-row class="m-input" id="fechaNacimiento">
                 <ion-col col-11>                                    
@@ -286,22 +287,21 @@
                     <ion-icon *ngIf="fechaNacimiento === null" class="m-input-icon m-input-icon-error" name="ios-close-outline"></ion-icon>
                 </ion-col>                            
             </ion-row>
-
-            <m-input label="Género" [field]="genero" id="genero" (tap)="showAlertGenero()"></m-input>
-            <m-input label="Teléfono de Casa" id="telCasa" [field]="telCasa" (tap)="showAlertTelefonoCasa()"></m-input>            
-            <m-input label="Teléfono Móvil" id="telMovil" [field]="telMovil" (tap)="showAlertTelefonoMovil()"></m-input>
-            <m-input label="RFC" id="rfc" [field]="rfc" (tap)="showAlertRFC()"></m-input>
+            
+            <m-input label="Teléfono de Casa" id="telCasa" [field]="telCasa" (change)="mInputChange('telCasa', telCasaChanged)"></m-input>            
+            <m-input label="Teléfono Móvil" id="telMovil" [field]="telMovil"  (change)="mInputChange('telMovil', telMovilChanged)"></m-input>
+            <m-input label="RFC" id="rfc" [field]="rfc" (change)="mInputChange('rfc', rfcChanged)"></m-input>
             <m-input label="Código Postal" id="codigoPostal2" [field]="codigoPostal1"></m-input>
             <m-input label="Colonia" id="colonia" [field]="colonia" (tap)="showAlertColony()"></m-input>
             <m-input label="Estado" id="estado" [field]="estado"></m-input>
             <m-input label="Delegación/Municipio" id="delegacion" [field]="delegacion"></m-input>
-            <m-input label="Calle" id="calle" [field]="calle" (tap)="showAlertCalle()"></m-input>
-            <m-input label="Número Exterior" id="numExterior" [field]="numExterior" (tap)="showAlertNoExt()"></m-input>
-            <m-input label="Número Interior" id="numInterior" [field]="numInterior" (tap)="showAlertNoInt()"></m-input>
+            <m-input label="Calle" id="calle" [field]="calle" (change)="mInputChange('calle', calleChanged)"></m-input>
+            <m-input label="Número Exterior" id="numExterior" [field]="numExterior" (change)="mInputChange('numExterior')"></m-input>
+            <m-input label="Número Interior" id="numInterior" [field]="numInterior" (change)="mInputChange('numInterior')"></m-input>
             <hr>
-            <m-input label="Número de Motor" id="numMotor" [field]="numMotor" (tap)="showAlertNumeroDeMotor()"></m-input>
-            <m-input label="Número de Serie" id="numSerie" [field]="numSerie" (tap)="showAlertNumeroDeSerie()"></m-input>
-            <m-input label="Número de Placas" id="numPlacas" [field]="numPlacas" (tap)="showAlertNumeroDePlacas()"></m-input>
+            <m-input label="Número de Motor" id="numMotor" [field]="numMotor" (change)="mInputChange('numMotor', numMotorChanged)"></m-input>
+            <m-input label="Número de Serie" id="numSerie" [field]="numSerie" (change)="mInputChange('numSerie', numSerieChanged)"></m-input>
+            <m-input label="Número de Placas" id="numPlacas" [field]="numPlacas" (change)="mInputChange('numPlacas', numPlacasChanged)"></m-input>
             
             <ion-row class="m-button">
                 <ion-col col-3></ion-col>

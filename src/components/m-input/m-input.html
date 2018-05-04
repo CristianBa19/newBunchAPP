@@ -4,7 +4,9 @@
             <ion-col col-12>{{label}}</ion-col>
         </ion-row>
         <ion-row class="m-input-value">
-            <ion-col col-12>{{field}}</ion-col>
+            <ion-col col-12>
+                <input type="text" [value]="field || ''">
+            </ion-col>
         </ion-row>                    
     </ion-col>    
     <ion-col col-1>

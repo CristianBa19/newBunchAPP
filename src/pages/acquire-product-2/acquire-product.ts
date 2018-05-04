@@ -163,6 +163,7 @@ export class AcquireProductPage2 {
         this.codigoPostal1 = '79050';
         this.processPostalCode(this.codigoPostal1);
         this.edad = 22;
+        this.genero = 'FEMENINO';
         this.edadTxt = `${this.edad} años`;
         this.marca = 'CHEVROLET';
         this.modelo = '2014';
@@ -176,8 +177,7 @@ export class AcquireProductPage2 {
         this.nombre = 'LUNA';
         this.paterno = 'CISNEROS';
         this.materno = 'LOPEZ';
-        this.fechaNacimiento = '1988-02-12';
-        this.genero = 'FEMENINO';
+        this.fechaNacimiento = '1988-02-12';        
         this.telCasa = '4811455422';
         this.telMovil = '48114555466';
         this.rfc = 'CILL880212P11';        
@@ -222,7 +222,7 @@ export class AcquireProductPage2 {
         loader.present();
 
         if (currentStep == 1) {
-            errors = !this.validVars(['codigoPostal1', 'edad', 'marca', 'modelo', 'subMarca', 'descripcion', 'subDescripcion']);
+            errors = !this.validVars(['codigoPostal1', 'edad', 'genero', 'marca', 'modelo', 'subMarca', 'descripcion', 'subDescripcion']);
         } else if (currentStep == 2) {
             
             that.cotizacion.monto = obj.value;
@@ -239,7 +239,7 @@ export class AcquireProductPage2 {
             //that.loadInputData('inputBank');
         } else if (currentStep == 4) {
 
-            errors = !this.validVars(['email', 'nombre', 'paterno', 'materno', 'fechaNacimiento', 'genero', 'telCasa', 'telMovil', 'rfc', 'colonia', 'estado', 'delegacion', 'calle', 'numExterior', 'numMotor', 'numSerie', 'numPlacas']);
+            errors = !this.validVars(['email', 'nombre', 'paterno', 'materno', 'fechaNacimiento', 'telCasa', 'telMovil', 'rfc', 'colonia', 'estado', 'delegacion', 'calle', 'numExterior', 'numMotor', 'numSerie', 'numPlacas']);
         }
         
         if (validate == true && errors == true) {
@@ -553,6 +553,30 @@ export class AcquireProductPage2 {
         }        
     }
 
+    private codigoPostalChanged(that, cp) {                
+        if (cp === null) {
+            that.codigoPostal1 = null;
+            that.codigoPostal2 = null;
+            that.userColonyList = [];
+            that.showToast('Código postal inválido');            
+        } else {            
+            that.processPostalCode(cp);
+        }
+    }
+
+    private mInputChange(elementId, callback) {
+        let value = document.getElementById(elementId).getElementsByTagName('input')[0].value.trim(),
+            that = this;        
+        if (value.length == 0) {
+            that[elementId] = null;            
+        } else {
+            that[elementId] = value;            
+        }        
+        if (callback != undefined) {            
+            callback(that, that[elementId]);         
+        }        
+    }
+
     showAlertCP1() {
 
 
@@ -589,8 +613,7 @@ export class AcquireProductPage2 {
                 that.codigoPostal1 = null;
                 that.codigoPostal2 = null;
                 that.userColonyList = [];
-                that.showToast('Código postal inválido');                
-                that.showAlertCP1();
+                that.showToast('Código postal inválido');                                
             } else {
                 that.codigoPostal1 = cp;                
 
@@ -609,8 +632,7 @@ export class AcquireProductPage2 {
                     that.codigoPostal1 = null;
                     that.codigoPostal2 = null;
                     that.userColonyList = [];
-                    that.showToast('Código postal inválido');                
-                    that.showAlertCP1();
+                    that.showToast('Código postal inválido');                                    
                 });
             }
         });
@@ -811,8 +833,7 @@ export class AcquireProductPage2 {
                     }                
                 }          
                 
-                that.getBancosDeCadaAseguradora(aseguradoras, function(aseguradoras) {
-                    console.log('yei!', aseguradoras);
+                that.getBancosDeCadaAseguradora(aseguradoras, function(aseguradoras) {                    
                     success(aseguradoras);
                 });                
             }, err => {
@@ -1038,6 +1059,8 @@ export class AcquireProductPage2 {
             CodigoError: null,
             urlRedireccion: null
         };
+
+        console.log('cotizar con los datos:', dataObj);
 
         let myJSON = JSON.stringify(dataObj),
             enStr = btoa(`usuario=Bunch&Password=BunCH2O18&data=${myJSON}&movimiento=cotizacion&idContVend=${this.idContVend}`),
@@ -1511,6 +1534,105 @@ export class AcquireProductPage2 {
 
     //Step 2
 
+    private emailChanged(that, email) {        
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (re.test(String(email).toLowerCase()) !== true) {
+            that.showToast('Email no válido');
+            that.email = null;
+        } else {
+            that.email = email;
+
+            that.nombre = undefined;
+            that.paterno = undefined;
+            that.materno = undefined;
+            that.fechaNacimiento = undefined;
+            that.genero = undefined;
+            that.telCasa = undefined;
+            that.telMovil = undefined;
+            that.rfc = undefined;
+            that.colonia = undefined;
+            that.calle = undefined;
+            that.numExterior = undefined;
+            that.numInterior = undefined;
+
+            let encodedString = btoa(that.email),
+                url = `http://services.bunch.guru/WebService.asmx/validarCliente?param=${encodedString}`;
+
+            that.http.get(url).map(res => res.json()).subscribe(data => {
+
+                let status = +data.status,
+                    id = data.id;
+
+                switch (status) {
+                    case 1:
+                        that.createClient = true;
+                        console.log('email status 1');
+
+                        that.isEnabled = true;
+                        that.isEnabledTipo3 = true;
+                        that.isEnabledTipo3Dir = true;
+                        break;
+                    case 2:
+                        that.createClient = false;
+                        console.log('email status 2');
+                        
+                        /*that.isEnabled = false;                            
+                        that.isEnabledTipo3 = true;
+                        that.isEnabledTipo3Dir = true;*/
+
+                        that.isEnabled = true;
+                        that.isEnabledTipo3 = true;
+                        that.isEnabledTipo3Dir = true;
+
+                        console.log('retrieveData A');
+                        that.retrieveData();
+                        break;
+                    case 3:
+                        that.createClient = false;
+                        console.log('email status 3');
+                        
+                        /*that.isEnabled = false;
+                        that.isEnabledTipo3 = false;*/
+
+                        that.isEnabled = true;
+                        that.isEnabledTipo3 = true;
+                        that.isEnabledTipo3Dir = true;
+
+                        encodedString = btoa(`id=${id}`);
+                        url = `http://services.bunch.guru/WebService.asmx/ConsultarDirecciones?param=${encodedString}`;
+                        that.http.get(url).map(res => res.json()).subscribe(data => {
+
+                            data.direccion.forEach(function (e, i) {
+                                Object.keys(e).forEach(function (key) {
+                                    if (e[key] == 'undefined') {
+                                        data.direccion[i][key] = '';
+                                    }
+                                });
+                            });
+                            that.userStateList = data.direccion;
+                            that.userStateList.push({
+                                Calle: 'Añadir nueva dirección',
+                                NoExt: '',
+                                NoInt: '',
+                                Colonia: '',
+                                CodPostal: '',
+                                Poblacion: '',
+                                Ciudad: '',
+                                IdDir: ''
+                            });
+
+                            that.tipoTres(that.userStateList);
+                        }, err => {
+                            console.error({ err });
+                        });
+                        break;
+                }
+            }, err => {
+                console.error({ err });
+            });
+        }
+    }
+
     showAlertEmail() {
 
         let that = this,
@@ -1619,6 +1741,16 @@ export class AcquireProductPage2 {
         });
     }
 
+    private nombreChanged(that, nombre) {
+        nombre = nombre.trim().toUpperCase();
+        if (that.validName(nombre)) {
+            that.nombre = nombre;    
+            that.calcRFCYTitular();
+        } else {
+            that.nombre = null;
+        }
+    }
+
     showAlertNombre() {
 
         if (this.isEnabled == true) {
@@ -1654,6 +1786,16 @@ export class AcquireProductPage2 {
         }
     }
 
+    private paternoChanged(that, paterno) {
+        paterno = paterno.trim().toUpperCase();
+        if (that.validLastName(paterno)) {
+            that.paterno = paterno;    
+            that.calcRFCYTitular();
+        } else {
+            that.paterno = null;
+        }
+    }
+
     showAlertApellidoP() {
         if (this.isEnabled == true) {
 
@@ -1670,6 +1812,16 @@ export class AcquireProductPage2 {
                     that.paterno = null;
                 }
             });
+        }
+    }
+
+    private maternoChanged(that, materno) {
+        materno = materno.trim().toUpperCase();
+        if (that.validLastName(materno)) {
+            that.materno = materno;    
+            that.calcRFCYTitular();
+        } else {
+            that.materno = null;
         }
     }
 
@@ -1764,6 +1916,16 @@ export class AcquireProductPage2 {
         });
     }
 
+    private telCasaChanged(that, telCasa) {
+        telCasa = telCasa.trim();
+        if (telCasa.length >= 10) {
+            that.telCasa = telCasa;
+        } else {
+            that.telCasa = null;                    
+            that.showToast('Teléfono de Casa inválido');
+        }
+    }
+
     showAlertTelefonoCasa() {
 
         if (this.isEnabledTipo3 == true) {
@@ -1789,6 +1951,17 @@ export class AcquireProductPage2 {
             });
         }
     }
+
+    private telMovilChanged(that, telMovil) {
+        telMovil = telMovil.trim();
+        if (telMovil.length >= 10) {
+            that.telMovil = telMovil;
+        } else {                
+            that.telMovil = null;    
+            that.showToast('Teléfono Móvil inválido');
+        }
+    }
+
     showAlertTelefonoMovil() {
 
         if (this.isEnabledTipo3 == true) {
@@ -1811,6 +1984,15 @@ export class AcquireProductPage2 {
                     that.showAlertTelefonoMovil();
                 }
             });
+        }
+    }
+
+    private rfcChanged(that, rfc) {
+        rfc = rfc.trim().toUpperCase();
+        if (rfc.length == 0) {
+            that.rfc = null;
+        } else {
+            that.rfc = rfc;
         }
     }
 
@@ -1987,6 +2169,28 @@ export class AcquireProductPage2 {
         });
     }
 
+    private numSerieChanged(that, numSerie) {
+        numSerie = numSerie.trim().toUpperCase();
+        that.numSerie = (numSerie.length == 0) ? null : numSerie;        
+
+        if (that.numSerie !== null) {
+            let loader = that.loadingCtrl.create();
+            loader.present();
+            that.http.get(`http://services.bunch.guru/WebService.asmx/validarNoSerie?serie=${that.numSerie}&modelo=${that.modelo}`).map(res => res).subscribe(data => {            
+                loader.dismiss();
+
+                if (data['_body'] === 'True') {
+                    that.numSerie = numSerie.toUpperCase();
+                } else {                    
+                    that.showToast('Número de serie inválido');
+                }                
+            }, err => {
+                that.numSerie = undefined;
+                loader.dismiss();                                
+            });
+        }        
+    }
+
     showAlertNumeroDeSerie() {
 
         let title = this.isEnglish ? 'Input serial number' : 'Número de serie',
@@ -2021,6 +2225,14 @@ export class AcquireProductPage2 {
         });
     }
 
+    private numPlacasChanged(that, numPlacas) {        
+        if (numPlacas.length >= 6) {
+            that.numPlacas = numPlacas.toUpperCase();
+        } else {            
+            that.showToast('Placas no válidas');
+        }
+    }
+
     showAlertNumeroDePlacas() {
 
         let title = this.isEnglish ? 'Input plate' : 'Número de placa',
@@ -2043,6 +2255,15 @@ export class AcquireProductPage2 {
         });
     }
 
+    private numMotorChanged(that, numMotor) {
+
+        if (numMotor.length >= 7) {
+            that.numMotor = numMotor.toUpperCase();
+        } else {
+            that.showToast('Número de motor inválido');
+        }
+    }
+
     showAlertNumeroDeMotor() {
 
         let title = this.isEnglish ? 'Input motor number' : 'Número del motor',
@@ -2063,6 +2284,15 @@ export class AcquireProductPage2 {
                 that.showAlertNumeroDeSerie();
             }
         });
+    }
+
+    private calleChanged(that, calle) {
+        calle = calle.trim().toUpperCase();
+        if (calle.length == 0) {
+            that.calle = null;
+        } else {
+            that.calle = calle;
+        }
     }
 
     showAlertCalle() {
@@ -3366,16 +3596,24 @@ export class AcquireProductPage2 {
             }, 350);
         }        
 
-        if (callback != undefined) {            
-            this.triggers.push({field: field, fn: callback});
+        if (callback != undefined) {
+            let found = false;
+            for (let i = 0, len = this.triggers.length; i < len; i++) {
+                if (this.triggers[i]['field'] == field) {
+                    found = true;
+                    break
+                }
+            }
+            if (found == false) {
+                this.triggers.push({field: field, fn: callback});
+            }            
         }
     }
 
     private bottomAlertField:string;
     private triggers:any[] = [];
 
-    private bottomAlertOptionSelected(optionSelected:any):void {
-        console.log('bottomAlertOptionSelected', optionSelected, this.triggers);
+    private bottomAlertOptionSelected(optionSelected:any):void {        
         this[this.bottomAlertField] = (optionSelected.value.length == 0) ? null : optionSelected.value;
         for (let i = 0, len = this.triggers.length; i < len; i++) {
             if (this.triggers[i]['field'] == this.bottomAlertField) {

@@ -15,6 +15,7 @@ export class MInputComponent {
   @Input() label: string;
   @Input() field: string;  
   @Input() id: string;    
+  @Input() change: any;
 
   constructor() {    
   }
