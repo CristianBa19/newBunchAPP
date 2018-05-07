@@ -3646,17 +3646,21 @@ export class AcquireProductPage2 {
     }
 
     private closeBottomAlert() {
+        let that = this;
         document.getElementById('bottomAlertBackground').style.display = 'none';
         document.getElementById('bottomAlertTile').style.display = 'none';        
-        this.showFooterMenu();  
+        setTimeout(function() {
+            that.showFooterMenu();  
+        }, 100);        
     }    
 
-    private hideFooterMenu() {
-        document.getElementById('appFooter').getElementsByClassName('tabbar')[0]['style'].visibility = 'hidden';
+    private hideFooterMenu() {        
+        document.getElementById('appFooter').getElementsByClassName('tabbar')[0].removeAttribute('style');
+        document.getElementById('appFooter').getElementsByClassName('tabbar')[0].setAttribute('style', 'display:none;');
     }
 
-    private showFooterMenu() {
-        document.getElementById('appFooter').getElementsByClassName('tabbar')[0]['style'].visibility = 'visible';
+    private showFooterMenu() {        
+        document.getElementById('appFooter').getElementsByClassName('tabbar')[0].removeAttribute('style');
     }
 
     private showOpcionesCotizacion() {
