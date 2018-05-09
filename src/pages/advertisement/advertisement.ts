@@ -3,6 +3,7 @@ import { AcquireProductPage2 } from './../acquire-product-2/acquire-product';
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { NewAdvertisementPage } from './../new-advertisement/new-advertisement';
+import { NewAdvertisementPage2 } from './../new-advertisement-2/new-advertisement';
 import { AdDetailPage } from './../ad-detail/ad-detail';
 import { ProductsPage } from '../products/products';
 import { PaymentSubmittedPage2 } from '../payment-submited2/payment-submited2';
@@ -56,6 +57,10 @@ export class AdvertisementPage {
 
  public newAdv = () => {
   this.navCtrl.push(NewAdvertisementPage, null, {animate: true});
+}
+
+public newAdv2 = () => {
+  this.navCtrl.push(NewAdvertisementPage2, null, {animate: true});
 }
 public goAcquireProduct = () => {
   this.navCtrl.push(AcquireProductPage, null, {animate: true});

@@ -35,6 +35,7 @@ import { TextingPage } from './../pages/texting/texting';
 import { ProfilePage } from './../pages/profile/profile';
 import { NotificationDetailPage } from './../pages/notification-detail/notification-detail';
 import { NewAdvertisementPage } from './../pages/new-advertisement/new-advertisement';
+import { NewAdvertisementPage2 } from './../pages/new-advertisement-2/new-advertisement';
 import { CreateAdvertisementPage } from './../pages/create-advertisement/create-advertisement';
 import { ConfigAdvertisementPage } from './../pages/config-advertisement/config-advertisement';
 import { ChatPage } from './../pages/chat/chat';
@@ -74,7 +75,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { MInputComponent } from '../components/m-input/m-input';
 
-
 @NgModule({
     declarations: [
         MyApp,
@@ -107,6 +107,7 @@ import { MInputComponent } from '../components/m-input/m-input';
         StatisticProductsDetailsPage,
         NotificationDetailPage,
         NewAdvertisementPage,
+        NewAdvertisementPage2,
         FilterPage,
         CreateAdvertisementPage,
         ConfigAdvertisementPage,
@@ -182,6 +183,7 @@ import { MInputComponent } from '../components/m-input/m-input';
         NotificationDetailPage,
         FilterPage,
         NewAdvertisementPage,
+        NewAdvertisementPage2,
         CreateAdvertisementPage,
         ConfigAdvertisementPage,
         ChatPage,
