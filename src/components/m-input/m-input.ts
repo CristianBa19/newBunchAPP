@@ -16,6 +16,8 @@ export class MInputComponent {
   @Input() field: string;  
   @Input() id: string;    
   @Input() change: any;
+  @Input() x: any;
+  @Input() disabled: any;
 
   constructor() {    
   }

@@ -70,13 +70,13 @@
             </ion-row>-->
 
             <m-input label="Código Postal" id="codigoPostal1" [field]="codigoPostal1" (change)="mInputChange('codigoPostal1', codigoPostalChanged)"></m-input>
-            <m-input label="Edad" id="edad" [field]="edadTxt" (click)="showAlertEdad()"></m-input>
-            <m-input label="Género" [field]="genero" id="genero" (click)="showAlertGenero()"></m-input>
-            <m-input label="Marca" id="marca" [field]="marca" (click)="showAlertMarca()"></m-input>
-            <m-input label="Modelo" id="inputModelo" [field]="modelo" (click)="showAlertModelo()" id="inputModelo" disabled></m-input>
-            <m-input label="Submarca" id="inputSubMarca" [field]="subMarca" (click)="showAlertSubMarca()" id="inputSubMarca" disabled></m-input>            
-            <m-input label="Descripción" id="inputDescripcion" [field]="descripcion" (click)="showAlertDescripcion()" id="inputDescripcion" disabled></m-input>
-            <m-input label="SubDescripción" id="inputSubDescripcion" [field]="subDescripcion" (click)="showAlertSubDescripcion()" id="inputSubDescripcion" disabled></m-input>
+            <m-input label="Edad" id="edad" [field]="edadTxt" (click)="showAlertEdad()" [disabled]="true"></m-input>
+            <m-input label="Género" [field]="genero" id="genero" (click)="showAlertGenero()" [disabled]="true"></m-input>
+            <m-input label="Marca" id="marca" [field]="marca" (click)="showAlertMarca()" [disabled]="true"></m-input>
+            <m-input label="Modelo" id="inputModelo" [field]="modelo" (click)="showAlertModelo()" id="inputModelo" [disabled]="true"></m-input>
+            <m-input label="Submarca" id="inputSubMarca" [field]="subMarca" (click)="showAlertSubMarca()" id="inputSubMarca" [disabled]="true"></m-input>            
+            <m-input label="Descripción" id="inputDescripcion" [field]="descripcion" (click)="showAlertDescripcion()" id="inputDescripcion" [disabled]="true"></m-input>
+            <m-input label="SubDescripción" id="inputSubDescripcion" [field]="subDescripcion" (click)="showAlertSubDescripcion()" id="inputSubDescripcion" [disabled]="true"></m-input>
             
             <ion-row class="m-button">
                 <ion-col col-3></ion-col>
