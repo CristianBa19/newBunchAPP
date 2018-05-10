@@ -39,7 +39,7 @@
                 </ion-col>
             </ion-row>            
 
-            <!--<ion-row class="m-input" (tap)="showAlertCP1()">
+            <!--<ion-row class="m-input" (click)="showAlertCP1()">
                 <ion-col col-12>                                    
                     <ion-row class="m-input-label">
                         <ion-col col-12>Código Postal</ion-col>
@@ -53,7 +53,7 @@
                 </ion-col>                                
             </ion-row>-->
 
-            <!--<ion-row class="m-input" (tap)="showAlertCP1()">
+            <!--<ion-row class="m-input" (click)="showAlertCP1()">
                 <ion-col col-11>                                    
                     <ion-row class="m-input-label">
                         <ion-col col-12>Código Postal</ion-col>
@@ -70,25 +70,25 @@
             </ion-row>-->
 
             <m-input label="Código Postal" id="codigoPostal1" [field]="codigoPostal1" (change)="mInputChange('codigoPostal1', codigoPostalChanged)"></m-input>
-            <m-input label="Edad" id="edad" [field]="edadTxt" (tap)="showAlertEdad()"></m-input>
-            <m-input label="Género" [field]="genero" id="genero" (tap)="showAlertGenero()"></m-input>
-            <m-input label="Marca" id="marca" [field]="marca" (tap)="showAlertMarca()"></m-input>
-            <m-input label="Modelo" id="inputModelo" [field]="modelo" (tap)="showAlertModelo()" id="inputModelo" disabled></m-input>
-            <m-input label="Submarca" id="inputSubMarca" [field]="subMarca" (tap)="showAlertSubMarca()" id="inputSubMarca" disabled></m-input>            
-            <m-input label="Descripción" id="inputDescripcion" [field]="descripcion" (tap)="showAlertDescripcion()" id="inputDescripcion" disabled></m-input>
-            <m-input label="SubDescripción" id="inputSubDescripcion" [field]="subDescripcion" (tap)="showAlertSubDescripcion()" id="inputSubDescripcion" disabled></m-input>
+            <m-input label="Edad" id="edad" [field]="edadTxt" (click)="showAlertEdad()"></m-input>
+            <m-input label="Género" [field]="genero" id="genero" (click)="showAlertGenero()"></m-input>
+            <m-input label="Marca" id="marca" [field]="marca" (click)="showAlertMarca()"></m-input>
+            <m-input label="Modelo" id="inputModelo" [field]="modelo" (click)="showAlertModelo()" id="inputModelo" disabled></m-input>
+            <m-input label="Submarca" id="inputSubMarca" [field]="subMarca" (click)="showAlertSubMarca()" id="inputSubMarca" disabled></m-input>            
+            <m-input label="Descripción" id="inputDescripcion" [field]="descripcion" (click)="showAlertDescripcion()" id="inputDescripcion" disabled></m-input>
+            <m-input label="SubDescripción" id="inputSubDescripcion" [field]="subDescripcion" (click)="showAlertSubDescripcion()" id="inputSubDescripcion" disabled></m-input>
             
             <ion-row class="m-button">
                 <ion-col col-3></ion-col>
                 <ion-col col-6>
-                    <button type="button" (tap)="showStep(2)">Cotizar ahora</button>
+                    <button type="button" (click)="showStep(2)">Cotizar ahora</button>
                 </ion-col>                
             </ion-row>         
             
             <!--<ion-row class="m-button">
                 <ion-col col-3></ion-col>
                 <ion-col col-6>
-                    <button type="button" (tap)="fillTab1()">TEST</button>
+                    <button type="button" (click)="fillTab1()">TEST</button>
                 </ion-col>
             </ion-row>-->
         </ion-col>
@@ -105,7 +105,7 @@
                             <p class="instrucciones">Selecciona la mejor opción</p>                            
                         </ion-col>     
                         <ion-col col-2 id="confIconContainer">
-                            <ion-icon name="ios-settings-outline" (tap)="showOpcionesCotizacion()"></ion-icon>                            
+                            <ion-icon name="ios-settings-outline" (click)="showOpcionesCotizacion()"></ion-icon>                            
                         </ion-col>       
                     </ion-row>
                 </ion-col>
@@ -122,7 +122,7 @@
             <ion-row id="resultsContainer">
                 <ion-col col-12>                    
                     <div class="resultado-aseguradora" *ngFor="let listItem of comparaList">
-                        <ion-row class="result" align-items-center (tap)="showStep(3, listItem)">
+                        <ion-row class="result" align-items-center (click)="showStep(3, listItem)">
                             <ion-col col-5>
                                 <img [src]="listItem.img"> <!--src="../../assets/icon/logo/asegurdoras-aba.svg"-->
                             </ion-col>
@@ -220,7 +220,7 @@
             <ion-row class="m-button">
                 <ion-col col-3></ion-col>
                 <ion-col col-6>
-                    <button type="button" (tap)="showStep(4)">Comprar</button>
+                    <button type="button" (click)="showStep(4)">Comprar</button>
                 </ion-col>
                 <ion-col col-3></ion-col>
             </ion-row>            
@@ -268,7 +268,7 @@
             <m-input label="Teléfono Móvil" id="telMovil" [field]="telMovil"  (change)="mInputChange('telMovil', telMovilChanged)"></m-input>
             <m-input label="RFC" id="rfc" [field]="rfc" (change)="mInputChange('rfc', rfcChanged)"></m-input>
             <m-input label="Código Postal" id="codigoPostal2" [field]="codigoPostal1"></m-input>
-            <m-input label="Colonia" id="colonia" [field]="colonia" (tap)="showAlertColony()"></m-input>
+            <m-input label="Colonia" id="colonia" [field]="colonia" (click)="showAlertColony()"></m-input>
             <m-input label="Estado" id="estado" [field]="estado"></m-input>
             <m-input label="Delegación/Municipio" id="delegacion" [field]="delegacion"></m-input>
             <m-input label="Calle" id="calle" [field]="calle" (change)="mInputChange('calle', calleChanged)"></m-input>
@@ -282,7 +282,7 @@
             <ion-row class="m-button">
                 <ion-col col-3></ion-col>
                 <ion-col col-6>
-                    <button type="button" (tap)="showStep(5)">Continuar</button>
+                    <button type="button" (click)="showStep(5)">Continuar</button>
                 </ion-col>
                 <ion-col col-3></ion-col>
             </ion-row>
@@ -290,7 +290,7 @@
             <!--<ion-row class="m-button">
                 <ion-col col-3></ion-col>
                 <ion-col col-6>
-                    <button type="button" (tap)="fillTab3()">TEST</button>
+                    <button type="button" (click)="fillTab3()">TEST</button>
                 </ion-col>
             </ion-row>-->
         </ion-col>
@@ -337,7 +337,7 @@
             <ion-row class="m-button">
                 <ion-col col-3></ion-col>
                 <ion-col col-6>
-                    <button type="button" (tap)="showStep(6)">Continuar</button>
+                    <button type="button" (click)="showStep(6)">Continuar</button>
                 </ion-col>
                 <ion-col col-3></ion-col>
             </ion-row>            
@@ -359,10 +359,10 @@
                 </ion-col>
             </ion-row>
 
-            <m-input label="Número de Tarjeta" id="numTarjeta" [field]="numTarjeta" (tap)="showAlertTarjeta()"></m-input>
+            <m-input label="Número de Tarjeta" id="numTarjeta" [field]="numTarjeta" (click)="showAlertTarjeta()"></m-input>
             <m-input label="Tipo de Tarjeta" id="tipoTarjeta" [field]="tipoTarjeta"></m-input>
-            <m-input label="Titular" id="titular" [field]="titular" (tap)="showAlertTitular()"></m-input>
-            <m-input label="Banco" id="inputBank" [field]="banco" (tap)="showAlertBancos()"></m-input>            
+            <m-input label="Titular" id="titular" [field]="titular" (click)="showAlertTitular()"></m-input>
+            <m-input label="Banco" id="inputBank" [field]="banco" (click)="showAlertBancos()"></m-input>            
 
             <ion-row>
                 <ion-col col-12>
@@ -396,7 +396,7 @@
                 </ion-col>                            
             </ion-row>
 
-            <m-input label="CVV" id="cvv" [field]="cvv" (tap)="showAlertCvv()"></m-input>
+            <m-input label="CVV" id="cvv" [field]="cvv" (click)="showAlertCvv()"></m-input>
 
             <ion-row>
                 <ion-col col-12>                                    
@@ -407,7 +407,7 @@
             <ion-row class="m-button">
                 <ion-col col-3></ion-col>
                 <ion-col col-6>
-                    <button type="button" (tap)="pay()">Finalizar compra</button>
+                    <button type="button" (click)="pay()">Finalizar compra</button>
                 </ion-col>
                 <ion-col col-3></ion-col>
             </ion-row>    
@@ -415,7 +415,7 @@
             <!--<ion-row class="m-button">
                 <ion-col col-3></ion-col>
                 <ion-col col-6>
-                    <button type="button" (tap)="fillPayment()">TEST</button>
+                    <button type="button" (click)="fillPayment()">TEST</button>
                 </ion-col>
             </ion-row>-->
         </ion-col>
@@ -443,7 +443,7 @@
             <ion-row class="m-button">
                 <ion-col col-3></ion-col>
                 <ion-col col-6>
-                    <button type="button" (tap)="showStep(8)">Descargar Póliza</button>
+                    <button type="button" (click)="showStep(8)">Descargar Póliza</button>
                 </ion-col>
                 <ion-col col-3></ion-col>
             </ion-row>            
@@ -471,7 +471,7 @@
             <ion-row class="m-button">
                 <ion-col col-3></ion-col>
                 <ion-col col-6>
-                    <button type="button" (tap)="showStep(8)">Enviar chat al cliente</button>
+                    <button type="button" (click)="showStep(8)">Enviar chat al cliente</button>
                 </ion-col>
                 <ion-col col-3></ion-col>
             </ion-row>            
@@ -488,24 +488,24 @@
             </ion-col>
         </ion-row>
 
-        <m-input label="Cobertura" id="cobertura" [field]="cobertura" (tap)="showAlertCobertura()"></m-input>
-        <m-input label="Forma de Pago" id="formaDePago" [field]="formaDePago" (tap)="showAlertFormaDePago()"></m-input>
+        <m-input label="Cobertura" id="cobertura" [field]="cobertura" (click)="showAlertCobertura()"></m-input>
+        <m-input label="Forma de Pago" id="formaDePago" [field]="formaDePago" (click)="showAlertFormaDePago()"></m-input>
 
         <ion-row>
             <ion-col col-3></ion-col>
             <ion-col col-6>
-                <button type="button" class="button-purple" (tap)="closeOpcionesCotizacion()">Continuar</button>
+                <button type="button" class="button-purple" (click)="closeOpcionesCotizacion()">Continuar</button>
             </ion-col>                
         </ion-row>         
     </ion-grid>                
 </div>
 
-<button id="bottomAlertBackground" (tap)="closeBottomAlert()"></button>
+<button id="bottomAlertBackground" (click)="closeBottomAlert()"></button>
 <div id="bottomAlertTile">
         
     <ion-scroll id="ionScroll" scrollY="true">
     <ion-list>
-        <ion-item *ngFor="let item of bottomAlertOptionsList" (tap)="bottomAlertOptionSelected(item)" [ngClass]="{'selected':item.selected == true}">
+        <ion-item *ngFor="let item of bottomAlertOptionsList" (click)="bottomAlertOptionSelected(item)" [ngClass]="{'selected':item.selected == true}">
             <span>{{item.value}}</span>            
         </ion-item>        
     </ion-list>
