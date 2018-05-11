@@ -191,6 +191,7 @@ export class AcquireProductPage2 {
         this.numMotor = 'A1234567';
         this.numSerie = 'ZHWGE11S84LA00154';
         this.numPlacas = '7654321A';
+        this.calcRFCYTitular();
     }
 
     private fillPayment() {
@@ -594,6 +595,22 @@ export class AcquireProductPage2 {
             that.processPostalCode(cp);
         }
     }
+
+    private numTarjetaChanged(that, numTarjeta) {
+        if (numTarjeta == null || numTarjeta.length == 0) {
+            that.numTarjeta = null;
+        } else {
+            that.getCardInfo(numTarjeta);
+        }        
+    }    
+
+    private titularChanged(that, titular) {
+        if (titular == null || titular.length == 0) {
+            that.titular = null;
+        } else {
+            that.titular = titular.toUpperCase();
+        }
+    }    
 
     private mInputChange(elementId, callback) {
         let value = document.getElementById(elementId).getElementsByTagName('input')[0].value.trim(),

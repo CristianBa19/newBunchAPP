@@ -359,10 +359,12 @@
                 </ion-col>
             </ion-row>
 
-            <m-input label="Número de Tarjeta" id="numTarjeta" [field]="numTarjeta" (click)="showAlertTarjeta()"></m-input>
+            <!--<m-input label="Número de Tarjeta" id="numTarjeta" [field]="numTarjeta" (click)="showAlertTarjeta()"></m-input>-->
+            <m-input label="Número de Tarjeta" id="numTarjeta" [field]="numTarjeta" (change)="mInputChange('numTarjeta', numTarjetaChanged)"></m-input>
             <m-input label="Tipo de Tarjeta" id="tipoTarjeta" [field]="tipoTarjeta"></m-input>
-            <m-input label="Titular" id="titular" [field]="titular" (click)="showAlertTitular()"></m-input>
-            <m-input label="Banco" id="inputBank" [field]="banco" (click)="showAlertBancos()"></m-input>            
+            <!--<m-input label="Titular" id="titular" [field]="titular" (click)="showAlertTitular()"></m-input>-->
+            <m-input label="Titular" id="titular" [field]="titular" (change)="mInputChange('titular', titularChanged)"></m-input>
+            <m-input label="Banco" id="inputBank" [field]="banco" (click)="showAlertBancos()"></m-input>
 
             <ion-row>
                 <ion-col col-12>
@@ -396,7 +398,8 @@
                 </ion-col>                            
             </ion-row>
 
-            <m-input label="CVV" id="cvv" [field]="cvv" (click)="showAlertCvv()"></m-input>
+            <!--<m-input label="CVV" id="cvv" [field]="cvv" (click)="showAlertCvv()"></m-input>-->
+            <m-input label="CVV" id="cvv" [field]="cvv" (change)="mInputChange('cvv')"></m-input>
 
             <ion-row>
                 <ion-col col-12>                                    
