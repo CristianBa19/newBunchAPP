@@ -31,6 +31,7 @@
                 </ion-col>
             </ion-row>
             <br><br>
+            <!---->
             <ion-row class="m-input" id="tituloAnuncio">
                 <ion-col col-11>                                    
                     <ion-row class="m-input-label">
@@ -41,7 +42,7 @@
                     </ion-row>
                     <ion-row class="m-input-value">
                         <ion-col col-12>
-                            <input type="text" [value]="tituloAnuncio || ''">
+                            <input type="text" [(ngModel)]="tituloAnuncio">
                         </ion-col>
                     </ion-row>                    
                 </ion-col>    
@@ -61,7 +62,7 @@
                     </ion-row>
                     <ion-row class="m-input-value">
                         <ion-col col-12>
-                            <input type="text" [value]="mensajePersonalizado || ''">
+                            <input type="text" [(ngModel)]="mensajePersonalizado">
                         </ion-col>
                     </ion-row>                    
                 </ion-col>    
@@ -97,18 +98,18 @@
             <div id="tablaDeCarros">
                 <ion-row>
                     <ion-col col-6>
-                      <img src="../../assets/img/car1.jpg">
+                      <img src="http://services.bunch.guru/img/car1.jpg" class="image" id="image1" (tap)="selectImage(1)">
                     </ion-col>
                     <ion-col col-6>
-                      <img src="../../assets/img/car2.jpg">
+                      <img src="http://services.bunch.guru/img/car2.jpg" class="image" id="image2" (tap)="selectImage(2)">
                     </ion-col>
                   </ion-row>
                   <ion-row>
                       <ion-col col-6>
-                        <img src="../../assets/img/car3.jpg">
+                        <img src="http://services.bunch.guru/img/car3.jpg" class="image" id="image3" (tap)="selectImage(3)">
                       </ion-col>
                       <ion-col col-6>
-                        <img src="../../assets/img/car4.jpg">
+                        <img src="http://services.bunch.guru/img/car4.jpg" class="image" id="image4" (tap)="selectImage(4)">
                       </ion-col>
                     </ion-row>
             </div>            
@@ -168,7 +169,7 @@
             <ion-row class="m-button">
                 <ion-col col-3></ion-col>
                 <ion-col col-6>
-                    <button type="button">Publicar</button>
+                    <button type="button" (tap)="publicarAnuncio()">Publicar</button>
                 </ion-col>                
             </ion-row>
         </ion-col>

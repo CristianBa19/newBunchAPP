@@ -1,4 +1,5 @@
 page-new-advertisement-2 {
+    img.selected{border:1px solid map-get($colors, b-purple)}
     .instrucciones{color:black;font-weight:bold;font-size:22px;padding:2px;margin:0;}
     .sub-instrucciones{color:map-get($colors, b-gray);font-weight:bold;font-size:18px;padding:2px;margin:0;}    
     
@@ -51,7 +52,8 @@ page-new-advertisement-2 {
     #demo{
         width:100%;
         height:240px;
-        background: url('../../assets/img/car1.jpg') no-repeat;        
+        background: url('../../assets/img/car2.jpg');// no-repeat;        
+        background-repeat: no-repeat;
         background-size: 100%;
         .demo-fila{
             background:white;
