@@ -35,6 +35,7 @@ export class AcquireProductPage2 {
     private cotizacion = {aseguradora: '',clave: '',bancos:[],coberturas:[],monto:0, logo: '', responsabilidadCivil: {sumaAsegurada: '', deducible: ''}, roboTotal: {sumaAsegurada: '', deducible: ''}, danosMateriales: {sumaAsegurada: '', deducible: ''}};
 
     private currentStep:number = 1;
+    private bancosDeCadaAseguradora:any;
     public step:number = 1;
     private createClient:boolean = false;
     private tabs: string[] = ['Producto', 'Compara', 'Cliente', 'Pago', 'Tarjeta'];
@@ -235,7 +236,7 @@ export class AcquireProductPage2 {
 
         if (currentStep == 1) {
             errors = !this.validVars(['codigoPostal1', 'edad', 'genero', 'marca', 'modelo', 'subMarca', 'descripcion', 'subDescripcion']);
-        } else if (currentStep == 2) {
+        } else if (currentStep == 2) {            
             
             that.cotizacion.monto = obj.value;
             that.cotizacion.logo = obj.img;
@@ -247,6 +248,14 @@ export class AcquireProductPage2 {
             that.cotizacion.roboTotal.deducible = obj.roboTotalD;   
             that.cotizacion.aseguradora = obj.asegur;   
             that.cotizacion.clave = obj.clave;
+
+            for (let i = 0, len = that.bancosDeCadaAseguradora.length; i < len; i++) {
+                let row = that.bancosDeCadaAseguradora[i];
+                if (row.aseguradora == that.cotizacion.aseguradora) {                    
+                    that.cotizacion.bancos = row.bancos;
+                    break;
+                }
+            }            
 
             //that.loadInputData('inputBank');
         } else if (currentStep == 4) {
@@ -811,6 +820,7 @@ export class AcquireProductPage2 {
     }
 
     private getBancosDeCadaAseguradora(aseguradoras:any, callback:any, index:number = 0) {
+        console.warn('getBancosDeCadaAseguradora');
         let obj = aseguradoras[index];
         if (obj == undefined) {
             callback(aseguradoras);
@@ -855,7 +865,9 @@ export class AcquireProductPage2 {
                     }                
                 }          
                 
-                that.getBancosDeCadaAseguradora(aseguradoras, function(aseguradoras) {                    
+                that.getBancosDeCadaAseguradora(aseguradoras, function(aseguradoras) {
+                    console.warn('getBancoDeCadaAseguradora', aseguradoras);
+                    that.bancosDeCadaAseguradora = aseguradoras;
                     success(aseguradoras);
                 });                
             }, err => {
@@ -2433,6 +2445,8 @@ export class AcquireProductPage2 {
 
                 let BANK = bank.toUpperCase(),
                     found = false;
+
+                console.log('THAT COTIZACION', that.cotizacion);
                 for (let i = 0, len = that.cotizacion.bancos.length; i < len; i++) {
                     if (that.cotizacion.bancos[i].Abreviacion.toUpperCase() == BANK) {
                         found = true;
