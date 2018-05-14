@@ -8,31 +8,22 @@ import { AlertController } from 'ionic-angular';
     selector: 'page-recovery',
     templateUrl: 'recovery.html'
 })
-export class RecoveryPage {
+export class RecoveryPage {    
 
-    @ViewChild('slides') slides: Slides;
-    @ViewChild('email1') email1Input;
+    private email:string;
 
     constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public toastCtrl: ToastController) { }
 
-    ionViewDidLoad() {
-        //console.log('ionViewDidLoad RecoveryPage ');
-        this.slides.lockSwipes(true);
-        this.slides.onlyExternal = true;
-        let t = this;
-        setTimeout(() => {
-            t.email1Input.setFocus();
-        }, 900);
-    }
-
-    public sendRequest = () => {
+    private sendRequest() {
 
         var loader = this.loadingCtrl.create();
         loader.present();
-        let email = this.email1Input.value;
-
+        let email = this.email.trim();
+        console.log('1');
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (re.test(String(email).toLowerCase()) !== true) { //check if valid regex email
+        if (re.test(String(email).toLowerCase()) !== true) {
+            console.log('2');
+            this.email = null;
             loader.dismiss();
             let toast = this.toastCtrl.create({
                 duration: 3000,
@@ -44,7 +35,7 @@ export class RecoveryPage {
             });
             toast.present();
         } else {
-            
+            console.log('3');
             let that = this,
                 url = `http://services.bunch.guru/WebService.asmx/envioCorreo?email=${email}`;
             console.log({ url });
@@ -68,14 +59,8 @@ export class RecoveryPage {
                 that.showAlert('Hubo un error, intente de nuevo por favor', function () {
                 });
             });
-
-            /*            if (this.slides.getActiveIndex() === 1) {
-                this.doneRecovery();
-            }
-            this.slides.lockSwipeToNext(false);
-            this.slides.slideNext(300);*/
         }
-    }
+    }    
 
     showAlert(message: string, callback) {
 
@@ -93,26 +78,13 @@ export class RecoveryPage {
             }
         });
         _alert.present();
-    }
-
-    public slidePrev() {
-        if (this.slides.getActiveIndex() === 0) {
-            this.doneRecovery();
-        }
-        this.slides.lockSwipeToPrev(false);
-        this.slides.slidePrev(300);
-    }
+    }    
 
     public doneRecovery = () => {
         this.navCtrl.setRoot(LoginPage, false, { animate: true });
     }
 
-    public validarEmail = () => {
-        if (this.slides.getActiveIndex() === 1) {
-            this.doneRecovery();
-        }
-        this.slides.lockSwipeToNext(false);
-        this.slides.slideNext(300);
+    private goBack() {
+        this.navCtrl.pop();     
     }
-
 }

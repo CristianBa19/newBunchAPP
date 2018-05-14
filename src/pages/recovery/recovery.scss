@@ -1,323 +1,41 @@
 page-recovery {
-    .btnBack{
-        background-color: transparent;
-        font-family: RaleTitle;
-        width: 20px;
-        padding-top: 0 !important;
-    }
-    .fondo{
-        background-color: 57009a !important;
-    }
-    .scroll-content{
-        background-color: #57009a !important;
-    }
-    .header-ios .toolbar-ios:last-child .toolbar-background-ios{
-        background-color: transparent;
-    }
-    header header-md{
-        height:100px;
-    }
-    .toolbar-background-md{
-        background-color: #2492ff;
-    }
-    ion-header{
-        background-color: #2492ff;
-    }
-    .bar-button-md[icon-only]{
-        background-color: transparent;
-        width: 30px;
-        height: 30px;
-        margin-top:-30px;
-    }
-    .divImg {
-        width: 25%;
-        margin: 5px auto;
-        img {
-            height: 100% !important;
-            margin-top: -15px;
-            margin-left: -15px;
+    ion-content{background:white !important;}
+    background:white;
+    .instrucciones{color:black;font-weight:bold;font-size:22px;padding:2px;margin:0;}
+    .sub-instrucciones{color:map-get($colors, b-gray);font-weight:bold;font-size:18px;padding:2px;margin:0;}    
 
-            width:100%;
-        }
+    .m-input{min-height:60px;}
+    //.m-input-label{color:#B1B2B4;font-weight:bold;ion-col{padding:0 !important;margin:0 !important;}}
+    .m-input-label {
+        p{padding:0;margin:0;font-size:16px;}
+        p:nth-child(1){color:map-get($colors, b-gray)}
+        p:nth-child(2){color:map-get($colors, b-purple)}
     }
-    //para el box en android de la flecha de regresar
-    .button-md{
-        box-shadow: none;
-    }
-    //para el boton de back
-    .regresar{
-        background-color: transparent !important;
-        margin-top:7%;
-        margin-left:2%;
-        position: absolute;
-        width:30px;
-        height: 30px;
-    }
-    ion-input, ion-textarea{
-        background-color: transparent;
-        border: none;
+    .m-input-value{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align:left;
+        color:#656567;
         font-size:22px;
-        color: white;
-        border-bottom-style: solid;
-        border-width: 1px;
-    }
-    //para la flecha de siguiente
-    .back-btn {
-
-        margin: 0 auto 10px auto;
-        padding: 0;
-        border-radius: 70%;
-        //background: rgb(0,153,204);
-        width: 55px;
-        height: 55px;
-        margin-left:80%;
-        /*top:310px;*/
-    }
-    
-    .back-btnx {       
-        margin: 0 auto 10px auto;
-        padding: 0;
-        border-radius: 70%;
-        background: rgb(0,153,204);
-        width: 55px;
-        height: 55px;
-        margin-left:80%;
-        top:249px;
-    }
-    
-    input.text-input.text-input-ios {
-        color:white;
-    }
-    input.text-input.text-input-md {
-        color:white;
-    }
-    //cambiar el cuadro de texto ingresa tu correo ... para ios
-    div.toolbar-title.toolbar-title-ios{
-        color: white !important;
-        font-family: RaleTitle;
-    }
-    //cambiar el cuadro de texto ingresa tu correo ... para android
-    div.toolbar-title.toolbar-title-md{
-        color: white !important;
-        font-family: RaleTitle;
-    }
-    overflow-y: auto;
-    ion-slides{
-        top:50%;
-    }
-    .scroll-content{
-        //background:url(../assets/img/Fondo-jpg.jpg);
-        background-color: #57009a;
-        background-size:cover;
-        background-repeat: no-repeat;
-        padding-top: 20px !important;
-        //top: 2%;
-    }
-
-    //ion-header {
-        //background: url(../assets/img/splash2.jpg);
-        background-color: #2492ff;
-        background-position-y: 140px;
-        color: white;
-        margin: 0 auto;
-        background-size: cover;
-        height:70px;
-
-        .divImg {
-            width: 25%;
-            margin: 5px auto;
-            img {
-                height: 100% !important;
-                margin-top: -15px;
-                margin-left: -15px;
-
-                width:100%;
-            }
+        padding:0 !important;
+        margin:0 !important;
+        ion-col{
+            padding:0 !important;
+            margin:0 !important;
         }
-        .titleForm {
-            width: 90%;
-            margin: 36px 0 12px 12px;
-            //text-align: center;
-            color: white;
-            font-size: 2.5rem !important;
-            font-family: Roboto;
+        input{
+            width:100%;
+            background:transparent;
+            border:0;
+            margin-top:3px;
+            border-bottom:1px solid #EDEEF0;
         }
-        .item-inner {
-            border-bottom: none !important;
-        }
-    //} 
-    
-    ion-content{
-        background: rgba(245,245,245,255) !important;
-        ion-item {
-            border: 2px solid rgb(175,175,175) !important;
-            border-radius: 10px !important;
-            margin: 10px auto !important;
-        }    
-        .slide-zoom {
-            height: 100% !important;
-        }
-        .toolbar-title {
-            text-align: left;
-            white-space: initial;
-            padding: 5px 12px;
-            font-size: 1.8rem;
-            font-weight: 500;
-            color: #424242;
-        }
-        
-        .divRow {
-            width: 100%;
-            margin: 10px auto;
-            text-align: center;
-            border: none;
-            border-radius: 15px;
-            background: transparent;
-            margin-bottom: 12px;
-
-            .email-field { 
-                background: white !important;
-                border: 2px solid white;
-                border-radius: 14px;
-
-                input{
-                    width: 60%;
-                }
-            }
-            .email-field::before {
-                content: url("../assets/icon/correo-fomularios.png");
-                width: 30px;
-                height: 30px;
-                position: absolute;
-                left: 3%;
-                top: 40%;
-                -webkit-transform: translateY(-50%);
-                transform: translateY(-50%);
-                text-align: center;
-                line-height: 40px;
-                align-items: center;
-            }
-        }
-
-        .recovery-btn {
-            width: 100%;
-        }
-
-        .title-recovery {
-            font-family: RaleText;
-
-        }
-
-        .confirm-recovery-text {
-            margin: 50px 11px 83px;
-            text-align: left;
-            font-weight: 400;
-            color: white;
-            font-family: RaleTitle;
-            font-size: 25px;        
-            
-        }
-        .confirm-recovery-btn {
-            width: 99%;
-            border-radius: 25px;
-            height: 40px;
-            max-height: 40px;
-            vertical-align: middle;
-            padding: 1px 0;
-        }
-        .button-back-wrapp {
-            height: 175px;
-            .button-back {
-                color: white;
-                background-color: #488aff;
-                border-radius: 50%;
-                height: 50px;
-                width: 50px;
-                font-size: 20px;
-            }
-        }
-
     }
-
-    .prossedBtn{
-        border-radius: 50px;
+    .m-input-icon{font-size:45px;}
+    .m-input-icon-ok{color:green;}
+    .m-input-icon-error{color:red;}
+    .m-button{
+        button{background:map-get($colors, b-purple)}
     }
-    
-    .divImg {
-        width: 15%;
-        margin: 5px auto;
-    }
-// Cristian
-
-.toolbar-title {
-    text-align: left;
-    padding: 5px 12px;
-    font-size: 1.5rem !important;
-    font-weight: 500;
-}
-
-.margenesInput {
-    margin: 12px 0 0 12px !important;
-    width: 94% !important;
-}
-
-/*.back-btn {
-    top: 116px !important;
-}*/
-ion-slides {
-    display: block;
-    width: 100%;
-    height: auto; 
-}
-.products-btn {
-    font-family: RaleNext;
-    color: #ffffff;
-    font-size: 0.8em;
-    width: 90%;
-    margin: 5px auto 0 auto;
-    border: 0.5px white solid !important;
-    font-size: 20px;
-    border-radius: 5px;
-    background: #0099cc;
-    font-weight: 100;
-    text-transform: none;
-  }
-  .button-inner {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -webkit-flex-flow: row nowrap;
-    -ms-flex-flow: row nowrap;
-    flex-flow: row nowrap;
-    -webkit-flex-shrink: 0;
-    -ms-flex-negative: 0;
-    flex-shrink: 0;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-  }
-  .login-content .inputStyle {
-    height: 50px !important;
-}
-.sizeFont{
-    font-size:1.5rem !important;
-}
-
-.confirm-recovery-text {
-    font-size: 1.8rem !important;
-}
-
-.button-ios {
-    background-color: #57009a !important;
-}
 }
