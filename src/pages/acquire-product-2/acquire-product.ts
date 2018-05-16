@@ -1021,7 +1021,7 @@ export class AcquireProductPage2 {
         var str2 = "";
         var strJ = "";
         var conta = 0;
-        var data2 = "";
+        var data2:any = "";
         var data3 = "";
         var data4 = "";
         var data5 = "";
@@ -1138,13 +1138,17 @@ export class AcquireProductPage2 {
             urlRedireccion: null
         };
 
-        console.log('cotizar con los datos:', dataObj);
+        console.log({dataObj});
 
         let myJSON = JSON.stringify(dataObj),
             enStr = btoa(`usuario=Bunch&Password=BunCH2O18&data=${myJSON}&movimiento=cotizacion&idContVend=${this.idContVend}`),
             url = `http://services.bunch.guru/WebService.asmx/CotizacionEmisionJSON?param=${enStr}`; //'http://core.alimx.mx/webservice.asmx/CotizacionEmisionJSON?usuario=AhorraSeguros&password=Ah0rraS3guros2017&data=' + myJSON + '&movimiento=cotizacion';
 
-        this.http.get(url).map(res2 => res2.json()).subscribe(data2 => {            
+        console.log('url principal', {url});
+
+        this.http.get(url).map(res2 => res2.json()).subscribe(data => {
+
+            console.log({data});
 
             var data3 = '',
                 data4 = '',
@@ -1152,7 +1156,7 @@ export class AcquireProductPage2 {
                 data6 = '',
                 data7 = '',
                 data8 = '',
-                coberturas = data2.Coberturas[0];
+                coberturas = data.Coberturas[0];
 
             if (coberturas != undefined) {
                 data3 = coberturas.DanosMateriales;
@@ -1172,7 +1176,7 @@ export class AcquireProductPage2 {
 
             //seccion para la recepcion de la primaTotal y su conversion a int
             displayPrimaTotal = '';
-            data2 = data2.Cotizacion.PrimaTotal;
+            data2 = data.Cotizacion.PrimaTotal;
 
             if (data2 != null && isNaN(data2) == false) {
                 displayPrimaTotalInt = Math.ceil(parseInt(data2));
@@ -1247,68 +1251,69 @@ export class AcquireProductPage2 {
                 });
                 callback();
             } else if (aseguradora === 'ANA') {
-
-                this.http.get(url).map(res3 => res3.json()).subscribe(data3 => {                    
-
-                    let codigoError = data3.CodigoError;                    
-                    displayPrimaTotal = '';
-                    let primaAna = data3.Cotizacion.PrimaTotal;
-                    if (primaAna != null && isNaN(primaAna) == false) {
-                        displayPrimaTotalInt = Math.ceil(parseInt(primaAna));
-                        displayPrimaTotal = this.formatPrice(displayPrimaTotalInt);
-                    }
-
-                    if (data3.Coberturas[0] != undefined) {
-                        displayDanosMateriales = (JSON.stringify(data3.Coberturas[0].DanosMateriales)).replace(/"|-N|-S|DAÑOS|MATERIALES/g, '');
-                        displayRoboTotal = (JSON.stringify(data3.Coberturas[0].RoboTotal)).replace(/"|-N|-S|ROBO|TOTAL/g, '');
-
-                        displayRCPersonas = data3.Coberturas[0].RCPersonas.replace(/"|-N|-S|NRC|PERSONAS|RESPONSABILIDAD|CIVIL|PERSONAS|NO|APLICA|RC|-|D|-/g, '');
-                        displayRCPersonas = this.stringToFormatedPriceWithString(displayRCPersonas);
-
-                        displayRC = data3.Coberturas[0].RC.replace(/"|-N|-S|-D|RESPONSABILIDAD|CIVIL|NO|APLICA|No|aplica/g, '');
-                        displayRC = this.stringToFormatedPriceWithString(displayRC);
-
-                        displayDefensaJuridica = (JSON.stringify(data3.Coberturas[0].DefensaJuridica)).replace(/"|-N|-S|-D|GASTOS|ES|ASISTENCIA|LEGAL|PROVIAL|LEGALES/g, '');
-                        displayGastosMedicosOcupantes = (JSON.stringify(data3.Coberturas[0].GastosMedicosOcupantes)).replace(/"|-N|-S|-D|GASTOS|MÉDICOS|OCUPANTES/g, '');
-
-                        let displayDanosMaterialesArr = displayDanosMateriales.split('-D');
-                        displayDanosMaterialesD = this.formatPrice(displayDanosMaterialesArr[1]);
-                        displayDanosMateriales = this.formatPrice(displayDanosMaterialesArr[0]);
-
-                        //para el robo total
-                        let displayRoboTotalArr = displayRoboTotal.split('-D');
-                        displayRoboTotalD = this.formatPrice(displayRoboTotalArr[1]);
-                        displayRoboTotal = this.formatPrice(displayRoboTotalArr[0]);
-
-                        if (displayPrimaTotal.length == 0) {
-                            displayPrimaTotal = 'No disponible';
-                        }
-
-                        this.comparaList.push({
-                            clave: clave,
-                            asegur: aseguradora,
-                            img: "assets/icon/logo/asegurdoras-ana.svg",
-                            value: displayPrimaTotal,
-                            valueInt: displayPrimaTotalInt,
-                            danosMateriales: displayDanosMateriales,
-                            danosMaterialesD: displayDanosMaterialesD,
-                            roboTotal: displayRoboTotal,
-                            roboTotalD: displayRoboTotalD,
-                            RCPersonas: displayRCPersonas,
-                            RCPersonasD: displayRCPersonasD,
-                            RC: displayRC,
-                            RCD: displayRCD,
-                            DefensaJuridica: displayDefensaJuridica,
-                            DefensaJuridicaD: displayDefensaJuridicaD,
-                            GastosMedicosOcupantes: displayGastosMedicosOcupantes,
-                            GastosMedicosOcupantesD: displayGastosMedicosOcupantesD
-                        });
-                    }
-                    //}
-                    callback();
+                /*console.log('url dentro de ANA', {url});
+                this.http.get(url).map(res3 => res3.json()).subscribe(data3 => {
+                    console.log({data3});                    
                 }, err => {                    
                     callback();
-                });
+                });*/
+                console.log('ANA data', data);
+                let codigoError = data.CodigoError;                    
+                displayPrimaTotal = '';
+                let primaAna = data.Cotizacion.PrimaTotal;
+                if (primaAna != null && isNaN(primaAna) == false) {
+                    displayPrimaTotalInt = Math.ceil(parseInt(primaAna));
+                    displayPrimaTotal = this.formatPrice(displayPrimaTotalInt);
+                }
+
+                if (data.Coberturas[0] != undefined) {
+                    displayDanosMateriales = (JSON.stringify(data.Coberturas[0].DanosMateriales)).replace(/"|-N|-S|DAÑOS|MATERIALES/g, '');
+                    displayRoboTotal = (JSON.stringify(data.Coberturas[0].RoboTotal)).replace(/"|-N|-S|ROBO|TOTAL/g, '');
+
+                    displayRCPersonas = data.Coberturas[0].RCPersonas.replace(/"|-N|-S|NRC|PERSONAS|RESPONSABILIDAD|CIVIL|PERSONAS|NO|APLICA|RC|-|D|-/g, '');
+                    displayRCPersonas = this.stringToFormatedPriceWithString(displayRCPersonas);
+
+                    displayRC = data.Coberturas[0].RC.replace(/"|-N|-S|-D|RESPONSABILIDAD|CIVIL|NO|APLICA|No|aplica/g, '');
+                    displayRC = this.stringToFormatedPriceWithString(displayRC);
+
+                    displayDefensaJuridica = (JSON.stringify(data.Coberturas[0].DefensaJuridica)).replace(/"|-N|-S|-D|GASTOS|ES|ASISTENCIA|LEGAL|PROVIAL|LEGALES/g, '');
+                    displayGastosMedicosOcupantes = (JSON.stringify(data.Coberturas[0].GastosMedicosOcupantes)).replace(/"|-N|-S|-D|GASTOS|MÉDICOS|OCUPANTES/g, '');
+
+                    let displayDanosMaterialesArr = displayDanosMateriales.split('-D');
+                    displayDanosMaterialesD = this.formatPrice(displayDanosMaterialesArr[1]);
+                    displayDanosMateriales = this.formatPrice(displayDanosMaterialesArr[0]);
+
+                    //para el robo total
+                    let displayRoboTotalArr = displayRoboTotal.split('-D');
+                    displayRoboTotalD = this.formatPrice(displayRoboTotalArr[1]);
+                    displayRoboTotal = this.formatPrice(displayRoboTotalArr[0]);
+
+                    if (displayPrimaTotal.length == 0) {
+                        displayPrimaTotal = 'No disponible';
+                    }
+
+                    this.comparaList.push({
+                        clave: clave,
+                        asegur: aseguradora,
+                        img: "assets/icon/logo/asegurdoras-ana.svg",
+                        value: displayPrimaTotal,
+                        valueInt: displayPrimaTotalInt,
+                        danosMateriales: displayDanosMateriales,
+                        danosMaterialesD: displayDanosMaterialesD,
+                        roboTotal: displayRoboTotal,
+                        roboTotalD: displayRoboTotalD,
+                        RCPersonas: displayRCPersonas,
+                        RCPersonasD: displayRCPersonasD,
+                        RC: displayRC,
+                        RCD: displayRCD,
+                        DefensaJuridica: displayDefensaJuridica,
+                        DefensaJuridicaD: displayDefensaJuridicaD,
+                        GastosMedicosOcupantes: displayGastosMedicosOcupantes,
+                        GastosMedicosOcupantesD: displayGastosMedicosOcupantesD
+                    });
+                }
+                //}
+                callback();
             } else if (aseguradora === 'AXA' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
 
                 if (displayPrimaTotal.length == 0) {
@@ -1390,59 +1395,57 @@ export class AcquireProductPage2 {
             } else if (aseguradora === 'GNP') {
 
                 var primaGNP = '';
-                this.http.get(url).map(res3 => res3.json()).subscribe(data3 => {     
-                    
-                    console.warn('GNP', data3);
-
-                    let codigoError = data3.CodigoError;                    
-                    primaGNP = data3.Cotizacion.PrimaTotal;
-                    displayPrimaTotalInt = Math.ceil(parseInt(primaGNP));
-                    displayPrimaTotal = this.formatPrice(displayPrimaTotalInt);
-                    displayDanosMateriales = (JSON.stringify(data3.Coberturas[0].DanosMateriales)).replace(/"|-N|-S|DAÑOS|MATERIALES/g, '');
-                    displayRoboTotal = (JSON.stringify(data3.Coberturas[0].RoboTotal)).replace(/"|-N|-S|ROBO|TOTAL/g, '');
-                    displayRCPersonas = (JSON.stringify(data3.Coberturas[0].RCPersonas)).replace(/"|-N|-S|NRC|PERSONAS|RESPONSABILIDAD|CIVIL|PERSONAS|NO|APLICA|RC|-|D|-/g, '');
-                    displayRC = (JSON.stringify(data3.Coberturas[0].RC)).replace(/"|-N|-S|-D|RESPONSABILIDAD|CIVIL|NO|APLICA|No|aplica/g, '');
-                    displayDefensaJuridica = (JSON.stringify(data3.Coberturas[0].DefensaJuridica)).replace(/"|-N|-S|-D|GASTOS|ES|ASISTENCIA|LEGAL|PROVIAL|LEGALES/g, '');
-                    displayGastosMedicosOcupantes = data3.Coberturas[0].GastosMedicosOcupantes.replace(/"|-N|-S|-D|GASTOS|MÉDICOS|OCUPANTES/g, '');
-                    displayGastosMedicosOcupantes = this.formatPrice(displayGastosMedicosOcupantes);
-
-                    let displayDanosMaterialesArr = displayDanosMateriales.split('-D');
-                    displayDanosMaterialesD = this.formatPrice(displayDanosMaterialesArr[1]);
-                    displayDanosMateriales = this.formatPrice(displayDanosMaterialesArr[0]);
-
-                    //para el robo total
-                    let displayRoboTotalArr = displayRoboTotal.split('-D');
-                    displayRoboTotalD = this.formatPrice(displayRoboTotalArr[1]);
-                    displayRoboTotal = this.formatPrice(displayRoboTotalArr[0]);
-
-                    if (displayPrimaTotal.length == 0) {
-                        displayPrimaTotal = 'No disponible';
-                    }                    
-
-                    this.comparaList.push({
-                        clave: clave,
-                        asegur: aseguradora,
-                        img: "assets/icon/logo/asegurdoras-gnp.svg",
-                        value: displayPrimaTotal,
-                        valueInt: displayPrimaTotalInt,
-                        danosMateriales: displayDanosMateriales,
-                        danosMaterialesD: displayDanosMaterialesD,
-                        roboTotal: displayRoboTotal,
-                        roboTotalD: displayRoboTotalD,
-                        RCPersonas: displayRCPersonas,
-                        RCPersonasD: displayRCPersonasD,
-                        RC: displayRC,
-                        RCD: displayRCD,
-                        DefensaJuridica: displayDefensaJuridica,
-                        DefensaJuridicaD: displayDefensaJuridicaD,
-                        GastosMedicosOcupantes: displayGastosMedicosOcupantes,
-                        GastosMedicosOcupantesD: displayGastosMedicosOcupantesD
-                    });
-                    //}                        
-                    callback();
+                /*this.http.get(url).map(res3 => res3.json()).subscribe(data3 => {                                         
                 }, err => {                    
                     callback();
+                });*/                
+                            
+                let codigoError = data.CodigoError;                    
+                primaGNP = data.Cotizacion.PrimaTotal;
+                displayPrimaTotalInt = Math.ceil(parseInt(primaGNP));
+                displayPrimaTotal = this.formatPrice(displayPrimaTotalInt);
+                displayDanosMateriales = (JSON.stringify(data.Coberturas[0].DanosMateriales)).replace(/"|-N|-S|DAÑOS|MATERIALES/g, '');
+                displayRoboTotal = (JSON.stringify(data.Coberturas[0].RoboTotal)).replace(/"|-N|-S|ROBO|TOTAL/g, '');
+                displayRCPersonas = (JSON.stringify(data.Coberturas[0].RCPersonas)).replace(/"|-N|-S|NRC|PERSONAS|RESPONSABILIDAD|CIVIL|PERSONAS|NO|APLICA|RC|-|D|-/g, '');
+                displayRC = (JSON.stringify(data.Coberturas[0].RC)).replace(/"|-N|-S|-D|RESPONSABILIDAD|CIVIL|NO|APLICA|No|aplica/g, '');
+                displayDefensaJuridica = (JSON.stringify(data.Coberturas[0].DefensaJuridica)).replace(/"|-N|-S|-D|GASTOS|ES|ASISTENCIA|LEGAL|PROVIAL|LEGALES/g, '');
+                displayGastosMedicosOcupantes = data.Coberturas[0].GastosMedicosOcupantes.replace(/"|-N|-S|-D|GASTOS|MÉDICOS|OCUPANTES/g, '');
+                displayGastosMedicosOcupantes = this.formatPrice(displayGastosMedicosOcupantes);
+
+                let displayDanosMaterialesArr = displayDanosMateriales.split('-D');
+                displayDanosMaterialesD = this.formatPrice(displayDanosMaterialesArr[1]);
+                displayDanosMateriales = this.formatPrice(displayDanosMaterialesArr[0]);
+
+                //para el robo total
+                let displayRoboTotalArr = displayRoboTotal.split('-D');
+                displayRoboTotalD = this.formatPrice(displayRoboTotalArr[1]);
+                displayRoboTotal = this.formatPrice(displayRoboTotalArr[0]);
+
+                if (displayPrimaTotal.length == 0) {
+                    displayPrimaTotal = 'No disponible';
+                }                    
+
+                this.comparaList.push({
+                    clave: clave,
+                    asegur: aseguradora,
+                    img: "assets/icon/logo/asegurdoras-gnp.svg",
+                    value: displayPrimaTotal,
+                    valueInt: displayPrimaTotalInt,
+                    danosMateriales: displayDanosMateriales,
+                    danosMaterialesD: displayDanosMaterialesD,
+                    roboTotal: displayRoboTotal,
+                    roboTotalD: displayRoboTotalD,
+                    RCPersonas: displayRCPersonas,
+                    RCPersonasD: displayRCPersonasD,
+                    RC: displayRC,
+                    RCD: displayRCD,
+                    DefensaJuridica: displayDefensaJuridica,
+                    DefensaJuridicaD: displayDefensaJuridicaD,
+                    GastosMedicosOcupantes: displayGastosMedicosOcupantes,
+                    GastosMedicosOcupantesD: displayGastosMedicosOcupantesD
                 });
+                //}                        
+                callback();
             } else if (aseguradora === 'GREAT' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
 
                 if (displayPrimaTotal.length == 0) {
@@ -1471,84 +1474,84 @@ export class AcquireProductPage2 {
                 callback();
             } else if (aseguradora === 'HDI') {
 
-                this.http.get(url).timeout(500000).map(res3 => res3.json()).subscribe(data3 => {                    
-
-                    let codigoError = data3.CodigoError;                    
-
-                    //para la primatotal
-                    displayPrimaTotal = '';
-                    let primaHDI = data3.Cotizacion.PrimaTotal;
-                    this.PrimaTotalHDI=data3.Cotizacion.PrimaTotal
-                    this.PrimaNetaHDI=data3.Cotizacion.PrimaNeta
-                    this.DerechosHDI=data3.Cotizacion.Derechos
-                    this.ImpuestosHDI=data3.Cotizacion.Impuesto
-                    this.RecargoHDI=data3.Cotizacion.Recargos
-                    if (primaHDI != null && isNaN(primaHDI) == false) {
-                        displayPrimaTotalInt = Math.ceil(parseInt(primaHDI));
-                        displayPrimaTotal = this.formatPrice(displayPrimaTotalInt);
-                    }
-
-                    var danosMateriales = '',
-                        roboTotal = '',
-                        rcPersonas = '',
-                        rc = '',
-                        defensaJuridica = '',
-                        gastosMedicosOcupantes = '';
-
-                    if (data3.Coberturas != undefined && data3.Coberturas.length) {
-                        var data3Coberturas = data3.Coberturas[0];
-                        danosMateriales = data3Coberturas.DanosMateriales;
-                        roboTotal = data3Coberturas.RoboTotal;
-                        rcPersonas = data3Coberturas.RCPersonas;
-                        rc = data3Coberturas.RC;
-                        defensaJuridica = data3Coberturas.DefensaJuridica;
-                        gastosMedicosOcupantes = data3Coberturas.GastosMedicosOcupantes;
-                    }
-
-                    displayDanosMateriales = (JSON.stringify(danosMateriales)).replace(/"|-N|-S|DAÑOS|MATERIALES/g, '');
-                    displayRoboTotal = (JSON.stringify(roboTotal)).replace(/"|-N|-S|ROBO|TOTAL/g, '');
-                    displayRCPersonas = (JSON.stringify(rcPersonas)).replace(/"|-N|-S|NRC|PERSONAS|RESPONSABILIDAD|CIVIL|PERSONAS|NO|APLICA|RC|-|D|-/g, '');
-                    displayRC = (JSON.stringify(rc)).replace(/"|-N|-S|-D|RESPONSABILIDAD|CIVIL|NO|APLICA|No|aplica/g, '');
-                    displayDefensaJuridica = (JSON.stringify(defensaJuridica)).replace(/"|-N|-S|-D|GASTOS|ES|ASISTENCIA|LEGAL|PROVIAL|LEGALES/g, '');
-                    displayGastosMedicosOcupantes = (JSON.stringify(gastosMedicosOcupantes)).replace(/"|-N|-S|-D|GASTOS|MÉDICOS|OCUPANTES/g, '');
-
-                    let displayDanosMaterialesArr = displayDanosMateriales.split('-D');
-                    displayDanosMaterialesD = this.formatPrice(displayDanosMaterialesArr[1]);
-                    displayDanosMateriales = this.formatPrice(displayDanosMaterialesArr[0]);
-
-                    //para el robo total
-                    let displayRoboTotalArr = displayRoboTotal.split('-D');
-                    displayRoboTotalD = this.formatPrice(displayRoboTotalArr[1]);
-                    displayRoboTotal = this.formatPrice(displayRoboTotalArr[0]);
-
-                    if (displayPrimaTotal.length == 0) {
-                        displayPrimaTotal = 'No disponible';
-                    }
-
-                    this.comparaList.push({
-                        clave: clave,
-                        asegur: aseguradora,
-                        img: "assets/icon/logo/asegurdoras-hdi.svg",
-                        value: displayPrimaTotal,
-                        valueInt: displayPrimaTotalInt,
-                        danosMateriales: displayDanosMateriales,
-                        danosMaterialesD: displayDanosMaterialesD,
-                        roboTotal: displayRoboTotal,
-                        roboTotalD: displayRoboTotalD,
-                        RCPersonas: displayRCPersonas,
-                        RCPersonasD: displayRCPersonasD,
-                        RC: displayRC,
-                        RCD: displayRCD,
-                        DefensaJuridica: displayDefensaJuridica,
-                        DefensaJuridicaD: displayDefensaJuridicaD,
-                        GastosMedicosOcupantes: displayGastosMedicosOcupantes,
-                        GastosMedicosOcupantesD: displayGastosMedicosOcupantesD
-                    });
-                    //}
-                    callback();
+                /*this.http.get(url).timeout(500000).map(res3 => res3.json()).subscribe(data3 => {                                        
                 }, err => {                    
                     callback();
+                });*/
+                
+                let codigoError = data.CodigoError;                    
+
+                //para la primatotal
+                displayPrimaTotal = '';
+                let primaHDI = data.Cotizacion.PrimaTotal;
+                this.PrimaTotalHDI=data.Cotizacion.PrimaTotal
+                this.PrimaNetaHDI=data.Cotizacion.PrimaNeta
+                this.DerechosHDI=data.Cotizacion.Derechos
+                this.ImpuestosHDI=data.Cotizacion.Impuesto
+                this.RecargoHDI=data.Cotizacion.Recargos
+                if (primaHDI != null && isNaN(primaHDI) == false) {
+                    displayPrimaTotalInt = Math.ceil(parseInt(primaHDI));
+                    displayPrimaTotal = this.formatPrice(displayPrimaTotalInt);
+                }
+
+                var danosMateriales = '',
+                    roboTotal = '',
+                    rcPersonas = '',
+                    rc = '',
+                    defensaJuridica = '',
+                    gastosMedicosOcupantes = '';
+
+                if (data.Coberturas != undefined && data.Coberturas.length) {
+                    var dataCoberturas = data.Coberturas[0];
+                    danosMateriales = dataCoberturas.DanosMateriales;
+                    roboTotal = dataCoberturas.RoboTotal;
+                    rcPersonas = dataCoberturas.RCPersonas;
+                    rc = dataCoberturas.RC;
+                    defensaJuridica = dataCoberturas.DefensaJuridica;
+                    gastosMedicosOcupantes = dataCoberturas.GastosMedicosOcupantes;
+                }
+
+                displayDanosMateriales = (JSON.stringify(danosMateriales)).replace(/"|-N|-S|DAÑOS|MATERIALES/g, '');
+                displayRoboTotal = (JSON.stringify(roboTotal)).replace(/"|-N|-S|ROBO|TOTAL/g, '');
+                displayRCPersonas = (JSON.stringify(rcPersonas)).replace(/"|-N|-S|NRC|PERSONAS|RESPONSABILIDAD|CIVIL|PERSONAS|NO|APLICA|RC|-|D|-/g, '');
+                displayRC = (JSON.stringify(rc)).replace(/"|-N|-S|-D|RESPONSABILIDAD|CIVIL|NO|APLICA|No|aplica/g, '');
+                displayDefensaJuridica = (JSON.stringify(defensaJuridica)).replace(/"|-N|-S|-D|GASTOS|ES|ASISTENCIA|LEGAL|PROVIAL|LEGALES/g, '');
+                displayGastosMedicosOcupantes = (JSON.stringify(gastosMedicosOcupantes)).replace(/"|-N|-S|-D|GASTOS|MÉDICOS|OCUPANTES/g, '');
+
+                let displayDanosMaterialesArr = displayDanosMateriales.split('-D');
+                displayDanosMaterialesD = this.formatPrice(displayDanosMaterialesArr[1]);
+                displayDanosMateriales = this.formatPrice(displayDanosMaterialesArr[0]);
+
+                //para el robo total
+                let displayRoboTotalArr = displayRoboTotal.split('-D');
+                displayRoboTotalD = this.formatPrice(displayRoboTotalArr[1]);
+                displayRoboTotal = this.formatPrice(displayRoboTotalArr[0]);
+
+                if (displayPrimaTotal.length == 0) {
+                    displayPrimaTotal = 'No disponible';
+                }
+
+                this.comparaList.push({
+                    clave: clave,
+                    asegur: aseguradora,
+                    img: "assets/icon/logo/asegurdoras-hdi.svg",
+                    value: displayPrimaTotal,
+                    valueInt: displayPrimaTotalInt,
+                    danosMateriales: displayDanosMateriales,
+                    danosMaterialesD: displayDanosMaterialesD,
+                    roboTotal: displayRoboTotal,
+                    roboTotalD: displayRoboTotalD,
+                    RCPersonas: displayRCPersonas,
+                    RCPersonasD: displayRCPersonasD,
+                    RC: displayRC,
+                    RCD: displayRCD,
+                    DefensaJuridica: displayDefensaJuridica,
+                    DefensaJuridicaD: displayDefensaJuridicaD,
+                    GastosMedicosOcupantes: displayGastosMedicosOcupantes,
+                    GastosMedicosOcupantesD: displayGastosMedicosOcupantesD
                 });
+                //}
+                callback();
             } else if (aseguradora === 'MAPFRE' && displayPrimaTotal !== "null" && !isNaN(displayPrimaTotalInt) && displayDanosMateriales !== null && displayDanosMateriales !== 'undefined') {
 
                 if (displayPrimaTotal.length == 0) {
