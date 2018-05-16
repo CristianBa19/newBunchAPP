@@ -285,7 +285,20 @@ export class AcquireProductPage2 {
                     loader.dismiss();
                     loader.onDidDismiss(() => {
                         that.step = stepIndex;
-                        that.currentStep = stepIndex;                        
+                        that.currentStep = stepIndex;
+                        console.warn('checate estas coberturas', coberturas);
+
+                        for (let i = 0, len = coberturas.length; i < len; i++) {
+                            let e = coberturas[i],
+                                sumaAsegurada = e.SumaAsegurada,
+                                deducible = parseFloat(e.Deducible);
+                            
+                            sumaAsegurada = (sumaAsegurada == 'VALOR COMERCIAL' || sumaAsegurada == 'AMPARADA' ) ? sumaAsegurada : that.stringToFormatedPriceWithString(sumaAsegurada);                            
+                            
+                            e.Deducible = (isNaN(deducible)) ? '' : deducible + '%';
+                            e.SumaAsegurada = sumaAsegurada;
+                        }
+
                         that.cotizacion.coberturas = coberturas;
                         that.content.scrollToTop();
                     });

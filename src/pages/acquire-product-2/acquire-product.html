@@ -388,8 +388,7 @@
                     <ion-icon *ngIf="vigencia === null" class="m-input-icon m-input-icon-error" name="ios-close-outline"></ion-icon>
                 </ion-col>                            
             </ion-row>
-
-            <!--<m-input label="CVV" id="cvv" [field]="cvv" (click)="showAlertCvv()"></m-input>-->
+            
             <m-input label="CVV" id="cvv" [field]="cvv" (change)="mInputChange('cvv')"></m-input>
 
             <ion-row>
