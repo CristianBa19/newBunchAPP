@@ -1,4 +1,5 @@
 page-new-advertisement-2 {
+    .img-icon{position:absolute;right:6%;bottom:8%;font-size:1.8em;display:none;&.selected{color:white;display:block}}
     img.selected{border:1px solid map-get($colors, b-purple)}
     .instrucciones{color:black;font-weight:bold;font-size:22px;padding:2px;margin:0;}
     .sub-instrucciones{color:map-get($colors, b-gray);font-weight:bold;font-size:18px;padding:2px;margin:0;}    

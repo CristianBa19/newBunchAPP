@@ -59,7 +59,12 @@ export class NewAdvertisementPage2 {
       images[i].classList.remove('selected');
     }    
     document.getElementById('image' + id).classList.add('selected');
-    document.getElementById('demo').style.backgroundImage="url('../../assets/img/car"+id+".jpg')";
+    let imgIcons = document.getElementsByClassName('img-icon');
+    for (let i = 0, len = imgIcons.length; i < len; i++) {
+      imgIcons[i].classList.remove('selected');
+    }
+    document.getElementById('image' + id).parentElement.getElementsByClassName('img-icon')[0].classList.add('selected');
+    document.getElementById('demo').style.backgroundImage = "url('../../assets/img/car" + id + ".jpg')";
   }
 
   public share() {
