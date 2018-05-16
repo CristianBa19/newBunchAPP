@@ -349,6 +349,12 @@ export class AcquireProductPage2 {
         return text;
     }
 
+    private resetCarriers() {
+        document.getElementById("master").style.opacity = "1";
+        document.getElementById("visa").style.opacity = "1";
+        document.getElementById("amex").style.opacity = "1";
+    }
+
     master() {
         this.carrierCot = '1';
         document.getElementById("master").style.opacity = "1";
@@ -751,7 +757,16 @@ export class AcquireProductPage2 {
     }
 
     private showAlertTipoTarjeta() {                
-        this.bottomAlert('tipoTarjeta', ['CRÉDITO', 'DÉBITO']);
+        let that = this;
+        this.bottomAlert('tipoTarjeta', ['CRÉDITO', 'DÉBITO'], function() {
+            if (that.tipoTarjeta === 'CRÉDITO') {
+                that.tipoTarjeta = 'CREDITO';
+                that.tipoCot = 'CREDITO';
+            } else {
+                that.tipoTarjeta = 'DEBITO';
+                that.tipoCot = 'DEBITO';
+            }
+        });
     }
 
     private showAlertBancos() {        
@@ -2450,16 +2465,19 @@ export class AcquireProductPage2 {
 
         that.numTarjeta = numTarjeta;            
 
-        that.http.get('https://lookup.binlist.net/' + numTarjeta).map(res => res.json()).subscribe(data => {
-
-            console.log({ data });
+        that.http.get('https://lookup.binlist.net/' + numTarjeta).map(res => res.json()).subscribe(data => {            
 
             scheme = data.scheme.toUpperCase();
             type = data.type;
             bank = data.bank.name;
-            if (bank == undefined) {
+            if (bank == undefined) {                
+                that.resetCarriers();
+                that.carrierCot = undefined;
+                that.tipoCot = undefined;
+                that.banco = undefined;
+                that.tipoTarjeta = undefined;
                 loader.dismiss();
-                that.showToast('No se pudo validar el banco');                    
+                //that.showToast('No se pudo validar el banco');                    
             } else {
 
                 bank = bank.trim();
@@ -2511,13 +2529,14 @@ export class AcquireProductPage2 {
                 }
             }
         }, err => {
-            that.carrierCot = null;
-            that.tipoCot = null;
-            that.banco = null;
-            that.tipoTarjeta = null;
+            that.resetCarriers();
+            that.carrierCot = undefined;
+            that.tipoCot = undefined;
+            that.banco = undefined;
+            that.tipoTarjeta = undefined;
             loader.dismiss();
-            console.error({ err });
-            that.showToast('No se pudo validar el banco');                
+            //console.error({ err });
+            //that.showToast('No se pudo validar el banco');                
         });
     }
 

@@ -259,7 +259,7 @@
             <m-input label="Teléfono Móvil" id="telMovil" [field]="telMovil"  (change)="mInputChange('telMovil', telMovilChanged)"></m-input>
             <m-input label="RFC" id="rfc" [field]="rfc" (change)="mInputChange('rfc', rfcChanged)"></m-input>
             <m-input label="Código Postal" id="codigoPostal2" [field]="codigoPostal1"></m-input>
-            <m-input label="Colonia" id="colonia" [field]="colonia" (click)="showAlertColony()"></m-input>
+            <m-input label="Colonia" id="colonia" [field]="colonia" (click)="showAlertColony()" [disabled]="true"></m-input>
             <m-input label="Estado" id="estado" [field]="estado"></m-input>
             <m-input label="Delegación/Municipio" id="delegacion" [field]="delegacion"></m-input>
             <m-input label="Calle" id="calle" [field]="calle" (change)="mInputChange('calle', calleChanged)"></m-input>
@@ -352,10 +352,10 @@
 
             <!--<m-input label="Número de Tarjeta" id="numTarjeta" [field]="numTarjeta" (click)="showAlertTarjeta()"></m-input>-->
             <m-input label="Número de Tarjeta" id="numTarjeta" [field]="numTarjeta" (change)="mInputChange('numTarjeta', numTarjetaChanged)"></m-input>
-            <m-input label="Tipo de Tarjeta" id="tipoTarjeta" [field]="tipoTarjeta" (click)="showAlertTipoTarjeta()"></m-input>            
+            <m-input label="Tipo de Tarjeta" id="tipoTarjeta" [field]="tipoTarjeta" (click)="showAlertTipoTarjeta()" [disabled]="true"></m-input>            
             <!--<m-input label="Titular" id="titular" [field]="titular" (click)="showAlertTitular()"></m-input>-->
             <m-input label="Titular" id="titular" [field]="titular" (change)="mInputChange('titular', titularChanged)"></m-input>
-            <m-input label="Banco" id="inputBank" [field]="banco" (click)="showAlertBancos()"></m-input>
+            <m-input label="Banco" id="inputBank" [field]="banco" (click)="showAlertBancos()" [disabled]="true"></m-input>
 
             <ion-row>
                 <ion-col col-12>
