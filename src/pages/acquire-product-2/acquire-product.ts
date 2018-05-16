@@ -256,7 +256,14 @@ export class AcquireProductPage2 {
                     that.cotizacion.bancos = row.bancos;
                     break;
                 }
-            }            
+            }
+
+            let bancoList = [];
+            for (let i = 0, len = that.cotizacion.bancos.length; i < len; i++) {
+                bancoList.push(that.cotizacion.bancos[i].Abreviacion.toUpperCase());
+            }
+
+            that.bancoList = bancoList;
 
             //that.loadInputData('inputBank');
         } else if (currentStep == 4) {
@@ -343,16 +350,19 @@ export class AcquireProductPage2 {
     }
 
     master() {
+        this.carrierCot = '1';
         document.getElementById("master").style.opacity = "1";
         document.getElementById("visa").style.opacity = ".5";
         document.getElementById("amex").style.opacity = ".5";
     }
     amex() {
+        this.carrierCot = '2';
         document.getElementById("master").style.opacity = ".5";
         document.getElementById("visa").style.opacity = ".5";
         document.getElementById("amex").style.opacity = "1";
     }
     visa() {
+        this.carrierCot = '0';
         document.getElementById("master").style.opacity = ".5";
         document.getElementById("visa").style.opacity = "1";
         document.getElementById("amex").style.opacity = ".5";
@@ -740,9 +750,13 @@ export class AcquireProductPage2 {
         });        
     }
 
-    private showAlertTipoTarjeta() {        
-        let that = this; 
-        this.bottomAlert('tipoTarjeta', ['CRÉDITO', 'DÉBITO']);        
+    private showAlertTipoTarjeta() {                
+        this.bottomAlert('tipoTarjeta', ['CRÉDITO', 'DÉBITO']);
+    }
+
+    private showAlertBancos() {        
+        let that = this;        
+        this.bottomAlert('banco', that.bancoList);
     }
     
     showAlertModelo() {
@@ -823,28 +837,8 @@ export class AcquireProductPage2 {
                 that.colonia = data;
             });*/
         }
-    }
+    }    
 
-    showAlertBancos() {
-
-        let that = this,
-            title = this.isEnglish ? 'Choose bank' : 'Banco',
-            options = [];
-
-        for (let banco of this.bancoList) {
-            let checked = this.banco == banco;
-            options.push({
-                type: 'radio',
-                label: banco,
-                value: banco,
-                checked: checked,
-            });
-        }
-
-        this.showAlert(title, options, function (data) {            
-            that.banco = data;
-        });
-    }
     hasClass(htmlElement: any, clase: string): boolean {
 
         if (htmlElement['className'].indexOf(clase) === -1) {
@@ -2480,24 +2474,20 @@ export class AcquireProductPage2 {
 
                 let BANK = bank.toUpperCase(),
                     found = false;
-
-                console.log('THAT COTIZACION', that.cotizacion);
-                for (let i = 0, len = that.cotizacion.bancos.length; i < len; i++) {
-                    if (that.cotizacion.bancos[i].Abreviacion.toUpperCase() == BANK) {
+                
+                for (let i = 0, len = that.bancoList.length; i < len; i++) {
+                    if (that.bancoList[i] == BANK) {
                         found = true;
                         break;
                     }
                 }
 
                 if (found == true) {
-                    if (scheme === 'MASTERCARD') {
-                        that.carrierCot = '1';
+                    if (scheme === 'MASTERCARD') {                        
                         that.master();
-                    } else if (scheme === 'AMEX') {
-                        that.carrierCot = '2';
+                    } else if (scheme === 'AMEX') {                        
                         that.amex();
-                    } else if (scheme === 'VISA') {
-                        that.carrierCot = '0';
+                    } else if (scheme === 'VISA') {                        
                         that.visa();
                     }
     
