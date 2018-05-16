@@ -1,5 +1,5 @@
-
 acquire-product-page-2{    
+    #felicidadesGNP,#felicidadesGNPButton{display:none;}
     #ionScroll{height:100%;width:100%;}
     #bottomAlertBackground{
         position:absolute;
@@ -398,8 +398,9 @@ acquire-product-page-2{
     .arrow-button{
         width: 30% !important;
         margin-left: -120px !important;
-    }
-    .cliente-tab{
+    }    
+    #filita{padding:0 !important;margin:0 !important;margin-bottom:15px !important;ion-col{padding:0 !important;margin:0 !important;}}
+    .cliente-tab{    
         .input-container {
             width:100%;
             .input-wrapper {
@@ -620,5 +621,5 @@ acquire-product-page-2{
         }
     }
     #resumeContainerHeader{background:#673192 !important;color:white !important;ion-col{text-align:center !important;padding:15px !important;}}
-    #felidades{ion-col:nth-child(2){p{color:#7D7D7D;font-size:20px;font-weight:bold;}text-align:center;.title{color:#673192;font-size:30px;font-weight:bold;}.title2{color:#673192;font-size:21px;font-weight:bold;}}}
+    #felicidades{ion-col:nth-child(2){p{color:#7D7D7D;font-size:20px;font-weight:bold;}text-align:center;.title{color:#673192;font-size:30px;font-weight:bold;}.title2{color:#673192;font-size:21px;font-weight:bold;}}}
 }

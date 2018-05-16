@@ -726,6 +726,11 @@ export class AcquireProductPage2 {
             that.loadInputData('inputModelo');
         });        
     }
+
+    private showAlertTipoTarjeta() {        
+        let that = this; 
+        this.bottomAlert('tipoTarjeta', ['CRÉDITO', 'DÉBITO']);        
+    }
     
     showAlertModelo() {
 
@@ -3162,8 +3167,15 @@ export class AcquireProductPage2 {
                 } else {
                     localStorage.Poliza = data.Emision.Poliza
                     //this.navCtrl.push(PaymentSubmittedPage2, { prevPage: this.prevPage }, { animate: true });
+                    if (that.cotizacion.aseguradora.toUpperCase() == 'GNP') {
+                        document.getElementById('felicidadesGNP').style.display = 'block';
+                        document.getElementById('felicidadesGNPButton').style.display = 'block';
+
+                        document.getElementById('felicidades').style.display = 'none';
+                        document.getElementById('felicidadesButton').style.display = 'none';
+                    }
                     that.step = 7;
-                    that.currentStep = 7;
+                    that.currentStep = 7;                    
                 }
             });                        
         }, err => {

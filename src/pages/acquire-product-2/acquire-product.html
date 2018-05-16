@@ -1,34 +1,25 @@
 <ion-header>
-<ion-grid>
-    <ion-row id="headerRow" align-items-center>
-        <ion-col col-2 id="backContainer">
-            <button icon-only ion-button clear class="header-back-button" (click)="goBack()">            
-                <ion-icon name="ios-arrow-back"></ion-icon>
-            </button>                
-        </ion-col>
-        <ion-col col-8 id="titleContainer">
-            Seguro de Auto
-        </ion-col>    
-        <ion-col col-2></ion-col>        
-    </ion-row>    
-</ion-grid>
-<!--<ion-toolbar>
-                <ion-buttons left>
-                    <button icon-only ion-button class="backButton" (click)="goBack()">            
-                        <ion-icon name="ios-arrow-back"></ion-icon>
-                    </button>
-                </ion-buttons>
-                <ion-title class="titleStyle">Seguro de Auto</ion-title>
-            </ion-toolbar>        -->
+    <ion-grid>
+        <ion-row id="headerRow" align-items-center>
+            <ion-col col-2 id="backContainer">
+                <button icon-only ion-button clear class="header-back-button" (click)="goBack()">            
+                    <ion-icon name="ios-arrow-back"></ion-icon>
+                </button>                
+            </ion-col>
+            <ion-col col-8 id="titleContainer">
+                Seguro de Auto
+            </ion-col>    
+            <ion-col col-2></ion-col>        
+        </ion-row>    
+    </ion-grid>
 </ion-header>
 
-<ion-content padding>    
-
+<ion-content padding-left padding-right>
     <!-- Paso 1 de 5 -->
     <ion-row class="cliente-tab" [hidden]="step != 1">        
         <ion-col col-12>
 
-            <ion-row>
+            <ion-row id="filita">
                 <ion-col col-12>            
                     <ion-row>
                         <ion-col col-12>
@@ -37,7 +28,7 @@
                         </ion-col>            
                     </ion-row>
                 </ion-col>
-            </ion-row>            
+            </ion-row>
 
             <!--<ion-row class="m-input" (click)="showAlertCP1()">
                 <ion-col col-12>                                    
@@ -361,7 +352,7 @@
 
             <!--<m-input label="Número de Tarjeta" id="numTarjeta" [field]="numTarjeta" (click)="showAlertTarjeta()"></m-input>-->
             <m-input label="Número de Tarjeta" id="numTarjeta" [field]="numTarjeta" (change)="mInputChange('numTarjeta', numTarjetaChanged)"></m-input>
-            <m-input label="Tipo de Tarjeta" id="tipoTarjeta" [field]="tipoTarjeta"></m-input>
+            <m-input label="Tipo de Tarjeta" id="tipoTarjeta" [field]="tipoTarjeta" (click)="showAlertTipoTarjeta()"></m-input>            
             <!--<m-input label="Titular" id="titular" [field]="titular" (click)="showAlertTitular()"></m-input>-->
             <m-input label="Titular" id="titular" [field]="titular" (change)="mInputChange('titular', titularChanged)"></m-input>
             <m-input label="Banco" id="inputBank" [field]="banco" (click)="showAlertBancos()"></m-input>
@@ -427,12 +418,21 @@
     <ion-row class="cliente-tab" [hidden]="step != 7">
         <ion-col col-12>
 
-            <ion-row id="felidades">
+            <ion-row id="felicidades">
                 <ion-col col-2></ion-col>
                 <ion-col col-8>
                     <span class="title">Felicidades</span>                    
                     <p>La compra del Seguro de tu Auto ha sido exitosa.</p>                    
                     <p>Tu póliza tiene vigencia a partir de hoy.</p>                    
+                </ion-col>
+            </ion-row>    
+
+            <ion-row id="felicidadesGNP">
+                <ion-col col-2></ion-col>
+                <ion-col col-8>
+                    <span class="title">Felicidades</span>                    
+                    <p>Has completado correctamente tu proceso de compra.</p>                    
+                    <p>Hemos enviado tu solicitud de compra a emitir con GNP, en 72 horas como máximo se efectuará el cobro y enviaremos tu póliza a tu correo electrónico.</p>                    
                 </ion-col>
             </ion-row>    
             
@@ -443,10 +443,18 @@
                 </ion-col>
             </ion-row>
             
-            <ion-row class="m-button">
+            <ion-row class="m-button" id="felicidadesButton">
                 <ion-col col-3></ion-col>
                 <ion-col col-6>
                     <button type="button" (click)="showStep(8)">Descargar Póliza</button>
+                </ion-col>
+                <ion-col col-3></ion-col>
+            </ion-row>            
+
+            <ion-row class="m-button" id="felicidadesGNPButton">
+                <ion-col col-3></ion-col>
+                <ion-col col-6>
+                    <button type="button" (click)="showStep(8)">Descargar Órden de Compra</button>
                 </ion-col>
                 <ion-col col-3></ion-col>
             </ion-row>            
