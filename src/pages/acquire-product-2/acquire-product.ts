@@ -769,8 +769,10 @@ export class AcquireProductPage2 {
         this.bottomAlert('edad', this.edadList, function(edad) {
             if (edad == null) {
                 that.edadTxt = null;                
-            } else {
+            } else {                
                 that.edadTxt = `${edad} años`;
+                that.minYear  = new Date().getFullYear() - +edad;
+                that.maxYear  = new Date().getFullYear() - +edad;
             }                                    
         });
     }
@@ -2726,6 +2728,7 @@ export class AcquireProductPage2 {
     private userSerialNumberList = ['HEAH876542KLOP', 'HEAH87LOP', 'HEKLOP'];
     private userPlates = { name: 'HEM987' }; //d
     private userPlatesList = ['HEM987', 'HEM9', 'HE87'];
+    private minYear = new Date().getFullYear() - 18;
     private maxYear = new Date().getFullYear() - 18;
 
 

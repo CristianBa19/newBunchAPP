@@ -246,7 +246,7 @@
                     </ion-row>
                     <ion-row class="m-input-value">
                         <ion-col col-12>
-                            <ion-datetime pickerFormat="YYYY MMMM DD" displayFormat="YYYY MMMM DD"  [monthNames]="datePickerNames.month" [(ngModel)]="fechaNacimiento" (ngModelChange)="fechaNacimientoChanged()" cancelText="CANCELAR" doneText="OK" max="{{maxYear}}"></ion-datetime>                            
+                            <ion-datetime pickerFormat="YYYY MMMM DD" displayFormat="YYYY MMMM DD"  [monthNames]="datePickerNames.month" [(ngModel)]="fechaNacimiento" (ngModelChange)="fechaNacimientoChanged()" cancelText="CANCELAR" doneText="OK" min="{{minYear}}" max="{{maxYear}}"></ion-datetime>
                         </ion-col>
                     </ion-row>                    
                 </ion-col>    
