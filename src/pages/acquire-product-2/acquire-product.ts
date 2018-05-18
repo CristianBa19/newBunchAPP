@@ -158,7 +158,39 @@ export class AcquireProductPage2 {
     idDirCot: string;
     idContCot: string;
 
-    private idContVend: number;    
+    private idContVend: number;   
+    
+    private prueba() {        
+        //this.showToast('prueba');
+        //alert(x.keyCode);
+        
+        /*console.log('prueba...', x.keyCode);        
+        if (x.keyCode != 8 && ! (x.keyCode >= 48 && x.keyCode <= 57)) {
+            x.preventDefault();
+        }*/
+        /*let telCasa = document.getElementById('telCasa').getElementsByTagName('input')[0].value.trim();
+        let reg:any = /^\d+$/; //new RegExp('^[0-9]$');
+        console.log(reg.test(telCasa));*/
+        
+        let codigoPostal1 = document.getElementById('codigoPostal1').getElementsByTagName('input')[0].value.trim();        
+        let codigoPostal1Len = codigoPostal1.length;
+        if (codigoPostal1[codigoPostal1Len - 1] == '.') {
+            codigoPostal1 = codigoPostal1.slice(0, -1); 
+        }        
+        //let arr = codigoPostal1.match(/\d+/g);
+        codigoPostal1 = codigoPostal1.replace(/\.+/g, '');
+        codigoPostal1 = codigoPostal1.replace(/\-+/g, '');
+        let filtered:string = ''; //codigoPostal1;
+        try {            
+            let arr = codigoPostal1.match(/\d+/g);        
+            let len = arr.length;        
+            for (let i = 0; i < len; i++) {                
+                filtered += arr[i];                
+            }
+        } catch(err) {}        
+        
+        document.getElementById('codigoPostal1').getElementsByTagName('input')[0].value = filtered;
+    }
 
     private fillTab1() {
         this.codigoPostal1 = '79050';

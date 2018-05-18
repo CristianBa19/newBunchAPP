@@ -18,6 +18,7 @@ export class MInputComponent {
   @Input() change: any;
   @Input() x: any;
   @Input() disabled: any;
+  @Input() type:string = 'text';
 
   constructor() {    
   }

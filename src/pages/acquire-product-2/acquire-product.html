@@ -60,7 +60,8 @@
                 </ion-col>                            
             </ion-row>-->
 
-            <m-input label="Código Postal" id="codigoPostal1" [field]="codigoPostal1" (change)="mInputChange('codigoPostal1', codigoPostalChanged)"></m-input>
+            <!--<m-input label="Código Postal" id="codigoPostal1" [field]="codigoPostal1" (change)="mInputChange('codigoPostal1', codigoPostalChanged)"></m-input>-->
+            <m-input type="number" label="Código Postal" id="codigoPostal1" [field]="codigoPostal1" (change)="mInputChange('codigoPostal1', codigoPostalChanged)" (keyup)="prueba()"></m-input>
             <m-input label="Edad" id="edad" [field]="edadTxt" (click)="showAlertEdad()" [disabled]="true"></m-input>
             <m-input label="Género" [field]="genero" id="genero" (click)="showAlertGenero()" [disabled]="true"></m-input>
             <m-input label="Marca" id="marca" [field]="marca" (click)="showAlertMarca()" [disabled]="true"></m-input>
