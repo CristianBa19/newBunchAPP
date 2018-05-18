@@ -160,36 +160,27 @@ export class AcquireProductPage2 {
 
     private idContVend: number;   
     
-    private prueba() {        
-        //this.showToast('prueba');
-        //alert(x.keyCode);
+    private filterNumeric(elemName:string) {
         
-        /*console.log('prueba...', x.keyCode);        
-        if (x.keyCode != 8 && ! (x.keyCode >= 48 && x.keyCode <= 57)) {
-            x.preventDefault();
-        }*/
-        /*let telCasa = document.getElementById('telCasa').getElementsByTagName('input')[0].value.trim();
-        let reg:any = /^\d+$/; //new RegExp('^[0-9]$');
-        console.log(reg.test(telCasa));*/
-        
-        let codigoPostal1 = document.getElementById('codigoPostal1').getElementsByTagName('input')[0].value.trim();        
-        let codigoPostal1Len = codigoPostal1.length;
-        if (codigoPostal1[codigoPostal1Len - 1] == '.') {
-            codigoPostal1 = codigoPostal1.slice(0, -1); 
-        }        
-        //let arr = codigoPostal1.match(/\d+/g);
-        codigoPostal1 = codigoPostal1.replace(/\.+/g, '');
-        codigoPostal1 = codigoPostal1.replace(/\-+/g, '');
-        let filtered:string = ''; //codigoPostal1;
+        let elem = document.getElementById(elemName).getElementsByTagName('input')[0];
+        let maxLen = elem.maxLength;
+        let value = elem.value.trim();        
+        let valueLen = value.length;
+        if (value[valueLen - 1] == '.') {
+            value = value.slice(0, -1); 
+        }
+        value = value.replace(/\.+/g, '');
+        value = value.replace(/\-+/g, '');
+        let filtered:string = '';
         try {            
-            let arr = codigoPostal1.match(/\d+/g);        
+            let arr = value.match(/\d+/g);        
             let len = arr.length;        
             for (let i = 0; i < len; i++) {                
                 filtered += arr[i];                
             }
-        } catch(err) {}        
+        } catch(err) {}
         
-        document.getElementById('codigoPostal1').getElementsByTagName('input')[0].value = filtered;
+        elem.value = filtered.substring(0, maxLen);
     }
 
     private fillTab1() {
@@ -674,8 +665,19 @@ export class AcquireProductPage2 {
     }    
 
     private mInputChange(elementId, callback) {
-        let value = document.getElementById(elementId).getElementsByTagName('input')[0].value.trim(),
-            that = this;        
+        let input = document.getElementById(elementId).getElementsByTagName('input')[0],
+            value = input.value.trim(),
+            that = this;
+            /*inputType = input.type;
+        console.warn({inputType});
+
+        if (inputType == 'number') {
+            console.warn({value});
+            value = value.replace(/\.+/g, '');
+            value = value.replace(/\-+/g, '');
+            input.value = value;
+        }*/
+
         if (value.length == 0) {
             that[elementId] = null;            
         } else {

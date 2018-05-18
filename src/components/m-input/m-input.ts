@@ -19,6 +19,7 @@ export class MInputComponent {
   @Input() x: any;
   @Input() disabled: any;
   @Input() type:string = 'text';
+  @Input() maxlength: any = '888';
 
   constructor() {    
   }
