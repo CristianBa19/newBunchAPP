@@ -771,8 +771,10 @@ export class AcquireProductPage2 {
                 that.edadTxt = null;                
             } else {                
                 that.edadTxt = `${edad} años`;
-                that.minYear  = new Date().getFullYear() - +edad;
-                that.maxYear  = new Date().getFullYear() - +edad;
+                let year = new Date().getFullYear();
+                edad = Number(edad);
+                that.minYear  = year - edad - 1;
+                that.maxYear  = that.minYear + 2;
             }                                    
         });
     }
