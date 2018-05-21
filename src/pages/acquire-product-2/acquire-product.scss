@@ -81,8 +81,9 @@ acquire-product-page-2{
 }
 
     .col-0{text-align:center;}
-    .col-1{text-align:center;}
-    .resultado-aseguradora{display:none;width:100%;margin-top:12px;}
+    .col-1{text-align:center;}    
+    .resultado-aseguradora{width:100%;margin-top:12px;}
+    .resultado-aseguradora.hidden{display:none;}
     .fila0{height:90px;border:1px solid black;background:white;}
     .col0{
         height:90px;                

@@ -113,7 +113,7 @@
             
             <ion-row id="resultsContainer">
                 <ion-col col-12>                    
-                    <div class="resultado-aseguradora" *ngFor="let listItem of comparaList">
+                    <div class="resultado-aseguradora hidden" *ngFor="let listItem of comparaList">
                         <ion-row class="result" align-items-center (click)="showStep(3, listItem)">
                             <ion-col col-5>
                                 <img [src]="listItem.img"> <!--src="../../assets/icon/logo/asegurdoras-aba.svg"-->

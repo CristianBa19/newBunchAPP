@@ -998,14 +998,20 @@ export class AcquireProductPage2 {
                 //Muestra los resultados, 
                 //los cuales previamente estaban ocultos para esperar a que 
                 //los resultados se ordenaran de menor a mayor precio
-                let elems = document.getElementsByClassName('resultado-aseguradora');
-                for (let i = 0, len = elems.length; i < len; i++) {
-                    elems[i]['style'].display = 'block';
-                }           
-                
-                if (callback != undefined) {
-                    callback();
-                }
+                //(le deje 2 segundos para que el comparList alcance a desplegarse en html, hay que buscar un event cuando las cosas sean embedidas en html para evitar el esperar 2 segundos fijos)
+                setTimeout(function() {
+                    let elems = document.getElementsByClassName('resultado-aseguradora');
+                    console.log({elems});
+                    for (let i = 0, len = elems.length; i < len; i++) {
+                        //elems[i]['style'].display = 'block';
+                        console.log(i);
+                        elems[i].classList.remove('hidden');
+                    }
+                    
+                    if (callback != undefined) {
+                        callback();
+                    }
+                }, 2000);                
             } else {
                 this.getCotizacionPorAseguradora(obj, function() {
                     that.cotizar(aseguradoras, ++index, callback);
