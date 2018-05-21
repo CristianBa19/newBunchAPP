@@ -10,19 +10,19 @@ acquire-product-page-2{
         z-index:87;
         background:lightgray;                   
         display:none;
-        opacity:0.4;
+        opacity:0.4;        
     }
-    #bottomAlertTile{        
+    #bottomAlertTile{                
         background:white;    
         opacity:1;
         position:absolute;
         z-index:88;
-        left:0;
-        bottom:0;
+        left:5%;
+        bottom:3%;
         height:33.33%;
-        width:100%;        
-        border:2px solid map-get($colors, b-gray);               
-        display:none;
+        width:90%;        
+        border:2px solid lightgray; //map-get($colors, b-gray);        
+        display:none;                
         
             
             ion-scroll{                
@@ -30,7 +30,7 @@ acquire-product-page-2{
                     width:100%;height:100%;
                     ion-item{
                         border-bottom:1px solid lightgray;
-                        &.selected{color:map-get($colors, b-purple);font-weight:bold;}
+                        &.selected{background:map-get($colors, b-blue);font-weight:bold;color:white;}
                         span{padding-left:12px !important;font-size:17px;}                        
                     }
                 }
