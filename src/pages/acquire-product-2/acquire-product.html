@@ -418,19 +418,19 @@
     <ion-row class="cliente-tab" [hidden]="step != 7">
         <ion-col col-12>
 
-            <ion-row id="felicidades">
+            <ion-row class="felicidades" id="felicidades">
                 <ion-col col-2></ion-col>
                 <ion-col col-8>
-                    <span class="title">Felicidades</span>                    
+                    <div class="title">Felicidades</div>
                     <p>La compra del Seguro de tu Auto ha sido exitosa.</p>                    
                     <p>Tu póliza tiene vigencia a partir de hoy.</p>                    
                 </ion-col>
             </ion-row>    
 
-            <ion-row id="felicidadesGNP">
+            <ion-row class="felicidades" id="felicidadesGNP">
                 <ion-col col-2></ion-col>
                 <ion-col col-8>
-                    <span class="title">Felicidades</span>                    
+                    <div class="title">¡Felicidades!</div>
                     <p>Has completado correctamente tu proceso de compra.</p>                    
                     <p>Hemos enviado tu solicitud de compra a emitir con GNP, en 72 horas como máximo se efectuará el cobro y enviaremos tu póliza a tu correo electrónico.</p>                    
                 </ion-col>
@@ -443,28 +443,21 @@
                 </ion-col>
             </ion-row>
             
-            <ion-row class="m-button" id="felicidadesButton">
+            <ion-row class="m-button">
                 <ion-col col-3></ion-col>
                 <ion-col col-6>
-                    <button type="button" (click)="showStep(8)">Descargar Póliza</button>
+                    <button type="button" id="felicidadesButton" (click)="showStep(8)">Descargar Póliza</button>
+                    <button type="button" id="felicidadesGNPButton" (click)="showStep(8)">Descargar<br>Órden de Compra</button>
                 </ion-col>
                 <ion-col col-3></ion-col>
-            </ion-row>            
-
-            <ion-row class="m-button" id="felicidadesGNPButton">
-                <ion-col col-3></ion-col>
-                <ion-col col-6>
-                    <button type="button" (click)="showStep(8)">Descargar Órden de Compra</button>
-                </ion-col>
-                <ion-col col-3></ion-col>
-            </ion-row>            
+            </ion-row>
         </ion-col>
     </ion-row>                
 
     <ion-row class="cliente-tab" [hidden]="step != 8">
         <ion-col col-12>
 
-            <ion-row id="felidades">
+            <ion-row class="felicidades">
                 <ion-col col-2></ion-col>
                 <ion-col col-8>
                     <span class="title2">No pudimos completar tu proceso de compra pero no te preocupes.</span>                    

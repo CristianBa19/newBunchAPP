@@ -194,6 +194,15 @@ export class AcquireProductPage2 {
         this.subMarca = 'AVEO';
         this.descripcion = 'A';
         this.subDescripcion = 'PAQ A';
+        
+        /*let that = this;                
+        document.getElementById('felicidadesGNP').style.display = 'block';
+        document.getElementById('felicidadesGNPButton').style.display = 'block';
+
+        document.getElementById('felicidades').style.display = 'none';
+        document.getElementById('felicidadesButton').style.display = 'none';
+        that.step = 7;
+        that.currentStep = 7;                    */
     }
 
     private fillTab3() {
