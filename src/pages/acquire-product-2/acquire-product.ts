@@ -2316,10 +2316,11 @@ export class AcquireProductPage2 {
                 if (data['_body'] === 'True') {
                     that.numSerie = numSerie.toUpperCase();
                 } else {                    
+                    that.numSerie = null;
                     that.showToast('Número de serie inválido');
                 }                
             }, err => {
-                that.numSerie = undefined;
+                that.numSerie = null;
                 loader.dismiss();                                
             });
         }        
