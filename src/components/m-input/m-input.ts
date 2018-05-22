@@ -18,6 +18,7 @@ export class MInputComponent {
   @Input() change: any;
   @Input() x: any;
   @Input() disabled: any;
+  @Input() readonly: any;
   @Input() type:string = 'text';
   @Input() maxlength: any = '888';
 
