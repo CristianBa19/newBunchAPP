@@ -1679,8 +1679,7 @@ export class AcquireProductPage2 {
             that.nombre = undefined;
             that.paterno = undefined;
             that.materno = undefined;
-            that.fechaNacimiento = undefined;
-            that.genero = undefined;
+            that.fechaNacimiento = undefined;            
             that.telCasa = undefined;
             that.telMovil = undefined;
             that.rfc = undefined;
@@ -1787,7 +1786,6 @@ export class AcquireProductPage2 {
                 that.paterno = undefined;
                 that.materno = undefined;
                 that.fechaNacimiento = undefined;
-                that.genero = undefined;
                 that.telCasa = undefined;
                 that.telMovil = undefined;
                 that.rfc = undefined;
