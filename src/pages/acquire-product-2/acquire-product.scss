@@ -599,7 +599,10 @@ acquire-product-page-2{
     .m-input{border-top:1px solid #EDEEF0;height:60px;}
     .m-input-label{color:#B1B2B4;font-weight:bold;ion-col{padding:0 !important;margin:0 !important;}}
     .m-input-value{white-space: nowrap;overflow: hidden;text-overflow: ellipsis;text-align:left;color:#656567;font-size:22px;padding:0 !important;margin:0 !important;ion-col{padding:0 !important;margin:0 !important;}
-        input{width:100%;background:transparent;border:0;margin-top:3px;color:map-get($colors, b-gray) !important;color:red !important;}
+        input{width:100%;background:transparent;border:0;margin-top:3px;color:map-get($colors, b-gray) !important;}
+        input[disabled]{-webkit-text-fill-color:map-get($colors, b-gray) !important; /* Override iOS / Android font color change */
+            -webkit-opacity:1; /* Override iOS opacity change affecting text & background color */
+            color:map-get($colors, b-gray) !important; /* Override IE font color change */}
     }
     /*.m-input-arrow{position:absolute;right:7px;top:3px;font-size:45px;color:#673192;}    
     .m-input-arrow-2{font-size:45px;color:#673192;}
