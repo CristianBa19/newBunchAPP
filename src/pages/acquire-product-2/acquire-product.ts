@@ -1198,17 +1198,17 @@ export class AcquireProductPage2 {
 
         console.warn({dataObj});
 
-        let myJSON = JSON.stringify(dataObj);
+        /*let myJSON = JSON.stringify(dataObj);
         let enStr = btoa(`usuario=Bunch&Password=BunCH2O18&data=${myJSON}&movimiento=cotizacion&idContVend=${this.idContVend}`);
         let url = `http://services.bunch.guru/WebService.asmx/insertacotmaster?param=${enStr}`;
         this.http.get(url).map(res => res.json()).subscribe(data => {
 
             console.warn('respuesta de insertacotmaster');
-            console.warn({data});
-            //myJSON = JSON.stringify(dataObj),
-            myJSON = JSON.stringify(data),
-            enStr = btoa(`usuario=Bunch&Password=BunCH2O18&data=${myJSON}&movimiento=cotizacion&idContVend=${this.idContVend}`),
-            url = `http://services.bunch.guru/WebService.asmx/CotizacionEmisionJSON?param=${enStr}`;
+            console.warn({data});*/
+            let myJSON = JSON.stringify(dataObj),
+            //myJSON = JSON.stringify(data),
+                enStr = btoa(`usuario=Bunch&Password=BunCH2O18&data=${myJSON}&movimiento=cotizacion&idContVend=${this.idContVend}`),
+                url = `http://services.bunch.guru/WebService.asmx/CotizacionEmisionJSON?param=${enStr}`;
 
             console.log('url principal', {url});
 
@@ -1678,7 +1678,7 @@ export class AcquireProductPage2 {
                 console.error(err);
                 callback();
             });
-        });        
+        //});        
     }
 
     //Step 2
