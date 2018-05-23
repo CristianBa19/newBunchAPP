@@ -206,6 +206,7 @@ export class AcquireProductPage2 {
     }
 
     private fillTab3() {
+        console.log('fillTab3');
         this.email = this.getRandString() + '@gamil.com';
         this.nombre = 'LUNA';
         this.paterno = 'CISNEROS';
@@ -1904,6 +1905,7 @@ export class AcquireProductPage2 {
     }
 
     calcRFCYTitular() {
+        console.log('calcRFCYTitular');
         let that = this;
         if (that.nombre !== undefined && 
             that.paterno !== undefined && 
@@ -1913,7 +1915,9 @@ export class AcquireProductPage2 {
             that.paterno !== null && 
             that.materno !== null && 
             that.fechaNacimiento !== null) {
-            //that.calcHC();
+            console.log('dentro del IF');
+            that.generarRFC();
+            that.calcHC();
             that.titular = `${that.nombre} ${that.paterno} ${that.materno}`.toUpperCase();
         }
     }
@@ -3282,15 +3286,7 @@ export class AcquireProductPage2 {
             }
         });
         modal.present();
-    }    
-
-    //Generacion de RFC
-    flag_fecha = false;
-    flag_nombre = true;
-    flag_apaterno = false;
-    flag_amaterno = false;
-    flag_rfc = false;
-    rfc_hc = "";
+    }        
 
     validName(txtNombre:string):boolean {
                 
@@ -3327,6 +3323,14 @@ export class AcquireProductPage2 {
         return flag;
     }    
 
+    //Generacion de RFC
+    flag_fecha = false;
+    flag_nombre = true;
+    flag_apaterno = false;
+    flag_amaterno = false;
+    flag_rfc = false;
+    rfc_hc = "";
+
     esVocal(letra) {
         if (letra == 'A' || letra == 'E' || letra == 'I' || letra == 'O'
             || letra == 'U' || letra == 'a' || letra == 'e' || letra == 'i'
@@ -3335,7 +3339,7 @@ export class AcquireProductPage2 {
         else
             return false;
     }
-
+    
     QuitarArticulos(articles) {
         articles = articles.replace("DEL ", "");
         articles = articles.replace("LAS ", "");
@@ -3348,51 +3352,50 @@ export class AcquireProductPage2 {
         articles = articles.replace("LOS ", "");
         articles = articles.replace("MAC ", "");
         articles = articles.replace("MC ", "");
-
+    
         return articles;
     }
-
+    
     QuitTild(tild) {
-        tild = tild.replace("Á", "A");
-        tild = tild.replace("É", "E");
-        tild = tild.replace("Í", "I");
-        tild = tild.replace("Ó", "O");
-        tild = tild.replace("Ú", "U");
-
+        tild = tild.replace("Ã", "A");
+        tild = tild.replace("Ã‰", "E");
+        tild = tild.replace("Ã", "I");
+        tild = tild.replace("Ã“", "O");
+        tild = tild.replace("Ãš", "U");
+    
         return tild;
     }
-
+    
     generarRFC() {
-        var nombre: any = this.nombre;
-        var paterno: any = this.paterno;
-        var materno: any = this.materno;
-
-        nombre = nombre.split(" ");
-        nombre = nombre[0];
-
+        var nombre = this.nombre.trim().toUpperCase();
+        var materno = this.materno.trim().toUpperCase();
+        var paterno = this.paterno.trim().toUpperCase();
+    
+        //console.log(nombre + " " + apaterno + " " + amaterno);
+    
         var date = this.fechaNacimiento;
         var anio = date.substr(2, 2);
         var mes = date.substr(5, 2);
         var dia = date.substr(8, 2);
         var rfc = "";
-
+    
         nombre = this.QuitTild(nombre);
         paterno = this.QuitTild(paterno);
         materno = this.QuitTild(materno);
-
+    
         paterno = this.QuitarArticulos(paterno);
         materno = this.QuitarArticulos(materno);
-
+    
         nombre = nombre.substr(0, 1);
         materno = materno.substr(0, 1);
-
+    
         var l = paterno.length;
         rfc += paterno.substring(0, 1);
-
+    
         for (var i = 0; i < l; i++) {
             var a_pat = paterno.substring(1, l);
             var c = a_pat.charAt(i);
-
+    
             if (this.esVocal(c)) {
                 rfc += c;
                 break;
@@ -3403,42 +3406,46 @@ export class AcquireProductPage2 {
         rfc += anio;
         rfc += mes;
         rfc += dia;
-
+    
         this.rfc_hc = rfc;
         this.rfc_hc = this.badWord(rfc);
+        console.log('RFC', this.rfc_hc);
     }
-
+    
     calcHC() {
-        var nombre: any = this.nombre;
-        var paterno: any = this.paterno;
-        var materno: any = this.materno;
-
+        console.log('calcHC');
+        var nombre = this.nombre.trim().toUpperCase();
+        //var snombre = document.getElementById("snombre").value.trim().toUpperCase();
+        var materno = this.materno.trim().toUpperCase();
+        var paterno = this.paterno.trim().toUpperCase();            
+    
         paterno = this.QuitarArticulos(paterno);
         materno = this.QuitarArticulos(materno);
-
+    
         paterno = this.QuitTild(paterno);
         materno = this.QuitTild(materno);
         nombre = this.QuitTild(nombre);
-
-        var nombreC: any = paterno + " " + materno + " " + nombre;
-
+        //snombre = QuitTild(snombre);
+    
+        //var nombreC = paterno + " " + materno + " " + nombre + " " + snombre;
+        var nombreC = paterno + " " + materno + " " + nombre;
+        console.log("Nombre completo " + nombreC);
+    
         for (var k = 0; k < 10; k++)
             nombreC = this.NameToNumber(nombreC);
-
+    
         nombreC = "0" + nombreC;
-
+    
         var tm = nombreC.length - 1;
-        var valorSuma = 0;
-
+        var valorSuma = 0;        
+    
         for (var j = 0; j < tm; j++)
-            valorSuma += nombreC.substring(j, j + 2) * nombreC.substring(j + 1, j + 2);
-        console.log('valorSuma', valorSuma);
-        var divs: any = valorSuma % 1000;
-        console.log('divs', divs);
-        var mod: any = Math.trunc(divs / 34);
-        console.log('mod', mod);
+            valorSuma += Number(nombreC.substring(j, j + 2)) * Number(nombreC.substring(j + 1, j + 2));
+    
+        var divs:any = valorSuma % 1000;
+        var mod:any = Math.trunc(divs / 34);
         divs = divs - mod * 34;
-
+    
         if (divs < 9)
             divs += 1;
         if (divs == 9)
@@ -3447,7 +3454,7 @@ export class AcquireProductPage2 {
             mod += 1;
         if (mod == 9)
             mod = "A";
-
+    
         var mss_one = mod.toString();
         mss_one = this.NumberToWord(mss_one);
         mss_one = this.NumberToWord(mss_one);
@@ -3455,39 +3462,40 @@ export class AcquireProductPage2 {
         mss_two = this.NumberToWord(mss_two);
         mss_two = this.NumberToWord(mss_two);
         var mss = mss_one + mss_two;
-
-        var rfs: any = this.rfc_hc + mss;
+    
+        var rfs:any = this.rfc_hc + mss;
         rfs = this.rfcToNumber(rfs);
         rfs = this.rfcToNumber(rfs);
-
+    
         var n = 0;
-
-        n += (rfs.substr(0, 2)) * 13;
-        n += (rfs.substr(2, 2)) * 12;
-        n += (rfs.substr(4, 2)) * 11;
-        n += (rfs.substr(6, 2)) * 10;
-
-        n += (rfs.substr(8, 1)) * 9;
-        n += (rfs.substr(9, 1)) * 8;
-        n += (rfs.substr(10, 1)) * 7;
-        n += (rfs.substr(11, 1)) * 6;
-        n += (rfs.substr(12, 1)) * 5;
-        n += (rfs.substr(13, 1)) * 4;
-
+    
+        n += ( rfs.substr(0, 2) ) * 13;
+        n += ( rfs.substr(2, 2) ) * 12;
+        n += ( rfs.substr(4, 2) ) * 11;
+        n += ( rfs.substr(6, 2) ) * 10;
+    
+        n += ( rfs.substr(8, 1) ) * 9;
+        n += ( rfs.substr(9, 1) ) * 8;
+        n += ( rfs.substr(10, 1) ) * 7;
+        n += ( rfs.substr(11, 1) ) * 6;
+        n += ( rfs.substr(12, 1) ) * 5;
+        n += ( rfs.substr(13, 1) ) * 4;
+    
         n += this.rfcToNumber(mss_one) * 3;
         n += this.rfcToNumber(mss_two) * 2;
-
-        n = (11000 - n) % 11;
-
-        this.generarRFC();
-        console.log('rfc_hc', this.rfc_hc, 'mss', mss, 'n', n);
-        this.rfc = this.rfc_hc + mss + n;
+    
+        n = ( 11000 - n ) % 11;
+    
+        console.log("RFC Homoclave: ", {'this.rfc_hc': this.rfc_hc, mss, n});
+        this.rfc = this.rfc_hc + mss + n
+        var homoclave = this.rfc_hc + mss + n;
+        console.log("Homoclave: " + homoclave);
     }
-
+    
     NameToNumber(namber) {
         namber = namber.replace(" ", "00");
         namber = namber.replace("&", "10");
-        namber = namber.replace("Ã", "10");
+        namber = namber.replace("Ãƒ", "10");
         namber = namber.replace("A", "11");
         namber = namber.replace("B", "12");
         namber = namber.replace("C", "13");
@@ -3514,11 +3522,11 @@ export class AcquireProductPage2 {
         namber = namber.replace("X", "37");
         namber = namber.replace("Y", "38");
         namber = namber.replace("Z", "39");
-        namber = namber.replace("Ñ", "40");
-
+        namber = namber.replace("Ã‘", "40");
+    
         return namber;
     }
-
+    
     NumberToWord(wurth) {
         wurth = wurth.replace("10", "B");
         wurth = wurth.replace("11", "C");
@@ -3544,10 +3552,10 @@ export class AcquireProductPage2 {
         wurth = wurth.replace("31", "X");
         wurth = wurth.replace("32", "Y");
         wurth = wurth.replace("33", "Z");
-
+    
         return wurth;
     }
-
+    
     rfcToNumber(namber) {
         namber = namber.replace("A", "10");
         namber = namber.replace("B", "11");
@@ -3575,7 +3583,7 @@ export class AcquireProductPage2 {
         namber = namber.replace("X", "34");
         namber = namber.replace("Y", "35");
         namber = namber.replace("Z", "36");
-        namber = namber.replace("Ñ", "38");
+        namber = namber.replace("Ã‘", "38");
         namber = namber.replace("0", "0");
         namber = namber.replace("1", "1");
         namber = namber.replace("2", "2");
@@ -3586,10 +3594,10 @@ export class AcquireProductPage2 {
         namber = namber.replace("7", "7");
         namber = namber.replace("8", "8");
         namber = namber.replace("9", "9");
-
+    
         return namber;
     }
-
+    
     badWord(bad) {
         bad = bad.replace("BUEI", "BUEX");
         bad = bad.replace("BUEY", "BUEX");
@@ -3630,9 +3638,9 @@ export class AcquireProductPage2 {
         bad = bad.replace("QULO", "QULX");
         bad = bad.replace("RATA", "RATX");
         bad = bad.replace("RUIN", "RUIX");
-
+    
         return bad;
-    }
+    }    
 
     private coberturaList = ['Amplia', 'Limitada', 'RC'];
     private cobertura:string = this.coberturaList[0];
