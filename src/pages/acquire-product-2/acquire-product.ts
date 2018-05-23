@@ -1877,6 +1877,7 @@ export class AcquireProductPage2 {
     private nombreChanged(that, nombre) {
         if (nombre != null) {
             nombre = nombre.trim().toUpperCase();
+            nombre = that.quitaAcentos(nombre);
             if (nombre.length > 0 && that.validName(nombre)) {
                 that.nombre = nombre;    
                 that.calcRFCYTitular();
@@ -1930,6 +1931,7 @@ export class AcquireProductPage2 {
     private paternoChanged(that, paterno) {
         if (paterno != null) {
             paterno = paterno.trim().toUpperCase();
+            paterno = that.quitaAcentos(paterno);
             if (paterno.length > 0 && that.validLastName(paterno)) {
                 that.paterno = paterno;    
                 that.calcRFCYTitular();
@@ -1964,8 +1966,9 @@ export class AcquireProductPage2 {
     private maternoChanged(that, materno) {
         if (materno != null) {
             materno = materno.trim().toUpperCase();
+            materno = that.quitaAcentos(materno);
             if (materno.length > 0 && that.validLastName(materno)) {
-                that.materno = materno;    
+                that.materno = materno;                    
                 that.calcRFCYTitular();
             } else {
                 that.materno = null;
@@ -3832,5 +3835,18 @@ export class AcquireProductPage2 {
                 });
             });
         }
+    }
+
+    private quitaAcentos(s) {
+        var r = s.toLowerCase();
+            r = r.replace(new RegExp(/\s/g),"");
+            r = r.replace(new RegExp(/[àáâãäå]/g),"a");
+            r = r.replace(new RegExp(/[èéêë]/g),"e");
+            r = r.replace(new RegExp(/[ìíîï]/g),"i");
+            r = r.replace(new RegExp(/ñ/g),"n");                
+            r = r.replace(new RegExp(/[òóôõö]/g),"o");
+            r = r.replace(new RegExp(/[ùúûü]/g),"u");
+                    
+        return r.toUpperCase();
     }
 }
