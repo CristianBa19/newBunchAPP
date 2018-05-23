@@ -3375,11 +3375,11 @@ export class AcquireProductPage2 {
     }
     
     QuitTild(tild) {
-        tild = tild.replace("Ã", "A");
-        tild = tild.replace("Ã‰", "E");
-        tild = tild.replace("Ã", "I");
-        tild = tild.replace("Ã“", "O");
-        tild = tild.replace("Ãš", "U");
+        tild = tild.replace("Á", "A");
+        tild = tild.replace("É", "E");
+        tild = tild.replace("Í", "I");
+        tild = tild.replace("Ó", "O");
+        tild = tild.replace("Ú", "U");
     
         return tild;
     }
@@ -3513,7 +3513,7 @@ export class AcquireProductPage2 {
     NameToNumber(namber) {
         namber = namber.replace(" ", "00");
         namber = namber.replace("&", "10");
-        namber = namber.replace("Ãƒ", "10");
+        namber = namber.replace("Ã", "10");
         namber = namber.replace("A", "11");
         namber = namber.replace("B", "12");
         namber = namber.replace("C", "13");
@@ -3540,7 +3540,7 @@ export class AcquireProductPage2 {
         namber = namber.replace("X", "37");
         namber = namber.replace("Y", "38");
         namber = namber.replace("Z", "39");
-        namber = namber.replace("Ã‘", "40");
+        namber = namber.replace("Ñ", "40");
     
         return namber;
     }
