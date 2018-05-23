@@ -1875,12 +1875,17 @@ export class AcquireProductPage2 {
     }
 
     private nombreChanged(that, nombre) {
-        nombre = nombre.trim().toUpperCase();
-        if (that.validName(nombre)) {
-            that.nombre = nombre;    
-            that.calcRFCYTitular();
+        if (nombre != null) {
+            nombre = nombre.trim().toUpperCase();
+            if (nombre.length > 0 && that.validName(nombre)) {
+                that.nombre = nombre;    
+                that.calcRFCYTitular();
+            } else {
+                that.nombre = null;
+                that.rfc = undefined;
+            }
         } else {
-            that.nombre = null;
+            that.rfc = undefined;
         }
     }
 
@@ -1923,12 +1928,17 @@ export class AcquireProductPage2 {
     }
 
     private paternoChanged(that, paterno) {
-        paterno = paterno.trim().toUpperCase();
-        if (that.validLastName(paterno)) {
-            that.paterno = paterno;    
-            that.calcRFCYTitular();
+        if (paterno != null) {
+            paterno = paterno.trim().toUpperCase();
+            if (paterno.length > 0 && that.validLastName(paterno)) {
+                that.paterno = paterno;    
+                that.calcRFCYTitular();
+            } else {
+                that.paterno = null;
+                that.rfc = undefined;
+            }
         } else {
-            that.paterno = null;
+            that.rfc = undefined;
         }
     }
 
@@ -1952,13 +1962,18 @@ export class AcquireProductPage2 {
     }
 
     private maternoChanged(that, materno) {
-        materno = materno.trim().toUpperCase();
-        if (that.validLastName(materno)) {
-            that.materno = materno;    
-            that.calcRFCYTitular();
+        if (materno != null) {
+            materno = materno.trim().toUpperCase();
+            if (materno.length > 0 && that.validLastName(materno)) {
+                that.materno = materno;    
+                that.calcRFCYTitular();
+            } else {
+                that.materno = null;
+                that.rfc = undefined;
+            }
         } else {
-            that.materno = null;
-        }
+            that.rfc = undefined;
+        }        
     }
 
     showAlertApellidoM() {
