@@ -1898,7 +1898,8 @@ export class AcquireProductPage2 {
             nombre = nombre.trim().toUpperCase();
             console.log('nombrechanged2', nombre);
             //nombre = that.quitaAcentos(nombre);            
-            if (nombre.length > 0 && that.validName(nombre)) {
+            //if (nombre.length > 0 && that.validName(nombre)) {
+            if (nombre.length > 0) {
                 that.nombre = nombre;    
                 console.log('---->', that.nombre);
                 //document.getElementById('nombre').getElementsByTagName('input')[0].value = that.nombre;
@@ -1955,7 +1956,8 @@ export class AcquireProductPage2 {
         if (paterno != null) {
             paterno = paterno.trim().toUpperCase();
             //paterno = that.quitaAcentos(paterno);
-            if (paterno.length > 0 && that.validLastName(paterno)) {
+            //if (paterno.length > 0 && that.validLastName(paterno)) {
+            if (paterno.length > 0) {
                 that.paterno = paterno;    
                 document.getElementById('paterno').getElementsByTagName('input')[0].value = that.paterno;
                 that.calcRFCYTitular();
@@ -1987,11 +1989,18 @@ export class AcquireProductPage2 {
         }
     }*/
 
+    private toUpperCase(elem) {
+        let input = document.getElementById(elem).getElementsByTagName('input')[0];
+        this[elem] = input.value.toUpperCase();
+        input.value = this[elem];
+    }
+
     private maternoChanged(that, materno) {
         if (materno != null) {
             materno = materno.trim().toUpperCase();
             //materno = that.quitaAcentos(materno);
-            if (materno.length > 0 && that.validLastName(materno)) {
+            //if (materno.length > 0 && that.validLastName(materno)) {
+            if (materno.length > 0) {
                 that.materno = materno;          
                 document.getElementById('materno').getElementsByTagName('input')[0].value = that.materno;          
                 that.calcRFCYTitular();
@@ -3370,22 +3379,39 @@ export class AcquireProductPage2 {
         return flag;
     }
 
-    validLastName(txtPaterno:string):boolean{            
+    validPaterno():boolean{            
 
         let flag = false;
-
+        let txtPaterno:string = this.paterno;
         if( txtPaterno == null || txtPaterno.length == 0 || /^\s+$/.test(txtPaterno) || txtPaterno == "" || txtPaterno == " " ) {
-            this.showToast('Error: Ingrese un Apellido válido');                                    
+            this.showToast('Error: Ingrese un Apellido Paterno válido');
         } else if (txtPaterno.length < 3) {
-            this.showToast('Error: Su Apellido debe ser de al menos 3 caracteres');
+            this.showToast('Error: Su Apellido Paterno  debe ser de al menos 3 caracteres');
         } else if ( /^[0-9]/.test(txtPaterno) ) {
-            this.showToast('Error: El campo Apellido no debe contener Números');                
+            this.showToast('Error: El campo Apellido Paterno no debe contener Números');                
         } else {
             flag = true;            
         }
 
         return flag;
-    }    
+    }
+    
+    validMaterno():boolean{    
+
+        let flag = false;
+        let txtPaterno:string = this.materno;
+        if( txtPaterno == null || txtPaterno.length == 0 || /^\s+$/.test(txtPaterno) || txtPaterno == "" || txtPaterno == " " ) {
+            this.showToast('Error: Ingrese un Apellido Materno válido');                                    
+        } else if (txtPaterno.length < 3) {
+            this.showToast('Error: Su Apellido Materno debe ser de al menos 3 caracteres');
+        } else if ( /^[0-9]/.test(txtPaterno) ) {
+            this.showToast('Error: El campo Apellido Materno no debe contener Números');                
+        } else {
+            flag = true;            
+        }
+
+        return flag;
+    }
 
     //Generacion de RFC
     flag_fecha = false;
