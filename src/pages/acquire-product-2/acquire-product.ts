@@ -31,6 +31,7 @@ export class AcquireProductPage2 {
     url: string;
     data: string;
 
+    private codigoError = '';
     private toast:any;    
     private cotizacion = {aseguradora: '',clave: '',bancos:[],coberturas:[],monto:0, logo: '', responsabilidadCivil: {sumaAsegurada: '', deducible: ''}, roboTotal: {sumaAsegurada: '', deducible: ''}, danosMateriales: {sumaAsegurada: '', deducible: ''}};
 
@@ -680,7 +681,7 @@ export class AcquireProductPage2 {
 
     private mInputChange(elementId, callback) {
         let input = document.getElementById(elementId).getElementsByTagName('input')[0],
-            value = input.value.trim(),
+            value = input.value,
             that = this;
             /*inputType = input.type;
         console.warn({inputType});
@@ -695,9 +696,12 @@ export class AcquireProductPage2 {
         if (value.length == 0) {
             that[elementId] = null;            
         } else {
+            console.log('!!!--->', value);
             that[elementId] = value;            
+            console.log('¡¡¡¡--->', that[elementId]);
         }        
         if (callback != undefined) {            
+            console.log('00000--->', that[elementId]);
             callback(that, that[elementId]);         
         }        
     }
@@ -1889,11 +1893,15 @@ export class AcquireProductPage2 {
     }
 
     private nombreChanged(that, nombre) {
+        console.warn('nombreChanged', nombre);
         if (nombre != null) {
             nombre = nombre.trim().toUpperCase();
-            nombre = that.quitaAcentos(nombre);
+            console.log('nombrechanged2', nombre);
+            //nombre = that.quitaAcentos(nombre);            
             if (nombre.length > 0 && that.validName(nombre)) {
                 that.nombre = nombre;    
+                console.log('---->', that.nombre);
+                //document.getElementById('nombre').getElementsByTagName('input')[0].value = that.nombre;
                 that.calcRFCYTitular();
             } else {
                 that.nombre = null;
@@ -1904,7 +1912,7 @@ export class AcquireProductPage2 {
         }
     }
 
-    showAlertNombre() {
+    /*showAlertNombre() {
 
         if (this.isEnabled == true) {
 
@@ -1922,7 +1930,7 @@ export class AcquireProductPage2 {
                 }
             });
         }
-    }
+    }*/
 
     calcRFCYTitular() {
         console.log('calcRFCYTitular');
@@ -1938,6 +1946,7 @@ export class AcquireProductPage2 {
             console.log('dentro del IF');
             that.generarRFC();
             that.calcHC();
+            document.getElementById('rfc').getElementsByTagName('input')[0].value = that.rfc;            
             that.titular = `${that.nombre} ${that.paterno} ${that.materno}`.toUpperCase();
         }
     }
@@ -1945,9 +1954,10 @@ export class AcquireProductPage2 {
     private paternoChanged(that, paterno) {
         if (paterno != null) {
             paterno = paterno.trim().toUpperCase();
-            paterno = that.quitaAcentos(paterno);
+            //paterno = that.quitaAcentos(paterno);
             if (paterno.length > 0 && that.validLastName(paterno)) {
                 that.paterno = paterno;    
+                document.getElementById('paterno').getElementsByTagName('input')[0].value = that.paterno;
                 that.calcRFCYTitular();
             } else {
                 that.paterno = null;
@@ -1958,7 +1968,7 @@ export class AcquireProductPage2 {
         }
     }
 
-    showAlertApellidoP() {
+    /*showAlertApellidoP() {
         if (this.isEnabled == true) {
 
             let that = this,
@@ -1975,14 +1985,15 @@ export class AcquireProductPage2 {
                 }
             });
         }
-    }
+    }*/
 
     private maternoChanged(that, materno) {
         if (materno != null) {
             materno = materno.trim().toUpperCase();
-            materno = that.quitaAcentos(materno);
+            //materno = that.quitaAcentos(materno);
             if (materno.length > 0 && that.validLastName(materno)) {
-                that.materno = materno;                    
+                that.materno = materno;          
+                document.getElementById('materno').getElementsByTagName('input')[0].value = that.materno;          
                 that.calcRFCYTitular();
             } else {
                 that.materno = null;
@@ -1993,7 +2004,7 @@ export class AcquireProductPage2 {
         }        
     }
 
-    showAlertApellidoM() {
+    /*showAlertApellidoM() {
         if (this.isEnabled == true) {
 
             let that = this,
@@ -2010,7 +2021,7 @@ export class AcquireProductPage2 {
                 }
             });
         }
-    }
+    }*/
 
     fechaNacimientoChanged() {
         this.calcRFCYTitular();
@@ -2172,6 +2183,7 @@ export class AcquireProductPage2 {
                     that.rfc = rfc;
                 } else {                    
                     console.warn('regenerar rfc y titular');
+                    that.rfc = undefined;
                     that.calcRFCYTitular();
                 }
             }
@@ -3287,9 +3299,15 @@ export class AcquireProductPage2 {
             loader.dismiss();
             loader.onDidDismiss(() => {
                 console.log({data});
+
+                if (data.CodigoError != null) {
+                    console.error(data.CodigoError);
+                }
+
                 if (data.Emision.Poliza == null || data.Emision.Poliza == '') {
                     //this.showToast(data.codigoError);                
                     //this.navCtrl.push(errorPage, { prevPage: this.prevPage }, { animate: true });
+                    that.codigoError = data.CodigoError;
                     that.step = 8;
                     that.currentStep = 8;
                 } else {
@@ -3422,8 +3440,7 @@ export class AcquireProductPage2 {
         var date = this.fechaNacimiento;
         var anio = date.substr(2, 2);
         var mes = date.substr(5, 2);
-        var dia = date.substr(8, 2);
-        console.log({anio, mes , dia});
+        var dia = date.substr(8, 2);        
         var rfc = "";
     
         nombre = this.QuitTild(nombre);
