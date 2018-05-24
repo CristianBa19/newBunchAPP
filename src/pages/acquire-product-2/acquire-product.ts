@@ -298,8 +298,12 @@ export class AcquireProductPage2 {
 
         if (currentStep == 1) {
             errors = !this.validVars(['codigoPostal1', 'edad', 'genero', 'marca', 'modelo', 'subMarca', 'descripcion', 'subDescripcion']);
-        } else if (currentStep == 2) {            
-            
+        } else if (currentStep == 2) {
+            if (obj.valueInt <= 0) {
+                loader.dismiss();
+                return;
+            }
+
             that.cotizacion.monto = obj.value;
             that.cotizacion.logo = obj.img;
             that.cotizacion.responsabilidadCivil.sumaAsegurada = obj.RC;

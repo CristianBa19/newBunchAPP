@@ -92,13 +92,20 @@ acquire-product-page-2{
         &.hidden{
             display:none;    
         }
-        .result{background:#F8F9FB;border-radius:3px;height:80px;margin-top:12px;img{width:70%;height:70%}}
-        .result-amount{text-align:right;font-size:1.5em;color:map-get($colors, b-gray)}
-        .result-arrow{font-size:45px;text-align:right;ion-icon{color:#673192;}}
+        .result{
+            background:#F8F9FB;
+            border-radius:3px;
+            height:80px;
+            margin-top:12px;
+            img{
+                width:70%;
+                height:70%;
+            }
+            .result-amount{text-align:right;font-size:1.5em;color:map-get($colors, b-gray)}
+            .result-arrow{font-size:45px;text-align:right;ion-icon{color:#673192;}}
+        }                
+        .result[disabled]{background:map-get($colors, b-gray);.result-amount{color:white !important;}}
     }
-    /*.resultado-aseguradora.hidden{
-        display:none;
-    }*/
     
     .fila0{height:90px;border:1px solid black;background:white;}
     .col0{
