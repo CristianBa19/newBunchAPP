@@ -616,7 +616,7 @@ acquire-product-page-2{
     .instrucciones{color:#683A95;font-weight:bold;font-size:18px;padding:2px;margin:0;}
     .sub-instrucciones{color:#686767;font-weight:bold;font-size:14px;padding:2px;margin:0;}
     #inputCP{background:red;}
-    .m-input{border-top:1px solid #EDEEF0;height:60px;}
+    .m-input{border-bottom:1px solid #EDEEF0;height:60px;}
     .m-input-label{color:#B1B2B4;font-weight:bold;ion-col{padding:0 !important;margin:0 !important;}}
     .m-input-value{white-space: nowrap;overflow: hidden;text-overflow: ellipsis;text-align:left;color:#656567;font-size:22px;padding:0 !important;margin:0 !important;ion-col{padding:0 !important;margin:0 !important;}
         input{width:100%;background:transparent;border:0;margin-top:3px;color:map-get($colors, b-gray) !important;}
