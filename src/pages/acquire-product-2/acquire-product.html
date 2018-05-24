@@ -115,10 +115,10 @@
                 <ion-col col-12>                    
                     <div class="resultado-aseguradora hidden" *ngFor="let listItem of comparaList">
                         <ion-row class="result" align-items-center (click)="showStep(3, listItem)">
-                            <ion-col col-5>
+                            <ion-col col-4>
                                 <img [src]="listItem.img"> <!--src="../../assets/icon/logo/asegurdoras-aba.svg"-->
                             </ion-col>
-                            <ion-col col-5 class="result-amount">
+                            <ion-col col-6 class="result-amount">
                                 {{listItem.value}}
                             </ion-col>
                             <ion-col col-2 class="result-arrow">
@@ -129,7 +129,7 @@
                 </ion-col>
             </ion-row>
 
-            <ion-row id="shareButton">
+            <ion-row class="share-button">
                 <ion-col col-3></ion-col>
                 <ion-col col-6>
                     <button type="button">
@@ -138,7 +138,7 @@
                                 Compartir Comparativo
                             </ion-col>
                             <ion-col col-2>
-                                <ion-icon name="ios-share-outline"></ion-icon>
+                                <ion-icon name="md-share"></ion-icon>
                             </ion-col>
                         </ion-row>                                                
                     </button>
@@ -192,7 +192,7 @@
                 </ion-col>
             </ion-row>
 
-            <ion-row id="shareButton">
+            <ion-row class="share-button">
                 <ion-col col-3></ion-col>
                 <ion-col col-6>
                     <button type="button">
@@ -201,7 +201,7 @@
                                 Compartir Comparativo
                             </ion-col>
                             <ion-col col-2>
-                                <ion-icon name="ios-share-outline"></ion-icon>
+                                <ion-icon name="md-share"></ion-icon>
                             </ion-col>
                         </ion-row>                                                
                     </button>
@@ -445,9 +445,9 @@
             
             <ion-row class="m-button">
                 <ion-col col-3></ion-col>
-                <ion-col col-6>
-                    <button type="button" id="felicidadesButton" (click)="showStep(8)">Descargar Póliza</button>
-                    <button type="button" id="felicidadesGNPButton" (click)="showStep(8)">Descargar<br>Órden de Compra</button>
+                <ion-col col-6>                    
+                    <a id="felicidadesButton" href="http://server.anaseguros.com.mx/emision/impresion/temporal-impresion/04011929689000000.php" download target="_blank">Download</a>
+                    <button type="button" id="felicidadesGNPButton">Descargar<br>Órden de Compra</button>
                 </ion-col>
                 <ion-col col-3></ion-col>
             </ion-row>

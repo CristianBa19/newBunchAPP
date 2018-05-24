@@ -13,6 +13,8 @@ import { Http, Headers } from '@angular/http';
 import { PaymentSubmittedPage2 } from '../payment-submited2/payment-submited2';
 import { errorPage } from '../error/error';
 import { MInputComponent } from '../../components/m-input';
+//import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+//import { File } from '@ionic-native/file';
 
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/timeout';
@@ -24,8 +26,19 @@ import { GESTURE_PRIORITY_MENU_SWIPE } from 'ionic-angular/gestures/gesture-cont
     selector: 'acquire-product-page-2',
     templateUrl: 'acquire-product.html',
 })
-export class AcquireProductPage2 {
+export class AcquireProductPage2 {    
+
+    constructor(public navCtrl: NavController, public http: Http, public navParams: NavParams, public modalCtrl: ModalController, public alertSrv: AlertService, public localizationModal: LocalizationModel, public alertCtrl: AlertController, private storage: Storage, public loadingCtrl: LoadingController, public toastCtrl: ToastController, 
+        /*private transfer: FileTransfer, private file: File*/
+    ) {
+        this.prevPage = this.navParams.get("prevPage");
+        this.isClient = localStorage.getItem("isClient");
+        this.prevPage == "chat" ? this.topTab = "Compara" : this.isClient == "true" ? this.topTab = "Producto" : this.topTab = "Producto";
+        this.datePickerNames = this.localizationModal.getDatesNames();
+    }
+
     @ViewChild(Content) content: Content;
+    //private fileTransfer: FileTransferObject = this.transfer.create();
     color = 'pink';
     size = 16;
     url: string;
@@ -186,16 +199,26 @@ export class AcquireProductPage2 {
         } else {
             this[elemName] = null;
         }
-    }
+    }    
 
     private fillTab1() {
+
+        /*alert('yeah');                
+
+        this.fileTransfer.download('http://server.anaseguros.com.mx/emision/impresion/temporal-impresion/04011929689000000.php', this.file.dataDirectory + 'file.pdf').then((entry) => {
+            alert('suxes');
+            console.log('download complete: ', entry.toURL());
+        }, (error) => {
+            alert('error'); 
+        });*/
+
         this.codigoPostal1 = '79050';
         this.processPostalCode(this.codigoPostal1);
-        this.edad = 22;
+        this.edad = 29;
         this.genero = 'FEMENINO';
         this.edadTxt = `${this.edad} años`;
         this.marca = 'CHEVROLET';
-        this.modelo = '2014';
+        this.modelo = '2016';
         this.subMarca = 'AVEO';
         this.descripcion = 'A';
         this.subDescripcion = 'PAQ A';
@@ -213,33 +236,33 @@ export class AcquireProductPage2 {
     private fillTab3() {
         console.log('fillTab3');
         this.email = this.getRandString() + '@gamil.com';
-        this.nombre = 'LUNA';
-        this.paterno = 'CISNEROS';
-        this.materno = 'LOPEZ';
-        this.fechaNacimiento = '1988-02-12';        
+        this.nombre = 'NORMA';
+        this.paterno = 'MARTINEZ';
+        this.materno = 'MORALES';
+        this.fechaNacimiento = '1988-09-30';        
         this.telCasa = '4811455422';
         this.telMovil = '4811455546';
-        this.rfc = 'CILL880212P11';        
+        //this.rfc = 'CILL880212P11';        
         this.colonia = 'TIPZEN';
         this.estado = 'SAN LUIS POTOSI';
         this.delegacion = 'CIUDAD VALLES';
         this.calle = 'SAN LUIS';
-        this.numExterior = '13';
+        this.numExterior = '11';
         //this.numInterior = '';
-        this.numMotor = 'A1234567';
-        this.numSerie = 'ZHWGE11S84LA00154';
-        this.numPlacas = '7654321A';
+        this.numMotor = 'A1234522';
+        this.numSerie = 'ZHWGE11S84LA00140'; //'ZHWGE11S84LA00152';
+        this.numPlacas = '7654321C';
         this.calcRFCYTitular();
     }
 
     private fillPayment() {
-        this.numTarjeta = '4169160321185259';
+        this.numTarjeta = '5562741575870512'; //'5352214717676811'; //'5188999191541287'; //'4169160321185259';
         //this.titular = `${this.nombre} ${this.paterno} ${this.materno}`;
         this.calcRFCYTitular();
         this.cvv = '123';
         //this.vigencia = '03-30';
         document.getElementById('aceptoCobros')['checked'] = true;
-        this.getCardInfo(this.numTarjeta);        
+        this.getCardInfo(this.numTarjeta);
     }
 
     private validVars(fields:string[]) {        
@@ -2816,15 +2839,7 @@ export class AcquireProductPage2 {
     private userPlates = { name: 'HEM987' }; //d
     private userPlatesList = ['HEM987', 'HEM9', 'HE87'];
     private minYear = new Date().getFullYear() - 18;
-    private maxYear = new Date().getFullYear() - 18;
-
-
-    constructor(public navCtrl: NavController, public http: Http, public navParams: NavParams, public modalCtrl: ModalController, public alertSrv: AlertService, public localizationModal: LocalizationModel, public alertCtrl: AlertController, private storage: Storage, public loadingCtrl: LoadingController, public toastCtrl: ToastController) {
-        this.prevPage = this.navParams.get("prevPage");
-        this.isClient = localStorage.getItem("isClient");
-        this.prevPage == "chat" ? this.topTab = "Compara" : this.isClient == "true" ? this.topTab = "Producto" : this.topTab = "Producto";
-        this.datePickerNames = this.localizationModal.getDatesNames();
-    }
+    private maxYear = new Date().getFullYear() - 18; 
 
     retrieveData(callback: any = undefined) {
         let encodedString = btoa(this.email);
