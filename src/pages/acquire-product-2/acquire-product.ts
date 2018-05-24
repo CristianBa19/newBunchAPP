@@ -365,7 +365,11 @@ export class AcquireProductPage2 {
                                 sumaAsegurada = e.SumaAsegurada,
                                 deducible = parseFloat(e.Deducible);
                             
-                            sumaAsegurada = (sumaAsegurada == 'VALOR COMERCIAL' || sumaAsegurada == 'AMPARADA' ) ? sumaAsegurada : that.stringToFormatedPriceWithString(sumaAsegurada);                            
+                            sumaAsegurada = (sumaAsegurada == 'VALOR COMERCIAL' || sumaAsegurada == 'AMPARADA' || sumaAsegurada == 'VALOR CONVENIDO') ? sumaAsegurada : that.stringToFormatedPriceWithString(sumaAsegurada);
+
+                            /*if (sumaAsegurada == 'AMPARADA') {
+                                sumaAsegurada = '<ion-icon name="ios-checkmark-outline" class="amparada"></ion-icon><ion-icon name="ios-checkmark-outline" class="amparada"></ion-icon>';
+                            }*/
                             
                             e.Deducible = (isNaN(deducible)) ? '' : deducible + '%';
                             e.SumaAsegurada = sumaAsegurada;

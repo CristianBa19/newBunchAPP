@@ -74,7 +74,7 @@
                 <ion-col col-3></ion-col>
                 <ion-col col-6>
                     <button type="button" (click)="showStep(2)">Cotizar ahora</button>
-                </ion-col>                
+                </ion-col>
             </ion-row>         
             
             <!--<ion-row class="m-button">
@@ -164,9 +164,9 @@
                 </ion-col>           
             </ion-row>
             
-            <ion-row id="resumeContainer">
-                <ion-col col-12>
-                    <ion-row id="resumeContainerHeader" align-items-center>
+            <!--<ion-row id="resumeContainer">
+                <ion-col col-12>-->
+                    <!--<ion-row id="resumeContainerHeader" align-items-center>
                         <ion-col col-4>
                             Coberturas
                         </ion-col>
@@ -188,9 +188,29 @@
                         <ion-col col-4>
                             {{cobertura.Deducible}}
                         </ion-col>
-                    </ion-row>                    
-                </ion-col>
-            </ion-row>
+                    </ion-row>-->
+
+                    <table id="detalles">
+                        <thead>
+                            <th>Coberturas</th>
+                            <th>Suma Asegurada</th>
+                            <th>Deducible</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let cobertura of cotizacion.coberturas">
+                                <td>{{cobertura.NombreCobertura}}</td>
+                                <td>
+                                    <div *ngIf="cobertura.SumaAsegurada == 'AMPARADA'">
+                                        <ion-icon name="ios-checkmark-outline" class="amparada"></ion-icon><ion-icon name="ios-checkmark-outline" class="amparada"></ion-icon>
+                                    </div>
+                                    {{cobertura.SumaAsegurada}}
+                                </td>
+                                <td>{{cobertura.Deducible}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                <!--</ion-col>
+            </ion-row>-->
 
             <ion-row class="share-button">
                 <ion-col col-3></ion-col>

@@ -637,13 +637,43 @@ acquire-product-page-2{
     .lolo{padding:0 !important;margin:0 !important;p{font-weight:bold; padding:2px !important;margin:0 !important;span{color:#9C9D9F;}}ion-col{padding:0 !important;margin:0 !important;}.title{color:#673192;}}
     #resultsContainer{background:#E7E8EA;padding:8px;margin-top:12px;border-radius:3px;}        
     #resumeContainer{
-        background:#E7E8EA;padding:8px;margin-top:12px;border-radius:3px;
-        .result{
-            ion-col{text-align:center;font-size:16px;font-weight:bold;}
-            ion-col:nth-child(1){font-size:14px;}
+
+        /*background:#E7E8EA;
+        padding:6px;
+        margin-top:12px;
+        border-radius:3px;        */
+
+        /*.result{
+            ion-col{
+                text-align:center;
+                font-size:0.9em;                            
+            }
+            ion-col:nth-child(1){
+                font-size:0.8em;
+            }
+        }*/
+    }
+    /*#resumeContainerHeader{
+        background:#673192 !important;
+        color:white !important;
+        ion-col{
+            text-align:center !important;
+            padding:15px !important;
+        }
+    }*/
+
+    table#detalles{
+        width:100%;
+        thead{
+            th{background:map-get($colors, b-purple); color:white;width:33.33%;padding:10px;font-weight:normal;text-align:center;}
+        }
+        tbody{
+            td{
+                background:white;text-align:center;padding:10px;border:1px solid lightgray;
+                .amparada{color:map-get($colors, b-purple);font-size:2em;}
+            }
         }
     }
-    #resumeContainerHeader{background:#673192 !important;color:white !important;ion-col{text-align:center !important;padding:15px !important;}}    
 
     .share-button{
         margin-top:20px;
