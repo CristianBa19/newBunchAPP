@@ -2040,6 +2040,12 @@ export class AcquireProductPage2 {
         input.value = this[elem];
     }
 
+    private toLowerCase(elem) {
+        let input = document.getElementById(elem).getElementsByTagName('input')[0];
+        this[elem] = input.value.toLowerCase();
+        input.value = this[elem];
+    }
+
     private maternoChanged(that, materno) {
         if (materno != null) {
             materno = materno.trim().toUpperCase();

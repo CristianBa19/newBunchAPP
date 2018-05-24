@@ -254,7 +254,7 @@
                 </ion-col>
             </ion-row>
 
-            <m-input label="Email" id="email" [field]="email" (keyup)="toUpperCase('email')" (change)="mInputChange('email', emailChanged)"></m-input>
+            <m-input label="Email" id="email" [field]="email" (keyup)="toLowerCase('email')" (change)="mInputChange('email', emailChanged)"></m-input>
             <m-input label="Nombre" id="nombre" [field]="nombre" (keyup)="mInputChange('nombre', nombreChanged)" (change)="validName()"></m-input>
             <m-input label="Apellido Paterno" id="paterno" [field]="paterno" (keyup)="mInputChange('paterno', paternoChanged)" (change)="validPaterno()"></m-input>
             <m-input label="Apellido Materno" id="materno" [field]="materno" (keyup)="mInputChange('materno', maternoChanged)" (change)="validMaterno()"></m-input>
