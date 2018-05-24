@@ -1021,13 +1021,14 @@ export class AcquireProductPage2 {
 
             if (obj == undefined) {
                 
-                //Ordena de menor a mayor precio
+                //Si el valueInt es NaN lo convertimos a cero para poder preparar un ordenamiento en base al valueInt
                 this.comparaList.forEach(function (e) {
                     if (isNaN(e.valueInt)) {
                         e.valueInt = 0;
                     }
                 });
 
+                //Ordena de menor a mayor precio
                 this.comparaList.sort(function (a, b) {
                     if (a.valueInt < b.valueInt)
                         return -1;
@@ -1035,6 +1036,19 @@ export class AcquireProductPage2 {
                         return 1;
                     return 0;
                 });
+
+                //Para acomodar los que tengan menor o igual a 0 en valueInt hasta el final de la lista
+                let tmpArr = [],
+                    tmpArr2 = [];
+                for (let i = 0, len = this.comparaList.length; i < len; i++) {                    
+                    if (this.comparaList[i].valueInt > 0) {
+                        tmpArr.push(this.comparaList[i]);
+                    } else {
+                        tmpArr2.push(this.comparaList[i]);
+                    }
+                }
+
+                this.comparaList = tmpArr.concat(tmpArr2);
                 
                 //Muestra los resultados, 
                 //los cuales previamente estaban ocultos para esperar a que 
