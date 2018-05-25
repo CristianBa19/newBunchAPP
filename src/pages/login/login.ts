@@ -32,6 +32,11 @@ export class LoginPage implements OnInit {
     password_type: string = 'password';
     validEmail;
     validPass;
+    showPass = false;
+
+    private viewPass(show:boolean) {
+        this.showPass = show;
+    }
     
     ngOnInit() {
         this.myForm = new FormGroup({

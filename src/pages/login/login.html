@@ -82,17 +82,21 @@
         </ion-row>
     
         <ion-row class="m-input" id="{{id}}">
-            <ion-col col-11>                                    
+            <ion-col col-10>                                    
                 <ion-row class="m-input-label">
                     <ion-col col-12>Contraseña (6 o más caracteres)</ion-col>
                 </ion-row>
                 <ion-row class="m-input-value">
                     <ion-col col-12>
-                        <input type="password" [(ngModel)]="password" spellcheck="false" autocorrect="off" (ngModelChange)="passChange($event)">
+                        <input [type]="showPass === false ? 'password' : 'type'" [(ngModel)]="password" spellcheck="false" autocorrect="off" (ngModelChange)="passChange($event)">
                     </ion-col>
                 </ion-row>                    
             </ion-col>    
-            <ion-col col-1 align-self-end>
+            <ion-col col-1 class="text-center" align-self-end>
+                <ion-icon *ngIf="showPass === false" class="m-input-icon" name="md-eye" (tap)="viewPass(true)"></ion-icon>                    
+                <ion-icon *ngIf="showPass === true" class="m-input-icon" name="md-eye-off" (tap)="viewPass(false)"></ion-icon>                
+            </ion-col>                            
+            <ion-col col-1 class="text-center" align-self-end>
                 <ion-icon *ngIf="password === undefined || password.length == 0" name="ios-lock-outline"></ion-icon>                    
                 <ion-icon *ngIf="validPass === true" class="m-input-icon m-input-icon-ok" name="ios-lock-outline"></ion-icon>
                 <ion-icon *ngIf="validPass === false" class="m-input-icon m-input-icon-error" name="ios-lock-outline"></ion-icon>
