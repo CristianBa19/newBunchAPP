@@ -339,7 +339,8 @@ export class AcquireProductPage2 {
         if (validate == true && errors == true) {
             loader.dismiss();
             loader.onDidDismiss(() => {
-                that.showAlert('Faltan campos por completar');
+                //that.showAlert('Faltan campos por completar');
+                that.showToast('Faltan campos por completar');
             });
         } else {            
 
@@ -2083,7 +2084,11 @@ export class AcquireProductPage2 {
         }
     }*/
 
-    fechaNacimientoChanged() {
+    fechaNacimientoChanged() { 
+        setTimeout(function() {
+            let elem = document.getElementsByClassName('datetime-text')[0];        
+            elem.innerHTML = elem.innerHTML.toUpperCase();
+        }, 300);               
         this.calcRFCYTitular();
     }
 
@@ -2156,16 +2161,18 @@ export class AcquireProductPage2 {
     }
 
     private telCasaChanged(that, telCasa) {
-        telCasa = telCasa.trim();
-        if (telCasa.length >= 10) {
-            that.telCasa = telCasa;
-        } else {
-            that.telCasa = null;                    
-            that.showToast('Teléfono de Casa inválido');
+        if (telCasa != null) {
+            telCasa = telCasa.trim();
+            if (telCasa.length >= 10) {
+                that.telCasa = telCasa;
+            } else {
+                that.telCasa = null;                    
+                that.showToast('Teléfono de Casa inválido');
+            }
         }
     }
 
-    showAlertTelefonoCasa() {
+    /*showAlertTelefonoCasa() {
 
         if (this.isEnabledTipo3 == true) {
             let that = this,
@@ -2189,19 +2196,21 @@ export class AcquireProductPage2 {
                 }
             });
         }
-    }
+    }*/
 
     private telMovilChanged(that, telMovil) {
-        telMovil = telMovil.trim();
-        if (telMovil.length >= 10) {
-            that.telMovil = telMovil;
-        } else {                
-            that.telMovil = null;    
-            that.showToast('Teléfono Móvil inválido');
-        }
+        if (telMovil != null) {
+            telMovil = telMovil.trim();
+            if (telMovil.length >= 10) {
+                that.telMovil = telMovil;
+            } else {                
+                that.telMovil = null;    
+                that.showToast('Teléfono Móvil inválido');
+            }
+        }        
     }
 
-    showAlertTelefonoMovil() {
+    /*showAlertTelefonoMovil() {
 
         if (this.isEnabledTipo3 == true) {
             let that = this,
@@ -2224,7 +2233,7 @@ export class AcquireProductPage2 {
                 }
             });
         }
-    }
+    }*/
 
     private rfcChanged(that, rfc) {
         console.log('rfcChanged', {rfc});
