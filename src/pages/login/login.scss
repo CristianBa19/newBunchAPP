@@ -1,5 +1,5 @@
 page-login {
-    .login-titleX {
+    /*.login-titleX {
         font-size: 20px;
         font-weight: 100;
     }
@@ -227,5 +227,30 @@ page-login {
 
     .justify{
         margin: 5px auto 0 auto;
+    }*/
+    ion-content{
+        #form{margin-bottom:16px;padding:16px;}
+        border-top:16px solid map-get($colors, b-purple);
+        border-bottom:16px solid map-get($colors, b-purple);
+        img{margin-top:20px;}
+        
+        .text-center{text-align:center;}
+        hr{border-top:1.5px solid map-get($colors, b-blue);}
+        #welcomeMsg{
+            color:map-get($colors, b-purple);font-size:22px;font-weight:bold;            
+        }
+        .m-input{
+            border-bottom:1px solid lightgray;margin-top:16px;            
+            ion-icon{
+                font-size:2.2em;
+                color:map-get($colors, b-blue);
+            }
+            .m-input-icon-ok{color:green;}
+            .m-input-icon-error{color:red;}
+        }
+        input{width:100%;background:transparent;border:0;}
+        .m-input-label{color:map-get($colors, b-gray);}
+        button{background:map-get($colors, b-blue);}
+        a{margin-top:12px;display:block;color:map-get($colors, b-purple);font-weight:bold;text-decoration: none;font-size:16px;}
     }
 }
