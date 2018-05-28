@@ -51,8 +51,7 @@ export class LoginPage implements OnInit {
             duration: 3000,
             position: 'bottom'
         });
-        toaster.dismiss();
-        console.log({ form });
+        toaster.dismiss();        
         // if (form.valid === true) {
             this.goIntro();
             // toaster.present();
@@ -105,12 +104,10 @@ export class LoginPage implements OnInit {
         let email = this.email;
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         let result = re.test(String(email).toLowerCase());
-        if (result === true) {
-            console.log('validateEmail', true);
+        if (result === true) {            
             this.validEmail = true;
             return true;
-        } else {
-            console.log('validateEmail', false);
+        } else {            
             this.validEmail = false;
             return  false;
         }
@@ -154,9 +151,7 @@ export class LoginPage implements OnInit {
         this.isEnabled = false;
 
         let email = this.email,
-            pass = this.password;
-
-        console.log({email, pass});
+            pass = this.password;        
 
         if (email != undefined && pass != undefined) {
             email = email.trim();
@@ -164,13 +159,9 @@ export class LoginPage implements OnInit {
 
             let string = `usuario=${email}&password=${pass}`,
                 encodedString = btoa(string),
-                url = `http://services.bunch.guru/WebService.asmx/Login?param=${encodedString}`;
+                url = `http://services.bunch.guru/WebService.asmx/Login?param=${encodedString}`;            
 
-            console.log({string, encodedString, url});
-
-            this.http.get(url).map(res => res.json()).subscribe(data => {
-
-                console.log({ data });
+            this.http.get(url).map(res => res.json()).subscribe(data => {                
 
                 switch (data.respuesta) {
                     case 'true':
@@ -217,8 +208,7 @@ export class LoginPage implements OnInit {
             if (!res.code) {
                 this.navCtrl.push(HomePage, { animate: true });
             } else {
-                localStorage.idContVend = undefined;
-                console.error({res});
+                localStorage.idContVend = undefined;                
             }
         });
     }    
