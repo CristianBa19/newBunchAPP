@@ -203,6 +203,8 @@ export class AcquireProductPage2 {
 
     private fillTab1() {
 
+        window.open(encodeURI('http://server.anaseguros.com.mx/emision/impresion/temporal-impresion/04011929689000000.php'), '_system', 'location=yes,EnableViewPortScale=yes');
+
         /*alert('yeah');                
 
         this.fileTransfer.download('http://server.anaseguros.com.mx/emision/impresion/temporal-impresion/04011929689000000.php', this.file.dataDirectory + 'file.pdf').then((entry) => {
@@ -212,7 +214,7 @@ export class AcquireProductPage2 {
             alert('error'); 
         });*/
 
-        this.codigoPostal1 = '79050';
+        /*this.codigoPostal1 = '79050';
         this.processPostalCode(this.codigoPostal1);
         this.edad = 29;
         this.genero = 'FEMENINO';
@@ -221,7 +223,7 @@ export class AcquireProductPage2 {
         this.modelo = '2016';
         this.subMarca = 'AVEO';
         this.descripcion = 'A';
-        this.subDescripcion = 'PAQ A';
+        this.subDescripcion = 'PAQ A';*/
         
         /*let that = this;                
         document.getElementById('felicidadesGNP').style.display = 'block';
