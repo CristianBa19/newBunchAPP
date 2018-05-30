@@ -15,6 +15,7 @@ import { errorPage } from '../error/error';
 import { MInputComponent } from '../../components/m-input';
 //import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 //import { File } from '@ionic-native/file';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 import 'rxjs/add/operator/retry';
 import 'rxjs/add/operator/timeout';
@@ -29,6 +30,7 @@ import { GESTURE_PRIORITY_MENU_SWIPE } from 'ionic-angular/gestures/gesture-cont
 export class AcquireProductPage2 {    
 
     constructor(public navCtrl: NavController, public http: Http, public navParams: NavParams, public modalCtrl: ModalController, public alertSrv: AlertService, public localizationModal: LocalizationModel, public alertCtrl: AlertController, private storage: Storage, public loadingCtrl: LoadingController, public toastCtrl: ToastController, 
+        private socialSharing: SocialSharing
         /*private transfer: FileTransfer, private file: File*/
     ) {
         this.prevPage = this.navParams.get("prevPage");
@@ -47,6 +49,7 @@ export class AcquireProductPage2 {
     private codigoError = '';
     private toast:any;    
     private cotizacion = {aseguradora: '',clave: '',bancos:[],coberturas:[],monto:0, logo: '', responsabilidadCivil: {sumaAsegurada: '', deducible: ''}, roboTotal: {sumaAsegurada: '', deducible: ''}, danosMateriales: {sumaAsegurada: '', deducible: ''}};
+    private urlEmisionDocumento;
 
     private currentStep:number = 1;
     private bancosDeCadaAseguradora:any;
@@ -202,8 +205,15 @@ export class AcquireProductPage2 {
     }    
 
     private fillTab1() {
+        //alert('test');
+        this.socialSharing.canShareViaEmail().then(() => {
+            alert('se puede compartir via email');
+          }).catch(() => {
+            alert('no se puede compartir via email');
+          });
+        //this.socialSharing.share('orden de Compra', 'subject', 'http://server.anaseguros.com.mx/emision/impresion/temporal-impresion/04011929689000000.php', 'http://server.anaseguros.com.mx/emision/impresion/temporal-impresion/04011929689000000.php');
 
-        window.open(encodeURI('http://server.anaseguros.com.mx/emision/impresion/temporal-impresion/04011929689000000.php'), '_system', 'location=yes,EnableViewPortScale=yes');
+        //window.open(encodeURI('http://server.anaseguros.com.mx/emision/impresion/temporal-impresion/04011929689000000.php'), '_system', 'location=yes,EnableViewPortScale=yes');
 
         /*alert('yeah');                
 
@@ -1250,15 +1260,15 @@ export class AcquireProductPage2 {
 
         console.warn({dataObj});
 
-        /*let myJSON = JSON.stringify(dataObj);
+        let myJSON = JSON.stringify(dataObj);
         let enStr = btoa(`usuario=Bunch&Password=BunCH2O18&data=${myJSON}&movimiento=cotizacion&idContVend=${this.idContVend}`);
         let url = `http://services.bunch.guru/WebService.asmx/insertacotmaster?param=${enStr}`;
         this.http.get(url).map(res => res.json()).subscribe(data => {
 
             console.warn('respuesta de insertacotmaster');
-            console.warn({data});*/
-            let myJSON = JSON.stringify(dataObj),
-            //myJSON = JSON.stringify(data),
+            console.warn({data});
+            //let myJSON = JSON.stringify(dataObj),
+            myJSON = JSON.stringify(data),
                 enStr = btoa(`usuario=Bunch&Password=BunCH2O18&data=${myJSON}&movimiento=cotizacion&idContVend=${this.idContVend}`),
                 url = `http://services.bunch.guru/WebService.asmx/CotizacionEmisionJSON?param=${enStr}`;
 
@@ -1730,7 +1740,7 @@ export class AcquireProductPage2 {
                 console.error(err);
                 callback();
             });
-        //});        
+        });        
     }
 
     //Step 2
@@ -3136,6 +3146,12 @@ export class AcquireProductPage2 {
             _this.showToast('Faltan campos por completar');            
         }
     }*/
+
+    private compartirOrdenDeCompra() {
+        if (this.urlEmisionDocumento != undefined) {
+            this.socialSharing.share('Órden de Compra', '', undefined, this.urlEmisionDocumento);
+        }
+    }
     
     showProductoContinuarShown() {
         this.productoContinuarShown = true;
@@ -3374,7 +3390,8 @@ export class AcquireProductPage2 {
                     that.step = 8;
                     that.currentStep = 8;
                 } else {
-                    localStorage.Poliza = data.Emision.Poliza
+                    localStorage.Poliza = data.Emision.Poliza;
+                    that.urlEmisionDocumento = data.Emision.Documento;
                     //this.navCtrl.push(PaymentSubmittedPage2, { prevPage: this.prevPage }, { animate: true });
                     if (that.cotizacion.aseguradora.toUpperCase() == 'GNP') {
                         document.getElementById('felicidadesGNP').style.display = 'block';
