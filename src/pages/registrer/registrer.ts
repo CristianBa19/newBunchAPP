@@ -308,4 +308,8 @@ export class RegistrerPage {
             });                
         }
     }
+
+    private toLoginPage() {
+        this.navCtrl.push(LoginPage, { animate: true });
+    }
 }
