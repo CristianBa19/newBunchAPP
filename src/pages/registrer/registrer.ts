@@ -46,11 +46,17 @@ export class RegistrerPage {
     emailUser: any;
     passwordUser: any;
     celularUser: any;
+    validEmail;
+    validPass;
+    validCel;
+    email:string;
+    password:string;
+    cel:number;
 
     
     onSubmit(form: FormGroup) {
         
-        this.validateEmail().then((res) => {            
+        /*this.validateEmail().then((res) => {            
             if (res == true && this.validatePassword() == true && this.validateTelefono() == true) {
                 this.signup();
             } else {
@@ -58,7 +64,7 @@ export class RegistrerPage {
             }
         }).catch((err) => {
             console.error({err});
-        });
+        });*/
         
         /*if (this.validar=="True") {
             this.validatePassword();
@@ -85,7 +91,7 @@ export class RegistrerPage {
             celular: new FormControl('', [Validators.required, Validators.minLength(10)]),
         });
     }
-    async validateEmail() {
+    /*async validateEmail() {
         let email = this.newuser.email,
             toaster,
             loader = this.loadingCtrl.create({
@@ -145,12 +151,12 @@ export class RegistrerPage {
                                         this.newuser.email = email;                                        
                                         resolve(true);
                                         break;
-                                    /*case 2:
-                                        //existe pero con info incompleta (se supone que por el cambio de forma de crear cuentas ahora esto nunca deberia pasar)
-                                        break;
-                                    case 3:
-                                        //existe con la info completa
-                                        break;*/
+                                    //case 2:
+                                    //    //existe pero con info incompleta (se supone que por el cambio de forma de crear cuentas ahora esto nunca deberia pasar)
+                                    //    break;
+                                    //case 3:
+                                    //    //existe con la info completa
+                                    //    break;
                                     default:
                                         loader.dismiss();
                                         toaster = this.toastCtrl.create({
@@ -194,7 +200,20 @@ export class RegistrerPage {
                 return false;
             }
         }        
-    } 
+    }*/
+    
+    private validateEmail(): boolean {
+        let email = this.email;
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        let result = re.test(String(email).toLowerCase());
+        if (result === true) {            
+            this.validEmail = true;
+            return true;
+        } else {            
+            this.validEmail = false;
+            return  false;
+        }
+    }
     
     validatePassword() {
 
@@ -311,5 +330,44 @@ export class RegistrerPage {
 
     private toLoginPage() {
         this.navCtrl.push(LoginPage, { animate: true });
+    }
+
+    private emailChange(a) {
+        if (a.length == 0) {
+            this.validEmail = undefined;
+        } else { 
+            this.validateEmail();
+        }
+    }
+
+    private passChange(pass) {
+        if (pass.length == 0) {
+            this.validPass = undefined;
+        } else { 
+            this.validatePass();
+        }
+    }
+
+    private validatePass() {
+        let pass = this.password;
+        if (pass.length >= 6) {
+            this.validPass = true;
+            return true;
+        } else {
+            this.validPass = false;
+            return false;
+        }
+    }
+
+    private celChange(cel) {
+        if (cel.length == 0) {
+            this.validCel = undefined;
+        } else { 
+            this.validateCel();
+        }
+    }    
+
+    private validateCel() {
+        return true;
     }
 }
