@@ -3488,6 +3488,15 @@ export class AcquireProductPage2 {
                     localStorage.Poliza = data.Emision.Poliza;
                     that.urlEmisionDocumento = data.Emision.Documento;
                     //this.navCtrl.push(PaymentSubmittedPage2, { prevPage: this.prevPage }, { animate: true });
+                    //agregado por arico
+                    this.http.get('http://services.bunch.guru/WebService.asmx/envioCorreoCompra?email=' + this.email + '&poliza='+ localStorage.Poliza +'&idvend=' + this.idContVend)
+                    .map(res2 => res2.json())
+                    .subscribe(data2 => {                
+                        console.log("esta es la response " + data2);
+                    }, err => {
+                        console.log(err);
+                    });
+                    //agregado por arico
                     if (that.cotizacion.aseguradora.toUpperCase() == 'GNP') {
                         document.getElementById('felicidadesGNP').style.display = 'block';
                         document.getElementById('felicidadesGNPButton').style.display = 'block';
